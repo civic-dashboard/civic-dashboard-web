@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-4xl mb-2;
+  }
+  h2 {
+    @apply text-2xl font-bold mb-2;
+  }
+  h1, h2, h3, h4, h5, h6, p {
+    @apply text-gray-600;
+  }
+  a {
+    @apply text-blue-600 hover:underline visited:text-purple-600;
+  }
+  body {
+    @apply bg-slate-200;
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
