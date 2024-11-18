@@ -9,9 +9,17 @@
   h2 {
     @apply text-2xl font-bold mb-2;
   }
-  h1, h2, h3, h4, h5, h6, p {
-    @apply text-gray-600;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  input {
+    @apply text-gray-800;
   }
+
   a {
     @apply text-blue-600 hover:underline visited:text-purple-600;
   }
