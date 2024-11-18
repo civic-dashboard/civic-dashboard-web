@@ -3,7 +3,7 @@ import { ItemList } from '@/components/ItemList';
 
 export default function Home() {
   return (
-    <div className="flex flex-row bg-white">
+    <div className="flex flex-row bg-white min-w-[700px]">
       <div className="w-1/2 m-4">
         <h1>Upcoming Agenda Items</h1>
         <ItemList />
