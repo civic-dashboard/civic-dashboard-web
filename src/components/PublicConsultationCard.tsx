@@ -1,4 +1,4 @@
-import { EventData } from '@/api/event';
+import { EventData } from '@/api/publicConsultation';
 
 function EngagementButtonParent({ content }: { content: string }) {
   return (
@@ -9,7 +9,7 @@ function EngagementButtonParent({ content }: { content: string }) {
   );
 }
 
-export function EventCard({ event }: { event: EventData }) {
+export function PublicConsultationCard({ event }: { event: EventData }) {
   const {
     eventName,
     description,

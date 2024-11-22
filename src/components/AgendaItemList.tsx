@@ -1,8 +1,8 @@
 'use client';
 
-import { DecisionBody } from '@/api/decisionbody';
-import { AgendaItem } from '@/api/item';
-import { ItemCard } from '@/components/ItemCard';
+import { DecisionBody } from '@/api/decisionBody';
+import { AgendaItem } from '@/api/agendaItem';
+import { AgendaItemCard } from '@/components/AgendaItemCard';
 import FlexSearch from 'flexsearch';
 import { Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -12,7 +12,7 @@ type Props = {
   decisionBodies: Record<string, DecisionBody>;
 };
 
-export function ItemList({ items, decisionBodies }: Props) {
+export function AgendaItemList({ items, decisionBodies }: Props) {
   const [searchText, setSearchText] = useState('');
 
   const searchIndex = useMemo(() => {
@@ -47,7 +47,7 @@ export function ItemList({ items, decisionBodies }: Props) {
       filteredResult.forEach((d) => existingKeys.add(d.id));
     }
     return filteredResults;
-  }, [searchIndex, searchText]);
+  }, [searchIndex, searchText, items]);
 
   return (
     <div className="flex-col space-y-4 p-4 bg-slate-200">
@@ -60,7 +60,7 @@ export function ItemList({ items, decisionBodies }: Props) {
         />
       </div>
       {searchResults.map((item) => (
-        <ItemCard
+        <AgendaItemCard
           key={item.id}
           item={item}
           decisionBody={decisionBodies[item.decisionBodyId]}

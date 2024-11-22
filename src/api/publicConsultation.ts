@@ -102,7 +102,7 @@ const options = {
   },
 };
 
-export const fetchEvents = () =>
+export const fetchPublicConsultations = () =>
   fetch(url, options).then((response) => {
     return response.json() as Promise<EventData[]>;
   });
