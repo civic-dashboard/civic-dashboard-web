@@ -3,7 +3,12 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { AgendaItem } from '@/api/agendaItem';
 import { AgendaItemCard } from '@/components/AgendaItemCard';
-import { SearchBar, SearchProvider, useSearch } from '@/components/search';
+import {
+  DecisionBodyFilter,
+  SearchBar,
+  SearchProvider,
+  useSearch,
+} from '@/components/search';
 
 type Props = {
   items: AgendaItem[];
@@ -19,6 +24,7 @@ function ResultList({
 
   return (
     <>
+      {searchResults.length === 0 && <h4>No results...</h4>}
       {searchResults.map((item) => (
         <AgendaItemCard
           key={item.id}
@@ -34,8 +40,11 @@ export function AgendaItemList({ items, decisionBodies }: Props) {
   return (
     <div className="flex-col space-y-4 p-4 bg-slate-200">
       <SearchProvider items={items}>
-        <SearchBar />
-        <ResultList decisionBodies={decisionBodies} />
+        <div className="flex flex-col space-y-4">
+          <SearchBar />
+          <DecisionBodyFilter decisionBodies={decisionBodies} />
+          <ResultList decisionBodies={decisionBodies} />
+        </div>
       </SearchProvider>
     </div>
   );
