@@ -65,6 +65,31 @@ export const fetchDecisionBody = async (id: number) => {
   return ((await response.json()) as InidividualApiResponse).Record
     .decisionBody;
 };
+
+export interface DecisionBodyBrief {
+  decisionBodyId: number;
+  decisionBodyName: string;
+}
+
+interface MultipleApiResponse {
+  Records: DecisionBodyBrief[];
+}
+
+// this is a kludge, should do this dynamically
+const CURRENT_COUNCIL_TERM = 8;
+
+export const fetchDecisionBodies = async () => {
+  const response = await cityCouncilXSRFPost({
+    url: `https://secure.toronto.ca/council/api/multiple/common/findPostedDecisionBodiesByTerm.json?termId=${CURRENT_COUNCIL_TERM}`,
+  });
+
+  const decisionBodyIds = (
+    (await response.json()) as MultipleApiResponse
+  ).Records.map((r) => r.decisionBodyId);
+
+  return Object.fromEntries(
+    (
+      await Promise.all([...decisionBodyIds.values()].map(fetchDecisionBody))
+    ).map((body) => [body.decisionBodyId, body])
   );
-  return ((await response.json()) as ApiResponse).Record.decisionBody;
 };
