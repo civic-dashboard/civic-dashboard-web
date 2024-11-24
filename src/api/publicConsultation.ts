@@ -1,3 +1,5 @@
+import { cityCouncilGet } from '@/api/cityCouncilRequest';
+
 interface Image {
   fileName: string;
   binId: string;
@@ -81,28 +83,7 @@ export interface EventData {
 const url =
   "https://secure.toronto.ca/cc_sr_v1/data/edc_eventcal_APR?limit=1000&q=calEvent_subsetCalendarString~'21*'%20and%20calEvent_subsetCalendarString~'Public*'%20and%20calEvent_subsetCalendarString~'Consultations*'";
 
-const options = {
-  method: 'GET',
-  headers: {
-    Accept: '*/*',
-    'Accept-Encoding': 'gzip, deflate, br, zstd',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Cache-Control': 'no-cache',
-    Connection: 'keep-alive',
-    Origin: 'https://www.toronto.ca',
-    Pragma: 'no-cache',
-    Referer: 'https://www.toronto.ca/',
-    'Sec-Fetch-Dest': 'empty',
-    'Sec-Fetch-Mode': 'cors',
-    'Sec-Fetch-Site': 'same-site',
-    'User-Agent':
-      'Mozilla/5.0 (X11; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0',
-    Cookie:
-      'WEBTRENDS_ID=fbff293a.620c918e0c634; TS01174203=01716c468156dcb4031c2fb42b114d95da0d722250635c94a66deb718b20e187f0215b2f4938c3d1e48cdf59e63c7595e5961777cc5450ea6f37646d8f5da679fc74a167ef',
-  },
+export const fetchPublicConsultations = async () => {
+  const response = await cityCouncilGet(url);
+  return (await response.json()) as EventData[];
 };
-
-export const fetchPublicConsultations = () =>
-  fetch(url, options).then((response) => {
-    return response.json() as Promise<EventData[]>;
-  });

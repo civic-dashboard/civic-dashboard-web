@@ -1,3 +1,5 @@
+import { cityCouncilGet, cityCouncilXSRFPost } from '@/api/cityCouncilRequest';
+
 interface Member {
   apptEndDate: number; // Timestamp in milliseconds
   firstName: string;
@@ -51,30 +53,18 @@ interface Record {
   decisionBody: DecisionBody;
 }
 
-interface ApiResponse {
+interface InidividualApiResponse {
   Record: Record;
 }
 
 export const fetchDecisionBody = async (id: number) => {
-  const response = await fetch(
-    `https://secure.toronto.ca/council/api/individual/decisionbody/${id}.json`,
-    {
-      credentials: 'include',
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (X11; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0',
-        Accept: 'application/json, text/plain, */*',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-        Pragma: 'no-cache',
-        'Cache-Control': 'no-cache',
-      },
-      referrer: 'https://secure.toronto.ca/council/',
-      method: 'GET',
-      mode: 'cors',
-    }
+  const response = await cityCouncilGet(
+    `https://secure.toronto.ca/council/api/individual/decisionbody/${id}.json`
+  );
+
+  return ((await response.json()) as InidividualApiResponse).Record
+    .decisionBody;
+};
   );
   return ((await response.json()) as ApiResponse).Record.decisionBody;
 };
