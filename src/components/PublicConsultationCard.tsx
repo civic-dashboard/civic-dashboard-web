@@ -36,7 +36,7 @@ export function PublicConsultationCard({ event }: { event: EventData }) {
         alt={image.altText}
         className="w-full h-48 object-cover rounded-t-lg"
       /> */}
-      <h2>{eventName}</h2>
+      <h2 dangerouslySetInnerHTML={{ __html: eventName }} />
       {cta && <EngagementButtonParent content={cta} />}
       <p className="mt-2" dangerouslySetInnerHTML={{ __html: description }} />
 
