@@ -7,6 +7,7 @@ import {
   DecisionBodyFilter,
   SearchBar,
   SearchProvider,
+  Tags,
   useSearch,
 } from '@/components/search';
 
@@ -41,8 +42,11 @@ export function AgendaItemList({ items, decisionBodies }: Props) {
     <div className="flex-col space-y-4 p-4 bg-slate-200">
       <SearchProvider items={items}>
         <div className="flex flex-col space-y-4">
-          <SearchBar />
-          <DecisionBodyFilter decisionBodies={decisionBodies} />
+          <div className="flex flex-col space-y-2">
+            <SearchBar />
+            <DecisionBodyFilter decisionBodies={decisionBodies} />
+            <Tags />
+          </div>
           <ResultList decisionBodies={decisionBodies} />
         </div>
       </SearchProvider>

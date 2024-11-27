@@ -1,7 +1,7 @@
 import { DecisionBody } from '@/api/decisionBody';
-import { AgendaItem } from '@/api/agendaItem';
-import { HighlightChildren } from './ui/highlightChildren';
+import { HighlightChildren } from '@/components/ui/highlightChildren';
 import { useSearch } from '@/components/search';
+import { TaggedAgendaItem } from '@/logic/search';
 
 type EngagementButtonProps = {
   text: string;
@@ -16,13 +16,13 @@ function EngagementButton({ text, href }: EngagementButtonProps) {
 }
 
 type Props = {
-  item: AgendaItem;
+  item: TaggedAgendaItem;
   decisionBody: DecisionBody;
 };
 
 export function AgendaItemCard({ item, decisionBody }: Props) {
   const {
-    searchOptions: { searchText },
+    searchOptions: { query },
   } = useSearch();
   const formattedDate = new Date(item.meetingDate).toLocaleDateString();
   const commentsHref = `mailto:${decisionBody.email}?subject=My comments for ${item.reference}&body=My comments`;
@@ -30,7 +30,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
 
   return (
     <div className="bg-white shadow-md p-4">
-      <HighlightChildren element="h2" terms={searchText}>
+      <HighlightChildren element="h2" terms={query}>
         {item.agendaItemTitle}
       </HighlightChildren>
       <div className="flex flex-row space-x-2 mb-2">
@@ -39,7 +39,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
       </div>
       <p className="text-gray-600 mb-1">
         <strong>Decision Body:</strong>{' '}
-        <HighlightChildren terms={searchText} element="span">
+        <HighlightChildren terms={query} element="span">
           {item.decisionBodyName}
         </HighlightChildren>
       </p>
@@ -49,7 +49,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
       {/* <p className="text-gray-600 mb-1">
         <strong>Status:</strong> {item.itemStatus}
       </p> */}
-      <HighlightChildren terms={searchText}>
+      <HighlightChildren terms={query}>
         <div
           className="text-gray-800 mt-2"
           dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
