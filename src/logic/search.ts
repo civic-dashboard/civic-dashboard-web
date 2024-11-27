@@ -106,11 +106,6 @@ export function createSearchIndex(items: AgendaItem[]) {
 
     if (options.tags.length > 0) {
       filteredResults = filteredResults.filter((item) => {
-        console.log(
-          options.tags,
-          item.tags,
-          options.tags.some((tag) => item.tags.includes(tag))
-        );
         return options.tags.some((tag) => item.tags.includes(tag));
       });
     }
