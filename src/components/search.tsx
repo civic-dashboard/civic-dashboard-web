@@ -12,12 +12,17 @@ import React, {
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
 import { Badge } from '@/components/ui/badge';
-import { createSearchIndex, SearchOptions, tags } from '@/logic/search';
+import {
+  createSearchIndex,
+  SearchOptions,
+  TaggedAgendaItem,
+  tags,
+} from '@/logic/search';
 
 type SearchContext = {
   searchOptions: SearchOptions;
   setSearchOptions: Dispatch<SetStateAction<SearchOptions>>;
-  searchResults: AgendaItem[];
+  searchResults: TaggedAgendaItem[];
 };
 
 const SearchContext = createContext<SearchContext | null>(null);
