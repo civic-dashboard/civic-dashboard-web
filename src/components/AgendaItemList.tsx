@@ -12,6 +12,7 @@ import {
 } from '@/components/search';
 import { Button } from './ui/button';
 import { useCallback, useEffect, useState } from 'react';
+import { sendSearchResultsEmail } from '@/backend/sendSearchResultsEmail';
 
 type Props = {
   items: AgendaItem[];
@@ -40,20 +41,16 @@ function ResultList({
 }
 
 export function SendEmail() {
-  const { searchResults } = useSearch();
+  const { searchResults, searchOptions } = useSearch();
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
     setSent(false);
   }, [searchResults]);
   const onClick = useCallback(async () => {
-    fetch('/api/sendEmail', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(searchResults),
-    });
+    await sendSearchResultsEmail({ items: searchResults, searchOptions });
     setSent(true);
-  }, [searchResults]);
+  }, [searchResults, searchOptions]);
 
   return (
     <Button onClick={sent ? undefined : onClick}>

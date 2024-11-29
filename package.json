@@ -16,6 +16,7 @@
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
+    "@react-email/components": "^0.0.29",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
@@ -39,6 +40,7 @@
     "eslint": "^8",
     "eslint-config-next": "15.0.0",
     "postcss": "^8",
+    "react-email": "^3.0.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "wrangler": "^3.91.0"
