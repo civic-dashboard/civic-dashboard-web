@@ -7,7 +7,7 @@ export async function sendEmail(
   options?: Partial<Omit<CreateEmailOptions, 'html' | 'text' | 'react'>>
 ) {
   const response = await resend.emails.send({
-    from: 'Civic Dashboard <civicdashboard@resend.dev>',
+    from: 'Civic Dashboard <alerts@civicdashboard.ca>',
     to: 'garo.brik@gmail.com',
     subject: 'Your Search Results from Civic Dashboard',
     react,
