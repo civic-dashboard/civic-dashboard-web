@@ -10,6 +10,8 @@ import {
   Tags,
   useSearch,
 } from '@/components/search';
+import { Button } from './ui/button';
+import { useCallback, useEffect, useState } from 'react';
 
 type Props = {
   items: AgendaItem[];
@@ -37,13 +39,39 @@ function ResultList({
   );
 }
 
+export function SendEmail() {
+  const { searchResults } = useSearch();
+  const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    setSent(false);
+  }, [searchResults]);
+  const onClick = useCallback(async () => {
+    fetch('/api/sendEmail', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(searchResults),
+    });
+    setSent(true);
+  }, [searchResults]);
+
+  return (
+    <Button onClick={sent ? undefined : onClick}>
+      {sent ? 'Sent!' : 'Send It!'}
+    </Button>
+  );
+}
+
 export function AgendaItemList({ items, decisionBodies }: Props) {
   return (
     <div className="flex-col space-y-4 p-4 bg-slate-200">
       <SearchProvider items={items}>
         <div className="flex flex-col space-y-4">
           <div className="flex flex-col space-y-2">
-            <SearchBar />
+            <div className="flex flex-row space-x-4">
+              <SearchBar />
+              <SendEmail />
+            </div>
             <DecisionBodyFilter decisionBodies={decisionBodies} />
             <Tags />
           </div>

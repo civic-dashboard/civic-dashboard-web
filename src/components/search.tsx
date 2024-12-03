@@ -133,7 +133,7 @@ export function SearchBar() {
   const { setSearchOptions } = useSearch();
 
   return (
-    <div className="flex flex-row space-x-2 items-center">
+    <div className="flex flex-row flex-1 space-x-2 items-center">
       <Search />
       <input
         className="p-1 flex-1"
