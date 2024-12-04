@@ -1,5 +1,5 @@
 main = ".worker-next/index.mjs"
-name = "call-to-action"
+name = "actions"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 assets = { directory = ".worker-next/assets", binding = "ASSETS" }
