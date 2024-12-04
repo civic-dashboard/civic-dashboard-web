@@ -2,9 +2,9 @@ name: Deploy frontend
 
 on:
   push:
-    branches: ['feat/opennext']
-  # schedule:
-  #   - cron: '0 8 * * *'
+    branches: ['main']
+  schedule:
+    - cron: '17 * * * *'
 
   workflow_dispatch:
 
