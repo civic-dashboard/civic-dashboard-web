@@ -62,7 +62,7 @@ export function PublicConsultationCard({ event }: { event: EventData }) {
                     <span>{location.displayAddress}</span>
                   </p>
                 </div>
-              )
+              ),
           )}
         </div>
       )}

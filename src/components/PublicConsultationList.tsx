@@ -13,7 +13,7 @@ export async function PublicConsultationList() {
         (event) =>
           isUpcoming(event) && (
             <PublicConsultationCard key={event.calEvent.recId} event={event} />
-          )
+          ),
       )}
     </div>
   );

@@ -5,7 +5,7 @@ import { AgendaItemList } from '@/components/AgendaItemList';
 
 export default async function Home() {
   const items = await fetchItems();
-  const decisionBodies = await fetchDecisionBodies();
+  const decisionBodies = await fetchDecisionBodies()
 
   return (
     <div className="flex flex-row bg-white min-w-[700px]">

@@ -59,7 +59,7 @@ interface InidividualApiResponse {
 
 export const fetchDecisionBody = async (id: number) => {
   const response = await cityCouncilGet(
-    `https://secure.toronto.ca/council/api/individual/decisionbody/${id}.json`
+    `https://secure.toronto.ca/council/api/individual/decisionbody/${id}.json`,
   );
 
   return ((await response.json()) as InidividualApiResponse).Record
@@ -90,6 +90,6 @@ export const fetchDecisionBodies = async () => {
   return Object.fromEntries(
     (
       await Promise.all([...decisionBodyIds.values()].map(fetchDecisionBody))
-    ).map((body) => [body.decisionBodyId, body])
+    ).map((body) => [body.decisionBodyId, body]),
   );
 };

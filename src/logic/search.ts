@@ -100,7 +100,7 @@ export function createSearchIndex(items: AgendaItem[]) {
 
     if (options.decisionBodyId !== undefined) {
       filteredResults = filteredResults.filter(
-        (item) => item.decisionBodyId.toString() === options.decisionBodyId
+        (item) => item.decisionBodyId.toString() === options.decisionBodyId,
       );
     }
 

@@ -40,7 +40,7 @@ export function SearchProvider({ children, items }: Props) {
 
   const searchResults = useMemo(
     () => searchIndex(searchOptions),
-    [searchOptions, searchIndex]
+    [searchOptions, searchIndex],
   );
 
   return (
@@ -73,7 +73,7 @@ export function DecisionBodyFilter({
         id,
         label: decisionBodyName,
       })),
-    [decisionBodies]
+    [decisionBodies],
   );
 
   const onSelect = useCallback(
@@ -83,7 +83,7 @@ export function DecisionBodyFilter({
         decisionBodyId: id === opts.decisionBodyId ? undefined : id,
       }));
     },
-    [setSearchOptions]
+    [setSearchOptions],
   );
 
   return (
@@ -100,7 +100,7 @@ function Tag({ tag }: { tag: string }) {
   const { searchOptions, setSearchOptions } = useSearch();
   const isSelected = useMemo(
     () => searchOptions.tags.includes(tag),
-    [searchOptions.tags, tag]
+    [searchOptions.tags, tag],
   );
 
   const onClick = useCallback(() => {
