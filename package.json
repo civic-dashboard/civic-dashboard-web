@@ -9,7 +9,8 @@
     "lint": "next lint",
     "build:worker": "cloudflare",
     "dev:worker": "wrangler dev --port 8771",
-    "preview:worker": "npm run build:worker && npm run dev:worker",
+    "preview-local:worker": "npm run build:worker && npm run dev:worker",
+    "preview-remote:worker": "npm run build:worker && wrangler versions upload",
     "deploy:worker": "npm run build:worker && wrangler deploy"
   },
   "dependencies": {
