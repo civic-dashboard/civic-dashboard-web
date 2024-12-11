@@ -12,11 +12,10 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "quotes": [
+    "prettier/prettier": [
       "error",
-      "single",
       {
-        "avoidEscape": true
+        "singleQuote": true
       }
     ]
   }
