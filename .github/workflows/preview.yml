@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy frontend
+    name: Upload preview deployment
     steps:
       - name: Checkout
         uses: actions/checkout@v4
