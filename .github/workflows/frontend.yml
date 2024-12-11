@@ -3,6 +3,8 @@ name: Deploy frontend
 on:
   push:
     branches: ['main']
+  pull_request:
+    branches: ['main']
   schedule:
     - cron: '17 * * * *'
 
@@ -36,7 +38,17 @@ jobs:
             ${{ runner.os }}-frontend-${{ hashFiles('**/package-lock.json') }}-
       - name: Install dependencies
         run: npm ci
+      - name: Upload a preview version
+        if: |
+          github.event_name == 'pull_request'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npm run preview-remote:worker
       - name: Deploy to cloudflare pages
+        if: |
+          github.event_name == 'push' && github.ref == 'refs/heads/main' ||
+          github.event_name == 'schedule'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
