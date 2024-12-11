@@ -25,7 +25,7 @@ export const cityCouncilGet = async (url: string) => {
 export const cityCouncilXSRFPost = async ({ url, body }: Args) => {
   // for some reason next's fetch does not receive the XSRF token
   const csrfResponse = await nodeFetch(
-    'https://secure.toronto.ca/council/api/csrf.json'
+    'https://secure.toronto.ca/council/api/csrf.json',
   );
 
   const cookies = csrfResponse.headers.get('set-cookie');
@@ -37,7 +37,7 @@ export const cityCouncilXSRFPost = async ({ url, body }: Args) => {
 
   if (!cookies || !xsrfToken) {
     throw new Error(
-      `Could not get XSRF token from council API: ${csrfResponse.headers.raw()}`
+      `Could not get XSRF token from council API: ${csrfResponse.headers.raw()}`,
     );
   }
 

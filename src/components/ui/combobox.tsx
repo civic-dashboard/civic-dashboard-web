@@ -45,7 +45,7 @@ export const Combobox = ({
           aria-expanded={open}
           className={clsx(
             'w-[500px] justify-between',
-            !currentId && 'text-gray-500'
+            !currentId && 'text-gray-500',
           )}
         >
           {currentId
@@ -70,7 +70,7 @@ export const Combobox = ({
                   <Check
                     className={cn(
                       'ml-auto',
-                      option.id === currentId ? 'opacity-100' : 'opacity-0'
+                      option.id === currentId ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                 </CommandItem>
