@@ -1,3 +1,6 @@
+'use server';
+
+import { sendEmail } from '@/backend/emails/sendEmail';
 import { SearchOptions, TaggedAgendaItem } from '@/logic/search';
 import {
   Body,
@@ -11,11 +14,24 @@ import {
 } from '@react-email/components';
 import { Fragment } from 'react';
 
-export type Props = {
+type Args = {
+  to: string | string[];
+  props: Props;
+};
+export async function sendSearchResultsEmail({ to, props }: Args) {
+  return await sendEmail({
+    from: 'Civic Dashboard <alerts@civicdashboard.ca>',
+    subject: 'Your Search Results from Civic Dashboard',
+    to,
+    react: <Email {...props} />,
+  });
+}
+
+type Props = {
   items: TaggedAgendaItem[];
   searchOptions: SearchOptions;
 };
-export default function Email({ items, searchOptions }: Props) {
+function Email({ items, searchOptions }: Props) {
   return (
     <Html>
       <Head />

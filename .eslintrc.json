@@ -12,6 +12,18 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          ".*"
+        ]
+      }
+    ],
     "prettier/prettier": [
       "error",
       {
