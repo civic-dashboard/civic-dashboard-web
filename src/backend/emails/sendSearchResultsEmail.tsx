@@ -31,7 +31,7 @@ type Props = {
   items: TaggedAgendaItem[];
   searchOptions: SearchOptions;
 };
-export default function Email({ items, searchOptions }: Props) {
+function Email({ items, searchOptions }: Props) {
   return (
     <Html>
       <Head />
