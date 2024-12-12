@@ -7,11 +7,14 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { cn } from '@/lib/utils';
+import { cn } from '@/components/ui/utils';
 import { useState } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from './popover';
-import { Button } from './button';
-import clsx from 'clsx';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
 
 type Option = {
   id: string;
@@ -43,7 +46,7 @@ export const Combobox = ({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={clsx(
+          className={cn(
             'w-[500px] justify-between',
             !currentId && 'text-gray-500',
           )}

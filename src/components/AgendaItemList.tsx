@@ -10,11 +10,15 @@ import {
   Tags,
   useSearch,
 } from '@/components/search';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { sendSearchResultsEmail } from '@/backend/sendSearchResultsEmail';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { Input } from './ui/input';
+import { sendSearchResultsEmail } from '@/backend/emails/sendSearchResultsEmail';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Input } from '@/components/ui/input';
 
 type Props = {
   items: AgendaItem[];
