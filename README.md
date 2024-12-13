@@ -4,11 +4,11 @@ This repository hosts the in-progress Civic Dashboard Actions Page! This page fo
 
 # Development
 
-At a high level, this is a Next.js app deployed to Cloudflare workers.
+**Status**: Early development, but open to contributions! Please check in first before making any big PRs because the file structure is subject to change.
 
 ## Quick links
 
-Take a look at the following documentation files to get a better lay of the land, or skip to [Getting started](./README.md#getting-started) if you just want to clone the repo and start developing!
+Take a look at the following documentation files to get a better lay of the land, or skip to [Getting started](./README.md#getting-started) if you just want to clone the repo and start exploring!
 
 - [ARCHITECTURE.md](./docs/ARCHITECTURE.md) gives a high-level overview of the tech stack.
 - [CODEBASE.md](./docs/CODEBASE.md) lays out the file structure of the repository.
@@ -26,4 +26,4 @@ npm i
 npm run dev
 ```
 
-Try editing `src/page.tsx` to see your changes live! Then feel free to surf around if you like exploring that way, or check out the following documentation for a guided tour.
+Try editing `src/app/page.tsx` to see your changes live!
