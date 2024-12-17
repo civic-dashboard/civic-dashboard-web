@@ -86,7 +86,7 @@ export function SendEmail() {
 
 export function AgendaItemList({ items, decisionBodies }: Props) {
   return (
-    <div className="flex-col space-y-4 p-4 max-w-[1000]">
+    <div className="flex-col space-y-4 p-4 max-w-[1000px]">
       <SearchProvider items={items}>
         <div className="flex flex-col space-y-4">
           <div className="flex flex-col space-y-2 items-center">

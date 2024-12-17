@@ -122,7 +122,7 @@ function Tag({ tag }: { tag: string }) {
 }
 export function Tags() {
   return (
-    <div className="flex flex-row flex-wrap space-x-2 space-y-2 items-end justify-center max-w-[600]">
+    <div className="flex flex-row flex-wrap space-x-2 space-y-2 items-end justify-center max-w-[600px]">
       {Object.keys(tags).map((tag) => (
         <Tag key={tag} tag={tag} />
       ))}
@@ -134,7 +134,7 @@ export function SearchBar() {
   const { setSearchOptions } = useSearch();
 
   return (
-    <div className="flex flex-row space-x-2 items-center flex-1 max-w-[500]">
+    <div className="flex flex-row space-x-2 items-center flex-1 max-w-[500px]">
       <Search />
       <Input
         className="py-1 px-2"
