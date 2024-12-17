@@ -4,6 +4,7 @@ This is an explanation of how the files in the codebase are laid out.
 
 - `/` contains the typical mess of JS ecosystem configuration files.
 - `/.github` contains the `yaml` files which define our CI/CD pipeline on GitHub Actions
+- `/docs` contains documentation files (like this one!)
 - `/src` contains all of the source code! Let's dig into it:
   - `/src/api` contains _client_ API code for querying the Toronto city council API. Needs a better name.
   - `/src/app` contains the [Next `app` router](https://nextjs.org/docs/app), i.e. all the pages of the website.
