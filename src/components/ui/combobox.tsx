@@ -47,7 +47,7 @@ export const Combobox = ({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            'w-[500px] justify-between',
+            'max-w-[300px] justify-between',
             !currentId && 'text-gray-500',
           )}
         >
@@ -57,7 +57,7 @@ export const Combobox = ({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[500px] p-0">
+      <PopoverContent className="max-w-[500px] p-0">
         <Command>
           <CommandInput placeholder={placeholder} />
           <CommandList>

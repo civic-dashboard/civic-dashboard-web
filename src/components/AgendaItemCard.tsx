@@ -29,7 +29,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
   const requestHref = `mailto:${decisionBody.email}?subject=Request to appear before ${item.decisionBodyName} on item ${item.reference}&body=Request to appear`;
 
   return (
-    <div className="bg-white shadow-md p-4">
+    <div className="shadow-md shadow-slate-500 rounded-md p-4">
       <HighlightChildren element="h2" terms={query}>
         {item.agendaItemTitle}
       </HighlightChildren>

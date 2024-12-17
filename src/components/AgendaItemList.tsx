@@ -86,16 +86,18 @@ export function SendEmail() {
 
 export function AgendaItemList({ items, decisionBodies }: Props) {
   return (
-    <div className="flex-col space-y-4 p-4 bg-slate-200">
+    <div className="flex-col space-y-4 p-4 max-w-[1000px]">
       <SearchProvider items={items}>
         <div className="flex flex-col space-y-4">
-          <div className="flex flex-col space-y-2">
-            <div className="flex flex-row space-x-4">
+          <div className="flex flex-col space-y-2 items-center">
+            <div className="flex flex-row space-x-4 justify-center self-stretch">
               <SearchBar />
+            </div>
+            <Tags />
+            <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
+              <DecisionBodyFilter decisionBodies={decisionBodies} />
               <SendEmail />
             </div>
-            <DecisionBodyFilter decisionBodies={decisionBodies} />
-            <Tags />
           </div>
           <ResultList decisionBodies={decisionBodies} />
         </div>

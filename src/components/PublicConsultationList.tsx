@@ -8,7 +8,7 @@ const isUpcoming = (event: EventData) => {
 export async function PublicConsultationList() {
   const events = await fetchPublicConsultations();
   return (
-    <div className="flex-col space-y-4 p-4 bg-slate-200">
+    <div className="flex-col space-y-4 p-4 max-w-[1000px]">
       {events?.map(
         (event) =>
           isUpcoming(event) && (

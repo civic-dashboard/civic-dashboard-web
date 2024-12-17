@@ -18,6 +18,7 @@ import {
   TaggedAgendaItem,
   tags,
 } from '@/logic/search';
+import { Input } from '@/components/ui/input';
 
 type SearchContext = {
   searchOptions: SearchOptions;
@@ -121,7 +122,7 @@ function Tag({ tag }: { tag: string }) {
 }
 export function Tags() {
   return (
-    <div className="flex flex-row flex-wrap space-x-2 space-y-2 items-end">
+    <div className="flex flex-row flex-wrap space-x-2 space-y-2 items-end justify-center max-w-[600px]">
       {Object.keys(tags).map((tag) => (
         <Tag key={tag} tag={tag} />
       ))}
@@ -133,10 +134,10 @@ export function SearchBar() {
   const { setSearchOptions } = useSearch();
 
   return (
-    <div className="flex flex-row flex-1 space-x-2 items-center">
+    <div className="flex flex-row space-x-2 items-center flex-1 max-w-[500px]">
       <Search />
-      <input
-        className="p-1 flex-1"
+      <Input
+        className="py-1 px-2"
         onChange={(ev) =>
           setSearchOptions((opts) => ({ ...opts, query: ev.target.value }))
         }

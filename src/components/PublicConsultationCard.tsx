@@ -30,7 +30,7 @@ export function PublicConsultationCard({ event }: { event: EventData }) {
     cta = locations[0].displayAddress;
 
   return (
-    <div className="bg-white p-4 shadow-md min-w-0">
+    <div className="shadow-md shadow-slate-500 rounded-md p-4">
       {/* <img
         src={'https://secure.toronto.ca' + image.url}
         alt={image.altText}
