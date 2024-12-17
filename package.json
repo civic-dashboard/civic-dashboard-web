@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-navigation-menu": "^1.2.3",
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@react-email/components": "^0.0.29",
