@@ -2,6 +2,7 @@ import { DecisionBody } from '@/api/decisionBody';
 import { HighlightChildren } from '@/components/ui/highlightChildren';
 import { useSearch } from '@/components/search';
 import { TaggedAgendaItem } from '@/logic/search';
+import { Card } from '@/components/ui/card';
 
 type EngagementButtonProps = {
   text: string;
@@ -29,7 +30,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
   const requestHref = `mailto:${decisionBody.email}?subject=Request to appear before ${item.decisionBodyName} on item ${item.reference}&body=Request to appear`;
 
   return (
-    <div className="shadow-md shadow-slate-500 rounded-md p-4">
+    <Card className="p-4">
       <HighlightChildren element="h2" terms={query}>
         {item.agendaItemTitle}
       </HighlightChildren>
@@ -37,13 +38,13 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
         <EngagementButton text="Submit Comments" href={commentsHref} />
         <EngagementButton text="Request to Speak" href={requestHref} />
       </div>
-      <p className="text-gray-600 mb-1">
+      <p className="mb-1">
         <strong>Decision Body:</strong>{' '}
         <HighlightChildren terms={query} element="span">
           {item.decisionBodyName}
         </HighlightChildren>
       </p>
-      <p className="text-gray-600 mb-1">
+      <p className="mb-1">
         <strong>Meeting Date:</strong> {formattedDate}
       </p>
       {/* <p className="text-gray-600 mb-1">
@@ -51,10 +52,10 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
       </p> */}
       <HighlightChildren terms={query}>
         <div
-          className="text-gray-800 mt-2"
+          className=" mt-2"
           dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
         />
       </HighlightChildren>
-    </div>
+    </Card>
   );
 }

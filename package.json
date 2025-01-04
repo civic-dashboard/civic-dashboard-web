@@ -36,6 +36,7 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@opennextjs/cloudflare": "^0.2.1",
+    "@tailwindcss/typography": "^0.5.15",
     "@types/mark.js": "^8.11.12",
     "@types/node": "^20",
     "@types/react": "^18",
