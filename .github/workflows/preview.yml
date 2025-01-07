@@ -6,6 +6,9 @@ on:
 
 jobs:
   deploy:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     name: Upload preview deployment
     steps:
@@ -39,8 +42,8 @@ jobs:
         run: |
           # upload preview and extract preview URL
           preview_upload_output=$(npm run preview-remote:worker)
-          echo $preview_upload_output
-          preview_url=$(tee /dev/tty | grep -oP '(?<=Version Preview URL: )https?://\S+')
+          echo "$preview_upload_output"
+          preview_url=$(echo "$preview_upload_output" | grep -oP '(?<=Version Preview URL: )https?://\S+')
           echo "PREVIEW_URL=$preview_url" >> $GITHUB_ENV
 
       - name: Find Comment
