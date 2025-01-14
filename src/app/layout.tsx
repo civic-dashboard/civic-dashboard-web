@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@/app/globals.css';
-import { AppNavigation } from '@/components/navigation';
+import Header from '@/components/navigation/Header';
+import Footer from '@/components/navigation/Footer';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -15,8 +16,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Call to Action TO',
-  description: 'Make your voice heard at Toronto City Council.',
+  title: 'Civic Dashboard',
+  description:
+    'Accessing Toronto City Council decisions shouldn’t be difficult, but today it is. The Civic Dashboard simplifies this process, letting Toronto residents easily search what their councillors are voting on, how they voted, and the history of decisions on key topics. Stay informed and engaged with your local government like never before.',
 };
 
 export default function RootLayout({
@@ -27,10 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AppNavigation />
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
