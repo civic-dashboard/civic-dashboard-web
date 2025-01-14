@@ -1,6 +1,6 @@
-# Civic Dashboard Actions Page
+# Civic Dashboard Web App
 
-This repository hosts the in-progress Civic Dashboard Actions Page! This page focuses on giving users an easy way to identify upcoming civic engagement opportunities in Toronto, and how they can take action on those opportunities. The currently deployed version can be found at [actions.civicdashboard.ca](https://actions.civicdashboard.ca).
+This repository hosts the in-progress Civic Dashboard Web App! Currently, the landing page and actions page are here, and work is in progress to also bring the councillors page in as well. Eventually, we'd like to have a single web app providing the entire frontend and backend API experience for Civic Dashboard. This page focuses on giving users an easy way to identify upcoming civic engagement opportunities in Toronto, and how they can take action on those opportunities. The currently deployed version can be found at [civicdashboard.ca](https://civicdashboard.ca).
 
 # Development
 
