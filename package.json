@@ -11,7 +11,10 @@
     "dev:worker": "wrangler dev --port 8771",
     "preview-local:worker": "npm run build:worker && npm run dev:worker",
     "preview-remote:worker": "npm run build:worker && wrangler versions upload",
-    "deploy:worker": "npm run build:worker && wrangler deploy"
+    "deploy:worker": "npm run build:worker && wrangler deploy",
+    "create-migration": "kysely migrate:make",
+    "list-db-migrations": "kysely migrate:list",
+    "run-db-migrations": "kysely migrate:up"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
