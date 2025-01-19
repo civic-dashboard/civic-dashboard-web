@@ -12,6 +12,7 @@
     "preview-local:worker": "npm run build:worker && npm run dev:worker",
     "preview-remote:worker": "npm run build:worker && wrangler versions upload",
     "deploy:worker": "npm run build:worker && wrangler deploy",
+    "update-db-types": "kysely-codegen --out-file ./src/lib/generatedDbTypes.d.ts",
     "create-migration": "kysely migrate:make",
     "list-db-migrations": "kysely migrate:list",
     "run-db-migrations": "kysely migrate:up"

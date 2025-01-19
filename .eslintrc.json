@@ -8,19 +8,18 @@
     "next/typescript"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
+    "comma-dangle": ["error", "always-multiline"],
     "no-restricted-imports": [
       "error",
       {
-        "patterns": [
-          ".*"
+        "patterns": [".*"],
+        "paths": [
+          {
+            "name": "@/lib/generatedDbTypes",
+            "message": "Please use @/lib/allDbTypes instead."
+          }
         ]
       }
     ],

@@ -141,7 +141,6 @@ export async function up(db: Kysely<any>): Promise<void> {
           qb.selectFrom('ProblemAgendaItems').select('agendaItemNumber'),
         ),
     )
-
     .materialized()
     .execute();
 }
