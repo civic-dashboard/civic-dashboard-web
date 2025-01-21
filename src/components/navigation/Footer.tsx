@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Navigation Links Column */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
@@ -23,18 +23,21 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-
           {/* Contact Column */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
               Contact
             </h3>
-            <p className="hover:text-blue-400 transition-colors duration-200">
+            <a
+              href="mailto:teamcivicdashboard@gmail.com"
+              className="hover:text-blue-400 transition-colors duration-200"
+            >
               teamcivicdashboard@gmail.com
-            </p>
+            </a>
           </div>
 
-          {/* Legal Links Column */}
+          {/* commenting out Legal Links Column until we're ready for it */}
+          {/* 
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
               Legal
@@ -65,22 +68,27 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
-
+          </div> */}
           {/* Social & Newsletter Column */}
           <div className="space-y-6">
             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
               Stay Connected
             </h3>
             <div className="flex space-x-6">
-              <a
+              {/* <a
                 href="#"
                 className="hover:text-blue-400 transition-colors duration-200"
               >
                 Twitter
+              </a> */}
+              <a
+                href="https://civictechto.slack.com/archives/C06KU3DHEKV"
+                className="hover:text-blue-400 transition-colors duration-200"
+              >
+                Slack
               </a>
               <a
-                href="#"
+                href="/coming-soon"
                 className="hover:text-blue-400 transition-colors duration-200"
               >
                 LinkedIn
@@ -93,9 +101,12 @@ export default function Footer() {
               </a>
             </div>
 
-            <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+            <a
+              href="/coming-soon"
+              className="w-full block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg text-center"
+            >
               Subscribe to Newsletter
-            </button>
+            </a>
 
             <a
               href="https://civictech.ca/"

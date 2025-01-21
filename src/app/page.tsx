@@ -9,7 +9,7 @@ export default function Home() {
       <section className="relative h-[80vh] bg-gradient-to-br from-blue-900 to-purple-900">
         <div className="absolute inset-0">
           <Image
-            src="/hero.png"
+            src="/hero.jpg"
             alt="Toronto Skyline"
             fill
             className="object-cover mix-blend-overlay"
@@ -55,7 +55,8 @@ export default function Home() {
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               It shouldn&apos;t take 3 hours and a political science degree to
-              understand City Council. We make it take 90 seconds.
+              understand City Council and how to meaningfully engage with it. We
+              make it take a few minutes.
             </p>
           </div>
 
