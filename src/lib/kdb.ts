@@ -1,10 +1,11 @@
-import { Kysely, PostgresDialect } from 'kysely';
-import { createPool } from '@/lib/psql';
+import { Kysely } from 'kysely';
+import { PostgresJSDialect } from 'kysely-postgres-js';
+import { createPostgres } from '@/lib/psql';
 import { DB } from '@/lib/allDbTypes';
 
 export const db = new Kysely<DB>({
-  dialect: new PostgresDialect({
-    pool: createPool(),
+  dialect: new PostgresJSDialect({
+    postgres: createPostgres(),
   }),
   log: ['query', 'error'],
 });
