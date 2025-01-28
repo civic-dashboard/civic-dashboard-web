@@ -1,7 +1,7 @@
 main = ".worker-next/index.mjs"
 name = "civic-dashboard-web"
 compatibility_date = "2024-09-23"
-compatibility_flags = ["nodejs_compat_v2"]
+compatibility_flags = ["nodejs_compat"]
 assets = { directory = ".worker-next/assets", binding = "ASSETS" }
 routes = [{ pattern = "civicdashboard.ca", custom_domain = true }]
 
