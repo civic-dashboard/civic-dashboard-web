@@ -4,7 +4,7 @@ import { Kysely } from 'kysely';
 
 // Kysely CLI does not respect import-aliases yet
 // eslint-disable-next-line no-restricted-imports
-import { createPostgres } from './src/lib/psql';
+import { createPostgres } from './src/database/psql';
 
 export default defineConfig({
   kysely: new Kysely({

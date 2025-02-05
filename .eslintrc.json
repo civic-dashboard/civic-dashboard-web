@@ -17,8 +17,8 @@
         "patterns": [".*"],
         "paths": [
           {
-            "name": "@/lib/generatedDbTypes",
-            "message": "Please use @/lib/allDbTypes instead."
+            "name": "@/database/generatedDbTypes",
+            "message": "Please use @/database/allDbTypes instead."
           }
         ]
       }

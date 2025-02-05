@@ -1,4 +1,4 @@
-import { db } from '@/lib/kdb';
+import { db } from '@/database/kyselyDb';
 import Link from 'next/link';
 
 async function listCouncillors() {

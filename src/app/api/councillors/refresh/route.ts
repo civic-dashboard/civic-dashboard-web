@@ -1,4 +1,4 @@
-import { db } from '@/lib/kdb';
+import { db } from '@/database/kyselyDb';
 import { sql } from 'kysely';
 import { NextRequest } from 'next/server';
 
