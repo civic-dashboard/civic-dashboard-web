@@ -46,7 +46,6 @@
     "@tailwindcss/typography": "^0.5.15",
     "@types/mark.js": "^8.11.12",
     "@types/node": "^20",
-    "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8.57.1",
