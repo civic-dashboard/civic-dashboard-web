@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:worker": "cloudflare",
+    "build:worker": "opennextjs-cloudflare",
     "dev:worker": "wrangler dev --port 8771",
     "preview-local:worker": "npm run build:worker && npm run dev:worker",
     "preview-remote:worker": "npm run build:worker && wrangler versions upload",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
-    "@opennextjs/cloudflare": "^0.2.1",
+    "@opennextjs/cloudflare": "^0.4.4",
     "@tailwindcss/typography": "^0.5.15",
     "@types/mark.js": "^8.11.12",
     "@types/node": "^20",
