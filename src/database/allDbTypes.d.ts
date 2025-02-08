@@ -25,8 +25,38 @@ export type Ward = {
   wardId: string;
 };
 
+export type Vote = {
+  agendaItemNumber: string;
+  motionId: string;
+  contactSlug: string;
+  value: string;
+};
+
+export type Motion = {
+  agendaItemNumber: string;
+  motionId: string;
+  motionType: string;
+  voteDescription: string;
+  dateTime: string;
+  committeeSlug: string;
+  result: string;
+  resultKind: string;
+  yesVotes: number;
+  noVotes: number;
+};
+
+export type AgendaItem = {
+  agendaItemNumber: string;
+  agendaItemTitle: string;
+  movedBy: string;
+  secondedBy: string[];
+};
+
 export type DB = generated.DB & {
   Councillors: Councillor;
   Contacts: Contact;
   Wards: Ward;
+  Votes: Vote;
+  Motions: Motion;
+  AgendaItems: AgendaItem;
 };
