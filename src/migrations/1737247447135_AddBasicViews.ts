@@ -2,145 +2,121 @@ import { Kysely, sql } from 'kysely';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function up(db: Kysely<any>): Promise<void> {
-  await db.schema
-    .createView('Contacts')
-    .as(
-      db
-        .selectFrom((eb) =>
-          eb
-            .selectFrom('RawContacts')
-            .selectAll()
-            .orderBy('term', 'desc')
-            .as('OrderedContacts'),
-        )
-        .distinctOn('contactSlug')
-        .select(['contactName', 'contactSlug', 'photoUrl', 'email', 'phone']),
+  await sql`
+    CREATE MATERIALIZED VIEW "Contacts" AS
+    SELECT
+      DISTINCT ON ("contactSlug")
+      "contactName",
+      "contactSlug",
+      "photoUrl",
+      "email",
+      "phone"
+    FROM (
+      SELECT * FROM "RawContacts"
+      ORDER BY "term" DESC
     )
-    .materialized()
-    .execute();
-
-  await db.schema
-    .createView('Councillors')
-    .as(
-      db
-        .selectFrom('RawContacts')
-        .distinctOn(['term', 'wardSlug'])
-        .select(['contactSlug', 'wardSlug', 'term'])
-        .where('primaryRole', '=', 'Councillor')
-        .whereRef('term', '=', (eb) =>
-          eb
-            .selectFrom('RawContacts')
-            .select([(qb) => qb.fn.max('term').as('maxTerm')]),
-        )
-        .orderBy('term', 'desc'),
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "Councillors" AS
+    SELECT
+      DISTINCT ON ("term", "wardSlug")
+      "contactSlug",
+      "wardSlug",
+      "term"
+    FROM "RawContacts"
+    WHERE "primaryRole" = 'Councillor'
+      AND "term" = (
+        SELECT max("term") FROM "RawContacts"
+      )
+    ORDER BY "term" desc
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "Wards" AS
+    SELECT DISTINCT
+      "wardSlug",
+      "wardName",
+      "wardId"
+    FROM "RawContacts"
+    WHERE "wardId" IS NOT NULL
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "Committees" AS
+    SELECT DISTINCT
+      "committeeSlug",
+      "committeeName"
+    FROM "RawVotes"
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "AgendaItems" AS
+    SELECT DISTINCT
+      "agendaItemNumber",
+      "agendaItemTitle",
+      "movedBy",
+      "secondedBy"
+    FROM "RawVotes"
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "ProblemAgendaItems" AS
+    SELECT
+      "agendaItemNumber",
+      COUNT(DISTINCT "result")
+    FROM "RawVotes"
+    GROUP BY (
+      "agendaItemNumber",
+      "motionType",
+      "voteDescription",
+      "dateTime"
     )
-    .materialized()
-    .execute();
-
-  await db.schema
-    .createView('Wards')
-    .as(
-      db
-        .selectFrom('RawContacts')
-        .distinct()
-        .select(['wardSlug', 'wardName', 'wardId'])
-        .where('wardId', 'is not', null),
+    HAVING COUNT(DISTINCT "result") > 1
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "Motions" AS
+    SELECT DISTINCT
+      "agendaItemNumber",
+      "motionId",
+      "motionType",
+      "voteDescription",
+      "dateTime",
+      "committeeSlug",
+      "result",
+      split_part("result", ', ', 1) as "resultKind",
+      split_part(split_part("result", ', ', 2), '-', 1)::int as "yesVotes",
+      split_part(split_part("result", ', ', 2), '-', 2)::int as "noVotes"
+    FROM "RawVotes"
+    WHERE "agendaItemNumber" NOT IN (
+      SELECT "agendaItemNumber"
+      FROM "ProblemAgendaItems"
     )
-    .materialized()
-    .execute();
-
-  await db.schema
-    .createView('Committees')
-    .as(
-      db
-        .selectFrom('RawVotes')
-        .distinct()
-        .select(['committeeSlug', 'committeeName']),
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "Votes" AS
+    SELECT DISTINCT
+      "agendaItemNumber",
+      "motionId",
+      "contactSlug",
+      "vote" as "value"
+    FROM "RawVotes"
+    WHERE "agendaItemNumber" NOT IN (
+      SELECT "agendaItemNumber"
+      FROM "ProblemAgendaItems"
     )
-    .materialized()
-    .execute();
-
-  await db.schema
-    .createView('AgendaItems')
-    .as(
-      db
-        .selectFrom('RawVotes')
-        .distinct()
-        .select([
-          'agendaItemNumber',
-          'agendaItemTitle',
-          'movedBy',
-          'secondedBy',
-        ]),
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "Movers" AS
+    SELECT DISTINCT ON ("agendaItemNumber")
+      "agendaItemNumber",
+      "movedBy"
+    FROM "RawVotes"
+    WHERE "movedBy" IS NOT NULL
+  `.execute(db);
+  await sql`
+    CREATE MATERIALIZED VIEW "Seconders" AS
+    SELECT "agendaItemNumber", unnest("secondedBy") FROM (
+      SELECT DISTINCT ON ("agendaItemNumber")
+      "agendaItemNumber",
+      "secondedBy"
+      FROM "RawVotes"
+      WHERE "secondedBy" IS NOT NULL
     )
-    .materialized()
-    .execute();
-
-  await db.schema
-    .createView('ProblemAgendaItems')
-    .as(
-      db
-        .selectFrom('RawVotes')
-        .select([
-          'agendaItemNumber',
-          sql`COUNT(distinct "result")`.as('resultCount'),
-        ])
-        .groupBy([
-          'agendaItemNumber',
-          'motionType',
-          'voteDescription',
-          'dateTime',
-        ])
-        .having(sql`COUNT (distinct "result")`, '>', 1),
-    )
-    .materialized()
-    .execute();
-
-  await db.schema
-    .createView('Motions')
-    .as(
-      db
-        .selectFrom('RawVotes')
-        .distinct()
-        .select([
-          'agendaItemNumber',
-          'motionId',
-          'motionType',
-          'voteDescription',
-          'dateTime',
-          'committeeSlug',
-          'result',
-          sql`split_part("result", ', ', 1)`.as('resultKind'),
-          sql`split_part(split_part("result", ', ', 2), '-', 1)::int`.as(
-            'yesVotes',
-          ),
-          sql`split_part(split_part("result", ', ', 2), '-', 2)::int`.as(
-            'noVotes',
-          ),
-        ])
-        .whereRef('agendaItemNumber', 'not in', (eb) =>
-          eb.selectFrom('ProblemAgendaItems').select('agendaItemNumber'),
-        ),
-    )
-    .materialized()
-    .execute();
-
-  await db.schema
-    .createView('Votes')
-    .as(
-      db
-        .selectFrom('RawVotes')
-        .distinct()
-        .select([
-          'agendaItemNumber',
-          'motionId',
-          'contactSlug',
-          'vote as value',
-        ])
-        .whereRef('agendaItemNumber', 'not in', (qb) =>
-          qb.selectFrom('ProblemAgendaItems').select('agendaItemNumber'),
-        ),
-    )
-    .materialized()
-    .execute();
+  `.execute(db);
 }
