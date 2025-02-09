@@ -19,6 +19,10 @@
           {
             "name": "@/database/generatedDbTypes",
             "message": "Please use @/database/allDbTypes instead."
+          },
+          {
+            "name": "slugify",
+            "message": "Please use @/logic/toSlug instead."
           }
         ]
       }
