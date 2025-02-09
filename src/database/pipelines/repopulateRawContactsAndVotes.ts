@@ -5,8 +5,8 @@ import {
 import { InsertRawContact, InsertRawVote } from '@/database/allDbTypes';
 
 import { db } from '@/database/kyselyDb';
-import { formatContactCsvStream } from '@/database/pipelines/rawContactCsv';
-import { formatVoteCsvStream } from '@/database/pipelines/rawVoteCsv';
+import { formatContactCsvStream } from '@/database/pipelines/rawContactCsvParser';
+import { formatVoteCsvStream } from '@/database/pipelines/rawVoteCsvParser';
 import { extractTermFromText } from '@/database/pipelines/textParseUtils';
 import { sql } from 'kysely';
 
