@@ -59,6 +59,7 @@ export class OpenDataClient {
         `Provided URL "${url}" is not on expected origin "${OpenDataClient.baseUrl}"`,
       );
     }
+    console.log('Fetching dataset', url);
     const response = await fetch(url, init);
     OpenDataClient.expectOk(response);
     if (!response.body) {
