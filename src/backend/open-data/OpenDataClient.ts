@@ -48,18 +48,9 @@ export class OpenDataClient {
     if (!id) {
       throw new OpenDataClientError(`Unknown package key "${packageKey}"`);
     }
-    return await this.apiFetch<{
-      result: {
-        last_refreshed: string;
-        resources: Array<{
-          format: string;
-          name: string;
-          id: string;
-          url: string;
-          is_preview: boolean | null;
-        }>;
-      };
-    }>(`/api/3/action/package_show?${OpenDataClient.asQueryParams({ id })}`);
+    return await this.apiFetch<Package>(
+      `/api/3/action/package_show?${OpenDataClient.asQueryParams({ id })}`,
+    );
   }
 
   public async fetchDataset(url: string, init?: RequestInit) {
@@ -84,3 +75,17 @@ export class OpenDataClientError extends Error {
     super(`OpenDataClient: ${message}`, options);
   }
 }
+
+export type Package = {
+  result: {
+    last_refreshed: string;
+    resources: Array<PackageResource>;
+  };
+};
+export type PackageResource = {
+  format: string;
+  name: string;
+  id: string;
+  url: string;
+  is_preview: boolean | null;
+};
