@@ -47,7 +47,7 @@ export const verifyFieldsAreNotNullish = <T>(
   target: Partial<T>,
 ): target is { [key in keyof T]: Exclude<T[key], null | undefined> } => {
   for (const field of requiredFields) {
-    if (target[field] == null) return false;
+    if (target[field] === null || target[field] === undefined) return false;
   }
   return true;
 };
