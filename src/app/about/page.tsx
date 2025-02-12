@@ -135,7 +135,7 @@ export default function About() {
                     className="text-blue-600 hover:text-blue-800 underline"
                     rel="noopener noreferrer"
                   >
-                    Our communications and action items (in the
+                    Our communications and action items (in the{' '}
                     #proj-civic-dashboard channel)
                   </a>
                 </li>
@@ -162,7 +162,7 @@ export default function About() {
                 >
                   teamcivicdashboard@gmail.com
                 </a>{' '}
-                or find us in the
+                or find us in the{' '}
                 <a
                   href="http://link.civictech.ca/slack"
                   target="_blank"
