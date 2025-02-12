@@ -1,8 +1,6 @@
 // This is the one place allowed to import from generated types as here is were we re-export them
 // eslint-disable-next-line no-restricted-imports
 import * as generated from '@/database/generatedDbTypes';
-import { Insertable } from 'kysely';
-
 // Currently keysely codegen does not support materialized views.
 // For now we define their type manually here
 

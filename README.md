@@ -12,7 +12,7 @@ Take a look at the following documentation files to get a better lay of the land
 
 - [ARCHITECTURE.md](./docs/ARCHITECTURE.md) gives a high-level overview of the tech stack.
 - [CODEBASE.md](./docs/CODEBASE.md) lays out the file structure of the repository.
-- [CONTRIBUTING.md](./docs/CONTRIBUTING.MD) contains guidelines on making changes to the codebase.
+- [CONTRIBUTING.md](./docs/CONTRIBUTING.md) contains guidelines on making changes to the codebase.
 - [DEPENDENCIES.md](./docs/DEPENDENCIES.md) explains what dependencies we use and why.
 
 ## Getting started
