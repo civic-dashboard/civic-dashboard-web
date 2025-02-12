@@ -1,4 +1,4 @@
-import { db } from '@/database/kyselyDb';
+import { getDB } from '@/database/kyselyDb';
 import { sql } from 'kysely';
 import { NextRequest } from 'next/server';
 
@@ -13,7 +13,7 @@ async function updateCouncillorData() {
     REFRESH MATERIALIZED VIEW "ProblemAgendaItems";
     REFRESH MATERIALIZED VIEW "Motions";
     REFRESH MATERIALIZED VIEW "Votes";
-  `.execute(db);
+  `.execute(getDB());
 }
 
 export async function POST(request: NextRequest) {
