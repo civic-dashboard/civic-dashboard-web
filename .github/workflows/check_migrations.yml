@@ -8,7 +8,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    name: Lint
+    name: Check migrations
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/civic_dashboard
     steps:
@@ -23,8 +23,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # i'm not sure why `npm run db:start` doesn't work here,
+      # but the remaining commands can't connect to the DB without using this action
       - name: Start database
-        run: npm run db:start
+        uses: hoverkraft-tech/compose-action@v2.2.0
 
       - name: Run migrations
         run: npm run db:run-migrations
@@ -35,8 +37,9 @@ jobs:
       - name: Run migrations again
         run: npm run db:run-migrations
 
+      # i'm not sure why this command doesn't pick up the url from env:w
       - name: Generate types
-        run: npm run db:update-types
+        run: npm run db:update-types -- --url $DATABASE_URL
 
       - name: Format generated types
         run: npx eslint ./src/database/generatedDbTypes.d.ts --fix

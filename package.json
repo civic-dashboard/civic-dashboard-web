@@ -16,8 +16,8 @@
     "db:create-migration": "kysely migrate:make",
     "db:list-migrations": "kysely migrate:list",
     "db:run-migrations": "kysely migrate:latest",
-    "db:start": "docker-compose up",
-    "db:stop": "docker-compose stop"
+    "db:start": "docker compose up --detach",
+    "db:stop": "docker compose stop"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
