@@ -11,7 +11,7 @@ export default defineConfig({
     dialect: new PostgresJSDialect({
       postgres: createPostgres(),
     }),
-    log: ['query', 'error'],
+    log: ['error'],
   }),
   migrations: {
     migrationFolder: 'src/migrations',
