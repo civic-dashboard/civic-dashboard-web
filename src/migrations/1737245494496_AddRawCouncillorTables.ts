@@ -45,3 +45,11 @@ export async function up(db: Kysely<unknown>): Promise<void> {
     );
   `.execute(db);
 }
+
+export async function down(db: Kysely<unknown>): Promise<void> {
+  await sql`
+    DROP TABLE "RawVotes";
+
+    DROP TABLE "RawContacts";
+  `.execute(db);
+}
