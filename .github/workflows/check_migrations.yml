@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Check migrations
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/civic_dashboard
+      DATABASE_URL: postgresql://postgres:postgres@localhost:54320/civic_dashboard
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,12 +37,8 @@ jobs:
       - name: Run migrations again
         run: npm run db:run-migrations
 
-      # i'm not sure why this command doesn't pick up the url from env:w
       - name: Generate types
-        run: npm run db:update-types -- --url $DATABASE_URL
-
-      - name: Format generated types
-        run: npx eslint ./src/database/generatedDbTypes.d.ts --fix
+        run: npm run db:update-types
 
       - name: Check that there is no diff
         run: git diff --exit-code
