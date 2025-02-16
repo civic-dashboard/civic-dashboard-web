@@ -8,6 +8,7 @@ export const toSlug = (input: string): string => {
   if (input === '') throw new Error(`Cannot slugify empty string`);
   if (input.trim() === '') throw new Error(`Cannot slugify pure whitespace`);
   const output = slugify(input, slugifyOptions);
-  if (output === '') throw new Error(`Slugifying "${input}" produced empty string`);
+  if (output === '')
+    throw new Error(`Slugifying "${input}" produced empty string`);
   return output;
 };
