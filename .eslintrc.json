@@ -8,10 +8,7 @@
     "next/typescript"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "sql"
-  ],
+  "plugins": ["@typescript-eslint", "sql"],
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
     "no-restricted-imports": [
@@ -19,6 +16,10 @@
       {
         "patterns": [".*"],
         "paths": [
+          {
+            "name": "pg",
+            "message": "Please use postgres instead."
+          },
           {
             "name": "@/database/generatedDbTypes",
             "message": "Please use @/database/allDbTypes instead."
