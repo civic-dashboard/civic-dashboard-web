@@ -47,12 +47,19 @@ class RepopulateRawContactsAndVotesPipeline {
   private async refreshMatViews() {
     await sql`
       REFRESH MATERIALIZED VIEW "Contacts";
+
       REFRESH MATERIALIZED VIEW "Councillors";
+
       REFRESH MATERIALIZED VIEW "Wards";
+
       REFRESH MATERIALIZED VIEW "Committees";
+
       REFRESH MATERIALIZED VIEW "AgendaItems";
+
       REFRESH MATERIALIZED VIEW "ProblemAgendaItems";
+
       REFRESH MATERIALIZED VIEW "Motions";
+
       REFRESH MATERIALIZED VIEW "Votes";
     `.execute(this.trx);
   }
