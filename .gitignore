@@ -31,6 +31,7 @@ yarn-error.log*
 
 # env files (can opt-in for commiting if needed)
 .env*
+!.env.sample
 
 # vercel
 .vercel
@@ -44,3 +45,6 @@ next-env.d.ts
 .worker-next
 .wrangler
 .dev.vars
+
+# database
+db-data

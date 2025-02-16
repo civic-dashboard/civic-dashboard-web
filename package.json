@@ -12,10 +12,12 @@
     "preview-local:worker": "npm run build:worker && npm run dev:worker",
     "preview-remote:worker": "npm run build:worker && wrangler versions upload",
     "deploy:worker": "npm run build:worker && wrangler deploy",
-    "db:update-types": "kysely-codegen --out-file ./src/lib/generatedDbTypes.d.ts",
+    "db:update-types": "kysely-codegen --out-file ./src/database/generatedDbTypes.d.ts --url $DATABASE_URL && eslint ./src/database/generatedDbTypes.d.ts --fix",
     "db:create-migration": "kysely migrate:make",
     "db:list-migrations": "kysely migrate:list",
-    "db:run-migrations": "kysely migrate:up"
+    "db:run-migrations": "kysely migrate:latest",
+    "db:start": "docker compose up --detach",
+    "db:stop": "docker compose stop"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
@@ -57,8 +59,10 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-sql": "^3.2.1",
     "kysely-codegen": "^0.17.0",
     "kysely-ctl": "^0.10.1",
+    "pg": "^8.13.2",
     "postcss": "^8",
     "prettier": "3.4.2",
     "react-email": "^3.0.3",
