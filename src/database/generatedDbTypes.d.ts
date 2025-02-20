@@ -5,11 +5,58 @@
 
 import type { ColumnType } from 'kysely';
 
+export type Generated<T> =
+  T extends ColumnType<infer S, infer I, infer U>
+    ? ColumnType<S, I | undefined, U>
+    : ColumnType<T, T | undefined, T>;
+
 export type Int8 = ColumnType<
   string,
   bigint | number | string,
   bigint | number | string
 >;
+
+export type Json = JsonValue;
+
+export type JsonArray = JsonValue[];
+
+export type JsonObject = {
+  [x: string]: JsonValue | undefined;
+};
+
+export type JsonPrimitive = boolean | number | string | null;
+
+export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
+
+export interface AgendaItem {
+  address: Json | null;
+  agendaCd: string;
+  agendaItemAddress: Json | null;
+  agendaItemId: number;
+  agendaItemRecommendation: string | null;
+  agendaItemSummary: string;
+  agendaItemTitle: string;
+  backgroundAttachmentId: Json | null;
+  councilAgendaItemId: number;
+  decisionAdvice: string | null;
+  decisionBodyId: number;
+  decisionBodyName: string;
+  decisionRecommendations: string | null;
+  geoLocation: Json | null;
+  id: Generated<string>;
+  itemProcessId: number;
+  itemStatus: string;
+  meetingDate: Int8;
+  meetingId: number;
+  meetingNumber: string;
+  neighbourhoodId: Json | null;
+  planningApplicationNumber: string | null;
+  reference: string;
+  subjectTerms: string;
+  termId: number;
+  termYear: string;
+  wardId: Json | null;
+}
 
 export interface RawContacts {
   addressLine1: string | null;
@@ -53,6 +100,7 @@ export interface RawVotes {
 }
 
 export interface DB {
+  AgendaItem: AgendaItem;
   RawContacts: RawContacts;
   RawVotes: RawVotes;
 }
