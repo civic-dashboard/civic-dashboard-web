@@ -5,11 +5,133 @@
 
 import type { ColumnType } from 'kysely';
 
+export type Generated<T> =
+  T extends ColumnType<infer S, infer I, infer U>
+    ? ColumnType<S, I | undefined, U>
+    : ColumnType<T, T | undefined, T>;
+
 export type Int8 = ColumnType<
   string,
   bigint | number | string,
   bigint | number | string
 >;
+
+export type Json = JsonValue;
+
+export type JsonArray = JsonValue[];
+
+export type JsonObject = {
+  [x: string]: JsonValue | undefined;
+};
+
+export type JsonPrimitive = boolean | number | string | null;
+
+export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
+
+export interface AgendaItem {
+  /**
+   * Array of addresses as strings
+   */
+  address: Json | null;
+  /**
+   * Agenda committe descriptor, first half of second component of reference
+   */
+  agendaCd: string;
+  /**
+   * Array of address objects, see api/agendaItem.ts
+   */
+  agendaItemAddress: Json | null;
+  /**
+   * TMMIS ID
+   */
+  agendaItemId: number;
+  /**
+   * HTML content
+   */
+  agendaItemRecommendation: string | null;
+  /**
+   * HTML content
+   */
+  agendaItemSummary: string;
+  /**
+   * Plain text content
+   */
+  agendaItemTitle: string;
+  /**
+   * Array of TMMIS IDs
+   */
+  backgroundAttachmentId: Json | null;
+  /**
+   * TMMIS ID
+   */
+  councilAgendaItemId: number;
+  /**
+   * HTML content
+   */
+  decisionAdvice: string | null;
+  /**
+   * TMMIS ID
+   */
+  decisionBodyId: number;
+  /**
+   * May be better to denormalize into a decision body table
+   */
+  decisionBodyName: string;
+  /**
+   * HTML content
+   */
+  decisionRecommendations: string | null;
+  /**
+   * Array of lat/lon coordinates
+   */
+  geoLocation: Json | null;
+  /**
+   * auto-generated pkey, prefer using reference and meetingId to distinguish agenda items
+   */
+  id: Generated<string>;
+  /**
+   * Unknown purpose
+   */
+  itemProcessId: number;
+  /**
+   * An enumeration that we havent yet documented the full extend of
+   */
+  itemStatus: string;
+  /**
+   * Unix timestamp in millseconds
+   */
+  meetingDate: Int8;
+  /**
+   * TMMIS ID
+   */
+  meetingId: number;
+  /**
+   * Which meeting in the current year, second half of second component of reference
+   */
+  meetingNumber: string;
+  neighbourhoodId: Json | null;
+  /**
+   * Array of TMMIS IDs
+   */
+  planningApplicationNumber: string | null;
+  /**
+   * Reference number, e.g. 2024.EX19.2
+   */
+  reference: string;
+  /**
+   * Array of TMMIS IDs
+   */
+  subjectTerms: string;
+  /**
+   * TMMIS ID
+   */
+  termId: number;
+  /**
+   * Year of term, first component of reference
+   */
+  termYear: string;
+  wardId: Json | null;
+}
 
 export interface RawContacts {
   addressLine1: string | null;
@@ -53,6 +175,7 @@ export interface RawVotes {
 }
 
 export interface DB {
+  AgendaItem: AgendaItem;
   RawContacts: RawContacts;
   RawVotes: RawVotes;
 }
