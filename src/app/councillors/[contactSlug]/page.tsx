@@ -7,7 +7,7 @@ type ParamsType = {
 };
 
 export async function generateStaticParams(): Promise<ParamsType[]> {
-  return await db.selectFrom('Contacts').select(['contactSlug']).execute();
+  return await db.selectFrom('Councillors').select(['contactSlug']).execute();
 }
 
 async function getCouncillor(contactSlug: string) {
