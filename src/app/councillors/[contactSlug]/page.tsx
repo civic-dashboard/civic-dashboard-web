@@ -53,7 +53,6 @@ async function getVotesByAgendaItemsForContact(contactSlug: string) {
       'Votes.value',
       'Motions.result',
       'Motions.resultKind',
-      // 'AgendaItems.agendaSummary', would like to know if the summar is available
     ])
     .execute();
 }
@@ -64,8 +63,6 @@ export default async function CouncillorVotePage(props: {
   const { contactSlug } = await props.params;
   const councillor = await getCouncillor(contactSlug);
   const agendaItems = await getVotesByAgendaItemsForContact(contactSlug);
-
-  console.log(agendaItems[0].summary);
 
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
