@@ -8,7 +8,7 @@
     "next/typescript"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "sql"],
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
     "no-restricted-imports": [
@@ -17,10 +17,36 @@
         "patterns": [".*"],
         "paths": [
           {
+            "name": "pg",
+            "message": "Please use postgres instead."
+          },
+          {
             "name": "@/database/generatedDbTypes",
             "message": "Please use @/database/allDbTypes instead."
+          },
+          {
+            "name": "slugify",
+            "message": "Please use @/logic/toSlug instead."
           }
         ]
+      }
+    ],
+    "sql/format": [
+      2,
+      {
+        "sqlTag": "sql"
+      },
+      {
+        "language": "postgresql",
+        "keywordCase": "upper",
+        "dataTypeCase": "upper",
+        "identifierCase": "lower"
+      }
+    ],
+    "sql/no-unsafe-query": [
+      2,
+      {
+        "sqlTag": "sql"
       }
     ],
     "prettier/prettier": [

@@ -1,0 +1,44 @@
+name: Check migrations
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Check migrations
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:54320/civic_dashboard
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # i'm not sure why `npm run db:start` doesn't work here,
+      # but the remaining commands can't connect to the DB without using this action
+      - name: Start database
+        uses: hoverkraft-tech/compose-action@v2.2.0
+
+      - name: Run migrations
+        run: npm run db:run-migrations
+
+      - name: Check migration rollback
+        run: npx kysely migrate:rollback --all
+
+      - name: Run migrations again
+        run: npm run db:run-migrations
+
+      - name: Generate types
+        run: npm run db:update-types
+
+      - name: Check that there is no diff
+        run: git diff --exit-code

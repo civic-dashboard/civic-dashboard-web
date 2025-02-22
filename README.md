@@ -17,12 +17,43 @@ Take a look at the following documentation files to get a better lay of the land
 
 ## Getting started
 
-To get started with local development, you can clone the repo and run the development server:
+To get started with local development, you'll need to take the following steps:
+
+### Required tools
+
+You will need the following installed on your system:
+
+- nodejs: the version used in the project is listed in [.tool-versions](./.tool-versions), and can be managed using [asdf](https://asdf-vm.com/) version manager. Or follow [the official install guide](https://nodejs.org/en/download).
+- Docker Compose: [installation docs](https://docs.docker.com/compose/install/).
+
+### Clone the repo
 
 ```sh
-git clone https://github.com/Citizen-Dashboard/actions
-cd actions
+git clone https://github.com/civic-dashboard/civic-dashboard-web
+cd civic-dashboard-web
 npm i
+```
+
+### Initialize your environment files
+
+```sh
+cat >> .env  << EOF
+DATABASE_URL=postgresql://postgres:postgres@localhost:54320/civic_dashboard
+RESEND_API_KEY=not-needed-for-local-dev
+CRON_SECRET=not-needed-for-local-dev
+EOF
+```
+
+### Initialize the database
+
+```sh
+npm run db:start
+npm run db:run-migrations
+```
+
+### Run the app
+
+```sh
 npm run dev
 ```
 

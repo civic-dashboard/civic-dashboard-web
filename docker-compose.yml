@@ -1,0 +1,14 @@
+services:
+  database:
+    image: postgres:17.2
+
+    ports:
+      - 54320:5432
+
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=civic_dashboard
+
+    volumes:
+      - ${PWD}/db-data/:/var/lib/postgresql/data/
