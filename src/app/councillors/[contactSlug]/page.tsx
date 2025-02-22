@@ -1,4 +1,4 @@
-import { db } from '@/database/kyselyDb';
+import { getDB } from '@/database/kyselyDb';
 import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 
@@ -7,11 +7,14 @@ type ParamsType = {
 };
 
 export async function generateStaticParams(): Promise<ParamsType[]> {
-  return await db.selectFrom('Councillors').select(['contactSlug']).execute();
+  return await getDB()
+    .selectFrom('Councillors')
+    .select(['contactSlug'])
+    .execute();
 }
 
 async function getCouncillor(contactSlug: string) {
-  return await db
+  return await getDB()
     .selectFrom('Councillors')
     .innerJoin('Contacts', (eb) =>
       eb.onRef('Contacts.contactSlug', '=', 'Councillors.contactSlug'),
@@ -30,7 +33,7 @@ async function getCouncillor(contactSlug: string) {
 }
 
 async function getVotesByAgendaItemsForContact(contactSlug: string) {
-  return await db
+  return await getDB()
     .selectFrom('Votes')
     .innerJoin('Motions', (eb) =>
       eb
