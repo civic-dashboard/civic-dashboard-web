@@ -30,9 +30,9 @@ export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
 export interface AgendaItem {
   /**
-   * Array of addresses as strings
+   * Array of addresses as strings.
    */
-  address: Json | null;
+  address: string[] | null;
   /**
    * Agenda committe descriptor, first half of second component of reference
    */
@@ -60,7 +60,7 @@ export interface AgendaItem {
   /**
    * Array of TMMIS IDs
    */
-  backgroundAttachmentId: Json | null;
+  backgroundAttachmentId: number[] | null;
   /**
    * TMMIS ID
    */
@@ -82,9 +82,9 @@ export interface AgendaItem {
    */
   decisionRecommendations: string | null;
   /**
-   * Array of lat/lon coordinates
+   * Array of lat/lon coordinates stored as strings.
    */
-  geoLocation: Json | null;
+  geoLocation: string[] | null;
   /**
    * auto-generated pkey, prefer using reference and meetingId to distinguish agenda items
    */
@@ -109,9 +109,12 @@ export interface AgendaItem {
    * Which meeting in the current year, second half of second component of reference
    */
   meetingNumber: string;
-  neighbourhoodId: Json | null;
   /**
    * Array of TMMIS IDs
+   */
+  neighbourhoodId: number[] | null;
+  /**
+   * Comma separated list of text reference numbers.
    */
   planningApplicationNumber: string | null;
   /**
@@ -119,7 +122,7 @@ export interface AgendaItem {
    */
   reference: string;
   /**
-   * Array of TMMIS IDs
+   * Semi-colon/comma separated string
    */
   subjectTerms: string;
   /**
@@ -130,7 +133,10 @@ export interface AgendaItem {
    * Year of term, first component of reference
    */
   termYear: string;
-  wardId: Json | null;
+  /**
+   * Array of TMMIS IDs
+   */
+  wardId: number[] | null;
 }
 
 export interface RawContacts {

@@ -23,13 +23,13 @@ export async function up(db: Kysely<unknown>): Promise<void> {
       "decisionRecommendations" TEXT,
       "decisionAdvice" TEXT,
       "subjectTerms" TEXT NOT NULL,
-      "wardId" json,
-      "backgroundAttachmentId" json,
+      "wardId" INT[],
+      "backgroundAttachmentId" INT[],
       "agendaItemAddress" json,
-      "address" json,
-      "geoLocation" json,
+      "address" TEXT[],
+      "geoLocation" TEXT[],
       "planningApplicationNumber" TEXT,
-      "neighbourhoodId" json,
+      "neighbourhoodId" INT[],
       UNIQUE ("reference", "meetingId")
     );
 
@@ -71,17 +71,21 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 
     comment ON COLUMN "AgendaItem"."decisionAdvice" IS 'HTML content';
 
-    comment ON COLUMN "AgendaItem"."subjectTerms" IS 'Array of TMMIS IDs';
+    comment ON COLUMN "AgendaItem"."wardId" IS 'Array of TMMIS IDs';
+
+    comment ON COLUMN "AgendaItem"."subjectTerms" IS 'Semi-colon/comma separated string';
 
     comment ON COLUMN "AgendaItem"."backgroundAttachmentId" IS 'Array of TMMIS IDs';
 
     comment ON COLUMN "AgendaItem"."agendaItemAddress" IS 'Array of address objects, see api/agendaItem.ts';
 
-    comment ON COLUMN "AgendaItem"."address" IS 'Array of addresses as strings';
+    comment ON COLUMN "AgendaItem"."address" IS 'Array of addresses as strings.';
 
-    comment ON COLUMN "AgendaItem"."geoLocation" IS 'Array of lat/lon coordinates';
+    comment ON COLUMN "AgendaItem"."geoLocation" IS 'Array of lat/lon coordinates stored as strings.';
 
-    comment ON COLUMN "AgendaItem"."planningApplicationNumber" IS 'Array of TMMIS IDs';
+    comment ON COLUMN "AgendaItem"."planningApplicationNumber" IS 'Comma separated list of text reference numbers.';
+
+    comment ON COLUMN "AgendaItem"."neighbourhoodId" IS 'Array of TMMIS IDs';
   `.execute(db);
 }
 
