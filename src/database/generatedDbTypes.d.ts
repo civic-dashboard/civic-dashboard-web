@@ -28,7 +28,7 @@ export type JsonPrimitive = boolean | number | string | null;
 
 export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
-export interface AgendaItem {
+export interface RawAgendaItemConsiderations {
   /**
    * Array of addresses as strings.
    */
@@ -181,7 +181,7 @@ export interface RawVotes {
 }
 
 export interface DB {
-  AgendaItem: AgendaItem;
+  RawAgendaItemConsiderations: RawAgendaItemConsiderations;
   RawContacts: RawContacts;
   RawVotes: RawVotes;
 }

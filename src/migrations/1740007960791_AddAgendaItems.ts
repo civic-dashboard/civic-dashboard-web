@@ -2,7 +2,7 @@ import { sql, type Kysely } from 'kysely';
 
 export async function up(db: Kysely<unknown>): Promise<void> {
   await sql`
-    CREATE TABLE "AgendaItem" (
+    CREATE TABLE "RawAgendaItemConsiderations" (
       "id" uuid PRIMARY KEY DEFAULT gen_random_uuid (),
       "termId" INT NOT NULL,
       "agendaItemId" INT NOT NULL,
@@ -91,6 +91,6 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 
 export async function down(db: Kysely<unknown>): Promise<void> {
   await sql`
-    DROP TABLE "AgendaItem";
+    DROP TABLE "RawAgendaItemConsiderations";
   `.execute(db);
 }
