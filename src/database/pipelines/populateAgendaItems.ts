@@ -3,12 +3,13 @@ import { insertAgendaItems } from '@/database/queries/agendaItems';
 
 export const populateAgendaItems = async (start: Date, end: Date) => {
   let insertedCount = BigInt(0);
-  while (start < end) {
-    const nextMonth = new Date(start);
+  let current = start;
+  while (current < end) {
+    const nextMonth = new Date(current);
     nextMonth.setMonth(nextMonth.getMonth() + 1);
-    console.log(`fetching from ${start} to ${nextMonth}`);
+    console.log(`fetching from ${current} to ${nextMonth}`);
     const agendaItems = await fetchAgendaItems({
-      start,
+      start: current,
       end: nextMonth > end ? end : nextMonth,
     });
     if (agendaItems.length > 0) {
@@ -17,9 +18,9 @@ export const populateAgendaItems = async (start: Date, end: Date) => {
     }
     console.log('inserted:', insertedCount);
 
-    start = nextMonth;
+    current = nextMonth;
 
-    if (start < end) {
+    if (current < end) {
       // wait a second before fetching again to avoid overloading the TMMIS API
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
