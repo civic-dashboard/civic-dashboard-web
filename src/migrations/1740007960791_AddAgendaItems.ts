@@ -33,59 +33,59 @@ export async function up(db: Kysely<unknown>): Promise<void> {
       UNIQUE ("reference", "meetingId")
     );
 
-    comment ON COLUMN "AgendaItem"."id" IS 'auto-generated pkey, prefer using reference and meetingId to distinguish agenda items';
+    comment ON COLUMN "RawAgendaItemConsiderations"."id" IS 'auto-generated pkey, prefer using reference and meetingId to distinguish agenda items';
 
-    comment ON COLUMN "AgendaItem"."termId" IS 'TMMIS ID';
+    comment ON COLUMN "RawAgendaItemConsiderations"."termId" IS 'TMMIS ID';
 
-    comment ON COLUMN "AgendaItem"."agendaItemId" IS 'TMMIS ID';
+    comment ON COLUMN "RawAgendaItemConsiderations"."agendaItemId" IS 'TMMIS ID';
 
-    comment ON COLUMN "AgendaItem"."councilAgendaItemId" IS 'TMMIS ID';
+    comment ON COLUMN "RawAgendaItemConsiderations"."councilAgendaItemId" IS 'TMMIS ID';
 
-    comment ON COLUMN "AgendaItem"."decisionBodyId" IS 'TMMIS ID';
+    comment ON COLUMN "RawAgendaItemConsiderations"."decisionBodyId" IS 'TMMIS ID';
 
-    comment ON COLUMN "AgendaItem"."meetingId" IS 'TMMIS ID';
+    comment ON COLUMN "RawAgendaItemConsiderations"."meetingId" IS 'TMMIS ID';
 
-    comment ON COLUMN "AgendaItem"."itemProcessId" IS 'Unknown purpose';
+    comment ON COLUMN "RawAgendaItemConsiderations"."itemProcessId" IS 'Unknown purpose';
 
-    comment ON COLUMN "AgendaItem"."decisionBodyName" IS 'May be better to denormalize into a decision body table';
+    comment ON COLUMN "RawAgendaItemConsiderations"."decisionBodyName" IS 'May be better to denormalize into a decision body table';
 
-    comment ON COLUMN "AgendaItem"."meetingDate" IS 'Unix timestamp in millseconds';
+    comment ON COLUMN "RawAgendaItemConsiderations"."meetingDate" IS 'Unix timestamp in millseconds';
 
-    comment ON COLUMN "AgendaItem"."reference" IS 'Reference number, e.g. 2024.EX19.2';
+    comment ON COLUMN "RawAgendaItemConsiderations"."reference" IS 'Reference number, e.g. 2024.EX19.2';
 
-    comment ON COLUMN "AgendaItem"."termYear" IS 'Year of term, first component of reference';
+    comment ON COLUMN "RawAgendaItemConsiderations"."termYear" IS 'Year of term, first component of reference';
 
-    comment ON COLUMN "AgendaItem"."agendaCd" IS 'Agenda committe descriptor, first half of second component of reference';
+    comment ON COLUMN "RawAgendaItemConsiderations"."agendaCd" IS 'Agenda committe descriptor, first half of second component of reference';
 
-    comment ON COLUMN "AgendaItem"."meetingNumber" IS 'Which meeting in the current year, second half of second component of reference';
+    comment ON COLUMN "RawAgendaItemConsiderations"."meetingNumber" IS 'Which meeting in the current year, second half of second component of reference';
 
-    comment ON COLUMN "AgendaItem"."itemStatus" IS 'An enumeration that we havent yet documented the full extend of';
+    comment ON COLUMN "RawAgendaItemConsiderations"."itemStatus" IS 'An enumeration that we havent yet documented the full extend of';
 
-    comment ON COLUMN "AgendaItem"."agendaItemTitle" IS 'Plain text content';
+    comment ON COLUMN "RawAgendaItemConsiderations"."agendaItemTitle" IS 'Plain text content';
 
-    comment ON COLUMN "AgendaItem"."agendaItemSummary" IS 'HTML content';
+    comment ON COLUMN "RawAgendaItemConsiderations"."agendaItemSummary" IS 'HTML content';
 
-    comment ON COLUMN "AgendaItem"."agendaItemRecommendation" IS 'HTML content';
+    comment ON COLUMN "RawAgendaItemConsiderations"."agendaItemRecommendation" IS 'HTML content';
 
-    comment ON COLUMN "AgendaItem"."decisionRecommendations" IS 'HTML content';
+    comment ON COLUMN "RawAgendaItemConsiderations"."decisionRecommendations" IS 'HTML content';
 
-    comment ON COLUMN "AgendaItem"."decisionAdvice" IS 'HTML content';
+    comment ON COLUMN "RawAgendaItemConsiderations"."decisionAdvice" IS 'HTML content';
 
-    comment ON COLUMN "AgendaItem"."wardId" IS 'Array of TMMIS IDs';
+    comment ON COLUMN "RawAgendaItemConsiderations"."wardId" IS 'Array of TMMIS IDs';
 
-    comment ON COLUMN "AgendaItem"."subjectTerms" IS 'Semi-colon/comma separated string';
+    comment ON COLUMN "RawAgendaItemConsiderations"."subjectTerms" IS 'Semi-colon/comma separated string';
 
-    comment ON COLUMN "AgendaItem"."backgroundAttachmentId" IS 'Array of TMMIS IDs';
+    comment ON COLUMN "RawAgendaItemConsiderations"."backgroundAttachmentId" IS 'Array of TMMIS IDs';
 
-    comment ON COLUMN "AgendaItem"."agendaItemAddress" IS 'Array of address objects, see api/agendaItem.ts';
+    comment ON COLUMN "RawAgendaItemConsiderations"."agendaItemAddress" IS 'Array of address objects, see api/agendaItem.ts';
 
-    comment ON COLUMN "AgendaItem"."address" IS 'Array of addresses as strings.';
+    comment ON COLUMN "RawAgendaItemConsiderations"."address" IS 'Array of addresses as strings.';
 
-    comment ON COLUMN "AgendaItem"."geoLocation" IS 'Array of lat/lon coordinates stored as strings.';
+    comment ON COLUMN "RawAgendaItemConsiderations"."geoLocation" IS 'Array of lat/lon coordinates stored as strings.';
 
-    comment ON COLUMN "AgendaItem"."planningApplicationNumber" IS 'Comma separated list of text reference numbers.';
+    comment ON COLUMN "RawAgendaItemConsiderations"."planningApplicationNumber" IS 'Comma separated list of text reference numbers.';
 
-    comment ON COLUMN "AgendaItem"."neighbourhoodId" IS 'Array of TMMIS IDs';
+    comment ON COLUMN "RawAgendaItemConsiderations"."neighbourhoodId" IS 'Array of TMMIS IDs';
   `.execute(db);
 }
 
