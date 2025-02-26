@@ -76,8 +76,5 @@ jobs:
       - name: Start database
         uses: hoverkraft-tech/compose-action@v2.2.0
 
-      - name: Run migrations
-        run: npm run db:run-migrations
-
       - name: Run update script
         run: npx tsx src/scripts/updateDatabase.ts
