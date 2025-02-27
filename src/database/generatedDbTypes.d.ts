@@ -139,6 +139,10 @@ export interface RawAgendaItemConsiderations {
   wardId: number[] | null;
 }
 
+export interface RawAgendaItems {
+  data: Json;
+}
+
 export interface RawContacts {
   addressLine1: string | null;
   addressLine2: string | null;
@@ -182,6 +186,7 @@ export interface RawVotes {
 
 export interface DB {
   RawAgendaItemConsiderations: RawAgendaItemConsiderations;
+  RawAgendaItems: RawAgendaItems;
   RawContacts: RawContacts;
   RawVotes: RawVotes;
 }
