@@ -1,8 +1,8 @@
-import { getDB } from '@/database/kyselyDb';
+import { createDB } from '@/database/kyselyDb';
 import Link from 'next/link';
 
 async function listCouncillors() {
-  return await getDB()
+  return await createDB()
     .selectFrom('Councillors')
     .innerJoin('Contacts', (eb) =>
       eb.onRef('Councillors.contactSlug', '=', 'Contacts.contactSlug'),
