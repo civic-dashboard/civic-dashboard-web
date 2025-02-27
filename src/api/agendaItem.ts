@@ -6,10 +6,10 @@ export interface ApiResponse {
   PageSize: number;
   PageNumber: number;
   Result: string;
-  Records: AgendaItem[];
+  Records: TMMISAgendaItem[];
 }
 
-interface Address {
+export interface Address {
   agendaItemId: number;
   addressId: number;
   streetNumber?: string;
@@ -31,7 +31,7 @@ interface Address {
   fullAddress: string;
 }
 
-export interface AgendaItem {
+export interface TMMISAgendaItem {
   id: string;
   termId: number;
   agendaItemId: number;
@@ -52,7 +52,7 @@ export interface AgendaItem {
   decisionRecommendations?: string; // HTML content
   decisionAdvice?: string; // HTML content
   subjectTerms: string;
-  wardId: number[];
+  wardId?: number[];
   backgroundAttachmentId?: number[];
   agendaItemAddress: Address[];
   address?: string[];
@@ -87,8 +87,8 @@ const fetchItemPage = async (
   return (await response.json()) as ApiResponse;
 };
 
-const deduplicateAgendaItems = (items: AgendaItem[]) => {
-  const seen = new Map<string, AgendaItem>();
+const deduplicateAgendaItems = (items: TMMISAgendaItem[]) => {
+  const seen = new Map<string, TMMISAgendaItem>();
 
   items.forEach((item) => {
     const key = `${item.reference}-${item.meetingId}`;
@@ -113,7 +113,7 @@ const deduplicateAgendaItems = (items: AgendaItem[]) => {
 export const fetchAgendaItems = async (opts: AgendaItemFetchOptions) => {
   let pageNumber = 0;
   let totalPages = 1;
-  const records: AgendaItem[] = [];
+  const records: TMMISAgendaItem[] = [];
 
   while (pageNumber < totalPages) {
     const page = await fetchItemPage(pageNumber, opts);

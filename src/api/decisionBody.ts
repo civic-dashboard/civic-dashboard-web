@@ -1,11 +1,11 @@
-import { cityCouncilGet, cityCouncilXSRFPost } from '@/api/cityCouncilRequest';
+import { cityCouncilGet } from '@/api/cityCouncilRequest';
 
 interface Member {
   apptEndDate: number; // Timestamp in milliseconds
   firstName: string;
   lastName: string;
-  salutationCd: string;
-  memberUrl: string;
+  salutationCd?: string;
+  memberUrl?: string;
   apptStartDate: number; // Timestamp in milliseconds
   memberId: number;
 }
@@ -31,39 +31,40 @@ export interface DecisionBody {
   committeeCodeId: number;
   termId: number;
   decisionBodyName: string;
-  email: string;
-  duties: string;
+  email?: string;
+  duties?: string;
   dbdyStatusCd: string;
-  phoneAreaCode: string;
-  phoneNumber: string;
-  faxAreaCode: string;
-  faxNumber: string;
+  phoneAreaCode?: string;
+  phoneNumber?: string;
+  faxAreaCode?: string;
+  faxNumber?: string;
   webpostInd: string;
-  contactFirstName: string;
-  contactLastName: string;
-  generalAddress: string;
+  contactFirstName?: string;
+  contactLastName?: string;
+  generalAddress?: string;
   decisionBodyPublishLabelCd: string;
   committeeCode: CommitteeCode;
   decisionBodyType: DecisionBodyType;
   term: Term;
+  members: Member[];
 }
 
-interface Record {
+interface DecisionBodyRecord {
   members: Member[];
   decisionBody: DecisionBody;
 }
 
 interface InidividualApiResponse {
-  Record: Record;
+  Record: DecisionBodyRecord;
 }
 
-export const fetchDecisionBody = async (id: number) => {
+export const fetchDecisionBody = async (id: number): Promise<DecisionBody> => {
   const response = await cityCouncilGet(
     `https://secure.toronto.ca/council/api/individual/decisionbody/${id}.json`,
   );
 
-  return ((await response.json()) as InidividualApiResponse).Record
-    .decisionBody;
+  const record = ((await response.json()) as InidividualApiResponse).Record;
+  return { ...record.decisionBody, members: record.members };
 };
 
 export interface DecisionBodyBrief {
@@ -75,21 +76,22 @@ interface MultipleApiResponse {
   Records: DecisionBodyBrief[];
 }
 
-// this is a kludge, should do this dynamically
-const CURRENT_COUNCIL_TERM = 8;
-
-export const fetchDecisionBodies = async () => {
-  const response = await cityCouncilXSRFPost({
-    url: `https://secure.toronto.ca/council/api/multiple/common/findPostedDecisionBodiesByTerm.json?termId=${CURRENT_COUNCIL_TERM}`,
-  });
+export const fetchDecisionBodies = async ({ termId }: { termId: number }) => {
+  const response = await cityCouncilGet(
+    `https://secure.toronto.ca/council/api/multiple/decisionbody-list.json?termId=${termId}`,
+  );
 
   const decisionBodyIds = (
     (await response.json()) as MultipleApiResponse
   ).Records.map((r) => r.decisionBodyId);
 
-  return Object.fromEntries(
-    (
-      await Promise.all([...decisionBodyIds.values()].map(fetchDecisionBody))
-    ).map((body) => [body.decisionBodyId, body]),
-  );
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  const result: Record<number, DecisionBody> = {};
+  for (const id of decisionBodyIds) {
+    result[id] = await fetchDecisionBody(id);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  return result;
 };
