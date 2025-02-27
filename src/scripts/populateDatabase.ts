@@ -1,6 +1,6 @@
 import { populateAgendaItems } from '@/database/pipelines/populateAgendaItems';
 
-const beginningOfTerm = 883630800000;
+const beginningOfTerm = 1472706000000;
 const endOfTerm = 1794632400000;
 
 await populateAgendaItems(new Date(beginningOfTerm), new Date(endOfTerm));
