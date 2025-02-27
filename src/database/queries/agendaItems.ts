@@ -1,6 +1,37 @@
-import { AgendaItem } from '@/api/agendaItem';
-import { JsonArray } from '@/database/allDbTypes';
+import { Address, TMMISAgendaItem } from '@/api/agendaItem';
+import { DB, JsonArray } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
+import { Kysely, sql } from 'kysely';
+
+export interface AgendaItem {
+  id: string;
+  termId: number;
+  agendaItemId: number;
+  councilAgendaItemId: number;
+  decisionBodyId: number;
+  meetingId: number;
+  itemProcessId: number;
+  decisionBodyName: string;
+  meetingDate: number;
+  reference: string;
+  termYear: string;
+  agendaCd: string;
+  meetingNumber: string;
+  itemStatus: string;
+  agendaItemTitle: string;
+  agendaItemSummary: string;
+  agendaItemRecommendation: string | null;
+  decisionRecommendations: string | null;
+  decisionAdvice: string | null;
+  subjectTerms: string;
+  wardId: number[] | null;
+  backgroundAttachmentId: number[] | null;
+  agendaItemAddress: Address[] | null;
+  address: string[] | null;
+  geoLocation: string[] | null;
+  planningApplicationNumber: string | null;
+  neighbourhoodId: number[] | null;
+}
 
 export const insertAgendaItems = async (
   db: Kysely<DB>,
@@ -57,4 +88,108 @@ export const insertAgendaItems = async (
     )
     .values(asDBType)
     .execute();
+};
+
+export const sortByOptions = ['date', 'relevance'] as const;
+export type SortByOption = (typeof sortByOptions)[number];
+export const sortDirectionOptions = ['ascending', 'descending'] as const;
+export type SortDirectionOption = (typeof sortDirectionOptions)[number];
+
+type AgendaItemSearchOptions = {
+  page: number;
+  pageSize: number;
+  textQuery: string;
+  decisionBodyId?: number;
+  termId?: number;
+  sortBy: SortByOption;
+  sortDirection: SortDirectionOption;
+  minimumDate?: number;
+};
+export const searchAgendaItems = async (
+  db: Kysely<DB>,
+  {
+    page,
+    pageSize,
+    textQuery,
+    decisionBodyId,
+    termId,
+    sortBy,
+    sortDirection,
+    minimumDate,
+  }: AgendaItemSearchOptions,
+) => {
+  const commonTables = db
+    .with('mostRecentConsiderations', (db) =>
+      db
+        .selectFrom('RawAgendaItemConsiderations')
+        .selectAll()
+        .distinctOn('reference')
+        .orderBy('reference', 'asc')
+        .orderBy('meetingDate', 'desc'),
+    )
+    .with('query', (db) =>
+      db.selectNoFrom(sql`websearch_to_tsquery(${textQuery})`.as('query')),
+    )
+    .with('filteredAgendaItems', (db) => {
+      let query = db
+        .selectFrom(['mostRecentConsiderations', 'query'])
+        .select(agendaItemConflictColumns)
+        .$if(Boolean(textQuery), (query) =>
+          query.select(sql`ts_rank("textSearchVector", query)`.as('rank')),
+        );
+
+      if (decisionBodyId !== undefined) {
+        query = query.where('decisionBodyId', '=', decisionBodyId);
+      }
+
+      if (termId !== undefined) {
+        query = query.where('termId', '=', termId);
+      }
+
+      if (textQuery) {
+        query = query.whereRef('textSearchVector', '@@', 'query');
+      }
+
+      if (minimumDate !== undefined) {
+        query = query.where('meetingDate', '>=', minimumDate.toString());
+      }
+
+      return query;
+    });
+
+  const totalCount = (
+    await commonTables
+      .selectFrom('filteredAgendaItems')
+      .select(sql<number>`COUNT(*)`.as('count'))
+      .executeTakeFirstOrThrow()
+  ).count;
+
+  let query = commonTables
+    .selectFrom('filteredAgendaItems')
+    .select(agendaItemConflictColumns);
+
+  query = query.orderBy(
+    sortBy === 'relevance' ? 'rank' : 'meetingDate',
+    sortDirection === 'ascending' ? 'asc' : 'desc',
+  );
+
+  const rawResults = await query
+    .limit(pageSize)
+    .offset(page * pageSize)
+    .execute();
+
+  const results: AgendaItem[] = rawResults.map(
+    ({ meetingDate, agendaItemAddress, ...result }) => ({
+      meetingDate: parseInt(meetingDate),
+      agendaItemAddress: agendaItemAddress as Address[] | null,
+      ...result,
+    }),
+  );
+
+  return {
+    totalCount,
+    page,
+    pageSize,
+    results,
+  };
 };
