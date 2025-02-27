@@ -32,5 +32,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run update script
-        run: npm run db:list-migrations
+      - name: Run migrations
+        run: npm run db:run-migrations
