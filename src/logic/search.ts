@@ -1,5 +1,8 @@
-import { AgendaItem } from '@/api/agendaItem';
-import FlexSearch from 'flexsearch';
+import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
+import type {
+  SortByOption,
+  SortDirectionOption,
+} from '@/database/queries/agendaItems';
 
 export const tags = {
   housing: [
@@ -34,82 +37,61 @@ export const tags = {
   business: [],
 } as const;
 
-export type TaggedAgendaItem = AgendaItem & { tags: string[] };
-
 export type SearchOptions = {
   query: string;
   decisionBodyId?: string;
   tags: string[];
+  sortBy?: SortByOption;
+  sortDirection?: SortDirectionOption;
+  minimumDate?: Date;
 };
 
-function tagItem(item: AgendaItem): TaggedAgendaItem {
-  const miniIndex = new FlexSearch.Document<AgendaItem, true>({
-    tokenize: 'forward',
-    document: {
-      id: 'id',
-      index: ['agendaItemTitle', 'decisionBodyName', 'agendaItemSummary'],
-      store: true,
-    },
+export type SearchPagination = {
+  page: number;
+  pageSize: number;
+};
+
+export type FetchSearchArgs = {
+  options: SearchOptions;
+  pagination: SearchPagination;
+  abortSignal?: AbortSignal;
+};
+export const fetchSearchResults = async ({
+  options,
+  pagination,
+  abortSignal,
+}: FetchSearchArgs) => {
+  const searchParams = new URLSearchParams();
+  if (options.query) {
+    searchParams.set('textQuery', options.query);
+  }
+  if (options.decisionBodyId) {
+    searchParams.set('decisionBodyId', options.decisionBodyId);
+  }
+  searchParams.set('page', pagination.page.toString());
+  searchParams.set('pageSize', pagination.pageSize.toString());
+  const sortBy = options.sortBy ?? (options.query ? 'relevance' : 'date');
+  searchParams.set('sortBy', sortBy);
+  searchParams.set(
+    'sortDirection',
+    options.sortDirection ??
+      (sortBy === 'relevance' ? 'descending' : 'ascending'),
+  );
+  if (options.minimumDate) {
+    searchParams.set('minimumDate', options.minimumDate?.getTime().toString());
+  }
+  const response = await fetch(`/api/agenda-item/search?${searchParams}`, {
+    signal: abortSignal,
   });
 
-  miniIndex.add(item);
-
-  const validTags = Object.entries(tags)
-    .filter(([tag, extra]) => {
-      return [tag, ...extra].some((val) => miniIndex.search(val).length > 0);
-    })
-    .map(([tag]) => tag);
-
-  return { ...item, tags: validTags };
-}
-
-export function createSearchIndex(items: AgendaItem[]) {
-  const searchIndex = new FlexSearch.Document<TaggedAgendaItem, true>({
-    tokenize: 'forward',
-    document: {
-      id: 'id',
-      index: ['agendaItemTitle', 'decisionBodyName', 'agendaItemSummary'],
-      store: true,
-    },
-  });
-
-  const taggedItems = items.map(tagItem);
-
-  for (const item of taggedItems) {
-    searchIndex.add(item);
+  if (!response.ok) {
+    try {
+      const error = await response.json();
+      throw new Error(`Failed to fetch search results: ${error?.message}`);
+    } catch {
+      throw new Error(`Failed to fetch search results`);
+    }
   }
 
-  return function (options: SearchOptions): TaggedAgendaItem[] {
-    let filteredResults: TaggedAgendaItem[];
-    if (options.query === '') {
-      filteredResults = taggedItems;
-    } else {
-      filteredResults = [];
-      const results = searchIndex.search(options.query, undefined, {
-        enrich: true,
-      });
-      const existingKeys = new Set<string>();
-      for (const fieldResult of results) {
-        const filteredResult = fieldResult.result
-          .map((r) => r.doc)
-          .filter((d) => !existingKeys.has(d.id));
-        filteredResults.push(...filteredResult);
-        filteredResult.forEach((d) => existingKeys.add(d.id));
-      }
-    }
-
-    if (options.decisionBodyId !== undefined) {
-      filteredResults = filteredResults.filter(
-        (item) => item.decisionBodyId.toString() === options.decisionBodyId,
-      );
-    }
-
-    if (options.tags.length > 0) {
-      filteredResults = filteredResults.filter((item) => {
-        return options.tags.some((tag) => item.tags.includes(tag));
-      });
-    }
-
-    return filteredResults;
-  };
-}
+  return (await response.json()) as AgendaItemSearchResponse;
+};

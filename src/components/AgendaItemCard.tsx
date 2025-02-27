@@ -1,8 +1,8 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { HighlightChildren } from '@/components/ui/highlightChildren';
 import { useSearch } from '@/components/search';
-import { TaggedAgendaItem } from '@/logic/search';
 import { Card } from '@/components/ui/card';
+import type { AgendaItem } from '@/database/queries/agendaItems';
 
 type EngagementButtonProps = {
   text: string;
@@ -17,7 +17,7 @@ function EngagementButton({ text, href }: EngagementButtonProps) {
 }
 
 type Props = {
-  item: TaggedAgendaItem;
+  item: AgendaItem;
   decisionBody: DecisionBody;
 };
 
