@@ -1,7 +1,8 @@
 'use server';
 
 import { sendEmail } from '@/backend/emails/sendEmail';
-import { SearchOptions, TaggedAgendaItem } from '@/logic/search';
+import { AgendaItem } from '@/database/queries/agendaItems';
+import { SearchOptions } from '@/logic/search';
 import {
   Body,
   Head,
@@ -28,7 +29,7 @@ export async function sendSearchResultsEmail({ to, props }: Args) {
 }
 
 type Props = {
-  items: TaggedAgendaItem[];
+  items: AgendaItem[];
   searchOptions: SearchOptions;
 };
 function Email({ items, searchOptions }: Props) {
@@ -78,7 +79,7 @@ function SearchOption({ label, content }: SearchOptionProps) {
   );
 }
 
-function ItemEmail({ item }: { item: TaggedAgendaItem }) {
+function ItemEmail({ item }: { item: AgendaItem }) {
   return (
     <Section style={{ padding: '16px' }}>
       <Heading as="h2">{item.agendaItemTitle}</Heading>
