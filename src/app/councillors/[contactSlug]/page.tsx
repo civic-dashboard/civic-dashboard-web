@@ -1,20 +1,22 @@
-import { getDB } from '@/database/kyselyDb';
+import { createDB } from '@/database/kyselyDb';
 import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
+import { Kysely } from 'kysely';
+import { DB } from '@/database/allDbTypes';
 
 type ParamsType = {
   contactSlug: string;
 };
 
 export async function generateStaticParams(): Promise<ParamsType[]> {
-  return await getDB()
+  return await createDB()
     .selectFrom('Councillors')
     .select(['contactSlug'])
     .execute();
 }
 
-async function getCouncillor(contactSlug: string) {
-  return await getDB()
+async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
+  return await db
     .selectFrom('Councillors')
     .innerJoin('Contacts', (eb) =>
       eb.onRef('Contacts.contactSlug', '=', 'Councillors.contactSlug'),
@@ -32,8 +34,11 @@ async function getCouncillor(contactSlug: string) {
     .executeTakeFirstOrThrow();
 }
 
-async function getVotesByAgendaItemsForContact(contactSlug: string) {
-  return await getDB()
+async function getVotesByAgendaItemsForContact(
+  db: Kysely<DB>,
+  contactSlug: string,
+) {
+  return await db
     .selectFrom('Votes')
     .innerJoin('Motions', (eb) =>
       eb
@@ -64,8 +69,9 @@ export default async function CouncillorVotePage(props: {
   params: Promise<ParamsType>;
 }) {
   const { contactSlug } = await props.params;
-  const councillor = await getCouncillor(contactSlug);
-  const agendaItems = await getVotesByAgendaItemsForContact(contactSlug);
+  const db = createDB();
+  const councillor = await getCouncillor(db, contactSlug);
+  const agendaItems = await getVotesByAgendaItemsForContact(db, contactSlug);
 
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

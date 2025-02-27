@@ -1,9 +1,11 @@
 import { AgendaItem } from '@/api/agendaItem';
-import { getDB } from '@/database/kyselyDb';
 import { JsonArray } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
 
-export const insertAgendaItems = async (items: AgendaItem[]) => {
+export const insertAgendaItems = async (
+  db: Kysely<DB>,
+  items: TMMISAgendaItem[],
+) => {
   const asDBType = items.map(({ id: _, agendaItemAddress, ...item }) => ({
     ...item,
     agendaItemAddress: agendaItemAddress as unknown as JsonArray,
@@ -30,7 +32,7 @@ export const insertAgendaItems = async (items: AgendaItem[]) => {
 
   // all of this is just best effort to get the thing off the ground and we can refine later
 
-  return await getDB()
+  return await db
     .insertInto('RawAgendaItemConsiderations')
     .onConflict((onConflict) =>
       onConflict.columns(['reference', 'meetingId']).doUpdateSet((eb) =>
