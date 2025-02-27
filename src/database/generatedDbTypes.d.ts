@@ -134,6 +134,10 @@ export interface RawAgendaItemConsiderations {
    */
   termYear: string;
   /**
+   * Auto-generated lexemes to be indexed for text search mathing/relevance ranking.
+   */
+  textSearchVector: Generated<string | null>;
+  /**
    * Array of TMMIS IDs
    */
   wardId: number[] | null;
