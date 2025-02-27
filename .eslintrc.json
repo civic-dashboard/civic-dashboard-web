@@ -50,8 +50,7 @@
       {
         "language": "postgresql",
         "keywordCase": "upper",
-        "dataTypeCase": "upper",
-        "identifierCase": "lower"
+        "dataTypeCase": "upper"
       }
     ],
     "sql/no-unsafe-query": [
