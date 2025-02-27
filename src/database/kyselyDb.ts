@@ -10,7 +10,7 @@ const createDB = () =>
     dialect: new PostgresJSDialect({
       postgres: createPostgres(),
     }),
-    log: ['query', 'error'],
+    log: ['error'],
   });
 
 export const getDB = () => {
