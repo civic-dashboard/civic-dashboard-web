@@ -8,8 +8,9 @@
     "next/typescript"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "sql"],
+  "plugins": ["@typescript-eslint", "sql", "ban-councillor-typo"],
   "rules": {
+    "ban-councillor-typo/ban-councillor-typo": ["error"],
     "comma-dangle": ["error", "always-multiline"],
     "no-restricted-imports": [
       "error",

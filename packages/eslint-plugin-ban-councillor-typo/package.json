@@ -1,0 +1,7 @@
+{
+  "name": "eslint-plugin-ban-councillor-typo",
+  "version": "1.0.0",
+  "description": "Forbid and autocorrect configured typos",
+  "main": "index.js",
+  "license": "MIT"
+}
