@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { menuItems } from '@/constants/navigation';
 import Link from 'next/link';
 
@@ -11,11 +11,44 @@ const gradientAnimation = `
 }
 `;
 
+function useScrollDirection() {
+  const [scrollDirection, setScrollDirection] = useState('up');
+  const [prevScroll, setPrevScroll] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll <= 0) {
+        setScrollDirection('up');
+        return;
+      }
+
+      if (Math.abs(currentScroll - prevScroll) < 10) {
+        return;
+      }
+
+      const newScrollDirection = currentScroll > prevScroll ? 'down' : 'up';
+      setScrollDirection(newScrollDirection);
+      setPrevScroll(currentScroll);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScroll]);
+
+  return scrollDirection;
+}
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const scrollDirection = useScrollDirection();
 
   return (
-    <header className="sticky top-0 z-10 backdrop-blur-md bg-white/80 dark:bg-gray-800/80 shadow-lg">
+    <header
+      className={`sticky top-0 z-10 backdrop-blur-md bg-white/80 dark:bg-gray-800/80 shadow-lg transition-transform duration-300 ${
+        scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
+      }`}
+    >
       <style jsx global>
         {gradientAnimation}
       </style>
