@@ -51,12 +51,11 @@ export default async function CouncillorListPage() {
 
 function CouncillorContactPhoto(props: { photoUrl: string | null }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={props.photoUrl ?? ''}
       className="bg-zinc-300"
       style={{ height: 52, width: 42 }}
-      alt="" // Omit alt text since this is decorative
+      alt=""
     />
   );
 }

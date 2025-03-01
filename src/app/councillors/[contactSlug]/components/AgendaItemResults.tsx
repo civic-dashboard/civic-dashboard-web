@@ -1,18 +1,5 @@
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
 
-const formatDate = (dateString: string) => {
-  if (!dateString) return dateString;
-  try {
-    const date = new Date(dateString.split(' ')[0]); // Parse just the date part
-    return date.toLocaleDateString('en-US', {
-      month: 'short', // "Jan", "Feb", etc.
-      day: 'numeric', // 1, 2, 3, etc.
-    });
-  } catch {
-    return dateString;
-  }
-};
-
 function AgendaItemCard({ item }: { item: AgendaItem }) {
   const getVoteIcon = (value: string) => {
     switch (value.toLowerCase()) {
@@ -21,14 +8,27 @@ function AgendaItemCard({ item }: { item: AgendaItem }) {
       case 'no':
         return '✗';
       case 'absent':
-        return 'AB';
+        return 'ab';
       default:
         return '-';
     }
   };
 
+  const formatDate = (dateString: string) => {
+    if (!dateString) return dateString;
+    try {
+      const date = new Date(dateString.split(' ')[0]);
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      });
+    } catch {
+      return dateString;
+    }
+  };
+
   const formatAgendaNumber = (number: string) => {
-    return number.split('.').slice(1).join('.'); // Remove the year part and join the rest
+    return number.split('.').slice(1).join('.');
   };
 
   return (
@@ -39,9 +39,9 @@ function AgendaItemCard({ item }: { item: AgendaItem }) {
       <div className="pl-4 border-l-4 border-indigo-700">
         <h3 className="font-semibold mb-2">{item.agendaItemTitle}</h3>
         <p className="text-sm text-gray-500 mb-2">
-          Lorem ipsum ranch I dipsum carrots in the bowl of dip hip hip british
-          slang pip pip can I get a new look a new drip teas too hot so I blow
-          then sip sip{' '}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris.{' '}
         </p>
         <div className="flex flex-row text-md gap-4 mb-2">
           <div className="flex items-center gap-2">
@@ -75,8 +75,6 @@ export default function AgendaItemResults({
   const filteredItems = agendaItems.filter((item) =>
     item.agendaItemTitle.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-
-  console.log(agendaItems);
 
   return (
     <div>
