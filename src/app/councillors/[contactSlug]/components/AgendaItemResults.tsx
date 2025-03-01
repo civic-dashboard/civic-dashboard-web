@@ -84,17 +84,12 @@ export default function AgendaItemResults({
       </div>
 
       <div>
-        {filteredItems
-          .sort(
-            (a, b) =>
-              new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime(),
-          )
-          .map((item) => (
-            <AgendaItemCard
-              key={`${item.agendaItemNumber}-${item.motionId}`}
-              item={item}
-            />
-          ))}
+        {filteredItems.map((item) => (
+          <AgendaItemCard
+            key={`${item.agendaItemNumber}-${item.motionId}`}
+            item={item}
+          />
+        ))}
       </div>
     </div>
   );
