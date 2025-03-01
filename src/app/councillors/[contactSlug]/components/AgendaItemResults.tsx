@@ -88,7 +88,6 @@ export default function AgendaItemResults({
     <div>
       <div className="flex justify-between mb-8">
         <div>{filteredItems.length} results</div>
-        <button className="text-blue-600 hover:text-blue-800">Reset</button>
       </div>
 
       <div>
