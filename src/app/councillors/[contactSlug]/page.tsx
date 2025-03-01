@@ -29,7 +29,7 @@ async function getCouncillor(contactSlug: string) {
       'Wards.wardName',
     ])
     .where('Councillors.contactSlug', '=', contactSlug)
-    .execute();
+    .executeTakeFirstOrThrow();
 }
 
 async function getVotesByAgendaItemsForContact(contactSlug: string) {
@@ -69,7 +69,7 @@ export default async function CouncillorVotePage(props: {
 
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <CouncillorBio councillor={councillor[0]} />
+      <CouncillorBio councillor={councillor} />
       <CouncillorVoteContent agendaItems={agendaItems} />
     </main>
   );
