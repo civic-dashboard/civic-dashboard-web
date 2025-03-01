@@ -1,7 +1,11 @@
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 
-function AgendaItemCard({ item }: { item: AgendaItem }) {
+const AgendaItemCard = memo(function AgendaItemCard({
+  item,
+}: {
+  item: AgendaItem;
+}) {
   const getVoteIcon = (value: string) => {
     switch (value.toLowerCase()) {
       case 'yes':
@@ -64,7 +68,7 @@ function AgendaItemCard({ item }: { item: AgendaItem }) {
       </div>
     </div>
   );
-}
+});
 
 export default function AgendaItemResults({
   agendaItems,
