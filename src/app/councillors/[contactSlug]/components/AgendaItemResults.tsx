@@ -1,4 +1,5 @@
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
+import { useMemo } from 'react';
 
 function AgendaItemCard({ item }: { item: AgendaItem }) {
   const getVoteIcon = (value: string) => {
@@ -72,8 +73,15 @@ export default function AgendaItemResults({
   agendaItems: AgendaItem[];
   searchTerm?: string;
 }) {
-  const filteredItems = agendaItems.filter((item) =>
-    item.agendaItemTitle.toLowerCase().includes(searchTerm.toLowerCase()),
+  const tidySearchQuery = searchTerm.toLocaleLowerCase().trim();
+  const filteredItems = useMemo(
+    () =>
+      tidySearchQuery
+        ? agendaItems.filter((item) =>
+            item.agendaItemTitle.toLowerCase().includes(tidySearchQuery),
+          )
+        : agendaItems,
+    [agendaItems, tidySearchQuery],
   );
 
   return (
