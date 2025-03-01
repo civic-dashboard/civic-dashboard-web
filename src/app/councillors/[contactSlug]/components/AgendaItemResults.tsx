@@ -1,6 +1,11 @@
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
+import { useMemo, memo } from 'react';
 
-function AgendaItemCard({ item }: { item: AgendaItem }) {
+const AgendaItemCard = memo(function AgendaItemCard({
+  item,
+}: {
+  item: AgendaItem;
+}) {
   const getVoteIcon = (value: string) => {
     switch (value.toLowerCase()) {
       case 'yes':
@@ -63,7 +68,7 @@ function AgendaItemCard({ item }: { item: AgendaItem }) {
       </div>
     </div>
   );
-}
+});
 
 export default function AgendaItemResults({
   agendaItems,
@@ -72,29 +77,30 @@ export default function AgendaItemResults({
   agendaItems: AgendaItem[];
   searchTerm?: string;
 }) {
-  const filteredItems = agendaItems.filter((item) =>
-    item.agendaItemTitle.toLowerCase().includes(searchTerm.toLowerCase()),
+  const tidySearchQuery = searchTerm.toLocaleLowerCase().trim();
+  const filteredItems = useMemo(
+    () =>
+      tidySearchQuery
+        ? agendaItems.filter((item) =>
+            item.agendaItemTitle.toLowerCase().includes(tidySearchQuery),
+          )
+        : agendaItems,
+    [agendaItems, tidySearchQuery],
   );
 
   return (
     <div>
       <div className="flex justify-between mb-8">
         <div>{filteredItems.length} results</div>
-        <button className="text-blue-600 hover:text-blue-800">Reset</button>
       </div>
 
       <div>
-        {filteredItems
-          .sort(
-            (a, b) =>
-              new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime(),
-          )
-          .map((item) => (
-            <AgendaItemCard
-              key={`${item.agendaItemNumber}-${item.motionId}`}
-              item={item}
-            />
-          ))}
+        {filteredItems.map((item) => (
+          <AgendaItemCard
+            key={`${item.agendaItemNumber}-${item.motionId}`}
+            item={item}
+          />
+        ))}
       </div>
     </div>
   );
