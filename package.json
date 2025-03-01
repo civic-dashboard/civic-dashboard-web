@@ -7,7 +7,6 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "eslint": "eslint",
     "lint": "next lint && tsc --noEmit",
     "build:worker": "opennextjs-cloudflare",
     "dev:worker": "wrangler dev --port 8771",
