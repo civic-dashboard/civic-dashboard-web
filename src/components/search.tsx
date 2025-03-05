@@ -13,9 +13,10 @@ import React, {
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
 import { Badge } from '@/components/ui/badge';
-import { fetchSearchResults, SearchOptions, tags } from '@/logic/search';
+import { fetchSearchResults, SearchOptions } from '@/logic/search';
 import { Input } from '@/components/ui/input';
 import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
+import { allTags, Tag, TagEnum } from '@/constants/tags';
 
 const SEARCH_DEBOUNCE_DELAY_MS = 250;
 
@@ -32,7 +33,7 @@ export function SearchProvider({ children }: Props) {
   const [searchOptions, setSearchOptions] = useState<SearchOptions>({
     query: '',
     tags: [],
-    minimumDate: new Date(),
+    // minimumDate: new Date(),
   });
 
   const [searchResults, setSearchResults] = useState<
@@ -132,34 +133,34 @@ export function DecisionBodyFilter({
   );
 }
 
-function Tag({ tag }: { tag: string }) {
+function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
   const { searchOptions, setSearchOptions } = useSearch();
   const isSelected = useMemo(
-    () => searchOptions.tags.includes(tag),
-    [searchOptions.tags, tag],
+    () => searchOptions.tags.includes(tagKey),
+    [searchOptions.tags, tagKey],
   );
 
   const onClick = useCallback(() => {
     setSearchOptions((opts) => {
-      const newTags = opts.tags.includes(tag)
-        ? opts.tags.filter((t) => t !== tag)
-        : [...opts.tags, tag];
+      const newTags = opts.tags.includes(tagKey)
+        ? opts.tags.filter((t) => t !== tagKey)
+        : [...opts.tags, tagKey];
 
       return { ...opts, tags: newTags };
     });
-  }, [tag, setSearchOptions]);
+  }, [tagKey, setSearchOptions]);
 
   return (
     <Badge variant={isSelected ? 'default' : 'secondary'} onClick={onClick}>
-      {tag}
+      {tag.displayName}
     </Badge>
   );
 }
 export function Tags() {
   return (
     <div className="flex flex-row flex-wrap space-x-2 space-y-2 items-end justify-center max-w-[600px]">
-      {Object.keys(tags).map((tag) => (
-        <Tag key={tag} tag={tag} />
+      {Object.entries(allTags).map(([key, tag]) => (
+        <TagToggle key={key} tagKey={key as TagEnum} tag={tag} />
       ))}
     </div>
   );

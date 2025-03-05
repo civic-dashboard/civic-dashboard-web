@@ -1,49 +1,18 @@
 import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
+import { TagEnum } from '@/constants/tags';
 import type {
   SortByOption,
   SortDirectionOption,
 } from '@/database/queries/agendaItems';
 
-export const tags = {
-  housing: [
-    'renoviction',
-    'rent control',
-    'public housing',
-    'vacant homes tax',
-    'property tax',
-  ],
-  bikes: ['bicycle'],
-  homelessness: ['shelter', 'addiction', 'drugs', 'harm reduction'],
-  dogs: ['dog'],
-  parks: ['park'],
-  construction: [],
-  traffic: [],
-  transit: [],
-  noise: [],
-  energy: [],
-  climate: [],
-  infrastructure: ['storm drains', 'bathrooms', 'internet', 'broadband'],
-  safety: ['police', 'crisis response', 'public safety'],
-  arts: ['culture'],
-  'child care': [],
-  democracy: [
-    'ranked choice',
-    'democratic engagement',
-    'democratic accessibility',
-  ],
-  'cost of living': [],
-  healthcare: ['mental health'],
-  equity: [],
-  business: [],
-} as const;
-
 export type SearchOptions = {
   query: string;
   decisionBodyId?: string;
-  tags: string[];
+  tags: TagEnum[];
   sortBy?: SortByOption;
   sortDirection?: SortDirectionOption;
   minimumDate?: Date;
+  maximumDate?: Date;
 };
 
 export type SearchPagination = {
@@ -68,6 +37,9 @@ export const fetchSearchResults = async ({
   if (options.decisionBodyId) {
     searchParams.set('decisionBodyId', options.decisionBodyId);
   }
+  if (options.tags.length > 0) {
+    searchParams.set('tags', options.tags.join(','));
+  }
   searchParams.set('page', pagination.page.toString());
   searchParams.set('pageSize', pagination.pageSize.toString());
   const sortBy = options.sortBy ?? (options.query ? 'relevance' : 'date');
@@ -79,6 +51,9 @@ export const fetchSearchResults = async ({
   );
   if (options.minimumDate) {
     searchParams.set('minimumDate', options.minimumDate?.getTime().toString());
+  }
+  if (options.maximumDate) {
+    searchParams.set('maximumDate', options.maximumDate?.getTime().toString());
   }
   const response = await fetch(`/api/agenda-item/search?${searchParams}`, {
     signal: abortSignal,

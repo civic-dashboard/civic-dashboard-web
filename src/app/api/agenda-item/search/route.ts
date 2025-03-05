@@ -1,4 +1,5 @@
 import { parseNumberParam } from '@/api/utils';
+import { isTag } from '@/constants/tags';
 import { createDB } from '@/database/kyselyDb';
 import {
   AgendaItem,
@@ -61,12 +62,25 @@ export async function GET(request: NextRequest) {
     );
   }
   const textQuery = searchParams.get('textQuery') ?? '';
+  const tags = searchParams.get('tags')?.split(',') ?? [];
+  const knownTags = tags.filter(isTag);
+  const unknownTags = tags.filter((tag) => !isTag(tag));
+  if (unknownTags.length > 0) {
+    return Response.json(
+      {
+        error: `Invalid tags: ${unknownTags.join(', ')}`,
+      },
+      { status: 422 },
+    );
+  }
   const minimumDate = parseNumberParam(searchParams, 'minimumDate');
+  const maximumDate = parseNumberParam(searchParams, 'maximumDate');
 
   let result: AgendaItemSearchResponse;
   try {
     result = await searchAgendaItems(createDB(), {
       textQuery,
+      tags: knownTags,
       page,
       pageSize,
       decisionBodyId,
@@ -74,9 +88,9 @@ export async function GET(request: NextRequest) {
       sortBy,
       sortDirection,
       minimumDate,
+      maximumDate,
     });
   } catch (e) {
-    console.log((e as Error).message);
     return Response.json({ error: (e as Error).message }, { status: 500 });
   }
 

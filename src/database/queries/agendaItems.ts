@@ -1,6 +1,8 @@
 import { Address, TMMISAgendaItem } from '@/api/agendaItem';
+import { TagEnum } from '@/constants/tags';
 import { DB, JsonArray } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
+import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
 import { Kysely, sql } from 'kysely';
 
 export interface AgendaItem {
@@ -99,11 +101,13 @@ type AgendaItemSearchOptions = {
   page: number;
   pageSize: number;
   textQuery: string;
+  tags: TagEnum[];
   decisionBodyId?: number;
   termId?: number;
   sortBy: SortByOption;
   sortDirection: SortDirectionOption;
   minimumDate?: number;
+  maximumDate?: number;
 };
 export const searchAgendaItems = async (
   db: Kysely<DB>,
@@ -111,13 +115,20 @@ export const searchAgendaItems = async (
     page,
     pageSize,
     textQuery,
+    tags,
     decisionBodyId,
     termId,
     sortBy,
     sortDirection,
     minimumDate,
+    maximumDate,
   }: AgendaItemSearchOptions,
 ) => {
+  const postgresQuery = queryAndTagsToPostgresTextSearchQuery({
+    textQuery,
+    tags,
+  });
+
   const commonTables = db
     .with('mostRecentConsiderations', (db) =>
       db
@@ -128,13 +139,13 @@ export const searchAgendaItems = async (
         .orderBy('meetingDate', 'desc'),
     )
     .with('query', (db) =>
-      db.selectNoFrom(sql`websearch_to_tsquery(${textQuery})`.as('query')),
+      db.selectNoFrom(sql`to_tsquery(${postgresQuery})`.as('query')),
     )
     .with('filteredAgendaItems', (db) => {
       let query = db
         .selectFrom(['mostRecentConsiderations', 'query'])
         .select(agendaItemConflictColumns)
-        .$if(Boolean(textQuery), (query) =>
+        .$if(Boolean(postgresQuery), (query) =>
           query.select(sql`ts_rank("textSearchVector", query)`.as('rank')),
         );
 
@@ -146,12 +157,16 @@ export const searchAgendaItems = async (
         query = query.where('termId', '=', termId);
       }
 
-      if (textQuery) {
+      if (postgresQuery) {
         query = query.whereRef('textSearchVector', '@@', 'query');
       }
 
       if (minimumDate !== undefined) {
         query = query.where('meetingDate', '>=', minimumDate.toString());
+      }
+
+      if (maximumDate !== undefined) {
+        query = query.where('meetingDate', '<=', maximumDate.toString());
       }
 
       return query;
@@ -168,15 +183,15 @@ export const searchAgendaItems = async (
     .selectFrom('filteredAgendaItems')
     .select(agendaItemConflictColumns);
 
-  query = query.orderBy(
-    sortBy === 'relevance' ? 'rank' : 'meetingDate',
-    sortDirection === 'ascending' ? 'asc' : 'desc',
-  );
-
-  const rawResults = await query
+  query = query
+    .orderBy(
+      sortBy === 'relevance' ? 'rank' : 'meetingDate',
+      sortDirection === 'ascending' ? 'asc' : 'desc',
+    )
     .limit(pageSize)
-    .offset(page * pageSize)
-    .execute();
+    .offset(page * pageSize);
+
+  const rawResults = await query.execute();
 
   const results: AgendaItem[] = rawResults.map(
     ({ meetingDate, agendaItemAddress, ...result }) => ({
