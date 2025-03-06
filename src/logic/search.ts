@@ -42,12 +42,16 @@ export const fetchSearchResults = async ({
   }
   searchParams.set('page', pagination.page.toString());
   searchParams.set('pageSize', pagination.pageSize.toString());
-  const sortBy = options.sortBy ?? (options.query ? 'relevance' : 'date');
+  const sortBy =
+    options.sortBy ??
+    (options.query || options.tags.length > 0 ? 'relevance' : 'date');
   searchParams.set('sortBy', sortBy);
   searchParams.set(
     'sortDirection',
     options.sortDirection ??
-      (sortBy === 'relevance' ? 'descending' : 'ascending'),
+      (sortBy === 'relevance' || options.minimumDate === undefined
+        ? 'descending'
+        : 'ascending'),
   );
   if (options.minimumDate) {
     searchParams.set('minimumDate', options.minimumDate?.getTime().toString());

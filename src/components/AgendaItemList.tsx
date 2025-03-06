@@ -5,6 +5,7 @@ import {
   DecisionBodyFilter,
   SearchBar,
   SearchProvider,
+  ShowFullHistory,
   Tags,
   useSearch,
 } from '@/components/search';
@@ -98,7 +99,10 @@ export function AgendaItemList() {
             <Tags />
             <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
               <DecisionBodyFilter decisionBodies={decisionBodies} />
-              <SendEmail />
+              <div className="flex flex-row space-x-4 items-center">
+                <SendEmail />
+                <ShowFullHistory />
+              </div>
             </div>
           </div>
           <ResultList />

@@ -17,6 +17,8 @@ import { fetchSearchResults, SearchOptions } from '@/logic/search';
 import { Input } from '@/components/ui/input';
 import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
+import { Checkbox } from '@/components/ui/checkbox';
+import { CheckedState } from '@radix-ui/react-checkbox';
 
 const SEARCH_DEBOUNCE_DELAY_MS = 250;
 
@@ -33,7 +35,7 @@ export function SearchProvider({ children }: Props) {
   const [searchOptions, setSearchOptions] = useState<SearchOptions>({
     query: '',
     tags: [],
-    // minimumDate: new Date(),
+    minimumDate: new Date(),
   });
 
   const [searchResults, setSearchResults] = useState<
@@ -151,7 +153,11 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
   }, [tagKey, setSearchOptions]);
 
   return (
-    <Badge variant={isSelected ? 'default' : 'secondary'} onClick={onClick}>
+    <Badge
+      variant={isSelected ? 'default' : 'secondary'}
+      onClick={onClick}
+      title={tag.searchQuery}
+    >
       {tag.displayName}
     </Badge>
   );
@@ -179,6 +185,35 @@ export function SearchBar() {
         }
         placeholder="Search agenda items..."
       />
+    </div>
+  );
+}
+
+export function ShowFullHistory() {
+  const { searchOptions, setSearchOptions } = useSearch();
+  const onCheckedChange = useCallback(
+    (checked: CheckedState) => {
+      setSearchOptions((opts) => ({
+        ...opts,
+        minimumDate: checked === true ? undefined : new Date(),
+      }));
+    },
+    [setSearchOptions],
+  );
+
+  return (
+    <div className="flex items-center space-x-2">
+      <Checkbox
+        checked={searchOptions.minimumDate === undefined}
+        onCheckedChange={onCheckedChange}
+        id="full-history"
+      />
+      <label
+        htmlFor="full-history"
+        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >
+        Show full history
+      </label>
     </div>
   );
 }
