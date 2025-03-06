@@ -4,19 +4,16 @@ import {
 } from '@/backend/open-data/OpenDataClient';
 import { DB, InsertRawContact, InsertRawVote } from '@/database/allDbTypes';
 
-import { getDB } from '@/database/kyselyDb';
 import { formatContactCsvStream } from '@/database/pipelines/rawContactCsvParser';
 import { formatVoteCsvStream } from '@/database/pipelines/rawVoteCsvParser';
 import { extractTermFromText } from '@/database/pipelines/textParseUtils';
-import { Transaction, sql } from 'kysely';
+import { Kysely, Transaction, sql } from 'kysely';
 
-export async function repopulateRawContactsAndVotes() {
+export async function repopulateRawContactsAndVotes(db: Kysely<DB>) {
   try {
-    await getDB()
-      .transaction()
-      .execute(async (trx) => {
-        await RepopulateRawContactsAndVotesPipeline.run(trx);
-      });
+    await db.transaction().execute(async (trx) => {
+      await RepopulateRawContactsAndVotesPipeline.run(trx);
+    });
   } catch (error) {
     console.error(`Error during repopulateRawContactsAndVotes`, error);
     throw error;

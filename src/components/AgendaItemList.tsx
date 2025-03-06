@@ -1,12 +1,11 @@
 'use client';
 
-import { DecisionBody } from '@/api/decisionBody';
-import { AgendaItem } from '@/api/agendaItem';
 import { AgendaItemCard } from '@/components/AgendaItemCard';
 import {
   DecisionBodyFilter,
   SearchBar,
   SearchProvider,
+  ShowFullHistory,
   Tags,
   useSearch,
 } from '@/components/search';
@@ -19,29 +18,29 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
+import { decisionBodies } from '@/constants/decisionBodies';
 
-type Props = {
-  items: AgendaItem[];
-  decisionBodies: Record<string, DecisionBody>;
-};
-
-function ResultList({
-  decisionBodies,
-}: {
-  decisionBodies: Record<string, DecisionBody>;
-}) {
+function ResultList() {
   const { searchResults } = useSearch();
 
   return (
     <>
-      {searchResults.length === 0 && <h4>No results...</h4>}
-      {searchResults.map((item) => (
-        <AgendaItemCard
-          key={item.id}
-          item={item}
-          decisionBody={decisionBodies[item.decisionBodyId]}
-        />
-      ))}
+      <Spinner show={searchResults === 'loading'} />
+      {searchResults !== 'loading' && (
+        <>
+          {searchResults.results.length === 0 && (
+            <h4 className="mx-auto my-32">No results...</h4>
+          )}
+          {searchResults.results.map((item) => (
+            <AgendaItemCard
+              key={item.id}
+              item={item}
+              decisionBody={decisionBodies[item.decisionBodyId]}
+            />
+          ))}
+        </>
+      )}
     </>
   );
 }
@@ -55,12 +54,16 @@ export function SendEmail() {
     setSent(false);
   }, [searchResults]);
   const onClick = useCallback(async () => {
-    if (!emailInputRef.current || !emailInputRef.current.validity.valid) {
+    if (
+      !emailInputRef.current ||
+      !emailInputRef.current.validity.valid ||
+      searchResults === 'loading'
+    ) {
       return;
     }
     await sendSearchResultsEmail({
       to: emailInputRef.current.value,
-      props: { items: searchResults, searchOptions },
+      props: { items: searchResults.results, searchOptions },
     });
     setSent(true);
   }, [searchResults, searchOptions]);
@@ -84,10 +87,10 @@ export function SendEmail() {
   );
 }
 
-export function AgendaItemList({ items, decisionBodies }: Props) {
+export function AgendaItemList() {
   return (
     <div className="flex-col space-y-4 p-4 max-w-[1000px]">
-      <SearchProvider items={items}>
+      <SearchProvider>
         <div className="flex flex-col space-y-4">
           <div className="flex flex-col space-y-2 items-center">
             <div className="flex flex-row space-x-4 justify-center self-stretch">
@@ -96,10 +99,13 @@ export function AgendaItemList({ items, decisionBodies }: Props) {
             <Tags />
             <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
               <DecisionBodyFilter decisionBodies={decisionBodies} />
-              <SendEmail />
+              <div className="flex flex-row space-x-4 items-center">
+                <SendEmail />
+                <ShowFullHistory />
+              </div>
             </div>
           </div>
-          <ResultList decisionBodies={decisionBodies} />
+          <ResultList />
         </div>
       </SearchProvider>
     </div>

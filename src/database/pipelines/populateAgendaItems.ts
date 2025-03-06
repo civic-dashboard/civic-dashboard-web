@@ -1,7 +1,13 @@
 import { fetchAgendaItems } from '@/api/agendaItem';
 import { insertAgendaItems } from '@/database/queries/agendaItems';
+import { Kysely } from 'kysely';
+import { DB } from '@/database/allDbTypes';
 
-export const populateAgendaItems = async (start: Date, end: Date) => {
+export const populateAgendaItems = async (
+  db: Kysely<DB>,
+  start: Date,
+  end: Date,
+) => {
   let insertedCount = BigInt(0);
   let current = start;
   while (current < end) {
@@ -13,7 +19,7 @@ export const populateAgendaItems = async (start: Date, end: Date) => {
       end: nextMonth > end ? end : nextMonth,
     });
     if (agendaItems.length > 0) {
-      const result = await insertAgendaItems(agendaItems);
+      const result = await insertAgendaItems(db, agendaItems);
       insertedCount += result[0].numInsertedOrUpdatedRows ?? BigInt(0);
     }
     console.log('inserted:', insertedCount);

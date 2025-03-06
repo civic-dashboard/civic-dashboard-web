@@ -1,8 +1,9 @@
+import { createDB } from '@/database/kyselyDb';
 import { repopulateRawContactsAndVotes } from '@/database/pipelines/repopulateRawContactsAndVotes';
 import { NextRequest } from 'next/server';
 
 async function updateCouncillorData() {
-  await repopulateRawContactsAndVotes();
+  await repopulateRawContactsAndVotes(createDB());
 }
 
 export async function POST(request: NextRequest) {

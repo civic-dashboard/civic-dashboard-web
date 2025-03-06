@@ -21,6 +21,7 @@
     "db:stop": "docker compose stop"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.4",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-navigation-menu": "^1.2.3",
     "@radix-ui/react-popover": "^1.1.2",
@@ -28,8 +29,8 @@
     "@react-email/components": "^0.0.29",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "csv-parse": "^5.5.6",
     "cmdk": "^1.0.0",
+    "csv-parse": "^5.5.6",
     "flexsearch": "^0.7.43",
     "hash-sum": "2.0.0",
     "kysely": "^0.27.5",
@@ -49,8 +50,8 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@opennextjs/cloudflare": "^0.4.4",
-    "@types/hash-sum": "1.0.2",
     "@tailwindcss/typography": "^0.5.15",
+    "@types/hash-sum": "1.0.2",
     "@types/mark.js": "^8.11.12",
     "@types/node": "^20",
     "@types/react": "^18",
