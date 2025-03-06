@@ -10,7 +10,7 @@ export const allTags = {
   },
   homelessness: {
     displayName: 'homelessness',
-    searchQuery: 'shelter OR addiction OR drugs OR "harm reduction"',
+    searchQuery: 'homeless OR houseless OR unsheltered',
   },
   dogs: {
     displayName: 'dogs',
