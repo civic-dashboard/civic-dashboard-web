@@ -34,7 +34,7 @@ export default function CouncillorBio({
               src={councillor.photoUrl!}
               alt={councillor.contactName}
               fill
-              className="object-cover"
+              className="object-cover object-top"
               onError={() => setShowFallbackAvatar(true)}
             />
           </div>
