@@ -63,3 +63,5 @@ export function Tooltip({
     </TooltipPrimitive.Provider>
   );
 }
+
+export const Provider = TooltipPrimitive.Provider;
