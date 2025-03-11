@@ -27,8 +27,11 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
     .select([
       'Councillors.contactSlug',
       'Contacts.contactName',
+      'Contacts.email',
+      'Contacts.phone',
       'Contacts.photoUrl',
       'Wards.wardName',
+      'Wards.wardId',
     ])
     .where('Councillors.contactSlug', '=', contactSlug)
     .executeTakeFirstOrThrow();
