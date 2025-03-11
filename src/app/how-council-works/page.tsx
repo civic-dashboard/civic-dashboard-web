@@ -3,35 +3,35 @@
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 import { Tooltip } from '@/components/ui/tooltip';
 
-export const tooltips = {
-  cityCouncil: {
-    trigger: 'City Council',
-    content:
-      "City Council refers to the group of Councillors, who are elected to represent each of Toronto's wards, and the Mayor, who is elected city-wide. There are 25 Councillors and one Mayor, making 26 total City Council members.",
-  },
-  item: {
-    trigger: 'Item',
-    content:
-      'An item is any topic or issue listed on a City Council or committee agenda for discussion or decision.',
-  },
-  reports: {
-    trigger: 'Reports',
-    content:
-      'Reports are detailed documents prepared by city staff that provide background information, analysis, and recommendations on specific items.',
-  },
-  committees: {
-    trigger: 'Committees',
-    content:
-      'Committees are smaller groups of council members who review and refine items before they go to the full Council for voting.',
-  },
-  deputations: {
-    trigger: 'Deputations',
-    content:
-      'A deputation is a formal presentation where residents can share their views directly with council members during a public meeting.',
-  },
-};
-
 export default function HowCouncilWorks() {
+  const tooltips = {
+    cityCouncil: {
+      trigger: 'City Council',
+      content:
+        "City Council refers to the group of Councillors, who are elected to represent each of Toronto's wards, and the Mayor, who is elected city-wide. There are 25 Councillors and one Mayor, making 26 total City Council members.",
+    },
+    item: {
+      trigger: 'Item',
+      content:
+        'An item is any topic or issue listed on a City Council or committee agenda for discussion or decision.',
+    },
+    reports: {
+      trigger: 'Reports',
+      content:
+        'Reports are detailed documents prepared by city staff that provide background information, analysis, and recommendations on specific items.',
+    },
+    committees: {
+      trigger: 'Committees',
+      content:
+        'Committees are smaller groups of council members who review and refine items before they go to the full Council for voting.',
+    },
+    deputations: {
+      trigger: 'Deputations',
+      content:
+        'A deputation is a formal presentation where residents can share their views directly with council members during a public meeting.',
+    },
+  };
+
   return (
     <TooltipProvider>
       <main className="max-w-[876px] mx-auto px-4 md:px-0">
