@@ -1,7 +1,6 @@
 'use client';
 
-import { TooltipProvider } from '@radix-ui/react-tooltip';
-import { Tooltip } from '@/components/ui/tooltip';
+import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 
 export default function HowCouncilWorks() {
   const tooltips = {
