@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import { X } from 'lucide-react';
 
 interface TooltipProps {
   children: React.ReactNode;
@@ -49,7 +50,7 @@ export function Tooltip({
                 className="absolute -right-[11px] -top-[11px] rounded-full w-6 h-6 flex items-center justify-center text-gray-500 hover:text-gray-700"
                 aria-label="Close tooltip"
               >
-                ✕
+                <X />
               </button>
               <div className="font-bold italic text-[20px] mb-[10px]">
                 {tooltipTitle}:
