@@ -19,7 +19,7 @@ This is (probably not, but hopefully!) all the information you need to contribut
 - all PRs will generate a preview deployment, which is a live deployment of the app in the production environment with your code changes in the PR, only accessible via an obfuscated URL.
 - this is a very handy way to be able to check that your changes are working as expected before merging.
 - any behavior you see in the preview deployment should (i say should because when does software _always_ do what you want it to) be identical once you merge to `main`
-- note that preview deployments run against the production database since we currently have no staging database!! see (Migrations)[#migrations] for more info
+- note that preview deployments run against the production database since we currently have no staging database!! see [Migrations](#migrations) for more info
 
 ### Code review
 
@@ -35,17 +35,17 @@ This is (probably not, but hopefully!) all the information you need to contribut
 
 - there are currently no workflows which automatically run database migrations
 - if you're merging a pull request with a migration to `main` (which will deploy the web app to prod), you should manually run the migration and ensure it succeeds _before_ merging the PR.
-- You can run the migrations on your PR by dispatching (the `migrate_database` workflow)[https://github.com/civic-dashboard/civic-dashboard-web/actions/workflows/migrate_database.yml] from your branch (or asking someone who has the appropriate permissions to do so).
+- You can run the migrations on your PR by dispatching [the `migrate_database` workflow](https://github.com/civic-dashboard/civic-dashboard-web/actions/workflows/migrate_database.yml) from your branch (or asking someone who has the appropriate permissions to do so).
 - since preview deployments currently run against the production database, you can use that PR's preview deployment to validate changes before merging the code
 
 ## Dependencies
 
 - we try to avoid re-inventing the wheel, so please don't be scared to add dependencies to the project!
 - but we do also want to take care and be aware of what we're signing ourselves up for with our dependencies. to that end, we:
-  - document their purpose in (DEPENDENCIES.md)[./DEPENDENCIES.md]
+  - document their purpose in [DEPENDENCIES.md](./DEPENDENCIES.md)
   - try to import them in as few places as possible, by creating wrapper functions and using the `no-restricted-imports` eslint rule
     - this allows us flexibility to adjust the API of the dependency, and makes it easy to swap it out or remove it if necessary
-    - see (`toSlug.ts`)[https://github.com/civic-dashboard/civic-dashboard-web/tree/main/src/logic/toSlug.ts] and (`.eslintrc.json`)[https://github.com/civic-dashboard/civic-dashboard-web/tree/main/.eslintrc.json#L14] for an example of this.
+    - see [`toSlug.ts`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/src/logic/toSlug.ts) and [`.eslintrc.json`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/.eslintrc.json#L14) for an example of this.
 
 ## Emails
 
