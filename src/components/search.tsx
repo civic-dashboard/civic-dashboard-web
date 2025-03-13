@@ -17,8 +17,7 @@ import { fetchSearchResults, SearchOptions } from '@/logic/search';
 import { Input } from '@/components/ui/input';
 import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
-import { Checkbox } from '@/components/ui/checkbox';
-import { CheckedState } from '@radix-ui/react-checkbox';
+import { Checkbox, CheckedState } from '@/components/ui/checkbox';
 
 const SEARCH_DEBOUNCE_DELAY_MS = 250;
 
