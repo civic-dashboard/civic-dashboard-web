@@ -16,12 +16,9 @@ export function Tooltip({
   tooltipTitle,
 }: TooltipProps) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const isTouchDevice = React.useRef(false);
 
-  React.useEffect(() => {
-    isTouchDevice.current =
-      'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  }, []);
+  const isTouchDevice = () =>
+    'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   return (
     <TooltipPrimitive.Provider>
@@ -29,7 +26,7 @@ export function Tooltip({
         <TooltipPrimitive.Trigger
           asChild
           onClick={(e) => {
-            if (isTouchDevice.current) {
+            if (isTouchDevice()) {
               e.preventDefault();
               setIsOpen(true);
             }
