@@ -5,8 +5,7 @@ import { Combobox } from '@/components/ui/combobox';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
-import { Checkbox } from '@/components/ui/checkbox';
-import { CheckedState } from '@radix-ui/react-checkbox';
+import { Checkbox, type CheckedState } from '@/components/ui/checkbox';
 import { useSearch } from '@/contexts/SearchContext';
 
 type DecisionBodyFilterProps = {
