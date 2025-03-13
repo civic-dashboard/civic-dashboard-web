@@ -2,6 +2,38 @@
 
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 
+const SectionHeading = ({ children }: { children: React.ReactNode }) => (
+  <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
+    {children}
+  </h2>
+);
+
+const Section = ({ children }: { children: React.ReactNode }) => (
+  <div className="mt-[78px] max-w-2xl mx-auto">{children}</div>
+);
+
+const SectionText = ({ children }: { children: React.ReactNode }) => (
+  <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 max-w-2xl mx-auto">
+    {children}
+  </div>
+);
+
+const ImagePlaceholder = () => (
+  <div className="w-full h-[540px] mt-14 mx-auto border border-neutral-400 flex items-center justify-center">
+    <span className="text-neutral-500">Image Placeholder</span>
+  </div>
+);
+
+const WikiLink = () => (
+  <span className="italic">
+    For a more in-depth explanation, visit the{' '}
+    <a href="/coming-soon" className="classic-link">
+      City Council Wiki
+    </a>
+    .
+  </span>
+);
+
 export default function HowCouncilWorks() {
   const tooltips = {
     cityCouncil: {
@@ -33,13 +65,13 @@ export default function HowCouncilWorks() {
 
   return (
     <TooltipProvider>
-      <main className="max-w-[876px] mx-auto px-4 md:px-0">
+      <main className="max-w-[876px] mx-auto px-4 md:px-0 pb-[120px]">
         <h1 className="text-[32px] md:text-[48px] lg:text-[56px] font-bold mt-[104px] text-center">
           What is Toronto City Council?
         </h1>
 
-        <div className="mt-[80px] max-w-2xl mx-auto">
-          <div className="leading-7 text-[14px] md:text-[16px] lg:text-[18px]">
+        <Section>
+          <SectionText>
             Toronto{' '}
             <Tooltip
               tooltipContent={tooltips.cityCouncil.content}
@@ -52,18 +84,14 @@ export default function HowCouncilWorks() {
             that impact the city. These decisions affect everything from local
             parks to public transit and housing. The process used to make these
             decisions follows three key steps.
-          </div>
+          </SectionText>
+          <ImagePlaceholder />
+        </Section>
 
-          <div className="w-full h-[540px] mt-14 border border-neutral-400 flex items-center justify-center">
-            <span className="text-neutral-500">Image Placeholder</span>
-          </div>
-        </div>
         {/* Three-Step City Council Process */}
-        <div className="mt-[78px]">
-          <h2 className="font-bold text-center text-[24px] md:text-[32px] lg:text-[40px]">
-            The Three-Step City Council Process
-          </h2>
-          <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 max-w-2xl mx-auto">
+        <Section>
+          <SectionHeading>The Three-Step City Council Process</SectionHeading>
+          <SectionText>
             Before we dive into the process, let&apos;s define what City Council
             works on. An{' '}
             <Tooltip
@@ -87,18 +115,14 @@ export default function HowCouncilWorks() {
             <br />
             Now, let&apos;s follow how an item moves through City Council and
             how you can engage with it along the way.
-          </div>
-        </div>
+          </SectionText>
+        </Section>
 
         {/* Staff Stage */}
-        <div className="mt-[78px] max-w-2xl mx-auto">
-          <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
-            First Step: Staff Stage
-          </h2>
-          <div className="w-full h-[540px] mt-14 mx-auto border border-neutral-400 flex items-center justify-center">
-            <span className="text-neutral-500">Image Placeholder</span>
-          </div>
-          <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 max-w-2xl mx-auto">
+        <Section>
+          <SectionHeading>First Step: Staff Stage</SectionHeading>
+          <ImagePlaceholder />
+          <SectionText>
             City staff, working at City Hall, take the first steps in acting on
             an item by researching and developing recommendations. They gather
             data, analyze what other cities are doing, and propose specific
@@ -115,23 +139,15 @@ export default function HowCouncilWorks() {
             organized by city departments.
             <br />
             <br />
-            For a more in-depth explanation, visit the{' '}
-            <a href="/coming-soon" className="classic-link">
-              City Council Wiki
-            </a>
-            .
-          </div>
-        </div>
+            <WikiLink />
+          </SectionText>
+        </Section>
 
         {/* Committee Stage */}
-        <div className="mt-[78px] max-w-2xl mx-auto">
-          <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
-            Second Step: Committee Stage
-          </h2>
-          <div className="w-full h-[540px] mt-14 mx-auto border border-neutral-400 flex items-center justify-center">
-            <span className="text-neutral-500">Image Placeholder</span>
-          </div>
-          <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 max-w-2xl mx-auto">
+        <Section>
+          <SectionHeading>Second Step: Committee Stage</SectionHeading>
+          <ImagePlaceholder />
+          <SectionText>
             Next, the item moves to a{' '}
             <Tooltip
               tooltipContent={tooltips.committees.content}
@@ -160,23 +176,15 @@ export default function HowCouncilWorks() {
             through this stage compared to the staff stage.
             <br />
             <br />
-            For a more in-depth explanation, visit the{' '}
-            <a href="/coming-soon" className="classic-link">
-              City Council Wiki
-            </a>
-            .
-          </div>
-        </div>
+            <WikiLink />
+          </SectionText>
+        </Section>
 
         {/* Council Stage */}
-        <div className="mt-[78px] max-w-2xl mx-auto">
-          <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
-            Third Step: Council Stage
-          </h2>
-          <div className="w-full h-[540px] mt-14 mx-auto border border-neutral-400 flex items-center justify-center">
-            <span className="text-neutral-500">Image Placeholder</span>
-          </div>
-          <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 max-w-2xl mx-auto">
+        <Section>
+          <SectionHeading>Third Step: Council Stage</SectionHeading>
+          <ImagePlaceholder />
+          <SectionText>
             Finally, the item reaches the full City Council, which consists of
             all elected council members. At this stage, councilors review the
             item, debate its merits, and vote on whether to approve or reject
@@ -190,26 +198,22 @@ export default function HowCouncilWorks() {
             and its residents.
             <br />
             <br />
-            For a more in-depth explanation, visit the{' '}
-            <a href="/coming-soon" className="classic-link">
-              City Council Wiki
-            </a>
-            .
-          </div>
-        </div>
+            <WikiLink />
+          </SectionText>
+        </Section>
 
         {/* Get Involved */}
-        <div className="mt-[78px] mb-20">
-          <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
-            How Can I Get Involved?
-          </h2>
-          <div className="text-lg leading-7 mt-14 max-w-2xl mx-auto">
+        <Section>
+          <SectionHeading>How Can I Get Involved?</SectionHeading>
+          <SectionText>
             Getting involved with Toronto City Council is easier than you might
             think! There are several ways to share your opinions and influence
             decisions that matter to you.
             <br />
             <br />
-            <span>Specific Actions - Can Be Done One Time or Many Times!</span>
+            <span className="italic">
+              Specific Actions - Can Be Done One Time or Many Times!
+            </span>
             <br />
             <br />
             <span className="font-bold">Call or Email Your Councillor</span>
@@ -242,14 +246,16 @@ export default function HowCouncilWorks() {
             members of the committee as they make their decisions.
             <br />
             <br />
-            Want more ways to get involved, or how to raise an unaddressed
-            issue? Visit the{' '}
-            <a href="/coming-soon" className="classic-link">
-              City Council Wiki
-            </a>
-            .
-          </div>
-        </div>
+            <span className="italic">
+              Want more ways to get involved, or how to raise an unaddressed
+              issue? Visit the{' '}
+              <a href="/coming-soon" className="classic-link">
+                City Council Wiki
+              </a>
+              .
+            </span>
+          </SectionText>
+        </Section>
       </main>
     </TooltipProvider>
   );
