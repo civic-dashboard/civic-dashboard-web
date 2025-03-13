@@ -116,7 +116,10 @@ export default function HowCouncilWorks() {
             <br />
             <br />
             For a more in-depth explanation, visit the{' '}
-            <a href="/coming-soon">City Council Wiki</a>.
+            <a href="/coming-soon" className="classic-link">
+              City Council Wiki
+            </a>
+            .
           </div>
         </div>
 
@@ -158,7 +161,10 @@ export default function HowCouncilWorks() {
             <br />
             <br />
             For a more in-depth explanation, visit the{' '}
-            <a href="/coming-soon">City Council Wiki</a>.
+            <a href="/coming-soon" className="classic-link">
+              City Council Wiki
+            </a>
+            .
           </div>
         </div>
 
@@ -185,7 +191,10 @@ export default function HowCouncilWorks() {
             <br />
             <br />
             For a more in-depth explanation, visit the{' '}
-            <a href="/coming-soon">City Council Wiki</a>.
+            <a href="/coming-soon" className="classic-link">
+              City Council Wiki
+            </a>
+            .
           </div>
         </div>
 
@@ -234,7 +243,11 @@ export default function HowCouncilWorks() {
             <br />
             <br />
             Want more ways to get involved, or how to raise an unaddressed
-            issue? Visit the <a href="/coming-soon">City Council Wiki</a>.
+            issue? Visit the{' '}
+            <a href="/coming-soon" className="classic-link">
+              City Council Wiki
+            </a>
+            .
           </div>
         </div>
       </main>
