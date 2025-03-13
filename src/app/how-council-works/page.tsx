@@ -60,7 +60,7 @@ export default function HowCouncilWorks() {
         </div>
         {/* Three-Step City Council Process */}
         <div className="mt-[78px]">
-          <h2 className="text-[40px] font-bold text-center text-[24px] md:text-[32px] lg:text-[40px]">
+          <h2 className="font-bold text-center text-[24px] md:text-[32px] lg:text-[40px]">
             The Three-Step City Council Process
           </h2>
           <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 mt-[80px] max-w-2xl mx-auto">
