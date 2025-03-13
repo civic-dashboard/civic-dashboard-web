@@ -63,7 +63,7 @@ export default function HowCouncilWorks() {
           <h2 className="font-bold text-center text-[24px] md:text-[32px] lg:text-[40px]">
             The Three-Step City Council Process
           </h2>
-          <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 mt-[80px] max-w-2xl mx-auto">
+          <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 max-w-2xl mx-auto">
             Before we dive into the process, let&apos;s define what City Council
             works on. An{' '}
             <Tooltip
