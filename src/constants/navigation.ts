@@ -2,7 +2,7 @@ export const menuItems = [
   { label: 'Home', href: '/' },
   {
     label: 'How Council Works',
-    href: 'https://docs.google.com/document/d/1XsuvQKy1xi7g17riEN7ZqnE9Jc65Z_1qibhAsZktCnk/edit?usp=sharing',
+    href: '/how-council-works',
   },
   {
     label: 'Search',
