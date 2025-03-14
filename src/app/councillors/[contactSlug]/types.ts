@@ -1,11 +1,3 @@
-export interface Councillor {
-  contactSlug: string;
-  contactName: string;
-  photoUrl: string | null;
-  wardName: string;
-  // Add additional fields as needed
-}
-
 export interface AgendaItem {
   agendaItemNumber: string;
   agendaItemTitle: string;
