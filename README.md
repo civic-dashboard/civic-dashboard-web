@@ -51,6 +51,14 @@ npm run db:start
 npm run db:run-migrations
 ```
 
+### Load a small amount of data to populate the database
+
+This will download Agenda Items from the last month up until a month from now and save it into your local PostgreSQL
+
+```sh
+DATABASE_URL="postgresql://postgres:postgres@localhost:54320/civic_dashboard" npx tsx src/scripts/updateDatabase.ts
+```
+
 ### Run the app
 
 ```sh
