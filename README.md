@@ -47,7 +47,7 @@ EOF
 ### Initialize the database
 
 ```sh
-npm run db:start
+npm run docker:start
 npm run db:run-migrations
 ```
 
