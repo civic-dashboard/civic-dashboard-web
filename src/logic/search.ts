@@ -5,10 +5,31 @@ import type {
   SortDirectionOption,
 } from '@/database/queries/agendaItems';
 
-export type SearchOptions = {
-  query: string;
-  decisionBodyId?: string;
+const areArraysIdenticalAsSets = (a: unknown[], b: unknown[]) => {
+  return new Set(a).symmetricDifference(new Set(b)).size === 0;
+};
+
+export const areCoreSearchOptionsIdentical = (
+  a: CoreSearchOptions,
+  b: CoreSearchOptions,
+) => {
+  if (a.textQuery != b.textQuery) return false;
+  if (!areArraysIdenticalAsSets(a.tags, b.tags)) {
+    return false;
+  }
+  if (!areArraysIdenticalAsSets(a.decisionBodyIds, b.decisionBodyIds)) {
+    return false;
+  }
+  return true;
+};
+
+export type CoreSearchOptions = {
+  textQuery: string;
+  decisionBodyIds: number[];
   tags: TagEnum[];
+};
+
+export type SearchOptions = CoreSearchOptions & {
   sortBy?: SortByOption;
   sortDirection?: SortDirectionOption;
   minimumDate?: Date;
@@ -31,11 +52,11 @@ export const fetchSearchResults = async ({
   abortSignal,
 }: FetchSearchArgs) => {
   const searchParams = new URLSearchParams();
-  if (options.query) {
-    searchParams.set('textQuery', options.query);
+  if (options.textQuery) {
+    searchParams.set('textQuery', options.textQuery);
   }
-  if (options.decisionBodyId) {
-    searchParams.set('decisionBodyId', options.decisionBodyId);
+  if (options.decisionBodyIds.length > 0) {
+    searchParams.set('decisionBodyIds', options.decisionBodyIds.join(','));
   }
   if (options.tags.length > 0) {
     searchParams.set('tags', options.tags.join(','));
@@ -44,7 +65,7 @@ export const fetchSearchResults = async ({
   searchParams.set('pageSize', pagination.pageSize.toString());
   const sortBy =
     options.sortBy ??
-    (options.query || options.tags.length > 0 ? 'relevance' : 'date');
+    (options.textQuery || options.tags.length > 0 ? 'relevance' : 'date');
   searchParams.set('sortBy', sortBy);
   searchParams.set(
     'sortDirection',

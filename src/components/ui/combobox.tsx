@@ -8,7 +8,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { cn } from '@/components/ui/utils';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Popover,
   PopoverContent,
@@ -16,28 +16,75 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 
-type Option = {
-  id: string;
+type Option<ID extends number | string> = {
+  id: ID;
   label: string;
 };
 
-type Props = {
-  options: Option[];
-  onSelect: (id: string) => void;
-  currentId?: string;
+type Props<ID extends number | string> = {
+  options: Option<ID>[];
+  onSelect: NoInfer<(id: ID) => void>;
+  multiple: boolean;
+  value?: ID | ID[];
   placeholder?: string;
   noResults?: string;
 };
 
 // TODO: how to dynamically/responsively size this?
-export const Combobox = ({
+export const Combobox = <ID extends number | string>({
   options,
   onSelect,
-  currentId,
+  multiple,
+  value,
   placeholder,
   noResults,
-}: Props) => {
+}: Props<ID>) => {
   const [open, setOpen] = useState(false);
+
+  if (multiple && !Array.isArray(value)) {
+    throw new Error(
+      'Must pass list of strings for value if using multiple option on combobox.',
+    );
+  } else if (!multiple && Array.isArray(value)) {
+    throw new Error(
+      'Must pass string or undefined for value if not using multiple option on combobox.',
+    );
+  }
+
+  const optionMap = useMemo(
+    () => Object.fromEntries(options.map((opt) => [opt.id, opt])),
+    [options],
+  );
+
+  const isEmpty = useMemo(
+    () => (Array.isArray(value) && value.length === 0) || value === undefined,
+    [value],
+  );
+
+  const displayedValue = useMemo(() => {
+    if (Array.isArray(value)) {
+      if (value.length === 0) return placeholder;
+      return value.map((id) => optionMap[id].label).join(', ');
+    }
+    if (value === undefined) return placeholder;
+    return optionMap[value].label;
+  }, [optionMap, placeholder, value]);
+
+  const isValueSelected = useCallback(
+    (id: ID) => {
+      if (Array.isArray(value)) return value.includes(id);
+      return value === id;
+    },
+    [value],
+  );
+
+  const orderedOptions = useMemo(
+    () => [
+      ...options.filter((opt) => isValueSelected(opt.id)),
+      ...options.filter((opt) => !isValueSelected(opt.id)),
+    ],
+    [options, isValueSelected],
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -48,12 +95,12 @@ export const Combobox = ({
           aria-expanded={open}
           className={cn(
             'max-w-[300px] justify-between',
-            !currentId && 'text-gray-500',
+            isEmpty && 'text-gray-500',
           )}
         >
-          {currentId
-            ? options.find(({ id }) => id === currentId)?.label
-            : placeholder}
+          <span className="overflow-ellipsis overflow-hidden whitespace-nowrap">
+            {displayedValue}
+          </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -63,7 +110,7 @@ export const Combobox = ({
           <CommandList>
             {noResults && <CommandEmpty>{noResults}</CommandEmpty>}
             <CommandGroup>
-              {options.map((option) => (
+              {orderedOptions.map((option) => (
                 <CommandItem
                   key={option.id}
                   value={option.label}
@@ -73,7 +120,7 @@ export const Combobox = ({
                   <Check
                     className={cn(
                       'ml-auto',
-                      option.id === currentId ? 'opacity-100' : 'opacity-0',
+                      isValueSelected(option.id) ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                 </CommandItem>

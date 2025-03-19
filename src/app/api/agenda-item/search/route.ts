@@ -47,17 +47,23 @@ export async function GET(request: NextRequest) {
       { status: 422 },
     );
   }
-  const decisionBodyId = parseNumberParam(searchParams, 'decisionBodyId');
-  if (Number.isNaN(decisionBodyId)) {
-    return Response.json(
-      { error: `Invalid decision body: ${decisionBodyId} ` },
-      { status: 422 },
-    );
+  const decisionBodyIdStrings =
+    searchParams.get('decisionBodyIds')?.split(',') ?? [];
+  const decisionBodyIds = [];
+  for (const idString of decisionBodyIdStrings) {
+    const decisionBodyId = parseInt(idString);
+    if (Number.isNaN(decisionBodyId)) {
+      return Response.json(
+        { error: `Invalid decision body: ${decisionBodyId} ` },
+        { status: 422 },
+      );
+    }
+    decisionBodyIds.push(decisionBodyId);
   }
   const termId = parseNumberParam(searchParams, 'termId');
   if (Number.isNaN(termId)) {
     return Response.json(
-      { error: `Invalid term: ${decisionBodyId} ` },
+      { error: `Invalid term: ${termId} ` },
       { status: 422 },
     );
   }
@@ -83,7 +89,7 @@ export async function GET(request: NextRequest) {
       tags: knownTags,
       page,
       pageSize,
-      decisionBodyId,
+      decisionBodyIds,
       termId,
       sortBy,
       sortDirection,
