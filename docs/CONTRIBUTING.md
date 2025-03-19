@@ -49,5 +49,4 @@ This is (probably not, but hopefully!) all the information you need to contribut
 
 ## Emails
 
-Right now the email functionality doesn't have a good local development story. I just use the prod API key and try to make sure only my email gets into my local system 😬. Would love some help here!
-Brief research suggests a combination of [maildev](https://github.com/maildev/maildev?tab=readme-ov-file) and [nodemailer](https://github.com/nodemailer/nodemailer) could do the trick.
+We use [maildev](https://github.com/maildev/maildev) to preview emails in development. Make sure you've started your docker containers with `npm run docker:start`, and navigate to `localhost:1080` in your browser. All emails that are sent from the app in development mode will show up in this inbox!
