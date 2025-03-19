@@ -6,7 +6,7 @@ export const resend = new Resend(process.env.RESEND_API_KEY);
 type Options = {
   from: string;
   subject: string;
-  to: string;
+  to: string | string[];
   react: React.ReactElement;
 };
 export async function sendEmail(options: Options) {
