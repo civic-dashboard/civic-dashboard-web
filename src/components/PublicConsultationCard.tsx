@@ -1,11 +1,10 @@
 import { EventData } from '@/api/publicConsultation';
-import { sanitize } from '@/logic/sanitize';
 
 function EngagementButtonParent({ content }: { content: string }) {
   return (
     <div
       className="flex flex-row mt-2 [&>a]:p-1 [&>a]:px-3 [&>a]:bg-sky-700 [&>a]:rounded-md [&>a]:text-white"
-      dangerouslySetInnerHTML={{ __html: sanitize(content) }}
+      dangerouslySetInnerHTML={{ __html: content }}
     />
   );
 }
@@ -37,12 +36,9 @@ export function PublicConsultationCard({ event }: { event: EventData }) {
         alt={image.altText}
         className="w-full h-48 object-cover rounded-t-lg"
       /> */}
-      <h2 dangerouslySetInnerHTML={{ __html: sanitize(eventName) }} />
+      <h2 dangerouslySetInnerHTML={{ __html: eventName }} />
       {cta && <EngagementButtonParent content={cta} />}
-      <p
-        className="mt-2"
-        dangerouslySetInnerHTML={{ __html: sanitize(description) }}
-      />
+      <p className="mt-2" dangerouslySetInnerHTML={{ __html: description }} />
 
       <div className="mt-4">
         <h3 className="text-lg  font-semibold">Date & Time</h3>
