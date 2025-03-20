@@ -1,5 +1,6 @@
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
 import { useMemo, memo } from 'react';
+import { sanitize } from '@/logic/sanitize';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
@@ -43,11 +44,14 @@ const AgendaItemCard = memo(function AgendaItemCard({
       </div>
       <div className="pl-4 border-l-4 border-indigo-700">
         <h3 className="font-semibold mb-2">{item.agendaItemTitle}</h3>
-        <p className="text-sm text-gray-500 mb-2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris.{' '}
-        </p>
+        {item.agendaItemSummary && (
+          <div
+            className="text-sm text-gray-500 mb-2"
+            dangerouslySetInnerHTML={{
+              __html: sanitize(item.agendaItemSummary),
+            }}
+          />
+        )}
         <div className="flex flex-row text-md gap-4 mb-2">
           <div className="flex items-center gap-2">
             Carried
