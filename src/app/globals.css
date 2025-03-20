@@ -35,3 +35,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.rich-html-styles ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+}
+.rich-html-styles strong {
+  font-weight: bold;
+}
