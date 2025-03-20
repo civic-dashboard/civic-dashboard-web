@@ -51,6 +51,13 @@ async function getVotesByAgendaItemsForContact(
     .innerJoin('AgendaItems', (eb) =>
       eb.onRef('Votes.agendaItemNumber', '=', 'AgendaItems.agendaItemNumber'),
     )
+    .leftJoin('RawAgendaItemConsiderations', (eb) =>
+      eb.onRef(
+        'AgendaItems.agendaItemNumber',
+        '=',
+        'RawAgendaItemConsiderations.reference',
+      ),
+    )
     .where('Votes.contactSlug', '=', contactSlug)
     .orderBy('Motions.dateTime', 'desc')
     .select([
@@ -64,6 +71,7 @@ async function getVotesByAgendaItemsForContact(
       'Votes.value',
       'Motions.result',
       'Motions.resultKind',
+      'RawAgendaItemConsiderations.agendaItemSummary',
     ])
     .execute();
 }
