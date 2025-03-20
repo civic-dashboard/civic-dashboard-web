@@ -1,6 +1,7 @@
 export interface AgendaItem {
   agendaItemNumber: string;
   agendaItemTitle: string;
+  agendaItemSummary: string | null;
   motionType: string;
   motionId: string;
   voteDescription: string;
