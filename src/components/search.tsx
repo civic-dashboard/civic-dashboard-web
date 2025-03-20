@@ -19,9 +19,7 @@ import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/rout
 import { allTags, Tag, TagEnum } from '@/constants/tags';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CheckedState } from '@radix-ui/react-checkbox';
-
-const SEARCH_DEBOUNCE_DELAY_MS = 250;
-const PAGE_LIMIT = 2;
+import { PAGE_LIMIT, SEARCH_DEBOUNCE_DELAY_MS } from '@/constants/search';
 
 type SearchContext = {
   searchOptions: SearchOptions;
