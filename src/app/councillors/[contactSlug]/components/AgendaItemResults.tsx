@@ -46,7 +46,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
         <h3 className="font-semibold mb-2">{item.agendaItemTitle}</h3>
         {item.agendaItemSummary && (
           <div
-            className="text-sm text-gray-500 mb-2"
+            className="text-sm text-gray-500 mb-2 rich-html-styles"
             dangerouslySetInnerHTML={{
               __html: sanitize(item.agendaItemSummary),
             }}
