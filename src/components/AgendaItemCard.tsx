@@ -53,7 +53,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
       <HighlightChildren terms={textQuery}>
         <div
           className=" mt-2"
-          dangerouslySetInnerHTML={{ __html: sanitize(item.agendaItemSummary) }}
+          dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
         />
       </HighlightChildren>
     </Card>
