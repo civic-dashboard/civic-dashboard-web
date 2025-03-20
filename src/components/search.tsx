@@ -21,11 +21,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
 const SEARCH_DEBOUNCE_DELAY_MS = 250;
+const PAGE_LIMIT = 2;
 
 type SearchContext = {
   searchOptions: SearchOptions;
   setSearchOptions: Dispatch<SetStateAction<SearchOptions>>;
-  searchResults: AgendaItemSearchResponse | 'loading';
+  searchResults: AgendaItemSearchResponse | null;
+  isLoadingMore: boolean;
+  hasMoreSearchResults: boolean;
+  getNextPage: () => void;
 };
 
 const SearchContext = createContext<SearchContext | null>(null);
@@ -38,12 +42,48 @@ export function SearchProvider({ children }: Props) {
     minimumDate: new Date(),
   });
 
-  const [searchResults, setSearchResults] = useState<
-    AgendaItemSearchResponse | 'loading'
-  >('loading');
+  const [searchResults, setSearchResults] =
+    useState<AgendaItemSearchResponse | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // infinite scrolling
+  const [currentPage, setCurrentPage] = useState(0);
+  const [hasMoreSearchResults, setHasMoreSearchResults] = useState(false);
+
+  // use ref to access latest searchResults val without adding searchResults to dependency arrays
+  const searchResultsRef = useRef<AgendaItemSearchResponse | null>(null);
+
+  // keep the ref up to date with the actual state
+  useEffect(() => {
+    searchResultsRef.current = searchResults;
+  }, [searchResults]);
+
+  useEffect(() => {
+    console.log('SearchProvider render, currentPage:', currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    console.log('SearchProvider render, isLoading:', isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log('SearchProvider render, hasMoreResults:', hasMoreSearchResults);
+  }, [hasMoreSearchResults]);
+
+  const getNextPage = useCallback(() => {
+    console.log('getNextPage called');
+    if (!isLoading && hasMoreSearchResults) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  }, [isLoading, hasMoreSearchResults]);
+
   const controllerRef = useRef<AbortController | null>(null); // Used to cancel previous requests
 
-  const onSearch = useCallback(async (options: SearchOptions) => {
+  const onSearch = useCallback(async (options: SearchOptions, page: number) => {
+    console.log('onSearch triggered');
+    // for new searches (page 0), reset results
+    const isNewSearch = page === 0;
+
     // If a previous request is still pending, abort it
     if (controllerRef.current) {
       controllerRef.current.abort();
@@ -53,16 +93,30 @@ export function SearchProvider({ children }: Props) {
     const controller = new AbortController();
     controllerRef.current = controller;
 
-    setSearchResults('loading');
+    setIsLoading(true);
 
     try {
-      setSearchResults(
-        await fetchSearchResults({
-          options,
-          pagination: { page: 0, pageSize: 50 },
-          abortSignal: controller.signal,
-        }),
-      );
+      const response = await fetchSearchResults({
+        options,
+        pagination: { page: page, pageSize: PAGE_LIMIT },
+        abortSignal: controller.signal,
+      });
+
+      // Use the current ref value instead of the dependency
+      const currentResults = searchResultsRef.current;
+
+      if (isNewSearch) {
+        setSearchResults(response);
+      } else if (currentResults) {
+        setSearchResults({
+          ...response,
+          results: [...currentResults.results, ...response.results],
+        });
+      } else {
+        setSearchResults(response);
+      }
+      const lastItemCount = (response.page + 1) * response.pageSize;
+      setHasMoreSearchResults(lastItemCount < response.totalCount);
     } catch (error) {
       if (error instanceof Error) {
         if (error.name !== 'AbortError') {
@@ -71,20 +125,39 @@ export function SearchProvider({ children }: Props) {
       } else {
         console.error('An unexpected error occurred:', error);
       }
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
+    // when searchOptions changes, that means we're executing a new search, so reset currentPage to 0
+    setCurrentPage(0);
+
     const debounceTimeout = setTimeout(() => {
-      onSearch(searchOptions);
+      onSearch(searchOptions, 0);
     }, SEARCH_DEBOUNCE_DELAY_MS);
 
     return () => clearTimeout(debounceTimeout);
   }, [searchOptions, onSearch]);
 
+  // infinite scroll
+  useEffect(() => {
+    if (currentPage > 0) {
+      onSearch(searchOptions, currentPage);
+    }
+  }, [currentPage, searchOptions, onSearch]);
+
   return (
     <SearchContext.Provider
-      value={{ searchOptions, setSearchOptions, searchResults }}
+      value={{
+        searchOptions,
+        setSearchOptions,
+        searchResults,
+        isLoadingMore: isLoading && searchResults !== null,
+        hasMoreSearchResults,
+        getNextPage,
+      }}
     >
       {children}
     </SearchContext.Provider>

@@ -11,6 +11,7 @@ import {
 } from '@/components/search';
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { sendSearchResultsEmail } from '@/backend/emails/sendSearchResultsEmail';
 import {
   Popover,
@@ -22,12 +23,40 @@ import { Spinner } from '@/components/ui/spinner';
 import { decisionBodies } from '@/constants/decisionBodies';
 
 function ResultList() {
-  const { searchResults } = useSearch();
+  const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
+    useSearch();
+
+  // use a stable ref to track loading state
+  const loadingStateRef = useRef({
+    isLoading: false,
+    pageRequested: -1,
+  });
+
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+  });
+
+  // keep the ref synced to the actual state value
+  useEffect(() => {
+    loadingStateRef.current.isLoading = isLoadingMore;
+  }, [isLoadingMore]);
+
+  useEffect(() => {
+    const { isLoading } = loadingStateRef.current;
+
+    if (inView && !isLoading && hasMoreSearchResults) {
+      console.log('Sentinel in view, triggering load');
+
+      loadingStateRef.current.isLoading = true;
+
+      getNextPage();
+    }
+  }, [inView, hasMoreSearchResults, getNextPage]);
 
   return (
     <>
-      <Spinner show={searchResults === 'loading'} />
-      {searchResults !== 'loading' && (
+      <Spinner show={searchResults === null} />
+      {searchResults && (
         <>
           {searchResults.results.length === 0 && (
             <h4 className="mx-auto my-32">No results...</h4>
@@ -39,6 +68,14 @@ function ResultList() {
               decisionBody={decisionBodies[item.decisionBodyId]}
             />
           ))}
+          {hasMoreSearchResults && !isLoadingMore && (
+            <div ref={ref} className="loading-sentinel py-4 mt-4" />
+          )}
+          {hasMoreSearchResults && isLoadingMore && (
+            <div className="flex text-center items-center justify-center h-20">
+              <span>Loading more items...</span>
+            </div>
+          )}
         </>
       )}
     </>
@@ -57,7 +94,7 @@ export function SendEmail() {
     if (
       !emailInputRef.current ||
       !emailInputRef.current.validity.valid ||
-      searchResults === 'loading'
+      searchResults === null
     ) {
       return;
     }
