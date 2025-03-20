@@ -23,7 +23,7 @@ type Props = {
 
 export function AgendaItemCard({ item, decisionBody }: Props) {
   const {
-    searchOptions: { query },
+    searchOptions: { textQuery: query },
   } = useSearch();
   const formattedDate = new Date(item.meetingDate).toLocaleDateString();
   const commentsHref = `mailto:${decisionBody.email}?subject=My comments for ${item.reference}&body=My comments`;

@@ -1,7 +1,10 @@
 'use client';
 
 import * as React from 'react';
+// eslint-disable-next-line no-restricted-imports
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+// eslint-disable-next-line no-restricted-imports
+export type { CheckedState } from '@radix-ui/react-checkbox';
 import { Check } from 'lucide-react';
 import { cn } from '@/components/ui/utils';
 
