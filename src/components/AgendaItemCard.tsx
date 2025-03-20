@@ -3,7 +3,6 @@ import { HighlightChildren } from '@/components/ui/highlightChildren';
 import { useSearch } from '@/components/search';
 import { Card } from '@/components/ui/card';
 import type { AgendaItem } from '@/database/queries/agendaItems';
-import { sanitize } from '@/logic/sanitize';
 
 type EngagementButtonProps = {
   text: string;
@@ -54,7 +53,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
       <HighlightChildren terms={query}>
         <div
           className=" mt-2"
-          dangerouslySetInnerHTML={{ __html: sanitize(item.agendaItemSummary) }}
+          dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
         />
       </HighlightChildren>
     </Card>
