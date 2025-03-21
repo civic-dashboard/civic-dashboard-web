@@ -1,6 +1,7 @@
 import { createDB } from '@/database/kyselyDb';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
+import { cn } from '@/components/ui/utils';
 
 async function listCouncillors() {
   return await createDB()
@@ -27,7 +28,7 @@ const wardProfilesLink =
 export default async function CouncillorListPage() {
   const councillors = await listCouncillors();
   return (
-    <div className="max-w-screen-sm mx-auto mt-3">
+    <div className="max-w-screen-sm mx-auto mt-3 px-2">
       <section className="mt-4">
         <h2>Find Your Councillor</h2>
         <p>
@@ -41,11 +42,14 @@ export default async function CouncillorListPage() {
       </section>
       <section className="mt-4">
         <h2>Current Toronto Councillors</h2>
-        <ul>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {councillors.map((councillor) => (
             <li
               key={councillor.contactSlug}
-              className="border border-slate-200 bg-white even:bg-slate-50 text-slate-950 shadow-sm dark:border-slate-800 dark:bg-slate-950 even:dark:bg-slate-900 dark:text-slate-50 rounded-md mb-2"
+              className={cn(
+                'border border-slate-200 bg-white text-slate-950 shadow-sm dark:border-slate-800 dark:bg-slate-950  dark:text-slate-50 rounded-md',
+                'max-md:even:bg-slate-50 max-md:even:dark:bg-slate-900',
+              )}
             >
               <Link
                 href={`/councillors/${councillor.contactSlug}`}
