@@ -13,12 +13,12 @@ export function useInfiniteScroll({
   onLoadMore,
   threshold = 0.1,
 }: UseInfiniteScrollProps) {
-  // get intersection observer ref and inView
+  // ref and inView will be passed to the consuming component that calls this hook
   const { ref, inView } = useIntersectionObserver({
     threshold,
   });
 
-  // trigger the loading of more items when sentinel div comes into view
+  // trigger the loading of more items when sentinel element (e.g. div) comes into viewport
   useEffect(() => {
     if (inView && !isLoadingMore && hasMoreSearchResults) {
       onLoadMore();

@@ -35,7 +35,7 @@ export function SearchProvider({ children }: Props) {
     useState<AgendaItemSearchResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // needed for infinite scrolling
+  // needed for pagination / infinite scrolling
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMoreSearchResults, setHasMoreSearchResults] = useState(false);
   // use this ref to access latest searchResults val without adding searchResults to dependency arrays
@@ -82,7 +82,7 @@ export function SearchProvider({ children }: Props) {
       } else if (currentResults) {
         setSearchResults({
           ...response,
-          // append new items we just got to our prev results as we're keeping all results in the DOM
+          // append new results we just got to our prev results, as we're keeping all results in the DOM
           results: [...currentResults.results, ...response.results],
         });
       } else {
