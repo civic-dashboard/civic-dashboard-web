@@ -2,6 +2,7 @@ import { createDB } from '@/database/kyselyDb';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
 import { cn } from '@/components/ui/utils';
+import { Avatar } from '@/components/Avatar';
 
 async function listCouncillors() {
   return await createDB()
@@ -28,7 +29,7 @@ const wardProfilesLink =
 export default async function CouncillorListPage() {
   const councillors = await listCouncillors();
   return (
-    <div className="max-w-screen-sm mx-auto mt-3 px-2">
+    <div className="max-w-screen-sm mx-auto my-4 px-2">
       <section className="mt-4">
         <h2>Find Your Councillor</h2>
         <p>
@@ -56,7 +57,7 @@ export default async function CouncillorListPage() {
                 className="p-2 flex gap-2 hover:underline"
                 prefetch={false}
               >
-                <CouncillorContactPhoto photoUrl={councillor.photoUrl} />
+                <Avatar src={councillor.photoUrl} size={52} />
                 <div>
                   <h3 className="text-lg">{councillor.contactName}</h3>
                   <p>{councillor.wardName}</p>
@@ -67,16 +68,5 @@ export default async function CouncillorListPage() {
         </ul>
       </section>
     </div>
-  );
-}
-
-function CouncillorContactPhoto(props: { photoUrl: string | null }) {
-  return (
-    <img
-      src={props.photoUrl ?? ''}
-      className="bg-zinc-300"
-      style={{ height: 52, width: 42 }}
-      alt=""
-    />
   );
 }
