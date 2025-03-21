@@ -1,6 +1,6 @@
-import { useEffect, useRef, useCallback } from 'react';
-import { useInView } from 'react-intersection-observer';
-
+import { useEffect, useRef } from 'react';
+// import { useInView } from 'react-intersection-observer';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 interface UseInfiniteScrollProps {
   isLoadingMore: boolean;
   hasMoreSearchResults: boolean;
@@ -26,7 +26,7 @@ export function useInfiniteScroll({
   }, [isLoadingMore]);
 
   // get intersection observer ref and inView
-  const { ref, inView } = useInView({
+  const { ref, inView } = useIntersectionObserver({
     threshold,
   });
 
