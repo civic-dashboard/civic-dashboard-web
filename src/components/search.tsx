@@ -44,32 +44,18 @@ export function SearchProvider({ children }: Props) {
     useState<AgendaItemSearchResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // infinite scrolling
+  // needed for infinite scrolling
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMoreSearchResults, setHasMoreSearchResults] = useState(false);
-
-  // use ref to access latest searchResults val without adding searchResults to dependency arrays
+  // use this ref to access latest searchResults val without adding searchResults to dependency arrays
   const searchResultsRef = useRef<AgendaItemSearchResponse | null>(null);
 
-  // keep the ref up to date with the actual state
+  // keep the ref in sync with the actual state
   useEffect(() => {
     searchResultsRef.current = searchResults;
   }, [searchResults]);
 
-  useEffect(() => {
-    console.log('SearchProvider render, currentPage:', currentPage);
-  }, [currentPage]);
-
-  useEffect(() => {
-    console.log('SearchProvider render, isLoading:', isLoading);
-  }, [isLoading]);
-
-  useEffect(() => {
-    console.log('SearchProvider render, hasMoreResults:', hasMoreSearchResults);
-  }, [hasMoreSearchResults]);
-
   const getNextPage = useCallback(() => {
-    console.log('getNextPage called');
     if (!isLoading && hasMoreSearchResults) {
       setCurrentPage((prev) => prev + 1);
     }
@@ -78,8 +64,7 @@ export function SearchProvider({ children }: Props) {
   const controllerRef = useRef<AbortController | null>(null); // Used to cancel previous requests
 
   const onSearch = useCallback(async (options: SearchOptions, page: number) => {
-    console.log('onSearch triggered');
-    // for new searches (page 0), reset results
+    setIsLoading(true);
     const isNewSearch = page === 0;
 
     // If a previous request is still pending, abort it
@@ -91,8 +76,6 @@ export function SearchProvider({ children }: Props) {
     const controller = new AbortController();
     controllerRef.current = controller;
 
-    setIsLoading(true);
-
     try {
       const response = await fetchSearchResults({
         options,
@@ -100,7 +83,7 @@ export function SearchProvider({ children }: Props) {
         abortSignal: controller.signal,
       });
 
-      // Use the current ref value instead of the dependency
+      // use the current ref value, instead of adding searchResults to the useCallback dependency array (infinite loop)
       const currentResults = searchResultsRef.current;
 
       if (isNewSearch) {
@@ -108,6 +91,7 @@ export function SearchProvider({ children }: Props) {
       } else if (currentResults) {
         setSearchResults({
           ...response,
+          // append new items we just got to our prev results as we're keeping all results in the DOM
           results: [...currentResults.results, ...response.results],
         });
       } else {
@@ -139,7 +123,7 @@ export function SearchProvider({ children }: Props) {
     return () => clearTimeout(debounceTimeout);
   }, [searchOptions, onSearch]);
 
-  // infinite scroll
+  // infinite scroll - trigger a new search when currentPage changes
   useEffect(() => {
     if (currentPage > 0) {
       onSearch(searchOptions, currentPage);

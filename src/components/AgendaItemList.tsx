@@ -11,7 +11,6 @@ import {
 } from '@/components/search';
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
 import { sendSearchResultsEmail } from '@/backend/emails/sendSearchResultsEmail';
 import {
   Popover,
@@ -21,37 +20,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { decisionBodies } from '@/constants/decisionBodies';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 
 function ResultList() {
   const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
     useSearch();
 
-  // use a stable ref to track loading state
-  const loadingStateRef = useRef({
-    isLoading: false,
-    pageRequested: -1,
+  const { sentinelRef } = useInfiniteScroll({
+    isLoadingMore,
+    hasMoreSearchResults,
+    onLoadMore: getNextPage,
   });
-
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-  });
-
-  // keep the ref synced to the actual state value
-  useEffect(() => {
-    loadingStateRef.current.isLoading = isLoadingMore;
-  }, [isLoadingMore]);
-
-  useEffect(() => {
-    const { isLoading } = loadingStateRef.current;
-
-    if (inView && !isLoading && hasMoreSearchResults) {
-      console.log('Sentinel in view, triggering load');
-
-      loadingStateRef.current.isLoading = true;
-
-      getNextPage();
-    }
-  }, [inView, hasMoreSearchResults, getNextPage]);
 
   return (
     <>
@@ -68,14 +47,12 @@ function ResultList() {
               decisionBody={decisionBodies[item.decisionBodyId]}
             />
           ))}
-          {hasMoreSearchResults && !isLoadingMore && (
-            <div ref={ref} className="loading-sentinel py-4 mt-4" />
-          )}
-          {hasMoreSearchResults && isLoadingMore && (
-            <div className="flex text-center items-center justify-center h-20">
-              <span>Loading more items...</span>
-            </div>
-          )}
+          {hasMoreSearchResults &&
+            (isLoadingMore ? (
+              <Spinner show={isLoadingMore} />
+            ) : (
+              <div ref={sentinelRef} className="py-4 mt-4" />
+            ))}
         </>
       )}
     </>
