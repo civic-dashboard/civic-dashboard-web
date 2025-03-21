@@ -11,7 +11,7 @@ export const menuItems = [
   { label: 'Actions', href: '/actions' },
   {
     label: 'Councillors',
-    href: 'https://civic-dashboard-councillors.vercel.app/councillors',
+    href: '/councillors',
   },
   {
     label: 'About Us',
