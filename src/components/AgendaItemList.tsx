@@ -4,10 +4,8 @@ import { AgendaItemCard } from '@/components/AgendaItemCard';
 import {
   DecisionBodyFilter,
   SearchBar,
-  SearchProvider,
   ShowFullHistory,
   Tags,
-  useSearch,
 } from '@/components/search';
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -20,14 +18,23 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { decisionBodies } from '@/constants/decisionBodies';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { SearchProvider, useSearch } from '@/contexts/SearchContext';
 
 function ResultList() {
-  const { searchResults } = useSearch();
+  const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
+    useSearch();
+
+  const { sentinelRef } = useInfiniteScroll({
+    isLoadingMore,
+    hasMoreSearchResults,
+    onLoadMore: getNextPage,
+  });
 
   return (
     <>
-      <Spinner show={searchResults === 'loading'} />
-      {searchResults !== 'loading' && (
+      <Spinner show={searchResults === null} />
+      {searchResults && (
         <>
           {searchResults.results.length === 0 && (
             <h4 className="mx-auto my-32">No results...</h4>
@@ -39,6 +46,12 @@ function ResultList() {
               decisionBody={decisionBodies[item.decisionBodyId]}
             />
           ))}
+          {hasMoreSearchResults &&
+            (isLoadingMore ? (
+              <Spinner show={isLoadingMore} />
+            ) : (
+              <div ref={sentinelRef} className="py-4 mt-4" />
+            ))}
         </>
       )}
     </>
@@ -57,7 +70,7 @@ export function SendEmail() {
     if (
       !emailInputRef.current ||
       !emailInputRef.current.validity.valid ||
-      searchResults === 'loading'
+      searchResults === null
     ) {
       return;
     }

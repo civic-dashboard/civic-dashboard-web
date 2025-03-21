@@ -26,6 +26,7 @@ This file comprehensively lists the dependencies of the project, and why they ar
   - `lucide-react` provides icons
   - `@radix-ui/*` and `cmdk` are headless components
   - `postcss`, `clsx`, and `class-variance-authority` are styling utility packages
+- `react-intersection-observer` gives us an easy-to-use API for checking if a DOM element is in the viewport
 
 ## Database
 
