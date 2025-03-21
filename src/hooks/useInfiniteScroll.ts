@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-// import { useInView } from 'react-intersection-observer';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 interface UseInfiniteScrollProps {
   isLoadingMore: boolean;

@@ -4,10 +4,8 @@ import { AgendaItemCard } from '@/components/AgendaItemCard';
 import {
   DecisionBodyFilter,
   SearchBar,
-  SearchProvider,
   ShowFullHistory,
   Tags,
-  useSearch,
 } from '@/components/search';
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -21,6 +19,7 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { decisionBodies } from '@/constants/decisionBodies';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { SearchProvider, useSearch } from '@/contexts/SearchContext';
 
 function ResultList() {
   const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
