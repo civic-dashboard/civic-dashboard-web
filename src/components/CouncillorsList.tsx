@@ -30,7 +30,11 @@ export const CouncillorsList = ({
     <>
       <header className="flex justify-between flex-col md:flex-row gap-3 mb-3 md:items-center">
         <h2 className="whitespace-nowrap mb-0">Current Toronto Councillors</h2>
-        <SearchInput onChange={setQuery} placeholder="Filter" />
+        <SearchInput
+          onChange={setQuery}
+          placeholder="Filter"
+          aria-label="Filter the list of councillors by name and ward"
+        />
       </header>
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {filteredCouncillors.map((councillor) => (
