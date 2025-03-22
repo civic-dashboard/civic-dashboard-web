@@ -1,6 +1,8 @@
+'use server';
 import { createDB } from '@/database/kyselyDb';
-import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
+import { CouncillorsList } from '@/components/CouncillorsList';
+import { sql } from 'kysely';
 
 async function listCouncillors() {
   return await createDB()
@@ -16,6 +18,16 @@ async function listCouncillors() {
       'Contacts.contactName',
       'Contacts.photoUrl',
       'Wards.wardName',
+      sql<string>`
+      LOWER(
+        CONCAT_WS(
+          ', ',
+          "Contacts"."contactName",
+          "Wards"."wardName",
+          "Wards"."wardId"
+        )
+      )
+    `.as('searchTarget'),
     ])
     .orderBy(['Contacts.contactName'])
     .execute();
@@ -26,8 +38,9 @@ const wardProfilesLink =
 
 export default async function CouncillorListPage() {
   const councillors = await listCouncillors();
+
   return (
-    <div className="max-w-screen-sm mx-auto mt-3">
+    <div className="max-w-screen-sm mx-auto my-4 px-2">
       <section className="mt-4">
         <h2>Find Your Councillor</h2>
         <p>
@@ -40,39 +53,8 @@ export default async function CouncillorListPage() {
         </p>
       </section>
       <section className="mt-4">
-        <h2>Current Toronto Councillors</h2>
-        <ul>
-          {councillors.map((councillor) => (
-            <li
-              key={councillor.contactSlug}
-              className="border border-slate-200 bg-white even:bg-slate-50 text-slate-950 shadow-sm dark:border-slate-800 dark:bg-slate-950 even:dark:bg-slate-900 dark:text-slate-50 rounded-md mb-2"
-            >
-              <Link
-                href={`/councillors/${councillor.contactSlug}`}
-                className="p-2 flex gap-2 hover:underline"
-                prefetch={false}
-              >
-                <CouncillorContactPhoto photoUrl={councillor.photoUrl} />
-                <div>
-                  <h3 className="text-lg">{councillor.contactName}</h3>
-                  <p>{councillor.wardName}</p>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <CouncillorsList councillors={councillors} />
       </section>
     </div>
-  );
-}
-
-function CouncillorContactPhoto(props: { photoUrl: string | null }) {
-  return (
-    <img
-      src={props.photoUrl ?? ''}
-      className="bg-zinc-300"
-      style={{ height: 52, width: 42 }}
-      alt=""
-    />
   );
 }
