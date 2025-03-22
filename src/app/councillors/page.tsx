@@ -1,8 +1,8 @@
+'use server';
 import { createDB } from '@/database/kyselyDb';
-import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
-import { cn } from '@/components/ui/utils';
-import { Avatar } from '@/components/Avatar';
+import { CouncillorsList } from '@/components/CouncillorsList';
+import { sql } from 'kysely';
 
 async function listCouncillors() {
   return await createDB()
@@ -18,6 +18,16 @@ async function listCouncillors() {
       'Contacts.contactName',
       'Contacts.photoUrl',
       'Wards.wardName',
+      sql<string>`
+      LOWER(
+        CONCAT_WS(
+          ', ',
+          "Contacts"."contactName",
+          "Wards"."wardName",
+          "Wards"."wardId"
+        )
+      )
+    `.as('searchTarget'),
     ])
     .orderBy(['Contacts.contactName'])
     .execute();
@@ -28,6 +38,7 @@ const wardProfilesLink =
 
 export default async function CouncillorListPage() {
   const councillors = await listCouncillors();
+
   return (
     <div className="max-w-screen-sm mx-auto my-4 px-2">
       <section className="mt-4">
@@ -42,30 +53,7 @@ export default async function CouncillorListPage() {
         </p>
       </section>
       <section className="mt-4">
-        <h2>Current Toronto Councillors</h2>
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {councillors.map((councillor) => (
-            <li
-              key={councillor.contactSlug}
-              className={cn(
-                'border border-slate-200 bg-white text-slate-950 shadow-sm dark:border-slate-800 dark:bg-slate-950  dark:text-slate-50 rounded-md',
-                'max-md:even:bg-slate-50 max-md:even:dark:bg-slate-900',
-              )}
-            >
-              <Link
-                href={`/councillors/${councillor.contactSlug}`}
-                className="p-2 flex gap-2 hover:underline"
-                prefetch={false}
-              >
-                <Avatar src={councillor.photoUrl} size={52} />
-                <div>
-                  <h3 className="text-lg">{councillor.contactName}</h3>
-                  <p>{councillor.wardName}</p>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <CouncillorsList councillors={councillors} />
       </section>
     </div>
   );
