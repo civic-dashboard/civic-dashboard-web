@@ -3,6 +3,7 @@
 import { Avatar } from '@/components/Avatar';
 import { SearchInput } from '@/components/SearchInput';
 import { cn } from '@/components/ui/utils';
+import { ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { useMemo, useState } from 'react';
@@ -28,12 +29,13 @@ export const CouncillorsList = ({
   }, [councillors, query]);
   return (
     <>
-      <header className="flex justify-between flex-col md:flex-row gap-3 mb-3 md:items-center">
+      <header className="flex justify-between flex-col md:flex-row gap-5 mb-3 md:items-center">
         <h2 className="whitespace-nowrap mb-0">Current Toronto Councillors</h2>
         <SearchInput
           onChange={setQuery}
-          placeholder="Filter"
+          placeholder="Search councillors"
           aria-label="Filter the list of councillors by name and ward"
+          searchDelay={500}
         />
       </header>
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -47,13 +49,16 @@ export const CouncillorsList = ({
           >
             <Link
               href={`/councillors/${councillor.contactSlug}`}
-              className="p-2 flex gap-2 hover:underline"
+              className="p-2 flex gap-2 hover:underline items-center"
               prefetch={false}
             >
               <Avatar src={councillor.photoUrl} size={52} />
               <div>
                 <h3 className="text-lg">{councillor.contactName}</h3>
                 <p>{councillor.wardName}</p>
+              </div>
+              <div className="ml-auto">
+                <ChevronRightIcon />
               </div>
             </Link>
           </li>
