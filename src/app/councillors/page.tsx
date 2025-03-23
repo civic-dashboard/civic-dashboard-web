@@ -33,8 +33,8 @@ async function listCouncillors() {
     .execute();
 }
 
-const wardProfilesLink =
-  'https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/';
+const membersOfCouncilLink =
+  'https://www.toronto.ca/city-government/council/members-of-council/';
 
 export default async function CouncillorListPage() {
   const councillors = await listCouncillors();
@@ -45,8 +45,8 @@ export default async function CouncillorListPage() {
         <h2>Find Your Councillor</h2>
         <p>
           Not sure who your councillor is? No problem!{' '}
-          <ExternalLink href={wardProfilesLink} className="underline">
-            The ward profiles page
+          <ExternalLink href={membersOfCouncilLink} className="classic-link">
+            The Members of Council page
           </ExternalLink>{' '}
           can show what <em>ward</em> you are a part of. Each councillor serves
           one ward, and all Toronto wards are listed here.
