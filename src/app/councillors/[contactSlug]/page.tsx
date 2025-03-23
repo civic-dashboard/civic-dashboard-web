@@ -3,6 +3,7 @@ import CouncillorBio from '@/app/councillors/[contactSlug]/components/Councillor
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
+import { AgendaItem } from '@/app/councillors/[contactSlug]/types/index';
 
 type ParamsType = {
   contactSlug: string;
@@ -40,8 +41,8 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
 async function getVotesByAgendaItemsForContact(
   db: Kysely<DB>,
   contactSlug: string,
-) {
-  return await db
+): Promise<AgendaItem[]> {
+  const rows = await db
     .selectFrom('Votes')
     .innerJoin('Motions', (eb) =>
       eb
@@ -74,6 +75,24 @@ async function getVotesByAgendaItemsForContact(
       'RawAgendaItemConsiderations.agendaItemSummary',
     ])
     .execute();
+
+  const agendaItemByNumber = new Map<string, AgendaItem>();
+  for (const {
+    agendaItemNumber,
+    agendaItemTitle,
+    agendaItemSummary,
+    ...motion
+  } of rows) {
+    const agendaItem = agendaItemByNumber.get(agendaItemNumber) ?? {
+      agendaItemNumber: agendaItemNumber,
+      agendaItemTitle: agendaItemTitle,
+      agendaItemSummary: agendaItemSummary,
+      motions: [],
+    };
+    agendaItem.motions.push(motion);
+    agendaItemByNumber.set(agendaItemNumber, agendaItem);
+  }
+  return [...agendaItemByNumber.values()];
 }
 
 export default async function CouncillorVotePage(props: {

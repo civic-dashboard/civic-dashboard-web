@@ -1,6 +1,7 @@
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
 import { useMemo, memo } from 'react';
-import { sanitize } from '@/logic/sanitize';
+
+import { SummaryPanel } from '@/app/councillors/[contactSlug]/components/SummaryPanel';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
@@ -20,19 +21,6 @@ const AgendaItemCard = memo(function AgendaItemCard({
     }
   };
 
-  const formatDate = (dateString: string) => {
-    if (!dateString) return dateString;
-    try {
-      const date = new Date(dateString.split(' ')[0]);
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      });
-    } catch {
-      return dateString;
-    }
-  };
-
   const formatAgendaNumber = (number: string) => {
     return number.split('.').slice(1).join('.');
   };
@@ -40,17 +28,12 @@ const AgendaItemCard = memo(function AgendaItemCard({
   return (
     <div className="flex flex-row mb-4">
       <div className="text-sm text-gray-500 mb-2 min-w-20 text-right pr-4">
-        {formatDate(item.dateTime)}
+        {formatDateString(item.dateTime)}
       </div>
       <div className="pl-4 border-l-4 border-indigo-700">
         <h3 className="font-semibold mb-2">{item.agendaItemTitle}</h3>
         {item.agendaItemSummary && (
-          <div
-            className="text-sm text-gray-500 mb-2 rich-html-styles"
-            dangerouslySetInnerHTML={{
-              __html: sanitize(item.agendaItemSummary),
-            }}
-          />
+          <SummaryPanel summary={item.agendaItemSummary} />
         )}
         <div className="flex flex-row text-md gap-4 mb-2">
           <div className="flex items-center gap-2">
@@ -109,3 +92,14 @@ export default function AgendaItemResults({
     </div>
   );
 }
+
+const formatDateString = (dateString: string) => {
+  if (!dateString) return dateString;
+  const date = new Date(dateString);
+  if (!date.getTime()) return dateString;
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
