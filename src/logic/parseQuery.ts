@@ -1,4 +1,5 @@
 import { allTags, TagEnum } from '@/constants/tags';
+import { isNotNull } from '@/logic/isNotNull';
 
 type Query =
   | {
@@ -145,6 +146,7 @@ const queryToPostgresTextSearchQuery = (
       const last = splitTokens.length - 1;
       splitTokens[last] = splitTokens[last] + ':*';
     }
+    // Todo: Seems like sql injection
     return `(${splitTokens.join('<->')})`;
   }
 
@@ -174,21 +176,18 @@ export const queryAndTagsToPostgresTextSearchQuery = ({
   const parsedTextQuery = parseQuery(textQuery);
   const parsedTagQueries = tags
     .map((tag) => parseQuery(allTags[tag].searchQuery))
-    .filter((q) => q !== null);
+    .filter(isNotNull);
 
   const tagPart: Query | null =
     parsedTagQueries.length === 0
       ? null
-      : { type: 'or', queries: parsedTagQueries };
+      : ({ type: 'or', queries: parsedTagQueries } satisfies Query);
 
-  const allParts = [parsedTextQuery, tagPart].filter((q) => q !== null);
+  const allParts = [parsedTextQuery, tagPart].filter(isNotNull);
 
-  const fullQuery: Query | null =
-    allParts.length === 0
-      ? null
-      : allParts.length === 1
-        ? allParts[0]
-        : { type: 'and', queries: allParts };
+  if (allParts.length === 0) return null;
 
-  return fullQuery === null ? null : queryToPostgresTextSearchQuery(fullQuery);
+  return queryToPostgresTextSearchQuery(
+    allParts.length === 1 ? allParts[0] : { type: 'and', queries: allParts },
+  );
 };
