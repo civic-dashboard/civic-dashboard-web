@@ -63,10 +63,10 @@ export const CouncillorsList = ({
             </Link>
           </li>
         ))}
-        {filteredCouncillors.length === 0 && (
-          <p>No councillors found for {`"${query}"`}</p>
-        )}
       </ul>
+      {filteredCouncillors.length === 0 && (
+        <p>No councillors found for {`"${query}"`}</p>
+      )}
     </>
   );
 };
