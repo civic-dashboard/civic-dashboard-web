@@ -1,8 +1,8 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { HighlightChildren } from '@/components/ui/highlightChildren';
-import { useSearch } from '@/components/search';
 import { Card } from '@/components/ui/card';
 import type { AgendaItem } from '@/database/queries/agendaItems';
+import { useSearch } from '@/contexts/SearchContext';
 
 type EngagementButtonProps = {
   text: string;
