@@ -1,6 +1,6 @@
 import { createDB } from '@/database/kyselyDb';
 import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
-import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
+// import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types/index';
@@ -43,6 +43,12 @@ async function getVotesByAgendaItemsForContact(
   contactSlug: string,
 ): Promise<AgendaItem[]> {
   const rows = await db
+    .with('Summaries', (eb) =>
+      eb
+        .selectFrom('RawAgendaItemConsiderations')
+        .select(['reference', 'agendaItemSummary'])
+        .distinct(),
+    )
     .selectFrom('Votes')
     .innerJoin('Motions', (eb) =>
       eb
@@ -52,12 +58,8 @@ async function getVotesByAgendaItemsForContact(
     .innerJoin('AgendaItems', (eb) =>
       eb.onRef('Votes.agendaItemNumber', '=', 'AgendaItems.agendaItemNumber'),
     )
-    .leftJoin('RawAgendaItemConsiderations', (eb) =>
-      eb.onRef(
-        'AgendaItems.agendaItemNumber',
-        '=',
-        'RawAgendaItemConsiderations.reference',
-      ),
+    .leftJoin('Summaries', (eb) =>
+      eb.onRef('AgendaItems.agendaItemNumber', '=', 'Summaries.reference'),
     )
     .where('Votes.contactSlug', '=', contactSlug)
     .orderBy('Motions.dateTime', 'desc')
@@ -72,7 +74,7 @@ async function getVotesByAgendaItemsForContact(
       'Votes.value',
       'Motions.result',
       'Motions.resultKind',
-      'RawAgendaItemConsiderations.agendaItemSummary',
+      'Summaries.agendaItemSummary',
     ])
     .execute();
 
@@ -103,10 +105,11 @@ export default async function CouncillorVotePage(props: {
   const councillor = await getCouncillor(db, contactSlug);
   const agendaItems = await getVotesByAgendaItemsForContact(db, contactSlug);
 
-  return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <CouncillorBio councillor={councillor} />
-      <CouncillorVoteContent agendaItems={agendaItems} />
-    </main>
-  );
+  return JSON.stringify({ councillor, agendaItems });
+  // return (
+  //   <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  //     <CouncillorBio councillor={councillor} />
+  //     <CouncillorVoteContent agendaItems={agendaItems} />
+  //   </main>
+  // );
 }
