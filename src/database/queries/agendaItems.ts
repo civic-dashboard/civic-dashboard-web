@@ -1,8 +1,8 @@
 import { Address, TMMISAgendaItem } from '@/api/agendaItem';
-import { TagEnum } from '@/constants/tags';
-import { DB, JsonArray } from '@/database/allDbTypes';
+import { DB, JsonArray, JsonValue } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
 import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
+import { SearchOptions, SearchPagination } from '@/logic/search';
 import { Kysely, sql } from 'kysely';
 
 export interface AgendaItem {
@@ -34,6 +34,20 @@ export interface AgendaItem {
   planningApplicationNumber: string | null;
   neighbourhoodId: number[] | null;
 }
+
+const cleanAgendaItem = <
+  T extends { meetingDate: string; agendaItemAddress: JsonValue },
+>({
+  meetingDate,
+  agendaItemAddress,
+  ...rest
+}: T) => {
+  return {
+    meetingDate: parseInt(meetingDate),
+    agendaItemAddress: agendaItemAddress as Address[] | null,
+    ...rest,
+  };
+};
 
 export const insertAgendaItems = async (
   db: Kysely<DB>,
@@ -92,37 +106,25 @@ export const insertAgendaItems = async (
     .execute();
 };
 
-export const sortByOptions = ['date', 'relevance'] as const;
-export type SortByOption = (typeof sortByOptions)[number];
-export const sortDirectionOptions = ['ascending', 'descending'] as const;
-export type SortDirectionOption = (typeof sortDirectionOptions)[number];
-
-type AgendaItemSearchOptions = {
-  page: number;
-  pageSize: number;
-  textQuery: string;
-  tags: TagEnum[];
-  decisionBodyId?: number;
-  termId?: number;
-  sortBy: SortByOption;
-  sortDirection: SortDirectionOption;
-  minimumDate?: number;
-  maximumDate?: number;
+type SearchAgendaItemArgs = {
+  options: SearchOptions;
+  pagination: SearchPagination;
 };
 export const searchAgendaItems = async (
   db: Kysely<DB>,
   {
-    page,
-    pageSize,
-    textQuery,
-    tags,
-    decisionBodyId,
-    termId,
-    sortBy,
-    sortDirection,
-    minimumDate,
-    maximumDate,
-  }: AgendaItemSearchOptions,
+    options: {
+      textQuery,
+      tags,
+      decisionBodyIds,
+      termId,
+      sortBy,
+      sortDirection,
+      minimumDate,
+      maximumDate,
+    },
+    pagination: { page, pageSize },
+  }: SearchAgendaItemArgs,
 ) => {
   const postgresQuery = queryAndTagsToPostgresTextSearchQuery({
     textQuery,
@@ -149,8 +151,10 @@ export const searchAgendaItems = async (
           query.select(sql`ts_rank("textSearchVector", query)`.as('rank')),
         );
 
-      if (decisionBodyId !== undefined) {
-        query = query.where('decisionBodyId', '=', decisionBodyId);
+      if (decisionBodyIds.length > 0) {
+        query = query.where((eb) =>
+          eb('decisionBodyId', '=', sql<number>`ANY(${decisionBodyIds})`),
+        );
       }
 
       if (termId !== undefined) {
@@ -162,11 +166,19 @@ export const searchAgendaItems = async (
       }
 
       if (minimumDate !== undefined) {
-        query = query.where('meetingDate', '>=', minimumDate.toString());
+        query = query.where(
+          'meetingDate',
+          '>=',
+          minimumDate.getTime().toString(),
+        );
       }
 
       if (maximumDate !== undefined) {
-        query = query.where('meetingDate', '<=', maximumDate.toString());
+        query = query.where(
+          'meetingDate',
+          '<=',
+          maximumDate.getTime().toString(),
+        );
       }
 
       return query;
@@ -185,7 +197,7 @@ export const searchAgendaItems = async (
 
   query = query
     .orderBy(
-      sortBy === 'relevance' ? 'rank' : 'meetingDate',
+      sortBy === 'relevance' && Boolean(postgresQuery) ? 'rank' : 'meetingDate',
       sortDirection === 'ascending' ? 'asc' : 'desc',
     )
     .limit(pageSize)
@@ -193,13 +205,7 @@ export const searchAgendaItems = async (
 
   const rawResults = await query.execute();
 
-  const results: AgendaItem[] = rawResults.map(
-    ({ meetingDate, agendaItemAddress, ...result }) => ({
-      meetingDate: parseInt(meetingDate),
-      agendaItemAddress: agendaItemAddress as Address[] | null,
-      ...result,
-    }),
-  );
+  const results: AgendaItem[] = rawResults.map(cleanAgendaItem);
 
   return {
     totalCount,
@@ -207,4 +213,82 @@ export const searchAgendaItems = async (
     pageSize,
     results,
   };
+};
+
+export const getSubscribersToNotify = async (db: Kysely<DB>) => {
+  const rawResults = await db
+    .with('newConsiderations', (db) =>
+      db
+        .selectFrom('RawAgendaItemConsiderations')
+        .selectAll()
+        .where('notificationSent', '=', false),
+    )
+    .selectFrom('newConsiderations')
+    .innerJoinLateral(
+      (db) =>
+        db
+          .selectFrom('Subscriptions')
+          .innerJoin(
+            'Subscribers',
+            'Subscribers.id',
+            'Subscriptions.subscriberId',
+          )
+          .selectAll('Subscriptions')
+          .select(['Subscribers.email', 'Subscribers.unsubscribeToken'])
+          .select(
+            sql`ts_rank("newConsiderations"."textSearchVector", "Subscriptions"."tsQuery")`.as(
+              'rank',
+            ),
+          )
+          .distinctOn('subscriberId')
+          .where((eb) =>
+            eb.or([
+              eb(
+                sql<
+                  number | null
+                >`array_length("Subscriptions"."decisionBodyIds", 1)`,
+                'is',
+                null,
+              ),
+              eb(
+                'newConsiderations.decisionBodyId',
+                '=',
+                sql<number>`ANY("Subscriptions"."decisionBodyIds")`,
+              ),
+            ]),
+          )
+          .where((eb) =>
+            eb.or([
+              eb('Subscriptions.tsQuery', 'is', null),
+              eb(
+                'newConsiderations.textSearchVector',
+                '@@',
+                eb.ref('Subscriptions.tsQuery'),
+              ),
+            ]),
+          )
+          .as('matchingSubscriptions'),
+      (join) => join.onTrue(),
+    )
+    .selectAll(['newConsiderations'])
+    .select([
+      'matchingSubscriptions.email',
+      'matchingSubscriptions.unsubscribeToken',
+      'matchingSubscriptions.decisionBodyIds',
+      'matchingSubscriptions.tags',
+      'matchingSubscriptions.textQuery',
+    ])
+    .orderBy('matchingSubscriptions.subscriberId')
+    .orderBy('matchingSubscriptions.rank desc')
+    .execute();
+
+  return rawResults.map(cleanAgendaItem);
+};
+
+export const setAgendaItemsToNotified = async (db: Kysely<DB>) => {
+  await db
+    .updateTable('RawAgendaItemConsiderations')
+    .where('notificationSent', '=', false)
+    .set('notificationSent', true)
+    .execute();
 };

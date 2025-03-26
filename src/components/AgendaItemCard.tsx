@@ -23,7 +23,7 @@ type Props = {
 
 export function AgendaItemCard({ item, decisionBody }: Props) {
   const {
-    searchOptions: { query },
+    searchOptions: { textQuery },
   } = useSearch();
   const formattedDate = new Date(item.meetingDate).toLocaleDateString();
   const commentsHref = `mailto:${decisionBody.email}?subject=My comments for ${item.reference}&body=My comments`;
@@ -31,7 +31,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
 
   return (
     <Card className="p-4">
-      <HighlightChildren element="h2" terms={query}>
+      <HighlightChildren element="h2" terms={textQuery}>
         {item.agendaItemTitle}
       </HighlightChildren>
       <div className="flex flex-row space-x-2 mb-2">
@@ -40,7 +40,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
       </div>
       <p className="mb-1">
         <strong>Decision Body:</strong>{' '}
-        <HighlightChildren terms={query} element="span">
+        <HighlightChildren terms={textQuery} element="span">
           {item.decisionBodyName}
         </HighlightChildren>
       </p>
@@ -50,7 +50,7 @@ export function AgendaItemCard({ item, decisionBody }: Props) {
       {/* <p className="text-gray-600 mb-1">
         <strong>Status:</strong> {item.itemStatus}
       </p> */}
-      <HighlightChildren terms={query}>
+      <HighlightChildren terms={textQuery}>
         <div
           className=" mt-2"
           dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
