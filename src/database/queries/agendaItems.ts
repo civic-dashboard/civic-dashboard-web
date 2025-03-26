@@ -141,7 +141,7 @@ export const searchAgendaItems = async (
         .orderBy('meetingDate', 'desc'),
     )
     .with('query', (db) =>
-      db.selectNoFrom(sql`to_tsquery(${postgresQuery})`.as('query')),
+      db.selectNoFrom(sql`to_tsquery('english', ${postgresQuery})`.as('query')),
     )
     .with('filteredAgendaItems', (db) => {
       let query = db

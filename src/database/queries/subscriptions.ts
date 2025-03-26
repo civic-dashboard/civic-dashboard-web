@@ -22,10 +22,12 @@ export const subscribeToSearch = async (
       textQuery,
       tags: sortedDeduplicatedArray(tags),
       decisionBodyIds: sortedDeduplicatedArray(decisionBodyIds),
-      tsQuery: sql<string>`to_tsquery(${queryAndTagsToPostgresTextSearchQuery({
-        textQuery: textQuery,
-        tags: tags as TagEnum[],
-      })})`,
+      tsQuery: sql<string>`to_tsquery('english', ${queryAndTagsToPostgresTextSearchQuery(
+        {
+          textQuery: textQuery,
+          tags: tags as TagEnum[],
+        },
+      )})`,
     })
     .onConflict((oc) => oc.doNothing())
     .execute();
@@ -122,10 +124,12 @@ export const refreshAllSubscriptionQueries = async (db: Kysely<DB>) => {
 
     const insertValues = subscriptionData.map((values) => ({
       ...values,
-      tsQuery: sql<string>`to_tsquery(${queryAndTagsToPostgresTextSearchQuery({
-        textQuery: values.textQuery,
-        tags: values.tags as TagEnum[],
-      })})`,
+      tsQuery: sql<string>`to_tsquery('english', ${queryAndTagsToPostgresTextSearchQuery(
+        {
+          textQuery: values.textQuery,
+          tags: values.tags as TagEnum[],
+        },
+      )})`,
     }));
 
     // this felt like the easiest way to do a bulk update, but it is weird
