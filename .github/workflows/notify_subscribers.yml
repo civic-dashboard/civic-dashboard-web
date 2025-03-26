@@ -9,9 +9,6 @@ jobs:
   notify-subscribers:
     runs-on: ubuntu-latest
     name: Notify subscribers
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,4 +32,8 @@ jobs:
         run: npm ci
 
       - name: Run update script
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NODE_ENV: 'production'
         run: npm run tsx src/scripts/notifySubscribers.ts
