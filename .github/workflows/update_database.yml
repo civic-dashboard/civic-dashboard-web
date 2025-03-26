@@ -36,4 +36,4 @@ jobs:
         run: npm ci
 
       - name: Run update script
-        run: npx tsx src/scripts/updateDatabase.ts
+        run: npm run tsx src/scripts/updateDatabase.ts
