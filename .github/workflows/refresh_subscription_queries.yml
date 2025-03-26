@@ -1,16 +1,14 @@
-name: Update database
+name: Refresh subscription queries
 
 on:
   push:
     branches: ['main']
-  schedule:
-    - cron: '17 * * * *'
   workflow_dispatch:
 
 jobs:
-  update-database:
+  refresh-subscription-queries:
     runs-on: ubuntu-latest
-    name: Update database
+    name: Refresh subscription queries
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
@@ -36,4 +34,4 @@ jobs:
         run: npm ci
 
       - name: Run update script
-        run: npm run tsx src/scripts/updateDatabase.ts
+        run: npm run tsx src/scripts/refreshSubscriptionQueries.ts

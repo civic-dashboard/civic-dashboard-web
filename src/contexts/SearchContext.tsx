@@ -26,8 +26,9 @@ const SearchContext = createContext<SearchContext | null>(null);
 type Props = React.PropsWithChildren;
 export function SearchProvider({ children }: Props) {
   const [searchOptions, setSearchOptions] = useState<SearchOptions>({
-    query: '',
+    textQuery: '',
     tags: [],
+    decisionBodyIds: [],
     minimumDate: new Date(),
   });
 

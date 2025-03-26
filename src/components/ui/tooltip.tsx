@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+// eslint-disable-next-line no-restricted-imports
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { X } from 'lucide-react';
 

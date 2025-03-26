@@ -39,6 +39,7 @@ npm i
 ```sh
 cat >> .env  << EOF
 DATABASE_URL=postgresql://postgres:postgres@localhost:54320/civic_dashboard
+HOSTNAME_FOR_EMAIL_LINKS=http://localhost:3000
 RESEND_API_KEY=not-needed-for-local-dev
 CRON_SECRET=not-needed-for-local-dev
 EOF
@@ -56,7 +57,7 @@ npm run db:run-migrations
 This will download Agenda Items from the last month up until a month from now and save it into your local PostgreSQL
 
 ```sh
-DATABASE_URL="postgresql://postgres:postgres@localhost:54320/civic_dashboard" npx tsx src/scripts/updateDatabase.ts
+DATABASE_URL="postgresql://postgres:postgres@localhost:54320/civic_dashboard" npm run tsx src/scripts/updateDatabase.ts
 ```
 
 ### Run the app

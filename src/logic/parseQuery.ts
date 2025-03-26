@@ -1,3 +1,14 @@
+/*
+ * IMPORTANT NOTE:
+ * Search subscriptions have their parsed queries baked into
+ * database row for each search subscription so that we can query
+ * against those rows without having to bring data back into the
+ * application layer. There is a pipeline in GitHub which runs
+ * on every merge to main to keep prod in sync, so hopefully this
+ * doesn't require manual intervention but it's good to be aware
+ * of when modifying these definitions.
+ */
+
 import { allTags, TagEnum } from '@/constants/tags';
 
 type Query =
@@ -135,29 +146,23 @@ const parseTokens = (tokens: Token[]): Query | null => {
   return { type: 'and', queries: [initialGroup, rest] };
 };
 
-const queryToPostgresTextSearchQuery = (
-  query: Query,
-  addPrefixSearch: boolean = true,
-): string => {
+const queryToPostgresTextSearchQuery = (query: Query): string => {
   if (query.type === 'token') {
-    const splitTokens = query.token.split(/\s+/).map((s) => `'${s}'`);
-    if (addPrefixSearch) {
-      const last = splitTokens.length - 1;
-      splitTokens[last] = splitTokens[last] + ':*';
-    }
+    const splitTokens = query.token
+      .split(/\s+/)
+      .map((s) => s.replaceAll(/['"]/g, '')) // having apostrophes or quotes in individual search tokens will break postgres's text search
+      .map((s) => `'${s}'`);
+
     return `(${splitTokens.join('<->')})`;
   }
 
   if (query.type === 'not') {
-    return `!(${queryToPostgresTextSearchQuery(query.query, addPrefixSearch)})`;
+    return `!(${queryToPostgresTextSearchQuery(query.query)})`;
   }
 
   const op = query.type === 'and' ? '&' : '|';
-  const subqueries = query.queries.map((subquery, index) =>
-    queryToPostgresTextSearchQuery(
-      subquery,
-      addPrefixSearch && index === query.queries.length - 1,
-    ),
+  const subqueries = query.queries.map((subquery) =>
+    queryToPostgresTextSearchQuery(subquery),
   );
   return `(${subqueries.join(op)})`;
 };

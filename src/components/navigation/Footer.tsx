@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Navigation Links Column */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
@@ -23,52 +23,35 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          {/* Contact Column */}
+
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Contact
-            </h3>
-            <a
-              href="mailto:teamcivicdashboard@gmail.com"
-              className="hover:text-blue-400 transition-colors duration-200"
-            >
-              teamcivicdashboard@gmail.com
-            </a>
+            {/* Contact Column */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                Contact
+              </h3>
+              <a
+                href="mailto:teamcivicdashboard@gmail.com"
+                className="hover:text-blue-400 transition-colors duration-200"
+              >
+                teamcivicdashboard@gmail.com
+              </a>
+            </div>
+
+            {/* Resources (currently just privacy) */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                Resources
+              </h3>
+              <a
+                href="/privacy"
+                className="hover:text-blue-400 transition-colors duration-200"
+              >
+                Privacy Policy
+              </a>
+            </div>
           </div>
 
-          {/* commenting out Legal Links Column until we're ready for it */}
-          {/* 
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Legal
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-blue-400 transition-colors duration-200"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-blue-400 transition-colors duration-200"
-                >
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-blue-400 transition-colors duration-200"
-                >
-                  Support
-                </a>
-              </li>
-            </ul>
-          </div> */}
           {/* Social & Newsletter Column */}
           <div className="space-y-6">
             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">

@@ -5,8 +5,7 @@ import { Combobox } from '@/components/ui/combobox';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
-import { Checkbox } from '@/components/ui/checkbox';
-import { CheckedState } from '@radix-ui/react-checkbox';
+import { Checkbox, type CheckedState } from '@/components/ui/checkbox';
 import { useSearch } from '@/contexts/SearchContext';
 
 type DecisionBodyFilterProps = {
@@ -16,24 +15,28 @@ export function DecisionBodyFilter({
   decisionBodies,
 }: DecisionBodyFilterProps) {
   const {
-    searchOptions: { decisionBodyId },
+    searchOptions: { decisionBodyIds },
     setSearchOptions,
   } = useSearch();
 
   const options = useMemo(
     () =>
-      Object.entries(decisionBodies).map(([id, { decisionBodyName }]) => ({
-        id,
-        label: decisionBodyName,
-      })),
+      Object.values(decisionBodies).map(
+        ({ decisionBodyId, decisionBodyName }) => ({
+          id: decisionBodyId,
+          label: decisionBodyName,
+        }),
+      ),
     [decisionBodies],
   );
 
   const onSelect = useCallback(
-    (id: string) => {
+    (selectedId: number) => {
       setSearchOptions((opts) => ({
         ...opts,
-        decisionBodyId: id === opts.decisionBodyId ? undefined : id,
+        decisionBodyIds: opts.decisionBodyIds.includes(selectedId)
+          ? opts.decisionBodyIds.filter((id) => id !== selectedId)
+          : [...opts.decisionBodyIds, selectedId],
       }));
     },
     [setSearchOptions],
@@ -42,7 +45,8 @@ export function DecisionBodyFilter({
   return (
     <Combobox
       options={options}
-      currentId={decisionBodyId}
+      multiple
+      value={decisionBodyIds}
       onSelect={onSelect}
       placeholder="Select decision body..."
     />
@@ -95,7 +99,7 @@ export function SearchBar() {
       <Input
         className="py-1 px-2"
         onChange={(ev) =>
-          setSearchOptions((opts) => ({ ...opts, query: ev.target.value }))
+          setSearchOptions((opts) => ({ ...opts, textQuery: ev.target.value }))
         }
         placeholder="Search agenda items..."
       />

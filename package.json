@@ -20,7 +20,8 @@
     "db:start": "docker compose up --detach database",
     "db:stop": "docker compose stop database",
     "docker:start": "docker compose up --detach",
-    "docker:stop": "docker compose stop"
+    "docker:stop": "docker compose stop",
+    "tsx": "tsx --tsconfig tsconfig.tsx.json"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.4",
