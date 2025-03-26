@@ -1,8 +1,8 @@
 import { parse as createCsvParser } from 'csv-parse';
 import {
   CsvRow,
-  castNullishText,
   createColumnMapper,
+  sharedCast,
   verifyFieldsAreNotNullish,
 } from '@/database/pipelines/csvUtils';
 import { toSlug } from '@/logic/toSlug';
@@ -43,7 +43,7 @@ export const formatVoteCsvStream = (
     .pipe(
       createCsvParser({
         trim: true,
-        cast: castNullishText,
+        cast: sharedCast,
         columns: createColumnMapper(VoteCsvColumns),
       }),
     )
