@@ -1,6 +1,6 @@
 import { createDB } from '@/database/kyselyDb';
 import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
-// import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
+import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types/index';
@@ -105,11 +105,11 @@ export default async function CouncillorVotePage(props: {
   const councillor = await getCouncillor(db, contactSlug);
   const agendaItems = await getVotesByAgendaItemsForContact(db, contactSlug);
 
-  return JSON.stringify({ councillor, agendaItems });
-  // return (
-  //   <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-  //     <CouncillorBio councillor={councillor} />
-  //     <CouncillorVoteContent agendaItems={agendaItems} />
-  //   </main>
-  // );
+  // return JSON.stringify({ councillor, agendaItems });
+  return (
+    <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <CouncillorBio councillor={councillor} />
+      <CouncillorVoteContent agendaItems={agendaItems} />
+    </main>
+  );
 }
