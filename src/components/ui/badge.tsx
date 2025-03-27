@@ -4,7 +4,7 @@ import { cn } from '@/components/ui/utils';
 import { MouseEventHandler, useCallback } from 'react';
 
 const badgeVariants = cva(
-  'inline-flex items-center rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-2 dark:border-slate-800 dark:focus:ring-slate-300',
+  'inline-flex items-center rounded-lg border border-slate-200 px-3 py-[6px] gap-x-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 dark:border-slate-800 dark:focus:ring-slate-300',
   {
     variants: {
       variant: {
@@ -15,6 +15,8 @@ const badgeVariants = cva(
         destructive:
           'border-transparent bg-red-500 text-slate-50 hover:bg-red-500/80 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/80',
         outline: 'text-slate-950 dark:text-slate-50',
+        green: 'border-transparent text-black bg-[#a5f2d4]',
+        sky: 'border-transparent text-black bg-[#d3e3ff]',
       },
     },
     defaultVariants: {
