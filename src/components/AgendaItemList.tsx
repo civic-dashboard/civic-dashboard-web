@@ -1,10 +1,10 @@
 'use client';
 
-import { AgendaItemCard } from '@/components/AgendaItemCard';
+import { SearchResultAgendaItemCard } from '@/components/AgendaItemCard';
 import {
-  DecisionBodyFilter,
+  AdvancedFilters,
+  ResultCount,
   SearchBar,
-  ShowFullHistory,
   Tags,
 } from '@/components/search';
 import { useMemo } from 'react';
@@ -34,7 +34,7 @@ function ResultList() {
             <h4 className="mx-auto my-32">No results...</h4>
           )}
           {searchResults.results.map((item) => (
-            <AgendaItemCard
+            <SearchResultAgendaItemCard
               key={item.id}
               item={item}
               decisionBody={decisionBodies[item.decisionBodyId]}
@@ -64,25 +64,20 @@ export function AgendaItemList() {
   );
 
   return (
-    <div className="flex-col space-y-4 p-4 max-w-[1000px]">
-      <SearchProvider>
-        <div className="flex flex-col space-y-4">
-          <div className="flex flex-col space-y-2 items-center">
-            <div className="flex flex-row space-x-4 justify-center self-stretch">
-              <SearchBar />
-            </div>
-            <Tags />
-            <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
-              <DecisionBodyFilter decisionBodies={currentTermDecisionBodies} />
-              <div className="flex flex-row space-x-4 items-center">
-                <SubscribeToSearchButton />
-                <ShowFullHistory />
-              </div>
-            </div>
+    <SearchProvider>
+      <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
+        <SearchBar />
+        <Tags />
+        <hr />
+        <AdvancedFilters decisionBodies={currentTermDecisionBodies} />
+        <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
+          <div className="flex grow justify-between items-end">
+            <ResultCount />
+            <SubscribeToSearchButton />
           </div>
-          <ResultList />
         </div>
-      </SearchProvider>
-    </div>
+        <ResultList />
+      </div>
+    </SearchProvider>
   );
 }
