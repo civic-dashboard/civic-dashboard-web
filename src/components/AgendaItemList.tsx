@@ -2,9 +2,9 @@
 
 import { AgendaItemCard } from '@/components/AgendaItemCard';
 import {
-  AdvancedFilters,
-  ResultCount,
+  DecisionBodyFilter,
   SearchBar,
+  ShowFullHistory,
   Tags,
 } from '@/components/search';
 import { useMemo } from 'react';
@@ -64,20 +64,25 @@ export function AgendaItemList() {
   );
 
   return (
-    <SearchProvider>
-      <div className="flex flex-col space-y-4 p-4 items-stretch max-w-[calc(min(100%,814px))]">
-        <SearchBar />
-        <Tags />
-        <hr />
-        <AdvancedFilters decisionBodies={currentTermDecisionBodies} />
-        <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
-          <div className="flex grow justify-between items-end">
-            <ResultCount />
-            <SubscribeToSearchButton />
+    <div className="flex-col space-y-4 p-4 max-w-[1000px]">
+      <SearchProvider>
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-2 items-center">
+            <div className="flex flex-row space-x-4 justify-center self-stretch">
+              <SearchBar />
+            </div>
+            <Tags />
+            <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
+              <DecisionBodyFilter decisionBodies={currentTermDecisionBodies} />
+              <div className="flex flex-row space-x-4 items-center">
+                <SubscribeToSearchButton />
+                <ShowFullHistory />
+              </div>
+            </div>
           </div>
+          <ResultList />
         </div>
-        <ResultList />
-      </div>
-    </SearchProvider>
+      </SearchProvider>
+    </div>
   );
 }

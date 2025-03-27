@@ -26,7 +26,7 @@ export const SearchInput = ({
       if (event.key === 'Enter')
         triggerOnChange.immediate(event.currentTarget.value);
     },
-    [triggerOnChange],
+    [triggerOnChange.immediate],
   );
   useEffect(() => triggerOnChange.cancel, [triggerOnChange]);
   return (
