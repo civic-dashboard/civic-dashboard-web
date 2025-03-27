@@ -120,7 +120,16 @@ export default function AgendaItemResults({
 
 const formatDateString = (dateString: string) => {
   if (!dateString) return dateString;
-  const date = new Date(dateString);
+
+  let date: Date;
+
+  if (dateString.includes('-')) {
+    const datePart = dateString.split(' ')[0];
+    date = new Date(datePart);
+  } else {
+    date = new Date(dateString);
+  }
+
   if (!date.getTime()) return dateString;
   return date.toLocaleDateString('en-US', {
     month: 'short',
