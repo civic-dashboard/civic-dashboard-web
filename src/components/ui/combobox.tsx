@@ -94,7 +94,7 @@ export const Combobox = <ID extends number | string>({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            'max-w-[300px] justify-between',
+            'max-w-[300px] justify-between border-neutral-200',
             isEmpty && 'text-gray-500',
           )}
         >

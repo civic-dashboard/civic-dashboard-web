@@ -34,6 +34,11 @@
   }
 }
 
+ul {
+  @apply ml-8;
+  list-style-type: disc;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

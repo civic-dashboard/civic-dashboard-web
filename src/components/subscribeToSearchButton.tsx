@@ -42,7 +42,7 @@ export const SubscribeToSearchButton = () => {
   return (
     <Popover onOpenChange={(isOpen) => isOpen && setSendState('ready')}>
       <PopoverTrigger asChild>
-        <Button>Get Email Alerts</Button>
+        <Button variant="secondary-outline">Get Email Alerts</Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-90 min-w-72">
         <div className="flex flex-col space-y-2">
