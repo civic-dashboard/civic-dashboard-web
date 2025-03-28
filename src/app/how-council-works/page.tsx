@@ -1,6 +1,7 @@
 'use client';
 
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
+import { menuItems } from '@/constants/navigation';
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
@@ -41,25 +42,35 @@ export default function HowCouncilWorks() {
       content:
         "City Council refers to the group of Councillors, who are elected to represent each of Toronto's wards, and the Mayor, who is elected city-wide. There are 25 Councillors and one Mayor, making 26 total City Council members.",
     },
+    ward: {
+      trigger: 'Ward',
+      content:
+        'Toronto is divided into 25 geographic areas, each represented by a City Councillor. These areas are called “wards.',
+    },
+    councillor: {
+      trigger: 'Councillor',
+      content:
+        'A Councillor is an elected official who represents a specific ward in Toronto. Councillors are responsible for voicing the concerns of their constituents, debating issues, and voting on decisions that shape the city’s policies and laws..',
+    },
     item: {
       trigger: 'Item',
       content:
-        'An item is any topic or issue listed on a City Council or committee agenda for discussion or decision.',
+        'An item is any topic or issue listed on a City Council or committee agenda for discussion or decision. Items can include a wide range of matters, such as proposed bylaws, policy decisions, or requests for studies.',
     },
     reports: {
       trigger: 'Reports',
       content:
-        'Reports are detailed documents prepared by city staff that provide background information, analysis, and recommendations on specific items.',
+        'Reports are detailed documents prepared by city staff to provide background information, analysis, and recommendations on specific issues.',
     },
     committees: {
       trigger: 'Committees',
       content:
-        'Committees are smaller groups of council members who review and refine items before they go to the full Council for voting.',
+        'A Committee is a smaller group of council members that focus on specific areas like the environment, transportation, or housing. Committees review recommendations from city staff, ask questions, and suggest changes.',
     },
     deputations: {
       trigger: 'Deputations',
       content:
-        'A deputation is a formal presentation where residents can share their views directly with council members during a public meeting.',
+        'Deputations are opportunities for citizens to speak directly to a committee about a specific issue or recommendation being discussed. Deputations allow citizens to share their opinions and influence the decisions being made.',
     },
   };
 
@@ -86,6 +97,31 @@ export default function HowCouncilWorks() {
             decisions follows three key steps.
           </SectionText>
           <ImagePlaceholder />
+          <SectionText>
+            Toronto is divided into 25{' '}
+            <Tooltip
+              tooltipContent={tooltips.ward.content}
+              tooltipTitle={tooltips.ward.trigger}
+            >
+              wards
+            </Tooltip>
+            , each represented by a City Councillor. City Council is made up of
+            25 elected{' '}
+            <Tooltip
+              tooltipContent={tooltips.councillor.content}
+              tooltipTitle={tooltips.councillor.trigger}
+            >
+              Councillors
+            </Tooltip>
+            , one per ward, and the Mayor, who is elected city-wide. Together,
+            they shape policies and make decisions that impact the entire city.
+            <br />
+            <br />
+            The Toronto Public Service (TPS) has 42K+ employees working across
+            dozens of divisions and offices to implement city policies and
+            services. They are directed by City Council to deliver City programs
+            and services.
+          </SectionText>
         </Section>
 
         {/* Three-Step City Council Process */}
@@ -155,12 +191,11 @@ export default function HowCouncilWorks() {
             >
               committee
             </Tooltip>
-            , a smaller group of council members appointed by the mayor.
-            Committees review the staff&apos;s recommendations, provide
-            feedback, suggest changes, and ask critical questions to ensure the
-            proposals are well thought out. While committees don&apos;t make
-            final decisions, they refine the item and send it to the full
-            Council for voting.
+            , a smaller group of council members. Committees review the
+            staff&apos;s recommendations, provide feedback, suggest changes, and
+            ask critical questions to ensure the proposals are well thought out.
+            While committees don&apos;t make final decisions, they refine the
+            item and send it to the full Council for voting.
             <br />
             <br />
             This stage also provides an opportunity for public deputations,
@@ -254,6 +289,26 @@ export default function HowCouncilWorks() {
               </a>
               .
             </span>
+          </SectionText>
+        </Section>
+        <Section>
+          <SectionHeading>Stay Informed, Take Action</SectionHeading>
+          <SectionText>
+            Now that you know how City Council works, why not take the next
+            step? Stay informed and make your voice heard! Check out our{' '}
+            <a href={menuItems[3].href} className="classic-link">
+              Actions Page
+            </a>{' '}
+            to see upcoming Council items and take action in just one click.
+            <br />
+            <br />
+            Or visit our{' '}
+            <a href={menuItems[4].href} className="classic-link">
+              Councillors Page
+            </a>{' '}
+            to see how your Councillor has voted and whether they align with
+            your priorities. Your engagement can help shape the decisions that
+            impact Toronto—get involved today!
           </SectionText>
         </Section>
       </main>
