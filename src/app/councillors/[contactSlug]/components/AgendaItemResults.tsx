@@ -57,7 +57,7 @@ export default function AgendaItemResults({
 
   return (
     <div>
-      <div className="flex justify-between mb-8">
+      <div className="flex justify-end mb-8">
         <div>{filteredItems.length} results</div>
       </div>
 
