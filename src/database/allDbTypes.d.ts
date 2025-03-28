@@ -35,6 +35,11 @@ export type Vote = {
   value: string;
 };
 
+export type Committees = {
+  committeeSlug: string;
+  committeeName: string;
+};
+
 export type Motion = {
   agendaItemNumber: string;
   motionId: string;
@@ -62,6 +67,7 @@ export type DB = generated.DB & {
   Votes: Vote;
   Motions: Motion;
   AgendaItems: AgendaItem;
+  Committees: Committees;
 };
 
 export type InsertRawContact = Insertable<generated.RawContacts>;
