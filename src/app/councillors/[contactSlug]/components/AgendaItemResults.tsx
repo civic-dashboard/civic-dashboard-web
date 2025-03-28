@@ -71,20 +71,14 @@ export default function AgendaItemResults({
 
 const formatDateString = (dateString: string) => {
   if (!dateString) return dateString;
-
-  let date: Date;
-
-  if (dateString.includes('-')) {
-    const datePart = dateString.split(' ')[0];
-    date = new Date(datePart);
-  } else {
-    date = new Date(dateString);
-  }
-
+  const date = new Date(dateString.substring(0, 10));
   if (!date.getTime()) return dateString;
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  date.setMinutes(date.getTimezoneOffset());
+  return dateFormatter.format(date);
 };
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+});
