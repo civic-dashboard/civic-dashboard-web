@@ -105,7 +105,6 @@ export default async function CouncillorVotePage(props: {
   const councillor = await getCouncillor(db, contactSlug);
   const agendaItems = await getVotesByAgendaItemsForContact(db, contactSlug);
 
-  // return JSON.stringify({ councillor, agendaItems });
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <CouncillorBio councillor={councillor} />
