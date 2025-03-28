@@ -1,8 +1,9 @@
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
 import { useMemo, memo } from 'react';
-import { Link2 } from 'lucide-react';
+import { Link2Icon } from 'lucide-react';
 import { SummaryPanel } from '@/app/councillors/[contactSlug]/components/SummaryPanel';
 import { MotionsList } from '@/app/councillors/[contactSlug]/components/MotionsList';
+import { AgendaItemLink } from '@/components/AgendaItemLink';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
@@ -16,10 +17,13 @@ const AgendaItemCard = memo(function AgendaItemCard({
           <div className="border rounded-lg px-4 py-2 text-xs text-black font-semibold bg-[#a5f2d4]">
             {formatDateString(item.motions[0].dateTime)}
           </div>
-          <div className="text-xs font-semibold flex items-center border-2 rounded-lg px-4 py-2">
-            <Link2 className="w-[14px] h-[14px] mr-2" />
+          <AgendaItemLink
+            className="text-xs font-semibold flex items-center border-2 rounded-lg px-4 py-2"
+            agendaItemNumber={item.agendaItemNumber}
+          >
+            <Link2Icon className="w-[14px] h-[14px] mr-2" />
             {item.agendaItemNumber}
-          </div>
+          </AgendaItemLink>
         </div>
         <div className="px-4 pt-3">
           <h3 className="font-semibold text-sm">{item.agendaItemTitle}</h3>
