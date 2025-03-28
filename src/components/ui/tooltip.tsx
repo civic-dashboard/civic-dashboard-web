@@ -18,14 +18,19 @@ export function Tooltip({
 }: TooltipProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
+  const isTouchDevice = () =>
+    'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   return (
     <TooltipPrimitive.Provider>
       <TooltipPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
         <TooltipPrimitive.Trigger
           asChild
           onClick={(e) => {
-            e.preventDefault();
-            setIsOpen(!isOpen);
+            if (isTouchDevice()) {
+              e.preventDefault();
+            }
+            setIsOpen(true);
           }}
         >
           <span className="cursor-pointer underline" role="button" tabIndex={0}>
