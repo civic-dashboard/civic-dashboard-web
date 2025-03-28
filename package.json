@@ -13,7 +13,6 @@
     "preview-local:worker": "npm run build:worker && npm run dev:worker",
     "preview-remote:worker": "npm run build:worker && wrangler versions upload",
     "deploy:worker": "npm run build:worker && wrangler deploy",
-    "tsx": "tsx",
     "db:update-types": "kysely-codegen --out-file ./src/database/generatedDbTypes.d.ts --url $DATABASE_URL && eslint ./src/database/generatedDbTypes.d.ts --fix",
     "db:create-migration": "kysely migrate:make",
     "db:list-migrations": "kysely migrate:list",
