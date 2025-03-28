@@ -8,3 +8,11 @@ export const parseNumberParam = (
   }
   return parseInt(param);
 };
+
+export const parseDateParam = (searchParams: URLSearchParams, name: string) => {
+  const asNumber = parseNumberParam(searchParams, name);
+  if (asNumber === undefined) {
+    return asNumber;
+  }
+  return new Date(asNumber);
+};

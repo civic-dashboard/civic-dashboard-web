@@ -1,14 +1,13 @@
-import { parseNumberParam } from '@/api/utils';
+import { parseDateParam, parseNumberParam } from '@/api/utils';
 import { isTag } from '@/constants/tags';
 import { createDB } from '@/database/kyselyDb';
+import { AgendaItem, searchAgendaItems } from '@/database/queries/agendaItems';
 import {
-  AgendaItem,
-  searchAgendaItems,
   SortByOption,
   sortByOptions,
   SortDirectionOption,
   sortDirectionOptions,
-} from '@/database/queries/agendaItems';
+} from '@/logic/search';
 import { NextRequest } from 'next/server';
 
 export type AgendaItemSearchResponse = {
@@ -47,17 +46,23 @@ export async function GET(request: NextRequest) {
       { status: 422 },
     );
   }
-  const decisionBodyId = parseNumberParam(searchParams, 'decisionBodyId');
-  if (Number.isNaN(decisionBodyId)) {
-    return Response.json(
-      { error: `Invalid decision body: ${decisionBodyId} ` },
-      { status: 422 },
-    );
+  const decisionBodyIdStrings =
+    searchParams.get('decisionBodyIds')?.split(',') ?? [];
+  const decisionBodyIds = [];
+  for (const idString of decisionBodyIdStrings) {
+    const decisionBodyId = parseInt(idString);
+    if (Number.isNaN(decisionBodyId)) {
+      return Response.json(
+        { error: `Invalid decision body: ${decisionBodyId} ` },
+        { status: 422 },
+      );
+    }
+    decisionBodyIds.push(decisionBodyId);
   }
   const termId = parseNumberParam(searchParams, 'termId');
   if (Number.isNaN(termId)) {
     return Response.json(
-      { error: `Invalid term: ${decisionBodyId} ` },
+      { error: `Invalid term: ${searchParams.get('termId')} ` },
       { status: 422 },
     );
   }
@@ -73,22 +78,38 @@ export async function GET(request: NextRequest) {
       { status: 422 },
     );
   }
-  const minimumDate = parseNumberParam(searchParams, 'minimumDate');
-  const maximumDate = parseNumberParam(searchParams, 'maximumDate');
+  const minimumDate = parseDateParam(searchParams, 'minimumDate');
+  if (minimumDate !== undefined && isNaN(minimumDate.getTime())) {
+    return Response.json(
+      { error: `Invalid minimumDate: ${searchParams.get('minimumDate')} ` },
+      { status: 422 },
+    );
+  }
+  const maximumDate = parseDateParam(searchParams, 'maximumDate');
+  if (maximumDate !== undefined && isNaN(maximumDate.getTime())) {
+    return Response.json(
+      { error: `Invalid maximumDate: ${searchParams.get('maximumDate')} ` },
+      { status: 422 },
+    );
+  }
 
   let result: AgendaItemSearchResponse;
   try {
     result = await searchAgendaItems(createDB(), {
-      textQuery,
-      tags: knownTags,
-      page,
-      pageSize,
-      decisionBodyId,
-      termId,
-      sortBy,
-      sortDirection,
-      minimumDate,
-      maximumDate,
+      options: {
+        textQuery,
+        tags: knownTags,
+        decisionBodyIds,
+        termId,
+        sortBy,
+        sortDirection,
+        minimumDate,
+        maximumDate,
+      },
+      pagination: {
+        page,
+        pageSize,
+      },
     });
   } catch (e) {
     return Response.json({ error: (e as Error).message }, { status: 500 });

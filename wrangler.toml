@@ -7,3 +7,6 @@ routes = [{ pattern = "civicdashboard.ca", custom_domain = true }]
 
 [observability.logs]
 enabled = true
+
+[vars]
+HOSTNAME_FOR_EMAIL_LINKS = "https://civicdashboard.ca"

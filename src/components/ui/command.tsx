@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+// eslint-disable-next-line no-restricted-imports
 import { type DialogProps } from '@radix-ui/react-dialog';
 import { Command as CommandPrimitive } from 'cmdk';
 import { Search } from 'lucide-react';

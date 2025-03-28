@@ -50,3 +50,5 @@ This is (probably not, but hopefully!) all the information you need to contribut
 ## Emails
 
 We use [maildev](https://github.com/maildev/maildev) to preview emails in development. Make sure you've started your docker containers with `npm run docker:start`, and navigate to `localhost:1080` in your browser. All emails that are sent from the app in development mode will show up in this inbox!
+
+Note that links in emails will by default link to `https://civicdashboard.ca`, rather than your local dev server. You can set `HOSTNAME_FOR_EMAIL_LINKS` in your `.env` to account for this.
