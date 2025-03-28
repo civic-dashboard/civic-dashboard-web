@@ -21,7 +21,8 @@
     "db:start": "docker compose up --detach database",
     "db:stop": "docker compose stop database",
     "docker:start": "docker compose up --detach",
-    "docker:stop": "docker compose stop"
+    "docker:stop": "docker compose stop",
+    "tsx": "tsx --tsconfig tsconfig.tsx.json"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.4",
@@ -46,6 +47,7 @@
     "postgres": "^3.4.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-intersection-observer": "^9.16.0",
     "resend": "^4.0.1",
     "slugify": "^1.6.6",
     "tailwind-merge": "^2.5.4",

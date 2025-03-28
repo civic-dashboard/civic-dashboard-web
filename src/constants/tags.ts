@@ -1,3 +1,14 @@
+/*
+ * IMPORTANT NOTE:
+ * Search subscriptions associated with tags have their queries in
+ * database row so that we can query
+ * against those rows without having to bring data back into the
+ * application layer. There is a pipeline in GitHub which runs
+ * on every merge to main to keep prod in sync, so hopefully this
+ * doesn't require manual intervention but it's good to be aware
+ * of when modifying these definitions.
+ */
+
 export const allTags = {
   housing: {
     displayName: 'housing',

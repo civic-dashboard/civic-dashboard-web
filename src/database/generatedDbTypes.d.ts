@@ -114,6 +114,10 @@ export interface RawAgendaItemConsiderations {
    */
   neighbourhoodId: number[] | null;
   /**
+   * whether a notification has been sent to subscribers for this column.
+   */
+  notificationSent: Generated<boolean>;
+  /**
    * Comma separated list of text reference numbers.
    */
   planningApplicationNumber: string | null;
@@ -188,9 +192,50 @@ export interface RawVotes {
   voteDescription: string;
 }
 
+export interface Subscribers {
+  /**
+   * subscriber email address
+   */
+  email: string;
+  /**
+   * auto-generated pkey
+   */
+  id: Generated<number>;
+  unsubscribeToken: Generated<string>;
+}
+
+export interface Subscriptions {
+  /**
+   * array of decision bodies
+   */
+  decisionBodyIds: Generated<number[]>;
+  /**
+   * auto-generated pkey
+   */
+  id: Generated<number>;
+  /**
+   * foreign key to Subscribers
+   */
+  subscriberId: number;
+  /**
+   * array of tags
+   */
+  tags: Generated<string[]>;
+  /**
+   * text query
+   */
+  textQuery: Generated<string>;
+  /**
+   * pre-computed search query
+   */
+  tsQuery: string | null;
+}
+
 export interface DB {
   RawAgendaItemConsiderations: RawAgendaItemConsiderations;
   RawAgendaItems: RawAgendaItems;
   RawContacts: RawContacts;
   RawVotes: RawVotes;
+  Subscribers: Subscribers;
+  Subscriptions: Subscriptions;
 }

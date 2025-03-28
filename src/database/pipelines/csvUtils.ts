@@ -71,3 +71,19 @@ export const castNullishText = (
   if (isTextNullish(text)) return null;
   return text;
 };
+
+// Temporary workaround to fix encoding problems until we dig deeper into it
+export const repairEncodingJank = (text: string) => {
+  const output = text
+    .replaceAll('ÃÂ', "'")
+    .replaceAll('ÃÂ', '"')
+    .replaceAll('ÃÂ', '"')
+    .replaceAll('ÃÂ©', 'é');
+  return output;
+};
+
+export const sharedCast = (input: string | null | undefined) => {
+  const nullishText = castNullishText(input);
+  if (!nullishText) return nullishText;
+  return repairEncodingJank(nullishText);
+};

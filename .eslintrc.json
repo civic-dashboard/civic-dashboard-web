@@ -14,7 +14,16 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": [".*"],
+        "patterns": [
+          {
+            "group": [".*"],
+            "message": "Please use an absolute import with @/ instead of relative imports."
+          },
+          {
+            "group": ["@radix-ui/*"],
+            "message": "Please use our wrapper components in @/components/ui instead."
+          }
+        ],
         "paths": [
           {
             "name": "pg",
@@ -27,6 +36,10 @@
           {
             "name": "slugify",
             "message": "Please use @/logic/toSlug instead."
+          },
+          {
+            "name": "react-intersection-observer",
+            "message": "Please use @/hooks/useIntersectionObserver instead."
           }
         ]
       }

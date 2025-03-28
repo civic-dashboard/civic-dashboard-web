@@ -1,99 +1,12 @@
 import { Search } from 'lucide-react';
-import React, {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
 import { Badge } from '@/components/ui/badge';
-import { fetchSearchResults, SearchOptions } from '@/logic/search';
 import { Input } from '@/components/ui/input';
-import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
-import { Checkbox } from '@/components/ui/checkbox';
-import { CheckedState } from '@radix-ui/react-checkbox';
-
-const SEARCH_DEBOUNCE_DELAY_MS = 250;
-
-type SearchContext = {
-  searchOptions: SearchOptions;
-  setSearchOptions: Dispatch<SetStateAction<SearchOptions>>;
-  searchResults: AgendaItemSearchResponse | 'loading';
-};
-
-const SearchContext = createContext<SearchContext | null>(null);
-
-type Props = React.PropsWithChildren;
-export function SearchProvider({ children }: Props) {
-  const [searchOptions, setSearchOptions] = useState<SearchOptions>({
-    query: '',
-    tags: [],
-    minimumDate: new Date(),
-  });
-
-  const [searchResults, setSearchResults] = useState<
-    AgendaItemSearchResponse | 'loading'
-  >('loading');
-  const controllerRef = useRef<AbortController | null>(null); // Used to cancel previous requests
-
-  const onSearch = useCallback(async (options: SearchOptions) => {
-    // If a previous request is still pending, abort it
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-    }
-
-    // Create a new AbortController instance for the current request
-    const controller = new AbortController();
-    controllerRef.current = controller;
-
-    setSearchResults('loading');
-
-    try {
-      setSearchResults(
-        await fetchSearchResults({
-          options,
-          pagination: { page: 0, pageSize: 50 },
-          abortSignal: controller.signal,
-        }),
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.name !== 'AbortError') {
-          console.error(error.message);
-        }
-      } else {
-        console.error('An unexpected error occurred:', error);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      onSearch(searchOptions);
-    }, SEARCH_DEBOUNCE_DELAY_MS);
-
-    return () => clearTimeout(debounceTimeout);
-  }, [searchOptions, onSearch]);
-
-  return (
-    <SearchContext.Provider
-      value={{ searchOptions, setSearchOptions, searchResults }}
-    >
-      {children}
-    </SearchContext.Provider>
-  );
-}
-
-export const useSearch = () => {
-  return useContext(SearchContext)!;
-};
+import { Checkbox, type CheckedState } from '@/components/ui/checkbox';
+import { useSearch } from '@/contexts/SearchContext';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
@@ -102,24 +15,28 @@ export function DecisionBodyFilter({
   decisionBodies,
 }: DecisionBodyFilterProps) {
   const {
-    searchOptions: { decisionBodyId },
+    searchOptions: { decisionBodyIds },
     setSearchOptions,
   } = useSearch();
 
   const options = useMemo(
     () =>
-      Object.entries(decisionBodies).map(([id, { decisionBodyName }]) => ({
-        id,
-        label: decisionBodyName,
-      })),
+      Object.values(decisionBodies).map(
+        ({ decisionBodyId, decisionBodyName }) => ({
+          id: decisionBodyId,
+          label: decisionBodyName,
+        }),
+      ),
     [decisionBodies],
   );
 
   const onSelect = useCallback(
-    (id: string) => {
+    (selectedId: number) => {
       setSearchOptions((opts) => ({
         ...opts,
-        decisionBodyId: id === opts.decisionBodyId ? undefined : id,
+        decisionBodyIds: opts.decisionBodyIds.includes(selectedId)
+          ? opts.decisionBodyIds.filter((id) => id !== selectedId)
+          : [...opts.decisionBodyIds, selectedId],
       }));
     },
     [setSearchOptions],
@@ -128,7 +45,8 @@ export function DecisionBodyFilter({
   return (
     <Combobox
       options={options}
-      currentId={decisionBodyId}
+      multiple
+      value={decisionBodyIds}
       onSelect={onSelect}
       placeholder="Select decision body..."
     />
@@ -181,7 +99,7 @@ export function SearchBar() {
       <Input
         className="py-1 px-2"
         onChange={(ev) =>
-          setSearchOptions((opts) => ({ ...opts, query: ev.target.value }))
+          setSearchOptions((opts) => ({ ...opts, textQuery: ev.target.value }))
         }
         placeholder="Search agenda items..."
       />
