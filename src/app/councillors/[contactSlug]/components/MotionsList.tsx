@@ -1,50 +1,22 @@
+import { Motion } from '@/app/councillors/[contactSlug]/types';
 import {
-  ThumbsUp,
-  ThumbsDown,
-  CircleMinus,
-  CircleDotDashed,
+  ThumbsUpIcon,
+  ThumbsDownIcon,
+  CircleMinusIcon,
+  CircleDotDashedIcon,
 } from 'lucide-react';
-
-interface Motion {
-  motionId: string;
-  dateTime: string;
-  motionType: string;
-  value: string;
-  committeeSlug: string;
-  result: string;
-  resultKind: string;
-}
 
 const getVoteIcon = (value: string) => {
   switch (value?.toLowerCase()) {
     case 'yes':
-      return <ThumbsUp className="w-4 h-4" />;
+      return <ThumbsUpIcon className="w-4 h-4" />;
     case 'no':
-      return <ThumbsDown className="w-4 h-4" />;
+      return <ThumbsDownIcon className="w-4 h-4" />;
     case 'absent':
-      return <CircleMinus className="w-4 h-4" />;
+      return <CircleMinusIcon className="w-4 h-4" />;
     default:
-      return <CircleDotDashed className="w-4 h-4" />;
+      return <CircleDotDashedIcon className="w-4 h-4" />;
   }
-};
-
-const cleanUpCommitteeSlug = (slug: string): string => {
-  const smallWords = ['and', 'of', 'the'];
-
-  return slug
-    .split('-')
-    .map((word, index) => {
-      if (index !== 0 && smallWords.includes(word)) {
-        return word;
-      }
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    })
-    .join(' ');
-};
-
-const cleanUpMotionResult = (result: string): string => {
-  const match = result.match(/(\d+-\d+)/);
-  return match ? match[1] : '';
 };
 
 interface MotionsListProps {
@@ -82,16 +54,12 @@ export const MotionsList = ({ motions }: MotionsListProps) => {
 
             <div className="flex flex-col items-center text-center">
               <div>Decision body</div>
-              <div className="text-gray-500">
-                {cleanUpCommitteeSlug(motion.committeeSlug)}
-              </div>
+              <div className="text-gray-500">{motion.committeeName}</div>
             </div>
 
             <div className="flex flex-col items-center text-center">
               <div>Total</div>
-              <div className="text-gray-500">
-                {cleanUpMotionResult(motion.result)}
-              </div>
+              <div className="text-gray-500">{motion.tally}</div>
             </div>
 
             <div className="flex flex-col items-center text-center">

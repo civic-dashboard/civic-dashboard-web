@@ -1,7 +1,7 @@
 import { createDB } from '@/database/kyselyDb';
 import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
-import { Kysely } from 'kysely';
+import { Kysely, sql } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types/index';
 
@@ -58,6 +58,9 @@ async function getVotesByAgendaItemsForContact(
     .innerJoin('AgendaItems', (eb) =>
       eb.onRef('Votes.agendaItemNumber', '=', 'AgendaItems.agendaItemNumber'),
     )
+    .innerJoin('Committees', (eb) =>
+      eb.onRef('Committees.committeeSlug', '=', 'Motions.committeeSlug'),
+    )
     .leftJoin('Summaries', (eb) =>
       eb.onRef('AgendaItems.agendaItemNumber', '=', 'Summaries.reference'),
     )
@@ -71,10 +74,14 @@ async function getVotesByAgendaItemsForContact(
       'Motions.voteDescription',
       'Motions.dateTime',
       'Motions.committeeSlug',
+      'Committees.committeeName',
       'Votes.value',
       'Motions.result',
       'Motions.resultKind',
       'Summaries.agendaItemSummary',
+      sql<string>`CONCAT("Motions"."yesVotes", '-', "Motions"."noVotes")`.as(
+        'tally',
+      ),
     ])
     .execute();
 
