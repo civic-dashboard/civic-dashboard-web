@@ -2,6 +2,7 @@
 
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import { menuItems } from '@/constants/navigation';
+import Image from 'next/image';
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
@@ -19,9 +20,16 @@ const SectionText = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
-const ImagePlaceholder = () => (
-  <div className="w-full h-[540px] mt-14 mx-auto border border-neutral-400 flex items-center justify-center">
-    <span className="text-neutral-500">Image Placeholder</span>
+const ProcessImage = ({ src, alt }: { src: string; alt: string }) => (
+  <div className="w-full mt-14 mx-auto">
+    <Image
+      src={src}
+      alt={alt}
+      width={876}
+      height={540}
+      className="w-full h-full object-cover"
+      priority
+    />
   </div>
 );
 
@@ -45,12 +53,12 @@ export default function HowCouncilWorks() {
     ward: {
       trigger: 'Ward',
       content:
-        'Toronto is divided into 25 geographic areas, each represented by a City Councillor. These areas are called “wards.',
+        'Toronto is divided into 25 geographic areas, each represented by a City Councillor. These areas are called "wards.',
     },
     councillor: {
       trigger: 'Councillor',
       content:
-        'A Councillor is an elected official who represents a specific ward in Toronto. Councillors are responsible for voicing the concerns of their constituents, debating issues, and voting on decisions that shape the city’s policies and laws..',
+        "A Councillor is an elected official who represents a specific ward in Toronto. Councillors are responsible for voicing the concerns of their constituents, debating issues, and voting on decisions that shape the city's policies and laws.",
     },
     item: {
       trigger: 'Item',
@@ -96,7 +104,10 @@ export default function HowCouncilWorks() {
             parks to public transit and housing. The process used to make these
             decisions follows three key steps.
           </SectionText>
-          <ImagePlaceholder />
+          <ProcessImage
+            src="/toronto.png"
+            alt="Overview of Toronto City Council"
+          />
           <SectionText>
             Toronto is divided into 25{' '}
             <Tooltip
@@ -157,7 +168,7 @@ export default function HowCouncilWorks() {
         {/* Staff Stage */}
         <Section>
           <SectionHeading>First Step: Staff Stage</SectionHeading>
-          <ImagePlaceholder />
+          <ProcessImage src="/staff.png" alt="Staff Stage Process" />
           <SectionText>
             City staff, working at City Hall, take the first steps in acting on
             an item by researching and developing recommendations. They gather
@@ -182,7 +193,7 @@ export default function HowCouncilWorks() {
         {/* Committee Stage */}
         <Section>
           <SectionHeading>Second Step: Committee Stage</SectionHeading>
-          <ImagePlaceholder />
+          <ProcessImage src="/committee.png" alt="Committee Stage Process" />
           <SectionText>
             Next, the item moves to a{' '}
             <Tooltip
@@ -218,7 +229,7 @@ export default function HowCouncilWorks() {
         {/* Council Stage */}
         <Section>
           <SectionHeading>Third Step: Council Stage</SectionHeading>
-          <ImagePlaceholder />
+          <ProcessImage src="/council.png" alt="Council Stage Process" />
           <SectionText>
             Finally, the item reaches the full City Council, which consists of
             all elected council members. At this stage, councilors review the
