@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import AgendaItemSearch from '@/app/councillors/[contactSlug]/components/AgendaItemSearch';
 import AgendaItemResults from '@/app/councillors/[contactSlug]/components/AgendaItemResults';
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
+import { SearchInput } from '@/components/SearchInput';
 
 export default function CouncillorVoteContent({
   agendaItems,
@@ -13,7 +13,12 @@ export default function CouncillorVoteContent({
 
   return (
     <>
-      <AgendaItemSearch onSearch={setSearchTerm} />
+      <SearchInput
+        onChange={setSearchTerm}
+        aria-label="Search agenda items"
+        placeholder="Search agenda items…"
+        className="dark:bg-transparent"
+      />
       <AgendaItemResults agendaItems={agendaItems} searchTerm={searchTerm} />
     </>
   );
