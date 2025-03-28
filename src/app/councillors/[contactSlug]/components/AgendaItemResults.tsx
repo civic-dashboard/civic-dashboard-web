@@ -63,10 +63,7 @@ export default function AgendaItemResults({
 
       <div>
         {filteredItems.map((item) => (
-          <AgendaItemCard
-            key={`${item.agendaItemNumber}-${item.motions[0]?.motionId}`}
-            item={item}
-          />
+          <AgendaItemCard key={item.agendaItemNumber} item={item} />
         ))}
       </div>
     </div>
