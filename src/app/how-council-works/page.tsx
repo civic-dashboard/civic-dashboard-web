@@ -125,8 +125,9 @@ export default function HowCouncilWorks() {
         </Section>
 
         {/* Three-Step City Council Process */}
-        <Section>
+        <div className="mt-[78px]">
           <SectionHeading>The Three-Step City Council Process</SectionHeading>
+
           <SectionText>
             Before we dive into the process, let&apos;s define what City Council
             works on. An{' '}
@@ -152,8 +153,7 @@ export default function HowCouncilWorks() {
             Now, let&apos;s follow how an item moves through City Council and
             how you can engage with it along the way.
           </SectionText>
-        </Section>
-
+        </div>
         {/* Staff Stage */}
         <Section>
           <SectionHeading>First Step: Staff Stage</SectionHeading>
