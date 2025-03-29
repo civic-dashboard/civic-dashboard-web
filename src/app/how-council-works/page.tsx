@@ -332,16 +332,16 @@ export default function HowCouncilWorks() {
           <SectionText>
             Now that you know how City Council works, why not take the next
             step? Stay informed and make your voice heard! Check out our{' '}
-            <a href={menuItems[3].href} className="classic-link">
+            <Link href="/actions" className="classic-link">
               Actions Page
-            </a>{' '}
+            </Link>{' '}
             to see upcoming Council items and take action in just one click.
             <br />
             <br />
             Or visit our{' '}
-            <a href={menuItems[4].href} className="classic-link">
+            <Link href="/councillors" className="classic-link">
               Councillors Page
-            </a>{' '}
+            </Link>{' '}
             to see how your Councillor has voted and whether they align with
             your priorities. Your engagement can help shape the decisions that
             impact Toronto—get involved today!
