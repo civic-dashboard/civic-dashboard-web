@@ -3,7 +3,7 @@
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import { menuItems } from '@/constants/navigation';
 import Image from 'next/image';
-
+import Link from 'next/link';
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
     {children}
@@ -103,7 +103,7 @@ export default function HowCouncilWorks() {
 
   return (
     <TooltipProvider>
-      <main className="max-w-[876px] mx-auto px-4 md:px-0 pb-[120px]">
+      <main className="max-w-[876px] mx-auto px-4 md:px-0">
         <h1 className="text-[32px] md:text-[48px] lg:text-[56px] font-bold mt-[104px] text-center">
           What is Toronto City Council?
         </h1>
@@ -345,6 +345,22 @@ export default function HowCouncilWorks() {
             to see how your Councillor has voted and whether they align with
             your priorities. Your engagement can help shape the decisions that
             impact Toronto—get involved today!
+          </SectionText>
+        </Section>
+        <Section>
+          <SectionText>
+            <span className="italic">
+              Illustrations by Luisa Castillo Henao. View more of her work on{' '}
+              <Link
+                href="https://www.behance.net/luisafchenao"
+                className="classic-link"
+              >
+                Behance
+              </Link>
+              .
+            </span>
+            <br />
+            <br />
           </SectionText>
         </Section>
       </main>
