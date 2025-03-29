@@ -1,7 +1,6 @@
 'use client';
 
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
-import { menuItems } from '@/constants/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
