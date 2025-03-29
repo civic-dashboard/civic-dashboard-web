@@ -28,6 +28,11 @@ export type JsonPrimitive = boolean | number | string | null;
 
 export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
+export interface AiSummaries {
+  agendaItemNumber: string;
+  summary: string;
+}
+
 export interface RawAgendaItemConsiderations {
   /**
    * Array of addresses as strings.
@@ -232,6 +237,7 @@ export interface Subscriptions {
 }
 
 export interface DB {
+  AiSummaries: AiSummaries;
   RawAgendaItemConsiderations: RawAgendaItemConsiderations;
   RawAgendaItems: RawAgendaItems;
   RawContacts: RawContacts;
