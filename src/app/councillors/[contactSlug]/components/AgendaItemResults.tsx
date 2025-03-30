@@ -28,7 +28,10 @@ const AgendaItemCard = memo(function AgendaItemCard({
         <div className="px-4 pt-3">
           <h3 className="font-semibold text-sm">{item.agendaItemTitle}</h3>
           {item.agendaItemSummary && (
-            <SummaryPanel summary={item.agendaItemSummary} />
+            <SummaryPanel
+              originalSummary={item.agendaItemSummary}
+              aiSummary={item.aiSummary}
+            />
           )}
         </div>
         <MotionsList motions={item.motions} />
