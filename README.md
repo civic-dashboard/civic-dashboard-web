@@ -41,7 +41,6 @@ cat >> .env  << EOF
 DATABASE_URL=postgresql://postgres:postgres@localhost:54320/civic_dashboard
 HOSTNAME_FOR_EMAIL_LINKS=http://localhost:3000
 RESEND_API_KEY=not-needed-for-local-dev
-CRON_SECRET=not-needed-for-local-dev
 EOF
 ```
 
