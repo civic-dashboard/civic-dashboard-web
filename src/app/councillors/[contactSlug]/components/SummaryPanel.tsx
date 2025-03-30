@@ -15,15 +15,18 @@ export const SummaryPanel: FC<SummaryPanelProps> = ({
   originalSummary,
   aiSummary,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(!!aiSummary);
   const [isExpansionNeeded, setIsExansionNeeded] = useState(false);
   const [tab, setTab] = useState<TabKind>(aiSummary ? 'ai' : 'original');
 
+  const isExpansionToggleVisible =
+    !aiSummary && (isExpansionNeeded || isExpanded);
   return (
     <div>
       {tab === 'ai' && aiSummary ? (
         <div>
           <div className="text-sm mb-2">
+            {/* Todo: Determine if we can omit this header from the prompt */}
             <Markdown>{aiSummary.replace('**Context**', '')}</Markdown>
           </div>
           <footer className="flex justify-between mt-2">
@@ -62,7 +65,7 @@ export const SummaryPanel: FC<SummaryPanelProps> = ({
                 Show AI Summary
               </Button>
             )}
-            {(isExpansionNeeded || isExpanded) && (
+            {isExpansionToggleVisible && (
               <Button
                 onClick={() => setIsExpanded(!isExpanded)}
                 variant="ghost"
