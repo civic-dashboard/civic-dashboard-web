@@ -40,6 +40,7 @@ class ImportAiSummaries {
     }
     console.log('Found usable summaries', summaries);
     await this.upsertSummaries(summaries);
+    console.log(`Finished, inserted or updated ${summaries.length} summaries`);
   }
 
   private async getCandidateIdLookup() {
@@ -67,8 +68,16 @@ class ImportAiSummaries {
     });
   }
 
-  private async upsertSummaries(_summaries: SummaryRow[]) {
-    throw new Error('Method not implemented.');
+  private async upsertSummaries(summaries: SummaryRow[]) {
+    await this.trx
+      .insertInto('AiSummaries')
+      .values(summaries)
+      .onConflict((oc) =>
+        oc
+          .column('agendaItemNumber')
+          .doUpdateSet((eb) => ({ summary: eb.ref('excluded.summary') })),
+      )
+      .execute();
   }
 }
 
