@@ -1,9 +1,10 @@
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
-import { useMemo, memo } from 'react';
+import { useMemo, memo, useState, useEffect } from 'react';
 import { Link2Icon } from 'lucide-react';
 import { SummaryPanel } from '@/app/councillors/[contactSlug]/components/SummaryPanel';
 import { MotionsList } from '@/app/councillors/[contactSlug]/components/MotionsList';
 import { AgendaItemLink } from '@/components/AgendaItemLink';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
@@ -57,6 +58,16 @@ export default function AgendaItemResults({
         : agendaItems,
     [agendaItems, tidySearchQuery],
   );
+  const [previewCount, setPreviewCount] = useState(1_000);
+  useEffect(() => {
+    if (tidySearchQuery) setPreviewCount(PAGE_SIZE);
+  }, [tidySearchQuery]);
+  const { ref: sentinalRef } = useIntersectionObserver({
+    delay: 125,
+    onChange: (inView) => {
+      if (inView) setPreviewCount((count) => count + PAGE_SIZE);
+    },
+  });
 
   return (
     <div>
@@ -65,13 +76,16 @@ export default function AgendaItemResults({
       </div>
 
       <div>
-        {filteredItems.map((item) => (
+        {filteredItems.slice(0, previewCount).map((item) => (
           <AgendaItemCard key={item.agendaItemNumber} item={item} />
         ))}
+        <div ref={sentinalRef} />
       </div>
     </div>
   );
 }
+
+const PAGE_SIZE = 25;
 
 const formatDateString = (dateString: string) => {
   if (!dateString) return dateString;
