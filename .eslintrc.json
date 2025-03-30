@@ -38,6 +38,10 @@
             "message": "Please use @/logic/toSlug instead."
           },
           {
+            "name": "react-markdown",
+            "message": "Please use @/componentsMarkdown instead."
+          },
+          {
             "name": "react-intersection-observer",
             "message": "Please use @/hooks/useIntersectionObserver instead."
           }
