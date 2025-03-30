@@ -3,36 +3,32 @@ import {
   PackageResource,
 } from '@/backend/open-data/OpenDataClient';
 import { DB, InsertRawContact, InsertRawVote } from '@/database/allDbTypes';
+import { createDB } from '@/database/kyselyDb';
 
 import { formatContactCsvStream } from '@/database/pipelines/rawContactCsvParser';
 import { formatVoteCsvStream } from '@/database/pipelines/rawVoteCsvParser';
 import { extractTermFromText } from '@/database/pipelines/textParseUtils';
 import { Kysely, Transaction, sql } from 'kysely';
 
-export async function repopulateRawContactsAndVotes(db: Kysely<DB>) {
-  try {
-    await db.transaction().execute(async (trx) => {
-      await RepopulateRawContactsAndVotesPipeline.run(trx);
-    });
-  } catch (error) {
-    console.error(`Error during repopulateRawContactsAndVotes`, error);
-    throw error;
-  }
-}
-
-class RepopulateRawContactsAndVotesPipeline {
+class RepopulateRawContactsAndVotes {
   private static BATCH_SIZE = 2_500;
   private constructor(
     private readonly trx: Transaction<DB>,
     private readonly openDataClient: OpenDataClient,
   ) {}
 
-  public static async run(trx: Transaction<DB>) {
-    const instance = new RepopulateRawContactsAndVotesPipeline(
-      trx,
-      new OpenDataClient(),
-    );
-    return await instance.run();
+  public static async run(db: Kysely<DB>) {
+    try {
+      await db.transaction().execute(async (trx) => {
+        await new RepopulateRawContactsAndVotes(
+          trx,
+          new OpenDataClient(),
+        ).run();
+      });
+    } catch (error) {
+      console.error(`Error during RepopulateRawContactsAndVotes`, error);
+      throw error;
+    }
   }
 
   private async run() {
@@ -104,7 +100,7 @@ class RepopulateRawContactsAndVotesPipeline {
   ) {
     for await (const batch of asBatches(
       rowStream,
-      RepopulateRawContactsAndVotesPipeline.BATCH_SIZE,
+      RepopulateRawContactsAndVotes.BATCH_SIZE,
     )) {
       await this.trx.insertInto('RawContacts').values(batch).execute();
     }
@@ -113,7 +109,7 @@ class RepopulateRawContactsAndVotesPipeline {
   private async bulkInsertRawVotes(rowStream: AsyncIterable<InsertRawVote>) {
     for await (const batch of asBatches(
       rowStream,
-      RepopulateRawContactsAndVotesPipeline.BATCH_SIZE,
+      RepopulateRawContactsAndVotes.BATCH_SIZE,
     )) {
       await this.trx.insertInto('RawVotes').values(batch).execute();
     }
@@ -147,3 +143,6 @@ async function* asBatches<T>(
   }
   if (batch.length > 0) yield batch;
 }
+
+await RepopulateRawContactsAndVotes.run(createDB());
+process.exit(0);
