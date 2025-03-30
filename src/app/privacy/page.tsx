@@ -25,19 +25,31 @@ export default function Privacy() {
           </p>
           <ul>
             <li>
-              <a href="https://www.cloudflare.com/en-ca/privacypolicy" target="_blank">
+              <a
+                href="https://www.cloudflare.com/en-ca/privacypolicy"
+                target="_blank"
+              >
                 Cloudflare
               </a>
             </li>
             <li>
               Sevalla, a service provided by{' '}
-              <a href="https://kinsta.com/legal/privacy-policy/" target="_blank">Kinsta</a>
+              <a
+                href="https://kinsta.com/legal/privacy-policy/"
+                target="_blank"
+              >
+                Kinsta
+              </a>
             </li>
             <li>
-              <a href="https://resend.com/legal/privacy-policy" target="_blank">Resend</a>
+              <a href="https://resend.com/legal/privacy-policy" target="_blank">
+                Resend
+              </a>
             </li>
             <li>
-              <a href="https://steadyhq.com/en/privacy" target="_blank">Steady</a>
+              <a href="https://steadyhq.com/en/privacy" target="_blank">
+                Steady
+              </a>
             </li>
           </ul>
         </div>
