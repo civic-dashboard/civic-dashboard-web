@@ -1,7 +1,7 @@
 import { readFile } from 'fs/promises';
 import { parse } from 'csv-parse';
 import { argv } from 'process';
-import { Kysely, Transaction, sql } from 'kysely';
+import { Kysely, Transaction } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { createDB } from '@/database/kyselyDb';
 
@@ -49,14 +49,7 @@ class ImportAiSummaries {
       .innerJoin('RawAgendaItemConsiderations', (eb) =>
         eb.onRef('agendaItemNumber', '=', 'reference'),
       )
-      .groupBy('agendaItemNumber')
-      .having(sql`count(*)`, '=', 1)
-      .select([
-        sql<number>`MIN("RawAgendaItemConsiderations"."agendaItemId")`.as(
-          'agendaItemId',
-        ),
-        sql<string>`MIN("agendaItemNumber")`.as('agendaItemNumber'),
-      ])
+      .select(['agendaItemId', 'agendaItemNumber'])
       .execute();
 
     return new Map(rows.map((row) => [row.agendaItemId, row.agendaItemNumber]));
