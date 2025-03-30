@@ -23,7 +23,9 @@ export const SummaryPanel: FC<SummaryPanelProps> = ({
     <div>
       {tab === 'ai' && aiSummary ? (
         <div>
-          <Markdown>{aiSummary.replace('**Context**', '')}</Markdown>
+          <div className="text-sm mb-2">
+            <Markdown>{aiSummary.replace('**Context**', '')}</Markdown>
+          </div>
           <footer className="flex justify-between mt-2">
             <AiIndicator />
             <Button
@@ -37,17 +39,19 @@ export const SummaryPanel: FC<SummaryPanelProps> = ({
         </div>
       ) : (
         <>
-          <ExpandableText
-            isExpanded={isExpanded}
-            onExpansionNeededChanged={setIsExansionNeeded}
-          >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: sanitize(originalSummary),
-              }}
-            />
-          </ExpandableText>
-          <footer className="flex">
+          <div className="text-sm mb-2">
+            <ExpandableText
+              isExpanded={isExpanded}
+              onExpansionNeededChanged={setIsExansionNeeded}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(originalSummary),
+                }}
+              />
+            </ExpandableText>
+          </div>
+          <footer className="flex h-10">
             {aiSummary && (
               <Button
                 variant="ghost"
@@ -89,7 +93,7 @@ const ExpandableText: FC<{
   return (
     <div
       ref={ref}
-      className={cn('text-sm mb-2 rich-html-styles overflow-hidden', {
+      className={cn('rich-html-styles overflow-hidden', {
         'max-h-24 line-clamp-5 text-ellipsis': !isExpanded,
       })}
     >
