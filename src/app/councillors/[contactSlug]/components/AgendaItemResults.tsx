@@ -5,6 +5,7 @@ import { SummaryPanel } from '@/app/councillors/[contactSlug]/components/Summary
 import { MotionsList } from '@/app/councillors/[contactSlug]/components/MotionsList';
 import { AgendaItemLink } from '@/components/AgendaItemLink';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { buttonVariants } from '@/components/ui/button';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
@@ -15,11 +16,11 @@ const AgendaItemCard = memo(function AgendaItemCard({
     <div className="flex flex-row mb-8">
       <div className="border rounded-xl w-full">
         <div className="flex justify-between border-b px-4 py-3">
-          <div className="border rounded-lg px-4 py-2 text-xs text-black font-semibold bg-[#a5f2d4]">
+          <div className="border rounded-lg px-4 py-[10px] text-xs text-black font-semibold bg-[#a5f2d4]">
             {formatDateString(item.motions[0].dateTime)}
           </div>
           <AgendaItemLink
-            className="text-xs font-semibold flex items-center border-2 rounded-lg px-4 py-2"
+            className={buttonVariants({ variant: 'outline' })}
             agendaItemNumber={item.agendaItemNumber}
           >
             <Link2Icon className="w-[14px] h-[14px] mr-2" />
