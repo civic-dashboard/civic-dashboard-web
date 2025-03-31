@@ -3,6 +3,8 @@
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ExternalLink } from '@/components/ExternalLink';
+
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
     {children}
@@ -350,12 +352,12 @@ export default function HowCouncilWorks() {
           <SectionText>
             <span className="italic">
               Illustrations by Luisa Castillo Henao. View more of her work on{' '}
-              <Link
+              <ExternalLink
                 href="https://www.behance.net/luisafchenao"
                 className="classic-link"
               >
                 Behance
-              </Link>
+              </ExternalLink>
               .
             </span>
             <br />
