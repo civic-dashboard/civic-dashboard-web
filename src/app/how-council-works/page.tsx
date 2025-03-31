@@ -21,11 +21,11 @@ const SectionText = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
-const ProcessImage = ({ src, alt }: { src: string; alt: string }) => (
+const ProcessImage = ({ src, alt }: { src: string; alt?: string }) => (
   <div className="w-full mt-14 mx-auto">
     <Image
       src={src}
-      alt={alt}
+      alt={alt || ''}
       width={876}
       height={540}
       className="w-full h-full object-cover"
@@ -86,19 +86,15 @@ export default function HowCouncilWorks() {
   const imageData = {
     toronto: {
       src: '/toronto.png',
-      alt: 'Illustration of Nathan Phillips Square and Toronto City Hall: a scenic depiction of Toronto’s iconic city hall, with the "Toronto" sign in the foreground, people walking and biking, and a fountain in the reflecting pool.',
     },
     staff: {
       src: '/staff.png',
-      alt: 'Illustration of a staff meeting on affordable housing: a group of city staff sits around a table in an office discussing housing policy. Thought bubbles above them depict housing types, consultations, and paperwork.',
     },
     committee: {
       src: '/committee.png',
-      alt: 'Illustration of a committee meeting on affordable housing: a speaker at a podium addresses a panel of business casual committee members, while diverse citizens in the foreground share their opinions via speech bubbles.',
     },
     council: {
       src: '/council.png',
-      alt: 'Illustration of a City Council meeting on affordable housing: the councillors have voted on an item, with the result displayed on the screen showing it has been approved. Touchscreens in front of the councillors indicate votes with green for Approve and red for Reject.',
     },
   };
 
@@ -124,10 +120,7 @@ export default function HowCouncilWorks() {
             parks to public transit and housing. The process used to make these
             decisions follows three key steps.
           </SectionText>
-          <ProcessImage
-            src={imageData.toronto.src}
-            alt={imageData.toronto.alt}
-          />
+          <ProcessImage src={imageData.toronto.src} />
           <SectionText>
             Toronto is divided into 25{' '}
             <Tooltip
@@ -188,7 +181,7 @@ export default function HowCouncilWorks() {
         {/* Staff Stage */}
         <Section>
           <SectionHeading>First Step: Staff Stage</SectionHeading>
-          <ProcessImage src={imageData.staff.src} alt={imageData.staff.alt} />
+          <ProcessImage src={imageData.staff.src} />
           <SectionText>
             City staff, working at City Hall, take the first steps in acting on
             an item by researching and developing recommendations. They gather
@@ -213,10 +206,7 @@ export default function HowCouncilWorks() {
         {/* Committee Stage */}
         <Section>
           <SectionHeading>Second Step: Committee Stage</SectionHeading>
-          <ProcessImage
-            src={imageData.committee.src}
-            alt={imageData.committee.alt}
-          />
+          <ProcessImage src={imageData.committee.src} />
           <SectionText>
             Next, the item moves to a{' '}
             <Tooltip
@@ -252,10 +242,7 @@ export default function HowCouncilWorks() {
         {/* Council Stage */}
         <Section>
           <SectionHeading>Third Step: Council Stage</SectionHeading>
-          <ProcessImage
-            src={imageData.council.src}
-            alt={imageData.council.alt}
-          />
+          <ProcessImage src={imageData.council.src} />
           <SectionText>
             Finally, the item reaches the full City Council, which consists of
             all elected council members. At this stage, councilors review the
