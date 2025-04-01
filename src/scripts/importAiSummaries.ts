@@ -26,15 +26,14 @@ class ImportAiSummaries {
     if (!this.inputFileName)
       throw new Error(`Invalid file name ${this.inputFileName}`);
 
-    const candidateIdLookup = await this.getCandidateIdLookup();
+    const candidateIds = await this.getCandidateAgendaItems();
     const inputStream = await this.createInputStream();
 
     const summaries = new Array<SummaryRow>();
     for await (const inputRow of inputStream) {
-      const agendaItemNumber = candidateIdLookup.get(+inputRow.agendaItemId);
-      if (!agendaItemNumber) continue;
+      if (!candidateIds.has(inputRow.reference)) continue;
       summaries.push({
-        agendaItemNumber,
+        agendaItemNumber: inputRow.reference,
         summary: inputRow.ai_summary,
       });
     }
@@ -43,16 +42,17 @@ class ImportAiSummaries {
     console.log(`Finished, inserted or updated ${summaries.length} summaries`);
   }
 
-  private async getCandidateIdLookup() {
+  private async getCandidateAgendaItems() {
     const rows = await this.trx
       .selectFrom('AgendaItems')
       .innerJoin('RawAgendaItemConsiderations', (eb) =>
         eb.onRef('agendaItemNumber', '=', 'reference'),
       )
-      .select(['agendaItemId', 'agendaItemNumber'])
+      .select('agendaItemNumber')
+      .distinct()
       .execute();
 
-    return new Map(rows.map((row) => [row.agendaItemId, row.agendaItemNumber]));
+    return new Set(rows.map((row) => row.agendaItemNumber));
   }
 
   private async createInputStream(): Promise<AsyncIterable<InputRow>> {
@@ -62,19 +62,12 @@ class ImportAiSummaries {
   }
 
   private async upsertSummaries(summaries: SummaryRow[]) {
-    await this.trx
-      .insertInto('AiSummaries')
-      .values(summaries)
-      .onConflict((oc) =>
-        oc
-          .column('agendaItemNumber')
-          .doUpdateSet((eb) => ({ summary: eb.ref('excluded.summary') })),
-      )
-      .execute();
+    await this.trx.deleteFrom('AiSummaries').execute();
+    await this.trx.insertInto('AiSummaries').values(summaries).execute();
   }
 }
 
-type InputRow = { agendaItemId: string; ai_summary: string };
+type InputRow = { reference: string; ai_summary: string };
 type SummaryRow = {
   summary: string;
   agendaItemNumber: string;
