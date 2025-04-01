@@ -1,10 +1,12 @@
 import { Motion } from '@/app/councillors/[contactSlug]/types';
+import { Button } from '@/components/ui/button';
 import {
   ThumbsUpIcon,
   ThumbsDownIcon,
   CircleMinusIcon,
   CircleDotDashedIcon,
 } from 'lucide-react';
+import { useState } from 'react';
 
 const VoteIcon = ({ value }: { value: string }) => {
   switch (value?.toLowerCase()) {
@@ -23,12 +25,22 @@ interface MotionsListProps {
   motions: Motion[];
 }
 
+const previewThreshold = {
+  ideal: 3,
+  max: 4,
+};
+
 export const MotionsList = ({ motions }: MotionsListProps) => {
+  const needsPreviewToggle = motions.length > previewThreshold.max;
+  const [showAll, setShowAll] = useState(!needsPreviewToggle);
+  const motionsToShow = showAll
+    ? motions
+    : motions.slice(0, previewThreshold.ideal);
   return (
     <div className="mt-2">
-      {motions.map((motion) => (
+      {motionsToShow.map((motion) => (
         <div key={motion.motionId} className="border-t p-4">
-          <dl className="flex -center mb-2 text-xs gap-1">
+          <dl className="flex mb-2 text-xs gap-1">
             <dt>Date</dt>
             <dd className="text-gray-500">{motion.dateTime}</dd>
             <dt className="ml-auto">Motion</dt>
@@ -63,6 +75,15 @@ export const MotionsList = ({ motions }: MotionsListProps) => {
           </dl>
         </div>
       ))}
+      {needsPreviewToggle && (
+        <div className="border-t p-2 flex items-center justify-center">
+          <Button variant="link" onClick={() => setShowAll(!showAll)}>
+            {showAll
+              ? 'Show less'
+              : `Show ${motions.length - motionsToShow.length} more`}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
