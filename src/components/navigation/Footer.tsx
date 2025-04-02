@@ -67,20 +67,30 @@ export default function Footer() {
               <a
                 href="https://civictechto.slack.com/archives/C06KU3DHEKV"
                 className="hover:text-blue-400 transition-colors duration-200"
+                target="_blank"
               >
                 Slack
               </a>
               <a
-                href="/coming-soon"
+                href="https://www.linkedin.com/company/civic-dashboard/about/"
                 className="hover:text-blue-400 transition-colors duration-200"
+                target="_blank"
               >
                 LinkedIn
               </a>
               <a
                 href="https://github.com/civic-dashboard"
                 className="hover:text-blue-400 transition-colors duration-200"
+                target="_blank"
               >
                 GitHub
+              </a>
+              <a
+                href="https://bsky.app/profile/civicdashboard.bsky.social"
+                className="hover:text-blue-400 transition-colors duration-200"
+                target="_blank"
+              >
+                Bluesky
               </a>
             </div>
 
