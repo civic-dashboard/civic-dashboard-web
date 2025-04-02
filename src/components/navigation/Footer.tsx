@@ -85,7 +85,7 @@ export default function Footer() {
             </div>
 
             <a
-              href="/coming-soon"
+              href="/join-newsletter"
               className="w-full block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg text-center"
             >
               Subscribe to Newsletter
