@@ -20,7 +20,7 @@ export default function NotificationBanner({
   }, [pathname, link]);
 
   return (
-    <div className="fixed w-full top-16 z-50">
+    <div className="w-full">
       {!isCollapsed ? (
         <div className="bg-orange-400 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
@@ -42,7 +42,7 @@ export default function NotificationBanner({
       ) : (
         <button
           onClick={() => setIsCollapsed(false)}
-          className="fixed top-16 right-4 bg-orange-400 text-white mt-2 p-2 rounded-full shadow-lg z-50"
+          className="fixed top-16 right-3 bg-orange-400 text-white mt-3 w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-50"
           aria-label="Show notification"
         >
           ❤️

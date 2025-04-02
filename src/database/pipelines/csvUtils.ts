@@ -73,6 +73,7 @@ export const castNullishText = (
 };
 
 // Temporary workaround to fix encoding problems until we dig deeper into it
+// Possible double encoding of latin1?
 export const repairEncodingJank = (text: string) => {
   const output = text
     .replaceAll('ÃÂ', "'")
