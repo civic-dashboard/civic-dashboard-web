@@ -34,9 +34,9 @@ export const SubscriptionCard = ({
   unsubscribeToken,
   subscriptionId,
 }: SubscriptionCardProps) => {
-  const [state, setState] = useState<
-    'subscribed' | 'loading' | 'unsubscsribed'
-  >('subscribed');
+  const [state, setState] = useState<'subscribed' | 'loading' | 'unsubscribed'>(
+    'subscribed',
+  );
 
   const onUnsubscribe = useCallback(async () => {
     setState('loading');
@@ -51,9 +51,13 @@ export const SubscriptionCard = ({
         setState('subscribed');
       })
       .then(() => {
-        setState('unsubscsribed');
+        setState('unsubscribed');
       });
   }, [subscriptionId, unsubscribeToken]);
+
+  if (state === 'unsubscribed') {
+    return <></>;
+  }
 
   return (
     <Card className="p-6 space-y-4">
@@ -77,9 +81,7 @@ export const SubscriptionCard = ({
       )}
       {state === 'loading' && <Spinner />}
       {state !== 'loading' && (
-        <Button disabled={state === 'unsubscsribed'} onClick={onUnsubscribe}>
-          Unsubscribe
-        </Button>
+        <Button onClick={onUnsubscribe}>Unsubscribe</Button>
       )}
     </Card>
   );
