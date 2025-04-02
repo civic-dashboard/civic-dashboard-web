@@ -162,7 +162,7 @@ export default function About() {
                 >
                   teamcivicdashboard@gmail.com
                 </a>{' '}
-                or find us in the{' '}
+                , join our <a href="/join-newsletter" className="text-blue-600 hover:text-blue-800 underline">newsletter</a> or find us in the{' '}
                 <a
                   href="http://link.civictech.ca/slack"
                   target="_blank"
