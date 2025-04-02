@@ -5,7 +5,8 @@ export default function JoinNewsletter() {
   return (
     <>
       <Script
-        src="https://steadyhq.com/widget_loader/c39a8289-1099-4fff-befe-44e30f48e9ba"
+        type="text/javascript"
+        src="https://steadyhq.com/widget_loader/31c21613-2a90-46e0-bfba-8ed5534e730f"
         strategy="lazyOnload"
       ></Script>
       <div className="min-h-screen flex flex-col">
