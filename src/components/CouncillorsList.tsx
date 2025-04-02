@@ -38,7 +38,7 @@ export const CouncillorsList = ({
           searchDelay={500}
         />
       </header>
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 list-none ml-0">
         {filteredCouncillors.map((councillor) => (
           <li
             key={councillor.contactSlug}
