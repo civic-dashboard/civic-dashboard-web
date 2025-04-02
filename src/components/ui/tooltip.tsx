@@ -29,8 +29,8 @@ export function Tooltip({
           onClick={(e) => {
             if (isTouchDevice()) {
               e.preventDefault();
-              setIsOpen(true);
             }
+            setIsOpen(true);
           }}
         >
           <span className="cursor-pointer underline" role="button" tabIndex={0}>
@@ -40,7 +40,7 @@ export function Tooltip({
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content
             sideOffset={4}
-            className="z-50 w-[400px] border border-[#E0E0E0] overflow-hidden rounded-md bg-white p-[23px] text-black animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
+            className="z-50 w-[100vw] md:w-[400px] border border-[#E0E0E0] overflow-hidden rounded-md bg-white p-[23px] text-black animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
           >
             <div className="relative">
               <button
