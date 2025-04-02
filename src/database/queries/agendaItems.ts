@@ -106,6 +106,20 @@ export const insertAgendaItems = async (
     .execute();
 };
 
+export const getAgendaItemByReference = async (
+  db: Kysely<DB>,
+  reference: string,
+) => {
+  const agendaItem = await db
+    .selectFrom('RawAgendaItemConsiderations')
+    .selectAll()
+    .where('reference', '=', reference)
+    .orderBy('meetingDate desc')
+    .executeTakeFirst();
+
+  return agendaItem ? cleanAgendaItem(agendaItem) : undefined;
+};
+
 type SearchAgendaItemArgs = {
   options: SearchOptions;
   pagination: SearchPagination;
