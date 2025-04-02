@@ -17,6 +17,10 @@ export default function Header() {
 
   return (
     <>
+      <NotificationBanner
+        message="We love and need your feedback! Tap to share your thoughts."
+        link="/feedback"
+      />
       <header className="sticky top-0 z-10 backdrop-blur-md bg-white/80 dark:bg-gray-800/80 shadow-lg">
         <style jsx global>
           {gradientAnimation}
@@ -84,10 +88,6 @@ export default function Header() {
           )}
         </nav>
       </header>
-      <NotificationBanner
-        message="We love and need your feedback! Tap to share your thoughts."
-        link="/feedback"
-      />
     </>
   );
 }
