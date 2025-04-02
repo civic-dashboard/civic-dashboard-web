@@ -34,8 +34,22 @@ function Chip({ className, variant, ...props }: ChipProps) {
     <div className={cn(chipVariants({ variant }), className)} {...props} />
   );
 }
+
+export interface ChipLinkProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    VariantProps<typeof chipVariants> {}
+
+function ChipLink({ className, variant, ...props }: ChipLinkProps) {
+  return (
+    <a
+      className={cn(chipVariants({ variant }), 'hover:underline', className)}
+      {...props}
+    />
+  );
+}
+
 export interface ChipButtonProps
-  extends React.HTMLAttributes<HTMLButtonElement>,
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof chipVariants> {}
 
 function ChipButton({ className, variant, ...props }: ChipButtonProps) {
@@ -53,4 +67,4 @@ function ChipButton({ className, variant, ...props }: ChipButtonProps) {
   );
 }
 
-export { ChipButton, Chip, chipVariants };
+export { ChipButton, ChipLink, Chip, chipVariants };

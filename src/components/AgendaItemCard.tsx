@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/card';
 import type { AgendaItem } from '@/database/queries/agendaItems';
 import { useSearch } from '@/contexts/SearchContext';
-import { Chip } from '@/components/ui/chip';
+import { Chip, ChipLink } from '@/components/ui/chip';
 import { Link2, MessageSquarePlus, Speech } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,6 +26,7 @@ import Link from 'next/link';
 type AgendaItemCardProps = React.PropsWithChildren<{
   item: AgendaItem;
   decisionBody: DecisionBody;
+  externalLink?: string;
   Footer: (props: {
     commentHref: string;
     requestToSpeakHref: string;
@@ -38,6 +39,7 @@ function AgendaItemCard({
   decisionBody,
   className,
   Footer,
+  externalLink,
   children,
 }: AgendaItemCardProps) {
   const formattedDate = new Date(item.meetingDate)
@@ -59,10 +61,17 @@ function AgendaItemCard({
             {item.decisionBodyName}
           </span>
         </div>
-        <Chip variant="outline">
-          <Link2 size={14} />
-          {item.reference}
-        </Chip>
+        {externalLink ? (
+          <ChipLink href={externalLink} target="_blank" variant="outline">
+            <Link2 size={14} />
+            {item.reference}
+          </ChipLink>
+        ) : (
+          <Chip variant="outline">
+            <Link2 size={14} />
+            {item.reference}
+          </Chip>
+        )}
       </CardHeader>
       <CardContent className="sm:hidden border-b border-neutral-100 dark:border-neutral-600 flex justify-center p-2">
         <span className="font-bold">{item.decisionBodyName}</span>
@@ -91,6 +100,7 @@ export function FullPageAgendaItemCard({
       className="max-sm:rounded-none"
       item={item}
       decisionBody={decisionBody}
+      externalLink={`https://secure.toronto.ca/council/agenda-item.do?item=${item.reference}`}
       Footer={({ commentHref, requestToSpeakHref }) => (
         <>
           <Button
@@ -107,11 +117,24 @@ export function FullPageAgendaItemCard({
         </>
       )}
     >
-      <CardTitle>{item.agendaItemTitle}</CardTitle>
+      <CardTitle className="text-lg">{item.agendaItemTitle}</CardTitle>
+      {item.agendaItemRecommendation && (
+        <h4 className="mt-4 font-bold">Summary</h4>
+      )}
       <div
         className="mt-2"
         dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
       />
+
+      {item.agendaItemRecommendation && (
+        <>
+          <h4 className="mt-4 font-bold">Recommendations</h4>
+          <div
+            className="mt-2"
+            dangerouslySetInnerHTML={{ __html: item.agendaItemRecommendation }}
+          />
+        </>
+      )}
     </AgendaItemCard>
   );
 }
