@@ -186,7 +186,7 @@ export function SearchInterface() {
               Prototype Notice
             </AccordionTrigger>
             <AccordionContent>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-muted-foreground text-orange-500">
                 This is a prototype version of the search interface. All data is
                 currently hardcoded and search functionality is not yet
                 implemented. The final version will include dynamic search
