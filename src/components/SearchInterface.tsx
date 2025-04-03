@@ -224,7 +224,7 @@ export function SearchInterface() {
         </div>
         {/* Recent Items Cards */}
         <div className="grid grid-cols-1 gap-6">
-          {sampleAgendaItems.map((item) => (
+          {/* {sampleAgendaItems.map((item) => (
             <SearchPageAgendaItemCard
               key={item.id}
               item={item}
@@ -232,7 +232,7 @@ export function SearchInterface() {
               categories={item.subjectTerms.split(", ")}
               motions={sampleMotions}
             />
-          ))}
+          ))} */}
         </div>
       </div>
 
