@@ -127,6 +127,16 @@ export default function JoinPage() {
             introducing yourself!
           </li>
           <li>
+            <strong>Newsletter</strong> -{' '}
+            <a
+              href="/join-newsletter"
+              className="text-blue-600 hover:text-blue-800 underline"
+            >
+              Join our newsletter
+            </a>{' '}
+            to learn what we are up to and what we might need help with
+          </li>
+          <li>
             <strong>Slack</strong> - Join us on the{' '}
             <a
               href="http://link.civictech.ca/slack"

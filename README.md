@@ -31,7 +31,7 @@ You will need the following installed on your system:
 ```sh
 git clone https://github.com/civic-dashboard/civic-dashboard-web
 cd civic-dashboard-web
-npm i
+npm install
 ```
 
 ### Initialize your environment files

@@ -161,6 +161,21 @@ export default function About() {
                   className="text-blue-600 hover:text-blue-800 underline"
                 >
                   teamcivicdashboard@gmail.com
+                </a>
+                , join our{' '}
+                <a
+                  href="/join-newsletter"
+                  className="text-blue-600 hover:text-blue-800 underline"
+                >
+                  newsletter,
+                </a>{' '}
+                follow us on{' '}
+                <a
+                  href="https://bsky.app/profile/civicdashboard.bsky.social"
+                  className="text-blue-600 hover:text-blue-800 underline"
+                  target="_blank"
+                >
+                  BlueSky
                 </a>{' '}
                 or find us in the{' '}
                 <a
