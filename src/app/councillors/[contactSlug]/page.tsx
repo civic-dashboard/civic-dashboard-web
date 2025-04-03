@@ -43,11 +43,21 @@ async function getVotesByAgendaItemsForContact(
   contactSlug: string,
 ): Promise<AgendaItem[]> {
   const rows = await db
-    .with('Summaries', (eb) =>
+    .with('OriginalSummaries', (eb) =>
       eb
         .selectFrom('RawAgendaItemConsiderations')
         .select(['reference', 'agendaItemSummary'])
         .distinct(),
+    )
+    .with('AutoSummaries', (eb) =>
+      eb
+        .selectFrom('AiSummaries')
+        .groupBy('AiSummaries.agendaItemNumber')
+        .having(sql<number>`count(*)`, '=', 1)
+        .select([
+          'AiSummaries.agendaItemNumber',
+          sql<string>`MIN("summary")`.as('aiSummary'),
+        ]),
     )
     .selectFrom('Votes')
     .innerJoin('Motions', (eb) =>
@@ -61,8 +71,19 @@ async function getVotesByAgendaItemsForContact(
     .innerJoin('Committees', (eb) =>
       eb.onRef('Committees.committeeSlug', '=', 'Motions.committeeSlug'),
     )
-    .leftJoin('Summaries', (eb) =>
-      eb.onRef('AgendaItems.agendaItemNumber', '=', 'Summaries.reference'),
+    .leftJoin('OriginalSummaries', (eb) =>
+      eb.onRef(
+        'AgendaItems.agendaItemNumber',
+        '=',
+        'OriginalSummaries.reference',
+      ),
+    )
+    .leftJoin('AutoSummaries', (eb) =>
+      eb.onRef(
+        'AgendaItems.agendaItemNumber',
+        '=',
+        'AutoSummaries.agendaItemNumber',
+      ),
     )
     .where('Votes.contactSlug', '=', contactSlug)
     .orderBy('Motions.dateTime', 'desc')
@@ -78,10 +99,11 @@ async function getVotesByAgendaItemsForContact(
       'Votes.value',
       'Motions.result',
       'Motions.resultKind',
-      'Summaries.agendaItemSummary',
+      'OriginalSummaries.agendaItemSummary',
       sql<string>`CONCAT("Motions"."yesVotes", '-', "Motions"."noVotes")`.as(
         'tally',
       ),
+      'aiSummary',
     ])
     .execute();
 
@@ -90,12 +112,14 @@ async function getVotesByAgendaItemsForContact(
     agendaItemNumber,
     agendaItemTitle,
     agendaItemSummary,
+    aiSummary,
     ...motion
   } of rows) {
-    const agendaItem = agendaItemByNumber.get(agendaItemNumber) ?? {
-      agendaItemNumber: agendaItemNumber,
-      agendaItemTitle: agendaItemTitle,
-      agendaItemSummary: agendaItemSummary,
+    const agendaItem: AgendaItem = agendaItemByNumber.get(agendaItemNumber) ?? {
+      agendaItemNumber,
+      agendaItemTitle,
+      agendaItemSummary,
+      aiSummary,
       motions: [],
     };
     agendaItem.motions.push(motion);
