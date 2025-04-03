@@ -12,7 +12,15 @@ import {
 import type { AgendaItem } from '@/database/queries/agendaItems';
 import { useSearch } from '@/contexts/SearchContext';
 import { Chip, ChipLink } from '@/components/ui/chip';
-import { Link2, MessageSquarePlus, Speech, Bell, Vote, UserSquare2, UserCheck } from 'lucide-react';
+import {
+  Link2,
+  MessageSquarePlus,
+  Speech,
+  Bell,
+  Vote,
+  UserSquare2,
+  UserCheck,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -22,7 +30,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown';
 import Link from 'next/link';
-import { ThumbsUpIcon, ThumbsDownIcon, CircleMinusIcon, CircleDotDashedIcon } from 'lucide-react';
+import {
+  ThumbsUpIcon,
+  ThumbsDownIcon,
+  CircleMinusIcon,
+  CircleDotDashedIcon,
+} from 'lucide-react';
 import Image from 'next/image';
 
 const submitCommentHref = (item: AgendaItem, decisionBody: DecisionBody) => {
@@ -43,23 +56,23 @@ Comments:
 
 _____________________________________
 
-You can write whatever you’d like - there’s no one correct way to engage with democracy! That said, your message is likely to be more impactful if you are clear about who you are, what you want, and why you want it.
+You can write whatever you'd like - there's no one correct way to engage with democracy! That said, your message is likely to be more impactful if you are clear about who you are, what you want, and why you want it.
 
-If you’re not sure how to phrase your comments, try the following simple format to get started!
+If you're not sure how to phrase your comments, try the following simple format to get started!
 
-- Who you are - your name, where you live (if it’s relevant), and any relevant communities you are part of
-- Your relationship to the item - why do you care about it? How does it affect you? Why do you think it’s important?
+- Who you are - your name, where you live (if it's relevant), and any relevant communities you are part of
+- Your relationship to the item - why do you care about it? How does it affect you? Why do you think it's important?
 - What you want - what would you like this committee to do? Do you want them to vote yes or no on this item? Do you want them to amend/change it in some way?
 
 Example:
 
 Hi there!
 
-My name is Lisa Michaels, I’m a 20 year resident of the High Park neighbourhood, and I’m a lifelong birder and animal lover.
+My name is Lisa Michaels, I'm a 20 year resident of the High Park neighbourhood, and I'm a lifelong birder and animal lover.
 
 This item is meant to protect wildlife, and yet it will greatly increase the level of noise in high park, which scares and disorients birds, damages the ecosystem, and makes the park less enjoyable for everyone! Parks are about bringing people and nature together, and this would do the opposite.
 
-I ask that this committee either vote No on this item, or find a way to amend it that does not increase the level of noise in the park. My family, my birding group and I will be following this committee’s actions closely!
+I ask that this committee either vote No on this item, or find a way to amend it that does not increase the level of noise in the park. My family, my birding group and I will be following this committee's actions closely!
 
 Sincerely,
 Lisa Michaels
@@ -323,7 +336,11 @@ export function SearchPageAgendaItemCard({
           {/* Category tags */}
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
-              <Chip key={category} variant="secondary" className="bg-neutral-100 dark:bg-neutral-800">
+              <Chip
+                key={category}
+                variant="secondary"
+                className="bg-neutral-100 dark:bg-neutral-800"
+              >
                 {category}
               </Chip>
             ))}
@@ -344,7 +361,9 @@ export function SearchPageAgendaItemCard({
               <h4 className="font-bold mb-2">The decision</h4>
               <div
                 className="text-neutral-600 dark:text-neutral-300"
-                dangerouslySetInnerHTML={{ __html: item.agendaItemRecommendation }}
+                dangerouslySetInnerHTML={{
+                  __html: item.agendaItemRecommendation,
+                }}
               />
             </div>
           )}
@@ -427,22 +446,20 @@ export type Councillor = {
   };
 };
 
-export function SearchPageCouncillorCard({ councillor, decisionBody }: { councillor: Councillor; decisionBody: DecisionBody }) {
-  const mockItem = {
-    id: councillor.id,
-    decisionBodyId: decisionBody.decisionBodyId,
-    decisionBodyName: decisionBody.decisionBodyName,
-    meetingDate: new Date().getTime(),
-    reference: `Ward ${councillor.wardNumber}`,
-    agendaItemTitle: councillor.name,
-    agendaItemSummary: councillor.profile,
-  } as AgendaItem;
-
+export function SearchPageCouncillorCard({
+  councillor,
+  _decisionBody,
+}: {
+  councillor: Councillor;
+  _decisionBody: DecisionBody;
+}) {
   return (
     <Card className="transition-shadow hover:shadow-md">
       <CardHeader>
         <div>
-          <Chip variant="secondary" className="bg-blue-100 text-black">Current Councillor</Chip>
+          <Chip variant="secondary" className="bg-blue-100 text-black">
+            Current Councillor
+          </Chip>
         </div>
       </CardHeader>
       <CardContent>
@@ -464,19 +481,31 @@ export function SearchPageCouncillorCard({ councillor, decisionBody }: { council
                   <Bell className="h-5 w-5" />
                 </Button>
               </div>
-              <p className="text-gray-600">Ward {councillor.wardNumber}, {councillor.ward}</p>
+              <div>
+                Ward {councillor.wardNumber}, {councillor.ward}
+              </div>
             </div>
           </div>
 
           {/* Contact info */}
           <div className="space-y-2">
             <div>
-              <span className="font-medium">Email</span>{" "}
-              <a href={`mailto:${councillor.email}`} className="text-blue-600 hover:underline">{councillor.email}</a>
+              <span className="font-medium">Email</span>{' '}
+              <a
+                href={`mailto:${councillor.email}`}
+                className="text-blue-600 hover:underline"
+              >
+                {councillor.email}
+              </a>
             </div>
             <div>
-              <span className="font-medium">Phone</span>{" "}
-              <a href={`tel:${councillor.phone}`} className="text-blue-600 hover:underline">{councillor.phone}</a>
+              <span className="font-medium">Phone</span>{' '}
+              <a
+                href={`tel:${councillor.phone}`}
+                className="text-blue-600 hover:underline"
+              >
+                {councillor.phone}
+              </a>
             </div>
           </div>
 
@@ -485,7 +514,11 @@ export function SearchPageCouncillorCard({ councillor, decisionBody }: { council
             <h4 className="font-semibold mb-2">Key Issues</h4>
             <div className="flex flex-wrap gap-2">
               {councillor.keyIssues.map((issue) => (
-                <Chip key={issue} variant="secondary" className="bg-neutral-100 dark:bg-neutral-800">
+                <Chip
+                  key={issue}
+                  variant="secondary"
+                  className="bg-neutral-100 dark:bg-neutral-800"
+                >
                   {issue}
                 </Chip>
               ))}
@@ -502,15 +535,21 @@ export function SearchPageCouncillorCard({ councillor, decisionBody }: { council
           <div className="flex justify-between items-center bg-gray-50 dark:bg-neutral-800 p-4 rounded-lg">
             <div className="flex items-center gap-2">
               <Vote className="h-5 w-5" />
-              <span className="font-medium">Voted ({councillor.stats.voted})</span>
+              <span className="font-medium">
+                Voted ({councillor.stats.voted})
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <UserSquare2 className="h-5 w-5" />
-              <span className="font-medium">Moved ({councillor.stats.moved})</span>
+              <span className="font-medium">
+                Moved ({councillor.stats.moved})
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <UserCheck className="h-5 w-5" />
-              <span className="font-medium">Seconded ({councillor.stats.seconded})</span>
+              <span className="font-medium">
+                Seconded ({councillor.stats.seconded})
+              </span>
             </div>
           </div>
         </div>

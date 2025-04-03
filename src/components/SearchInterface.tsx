@@ -1,19 +1,24 @@
 'use client';
 
-import { SearchProvider, useSearch } from "@/contexts/SearchContext";
-import { SearchPageAgendaItemCard, SearchPageCouncillorCard } from "./AgendaItemCard";
-import { Separator } from "./ui/separator";
-import { Clock, ChevronDown, ChevronUp } from "lucide-react";
-import { TrendingUp } from "lucide-react";
-import { Tags, AdvancedFilters } from "@/components/search";
-import { useState } from "react";
-import SearchBar from "./SearchBar";
-import { Spinner } from "./ui/spinner";
-import { decisionBodies } from "@/constants/decisionBodies";
-import { DecisionBody } from "@/api/decisionBody";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { Chip } from "@/components/ui/chip";
-import { allTags } from "@/constants/tags";
+import { Clock, TrendingUp } from 'lucide-react';
+import { useState } from 'react';
+
+import { DecisionBody } from '@/api/decisionBody';
+import {
+  SearchPageAgendaItemCard,
+  SearchPageCouncillorCard,
+} from '@/components/AgendaItemCard';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@/components/ui/accordion';
+import { Chip } from '@/components/ui/chip';
+import { Separator } from '@/components/ui/separator';
+import { decisionBodies } from '@/constants/decisionBodies';
+import { allTags } from '@/constants/tags';
+import SearchBar from '@/components/SearchBar';
 
 // Define the Motion type
 type Motion = {
@@ -33,104 +38,108 @@ const mockCouncillorDecisionBody: DecisionBody = {
   decisionBodyId: 1,
   committeeCodeId: 1,
   termId: 1,
-  decisionBodyName: "City Council",
-  email: "council@toronto.ca",
-  dbdyStatusCd: "ACTIVE",
-  webpostInd: "Y",
-  decisionBodyPublishLabelCd: "CMMTTEE",
+  decisionBodyName: 'City Council',
+  email: 'council@toronto.ca',
+  dbdyStatusCd: 'ACTIVE',
+  webpostInd: 'Y',
+  decisionBodyPublishLabelCd: 'CMMTTEE',
   committeeCode: {
     committeeCodeId: 1,
-    committeeCode: "CC"
+    committeeCode: 'CC',
   },
   decisionBodyType: {
-    tier: 1
+    tier: 1,
   },
   term: {
     termId: 1,
-    termType: "2022-2026",
+    termType: '2022-2026',
     trmStartDate: new Date().getTime(),
-    trmEndDate: new Date().getTime()
+    trmEndDate: new Date().getTime(),
   },
-  members: []
+  members: [],
 };
 
 // Sample councillor data
 const sampleCouncillors = [
   {
-    id: "lily-cheng",
-    name: "Lily Cheng",
-    ward: "Willowdale",
+    id: 'lily-cheng',
+    name: 'Lily Cheng',
+    ward: 'Willowdale',
     wardNumber: 18,
-    email: "councillor_cheng@toronto.ca",
-    phone: "416-392-0210",
-    photoUrl: "/sample_councillor_img.png",
-    keyIssues: ["Environment", "Conservation", "Trees"],
-    profile: "Lily Cheng is the Councillor for Ward 18 Willowdale, taking office on November 15, 2022. A Willowdale resident for over a dozen years, Lily is a passionate, visionary leader in the community...",
+    email: 'councillor_cheng@toronto.ca',
+    phone: '416-392-0210',
+    photoUrl: '/sample_councillor_img.png',
+    keyIssues: ['Environment', 'Conservation', 'Trees'],
+    profile:
+      'Lily Cheng is the Councillor for Ward 18 Willowdale, taking office on November 15, 2022. A Willowdale resident for over a dozen years, Lily is a passionate, visionary leader in the community...',
     stats: {
       voted: 479,
       moved: 220,
-      seconded: 113
-    }
-  }
+      seconded: 113,
+    },
+  },
 ];
 
 // Sample agenda items for trending and recent sections
 const sampleAgendaItems = [
   {
-    id: "1",
+    id: '1',
     termId: 1,
     agendaItemId: 1,
     councilAgendaItemId: 1,
     decisionBodyId: 1,
     meetingId: 1,
     itemProcessId: 1,
-    decisionBodyName: "City Council",
-    meetingDate: new Date("2024-12-14").getTime(),
-    reference: "2024.MM23.1",
-    termYear: "2024",
-    agendaCd: "MM",
-    meetingNumber: "23",
-    itemStatus: "Active",
-    agendaItemTitle: "Application to Remove a Tree in a Protected Ravine, 124 Sandringham Dr.",
-    agendaItemSummary: "Allow the tree at 124 Sandringham Drive to be cut down, it must replace it with six new trees, either by planting them nearby or giving money to help plant trees elsewhere.",
-    agendaItemRecommendation: "Urban Forestry determined that the tree is healthy and maintainable. The North York Community Council denied an appeal to remove a healthy honey locust tree.",
+    decisionBodyName: 'City Council',
+    meetingDate: new Date('2024-12-14').getTime(),
+    reference: '2024.MM23.1',
+    termYear: '2024',
+    agendaCd: 'MM',
+    meetingNumber: '23',
+    itemStatus: 'Active',
+    agendaItemTitle:
+      'Application to Remove a Tree in a Protected Ravine, 124 Sandringham Dr.',
+    agendaItemSummary:
+      'Allow the tree at 124 Sandringham Drive to be cut down, it must replace it with six new trees, either by planting them nearby or giving money to help plant trees elsewhere.',
+    agendaItemRecommendation:
+      'Urban Forestry determined that the tree is healthy and maintainable. The North York Community Council denied an appeal to remove a healthy honey locust tree.',
     decisionRecommendations: null,
     decisionAdvice: null,
-    subjectTerms: "Environment, Conservation, Trees",
+    subjectTerms: 'Environment, Conservation, Trees',
     wardId: null,
     backgroundAttachmentId: null,
     agendaItemAddress: [],
     address: null,
     geoLocation: null,
     planningApplicationNumber: null,
-    neighbourhoodId: null
-  }
+    neighbourhoodId: null,
+  },
 ];
 
 // Hardcoded sample data
 const sampleMotions: Motion[] = [
   {
-    committeeSlug: "city-council",
-    motionType: "To adopt",
-    motionId: "motion-1",
-    voteDescription: "Adopt the report",
-    dateTime: "Nov-14-2024 9:37 PM",
-    value: "No",
-    tally: "24-10",
-    resultKind: "Carried",
-    committeeName: "City Council"
+    committeeSlug: 'city-council',
+    motionType: 'To adopt',
+    motionId: 'motion-1',
+    voteDescription: 'Adopt the report',
+    dateTime: 'Nov-14-2024 9:37 PM',
+    value: 'No',
+    tally: '24-10',
+    resultKind: 'Carried',
+    committeeName: 'City Council',
   },
   {
-    committeeSlug: "city-council",
-    motionType: "Waive referral",
-    motionId: "motion-2",
-    voteDescription: "Waive referral",
-    dateTime: "Nov-14-2024 2:47 PM",
-    value: "No",
-    tally: "24-10",
-    resultKind: "Carried",
-    committeeName: "City Council"
-  }
+    committeeSlug: 'city-council',
+    motionType: 'Waive referral',
+    motionId: 'motion-2',
+    voteDescription: 'Waive referral',
+    dateTime: 'Nov-14-2024 2:47 PM',
+    value: 'No',
+    tally: '24-10',
+    resultKind: 'Carried',
+    committeeName: 'City Council',
+  },
 ];
 
 function SearchResults() {
@@ -143,15 +152,15 @@ function SearchResults() {
           key={item.id}
           item={item}
           decisionBody={decisionBodies[item.decisionBodyId]}
-          categories={item.subjectTerms.split(", ")}
+          categories={item.subjectTerms.split(', ')}
           motions={sampleMotions}
         />
       ))}
       {sampleCouncillors.map((councillor) => (
-        <SearchPageCouncillorCard 
-          key={councillor.id} 
+        <SearchPageCouncillorCard
+          key={councillor.id}
           councillor={councillor}
-          decisionBody={mockCouncillorDecisionBody}
+          _decisionBody={mockCouncillorDecisionBody}
         />
       ))}
     </div>
@@ -159,7 +168,7 @@ function SearchResults() {
 }
 
 export function SearchInterface() {
-  const [isTagsOpen, setIsTagsOpen] = useState(false);
+  const [_isTagsOpen, _setIsTagsOpen] = useState(false);
 
   return (
     // Commenting out SearchProvider since we're not using real search
@@ -169,7 +178,7 @@ export function SearchInterface() {
       <div>
         <SearchBar />
       </div>
-      
+
       <Separator className="mb-5.5" />
 
       {/* Tags Accordion */}
@@ -180,7 +189,11 @@ export function SearchInterface() {
             <AccordionContent>
               <div className="flex flex-wrap gap-2">
                 {Object.entries(allTags).map(([key, tag]) => (
-                  <Chip key={key} variant="secondary" className="bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700">
+                  <Chip
+                    key={key}
+                    variant="secondary"
+                    className="bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                  >
                     {tag.displayName}
                   </Chip>
                 ))}
@@ -206,7 +219,7 @@ export function SearchInterface() {
               key={item.id}
               item={item}
               decisionBody={decisionBodies[item.decisionBodyId]}
-              categories={item.subjectTerms.split(", ")}
+              categories={item.subjectTerms.split(', ')}
               motions={sampleMotions}
             />
           ))}
@@ -229,7 +242,7 @@ export function SearchInterface() {
               key={item.id}
               item={item}
               decisionBody={decisionBodies[item.decisionBodyId]}
-              categories={item.subjectTerms.split(", ")}
+              categories={item.subjectTerms.split(', ')}
               motions={sampleMotions}
             />
           ))} */}
