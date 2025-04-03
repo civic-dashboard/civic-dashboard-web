@@ -6,7 +6,7 @@ export const menuItems = [
   },
   {
     label: 'Search',
-    href: 'https://nextjs-opensearch.d2psjv0lhudilg.amplifyapp.com/',
+    href: '/search',
   },
   { label: 'Actions', href: '/actions' },
   {
