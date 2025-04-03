@@ -5,6 +5,8 @@ import * as subscriptions from '@/database/queries/subscriptions';
 import { createDB } from '@/database/kyselyDb';
 import { sendNewSubscriptionEmail } from '@/backend/emails/sendNewSubscriptionEmail';
 import { searchAgendaItems } from '@/database/queries/agendaItems';
+import { allTags } from '@/constants/tags';
+import { decisionBodies } from '@/constants/decisionBodies';
 
 type SubscribeToSearchArgs = {
   email: string;
@@ -44,6 +46,22 @@ export async function subscribeToSearch({
       filters: filters,
     },
   });
+
+  if (process.env.NEW_EMAIL_ALERT_WEBHOOK) {
+    await fetch(process.env.NEW_EMAIL_ALERT_WEBHOOK, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tags: tags.map((t) => allTags[t].displayName).join(', '),
+        decisionBodies: decisionBodyIds
+          .map((id) => decisionBodies[id].decisionBodyName)
+          .join(', '),
+        textSearchUsed: textQuery ? 'Yes' : 'No',
+      }),
+    });
+  }
 }
 
 type UnsubscribeFromSearchArgs = {
