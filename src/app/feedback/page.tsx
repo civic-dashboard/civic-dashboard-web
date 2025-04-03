@@ -21,7 +21,7 @@ export default function ShareThoughtsPage() {
       </section>
 
       {/* Ways to Share Section */}
-      <section className="mb-16">
+      <section>
         <h2 className="text-2xl font-bold">Ways to Share</h2>
         <ul className="mt-6 list-disc pl-6 space-y-4">
           <li>
