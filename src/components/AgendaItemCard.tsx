@@ -48,19 +48,6 @@ If you’re not sure how to phrase your comments, try the following simple forma
 - Who you are - your name, where you live (if it’s relevant), and any relevant communities you are part of
 - Your relationship to the item - why do you care about it? How does it affect you? Why do you think it’s important?
 - What you want - what would you like this committee to do? Do you want them to vote yes or no on this item? Do you want them to amend/change it in some way?
-
-Example:
-
-Hi there!
-
-My name is Lisa Michaels, I’m a 20 year resident of the High Park neighbourhood, and I’m a lifelong birder and animal lover.
-
-This item is meant to protect wildlife, and yet it will greatly increase the level of noise in high park, which scares and disorients birds, damages the ecosystem, and makes the park less enjoyable for everyone! Parks are about bringing people and nature together, and this would do the opposite.
-
-I ask that this committee either vote No on this item, or find a way to amend it that does not increase the level of noise in the park. My family, my birding group and I will be following this committee’s actions closely!
-
-Sincerely,
-Lisa Michaels
   `;
 
   return `mailto:${decisionBody.email}?subject=${subject}&body=${body.replaceAll('\n', '%0A')}`;
