@@ -1,4 +1,4 @@
-import { Search, ChevronUp } from "lucide-react"
+import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 
