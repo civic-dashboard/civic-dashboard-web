@@ -63,7 +63,7 @@ const sampleCouncillors = [
     wardNumber: 18,
     email: "councillor_cheng@toronto.ca",
     phone: "416-392-0210",
-    photoUrl: "/lily-cheng.jpg", // You'll need to add this image to your public folder
+    photoUrl: "/sample_councillor_img.png",
     keyIssues: ["Environment", "Conservation", "Trees"],
     profile: "Lily Cheng is the Councillor for Ward 18 Willowdale, taking office on November 15, 2022. A Willowdale resident for over a dozen years, Lily is a passionate, visionary leader in the community...",
     stats: {
@@ -96,7 +96,7 @@ const sampleAgendaItems = [
     agendaItemRecommendation: "Urban Forestry determined that the tree is healthy and maintainable. The North York Community Council denied an appeal to remove a healthy honey locust tree.",
     decisionRecommendations: null,
     decisionAdvice: null,
-    subjectTerms: "environment, conservation, trees",
+    subjectTerms: "Environment, Conservation, Trees",
     wardId: null,
     backgroundAttachmentId: null,
     agendaItemAddress: [],
