@@ -21,7 +21,8 @@
     "db:stop": "docker compose stop database",
     "docker:start": "docker compose up --detach",
     "docker:stop": "docker compose stop",
-    "tsx": "tsx --tsconfig tsconfig.tsx.json"
+    "tsx": "tsx --tsconfig=tsconfig.tsx.json",
+    "tsxe": "tsx --tsconfig=tsconfig.tsx.json --env-file=.env"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",

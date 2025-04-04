@@ -53,10 +53,14 @@ npm run db:run-migrations
 
 ### Load a small amount of data to populate the database
 
-This will download Agenda Items from the last month up until a month from now and save it into your local PostgreSQL
+This will download Agenda Item Considerations from the last month up until a month from now and save it into your local PostgreSQL
 
 ```sh
-DATABASE_URL="postgresql://postgres:postgres@localhost:54320/civic_dashboard" npm run tsx src/scripts/updateDatabase.ts
+npm run tsxe src/scripts/updateDatabase.ts
+```
+This will download all available Votes and Councillors and save into your local database.
+```sh
+npm run tsxe src/scripts/repopulateRawContactsAndVotes.ts
 ```
 
 ### Run the app
