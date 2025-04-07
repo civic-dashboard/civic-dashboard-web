@@ -47,10 +47,7 @@ export default async function CouncillorBio({
           <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
             <dt className="font-bold">Email</dt>
             <dd>
-              <a
-                className="text-blue-500 underline"
-                href={`mailto:${councillor.email}`}
-              >
+              <a className="classic-link" href={`mailto:${councillor.email}`}>
                 {councillor.email}
               </a>
             </dd>
@@ -59,10 +56,7 @@ export default async function CouncillorBio({
               <>
                 <dt className="font-bold">Phone</dt>
                 <dd>
-                  <a
-                    className="text-blue-500 underline"
-                    href={`tel:${councillor.phone}`}
-                  >
+                  <a className="classic-link" href={`tel:${councillor.phone}`}>
                     {councillor.phone}
                   </a>
                 </dd>
