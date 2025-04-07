@@ -147,27 +147,42 @@ const parseTokens = (tokens: Token[]): Query | null => {
 };
 
 const queryToPostgresTextSearchQuery = (query: Query): string => {
-  if (query.type === 'token') {
-    const splitTokens = query.token
-      .split(/\s+/)
-      .map((s) => s.replaceAll(/['"]/g, '')) // having apostrophes or quotes in individual search tokens will break postgres's text search
-      .map((s) => `'${s}'`);
-
-    return `(${splitTokens.join('<->')})`;
+  switch (query.type) {
+    case 'not': {
+      return `!(${queryToPostgresTextSearchQuery(query.query)})`;
+    }
+    case 'token': {
+      // Todo: Full DSL excaping
+      const splitTokens = query.token
+        .split(/\s+/)
+        .map((s) => s.replaceAll(/['"]/g, '')) // having apostrophes or quotes in individual search tokens will break postgres's text search
+        .map((s) => `'${s}'`);
+      return `(${splitTokens.join('<->')})`;
+    }
+    case 'and':
+    case 'or': {
+      const op = query.type === 'and' ? '&' : '|';
+      const subqueries = query.queries.map((subquery) =>
+        queryToPostgresTextSearchQuery(subquery),
+      );
+      return `(${subqueries.join(op)})`;
+    }
   }
-
-  if (query.type === 'not') {
-    return `!(${queryToPostgresTextSearchQuery(query.query)})`;
-  }
-
-  const op = query.type === 'and' ? '&' : '|';
-  const subqueries = query.queries.map((subquery) =>
-    queryToPostgresTextSearchQuery(subquery),
-  );
-  return `(${subqueries.join(op)})`;
 };
 
 const parseQuery = (query: string) => parseTokens(tokenize(query));
+
+const combineQueries = (
+  queries: Array<Query | null>,
+  combinator: 'and' | 'or',
+): Query | null => {
+  const nonEmptyQueries = queries.filter((q): q is Query => q !== null);
+  if (nonEmptyQueries.length === 0) return null;
+  return {
+    type: combinator,
+    queries: nonEmptyQueries,
+  };
+};
 
 export const queryAndTagsToPostgresTextSearchQuery = ({
   textQuery,
@@ -176,24 +191,14 @@ export const queryAndTagsToPostgresTextSearchQuery = ({
   textQuery: string;
   tags: TagEnum[];
 }) => {
+  const parsedTagQueries = tags.map((tag) =>
+    parseQuery(allTags[tag].searchQuery),
+  );
   const parsedTextQuery = parseQuery(textQuery);
-  const parsedTagQueries = tags
-    .map((tag) => parseQuery(allTags[tag].searchQuery))
-    .filter((q) => q !== null);
 
-  const tagPart: Query | null =
-    parsedTagQueries.length === 0
-      ? null
-      : { type: 'or', queries: parsedTagQueries };
+  const tagQuery = combineQueries(parsedTagQueries, 'or');
+  const combinedQuery = combineQueries([parsedTextQuery, tagQuery], 'and');
 
-  const allParts = [parsedTextQuery, tagPart].filter((q) => q !== null);
-
-  const fullQuery: Query | null =
-    allParts.length === 0
-      ? null
-      : allParts.length === 1
-        ? allParts[0]
-        : { type: 'and', queries: allParts };
-
-  return fullQuery === null ? null : queryToPostgresTextSearchQuery(fullQuery);
+  if (combinedQuery === null) return null;
+  return queryToPostgresTextSearchQuery(combinedQuery);
 };
