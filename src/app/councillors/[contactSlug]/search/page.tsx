@@ -1,23 +1,11 @@
 import { createDB } from '@/database/kyselyDb';
-import { Kysely } from 'kysely';
-import { DB } from '@/database/allDbTypes';
-import { searchCouncillorVotes } from '@/database/queries/councillorVotes';
+import { getVotesByAgendaItemsForContact } from '@/database/queries/councillorVotes';
 import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
+import AgendaItemResults from '@/app/councillors/[contactSlug]/components/AgendaItemResults';
 
 type ParamsType = {
   contactSlug: string;
 };
-
-async function getTestSearchResults(
-  db: Kysely<DB>,
-  contactSlug: string,
-  textQuery: string,
-) {
-  return await searchCouncillorVotes(db, {
-    options: { contactSlug, textQuery },
-    pagination: { page: 0, pageSize: 100 },
-  });
-}
 
 export default async function CouncillorVotePage(props: {
   params: Promise<ParamsType>;
@@ -26,21 +14,20 @@ export default async function CouncillorVotePage(props: {
   const { contactSlug } = await props.params;
   // Todo: Zod-check
   const searchParams = await props.searchParams;
-  const db = createDB();
 
-  const textQuery = searchParams['textQuery'];
-  if (typeof textQuery !== 'string') throw new Error(`Invalid search`);
+  const searchString = searchParams['searchString'];
+  if (typeof searchString !== 'string') throw new Error(`Invalid searchString`);
 
-  const searchResults = await getTestSearchResults(db, contactSlug, textQuery);
+  const agendaItems = await getVotesByAgendaItemsForContact(
+    createDB(),
+    contactSlug,
+    searchString,
+  );
 
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <CouncillorBio contactSlug={contactSlug} />
-      <ol>
-        {searchResults.results.map((result) => (
-          <li key={result.agendaItemNumber}>{result.agendaItemNumber}</li>
-        ))}
-      </ol>
+      <AgendaItemResults agendaItems={agendaItems} searchTerm="" />
     </main>
   );
 }

@@ -1,11 +1,11 @@
 import { DB } from '@/database/allDbTypes';
 import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
 import { SearchPagination } from '@/logic/search';
-import { Kysely, sql } from 'kysely';
+import { Kysely, QueryCreator, sql } from 'kysely';
 
 import { AgendaItem, Motion } from '@/app/councillors/[contactSlug]/types';
 
-type SearchOptions = { textQuery: string; contactSlug: string };
+type SearchOptions = { searchString: string; contactSlug: string };
 
 export const searchCouncillorVotes = async (
   db: Kysely<DB>,
@@ -44,14 +44,14 @@ export const searchCouncillorVotes = async (
 };
 
 export function buildCouncillorVotesSearchResultsQuery(
-  db: Kysely<DB>,
+  db: QueryCreator<DB>,
   options: SearchOptions,
 ) {
   const fuzzyQuery = queryAndTagsToPostgresTextSearchQuery({
-    textQuery: options.textQuery,
+    textQuery: options.searchString,
     tags: [],
   });
-  if (!fuzzyQuery) throw new Error(`No query to run`);
+
   return db
     .with('AvailableConsiderations', (db) =>
       db
@@ -76,7 +76,8 @@ export function buildCouncillorVotesSearchResultsQuery(
 }
 
 type FlatRow = Omit<AgendaItem & Motion, 'motions'>;
-export function nestMotionsUnderAgendaItems(
+
+function nestMotionsUnderAgendaItems(
   flatRows: ReadonlyArray<FlatRow>,
 ): AgendaItem[] {
   const agendaItemByNumber = new Map<string, AgendaItem>();
@@ -98,4 +99,96 @@ export function nestMotionsUnderAgendaItems(
     agendaItemByNumber.set(agendaItemNumber, agendaItem);
   }
   return [...agendaItemByNumber.values()];
+}
+
+export async function getVotesByAgendaItemsForContact(
+  db: Kysely<DB>,
+  contactSlug: string,
+  searchString: string | null,
+): Promise<AgendaItem[]> {
+  const baseQuery = buildCouncillorVotesSearchResultsQuery(db, {
+    searchString: searchString ?? '',
+    contactSlug,
+  })
+    .with('OriginalSummaries', (eb) =>
+      eb
+        .selectFrom('RawAgendaItemConsiderations')
+        .select(['reference', 'agendaItemSummary'])
+        .distinct(),
+    )
+    .with('AutoSummaries', (eb) =>
+      eb
+        .selectFrom('AiSummaries')
+        .groupBy('AiSummaries.agendaItemNumber')
+        .having(sql<number>`count(*)`, '=', 1)
+        .select([
+          'AiSummaries.agendaItemNumber',
+          sql<string>`MIN("summary")`.as('aiSummary'),
+        ]),
+    )
+    .selectFrom('Votes')
+    .innerJoin('Motions', (eb) =>
+      eb
+        .onRef('Votes.agendaItemNumber', '=', 'Motions.agendaItemNumber')
+        .onRef('Votes.motionId', '=', 'Motions.motionId'),
+    )
+    .innerJoin('AgendaItems', (eb) =>
+      eb.onRef('Votes.agendaItemNumber', '=', 'AgendaItems.agendaItemNumber'),
+    )
+    .innerJoin('Committees', (eb) =>
+      eb.onRef('Committees.committeeSlug', '=', 'Motions.committeeSlug'),
+    )
+    .leftJoin('OriginalSummaries', (eb) =>
+      eb.onRef(
+        'AgendaItems.agendaItemNumber',
+        '=',
+        'OriginalSummaries.reference',
+      ),
+    )
+    .leftJoin('AutoSummaries', (eb) =>
+      eb.onRef(
+        'AgendaItems.agendaItemNumber',
+        '=',
+        'AutoSummaries.agendaItemNumber',
+      ),
+    )
+    .select([
+      'AgendaItems.agendaItemNumber',
+      'AgendaItems.agendaItemTitle',
+      'Motions.motionType',
+      'Motions.motionId',
+      'Motions.voteDescription',
+      'Motions.dateTime',
+      'Motions.committeeSlug',
+      'Motions.result',
+      'Motions.resultKind',
+      sql<string>`CONCAT("Motions"."yesVotes", '-', "Motions"."noVotes")`.as(
+        'tally',
+      ),
+      'Votes.value',
+      'Committees.committeeName',
+      'OriginalSummaries.agendaItemSummary',
+      'AutoSummaries.aiSummary',
+    ]);
+
+  let flatRows: FlatRow[];
+  if (searchString) {
+    flatRows = await baseQuery
+      .innerJoin('SearchResults', (eb) =>
+        eb.onRef(
+          'AgendaItems.agendaItemNumber',
+          '=',
+          'SearchResults.agendaItemNumber',
+        ),
+      )
+      .orderBy('SearchResults.rank', 'desc')
+      .execute();
+  } else {
+    flatRows = await baseQuery
+      .where('Votes.contactSlug', '=', contactSlug)
+      .orderBy('Motions.dateTime', 'desc')
+      .execute();
+  }
+
+  return nestMotionsUnderAgendaItems(flatRows);
 }
