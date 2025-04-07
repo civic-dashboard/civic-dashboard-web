@@ -3,7 +3,8 @@ import CouncillorBio from '@/app/councillors/[contactSlug]/components/Councillor
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 import { Kysely, sql } from 'kysely';
 import { DB } from '@/database/allDbTypes';
-import { AgendaItem } from '@/app/councillors/[contactSlug]/types/index';
+import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
+import { nestMotionsUnderAgendaItems } from '@/database/queries/councillorVotes';
 
 type ParamsType = {
   contactSlug: string;
@@ -73,37 +74,19 @@ async function getVotesByAgendaItemsForContact(
       'Motions.voteDescription',
       'Motions.dateTime',
       'Motions.committeeSlug',
-      'Committees.committeeName',
-      'Votes.value',
       'Motions.result',
       'Motions.resultKind',
-      'OriginalSummaries.agendaItemSummary',
       sql<string>`CONCAT("Motions"."yesVotes", '-', "Motions"."noVotes")`.as(
         'tally',
       ),
-      'aiSummary',
+      'Votes.value',
+      'Committees.committeeName',
+      'OriginalSummaries.agendaItemSummary',
+      'AutoSummaries.aiSummary',
     ])
     .execute();
 
-  const agendaItemByNumber = new Map<string, AgendaItem>();
-  for (const {
-    agendaItemNumber,
-    agendaItemTitle,
-    agendaItemSummary,
-    aiSummary,
-    ...motion
-  } of rows) {
-    const agendaItem: AgendaItem = agendaItemByNumber.get(agendaItemNumber) ?? {
-      agendaItemNumber,
-      agendaItemTitle,
-      agendaItemSummary,
-      aiSummary,
-      motions: [],
-    };
-    agendaItem.motions.push(motion);
-    agendaItemByNumber.set(agendaItemNumber, agendaItem);
-  }
-  return [...agendaItemByNumber.values()];
+  return nestMotionsUnderAgendaItems(rows);
 }
 
 export default async function CouncillorVotePage(props: {
@@ -116,7 +99,6 @@ export default async function CouncillorVotePage(props: {
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <CouncillorBio contactSlug={contactSlug} />
-
       <CouncillorVoteContent agendaItems={agendaItems} />
     </main>
   );
