@@ -5,6 +5,8 @@ import {
   sharedCast,
   verifyFieldsAreNotNullish,
 } from '@/database/pipelines/csvUtils';
+import { validateUrl } from '@/logic/sanitize';
+import { getMemberSitePortrait } from '@/logic/getValidProfilePhoto';
 import { toSlug } from '@/logic/toSlug';
 import { Readable } from 'node:stream';
 import { toContactName } from '@/database/pipelines/textParseUtils';
@@ -55,11 +57,16 @@ export const formatContactCsvStream = (
     )
     // Vacancies appear with nullish names
     .filter((row: CsvContactRow) => Boolean(row.firstName && row.lastName))
-    .map((row: CsvContactRow): InsertRawContact => {
+    .map(async (row: CsvContactRow): InsertRawContact => {
       if (!verifyFieldsAreNotNullish(MandatoryContactFields, row)) {
         throw new Error(`Missing not-nullable field(s)`, { cause: { row } });
       }
-      const contactName = toContactName(row.firstName, row.lastName);
+      const contactName = toContactName(row.firstName, row.lastName);  
+      let imgUrl = row.photoUrl;
+      if (!(await validateUrl(row.photoUrl))) {
+        imgUrl = await getMemberSitePortrait(row.districtId);
+      }
+
       return {
         term,
         contactName,
@@ -70,7 +77,7 @@ export const formatContactCsvStream = (
         wardName: row.districtName,
         primaryRole: row.primaryRole,
         email: row.email,
-        photoUrl: row.photoUrl,
+        photoUrl: imgUrl,
         website: row.website,
         addressLine1: row.addressLine1,
         addressLine2: row.addressLine2,
