@@ -26,15 +26,16 @@ export const getMemberSitePortrait = async (wardNum: number) => {
         const response = await fetch(URL); 
         const HTML: string | null = await response.text(); 
 
-        console.log('Fetched HTML for ward:', wardNum); 
+        console.log('Retriving img url for ward:', wardNum); 
 
         const imgUrl = parseWardHTML(HTML, wardNum); 
 
         if (imgUrl) {
-            console.log(`Image URL for ward ${wardNum}: ${imgUrl}`);
+            console.log(`Retrieved image URL for ward ${wardNum}: ${imgUrl}`);
+            return imgUrl;
         }
     } catch (error) {
-        console.error('Error fetching data for ward', wardNum, error);
+        console.error('Error fetching img url for ward:', wardNum, error);
     }
 };
 

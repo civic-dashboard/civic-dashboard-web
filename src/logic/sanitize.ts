@@ -36,6 +36,7 @@ export const validateUrl = async (url: string) => {
     const response = await fetch(url, { method: 'HEAD' }); 
     return response.ok;
   } catch {
+    console.log(`Invalid URL`);
     return false;
   }
 

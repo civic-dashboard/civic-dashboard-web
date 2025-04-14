@@ -6,7 +6,7 @@ import {
   verifyFieldsAreNotNullish,
 } from '@/database/pipelines/csvUtils';
 import { validateUrl } from '@/logic/sanitize';
-import { getMemberSitePortrait } from '@/logic/getValidProfilePhoto';
+import { getMemberSitePortrait } from '@/database/pipelines/getActiveProfilePhoto';
 import { toSlug } from '@/logic/toSlug';
 import { Readable } from 'node:stream';
 import { toContactName } from '@/database/pipelines/textParseUtils';
