@@ -21,7 +21,7 @@ function parseWardHTML(
         return null;
     }
     
-    const imgUrl: string | undefined = $('#page-content > div > p > img', '.page-content > div > p > img').attr('src');
+    const imgUrl: string | undefined = $('#page-content > div > p > img, #page-content > div > h2 > img').attr('src');
 
     if (imgUrl) {
         console.log(`Retrieved image src URL for ${headerName}`);
