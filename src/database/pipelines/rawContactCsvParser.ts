@@ -64,7 +64,7 @@ export const formatContactCsvStream = (
       const contactName = toContactName(row.firstName, row.lastName);  
       let imgUrl = row.photoUrl;
       if (!(await validateUrl(row.photoUrl))) {
-        imgUrl = await getMemberSitePortrait(row.districtId);
+        imgUrl = await getMemberSitePortrait(row.districtId, contactName);
       }
 
       return {
