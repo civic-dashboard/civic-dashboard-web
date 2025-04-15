@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 
 // NOTE:  Can only scrape active councillors, not past ones
-// TODO: place file somewhere better?, maybe @api/cityCouncilRequest.ts or sanitize.ts
+// TODO: place file somewhere better
 function parseWardHTML(
   html: string,
   wardNum: number | string,
@@ -46,12 +46,18 @@ export async function getMemberSitePortrait(
 
   try {
     const response = await fetch(councillorUrl);
-    const HTML: string = await response.text();
+    const pageHtml: string = await response.text();
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch toronto.ca councillor page ${response.status}`,
+      );
+    }
 
     console.log('Retrieving img url for ward:', wardNum);
 
     const imgUrl: string | null =
-      parseWardHTML(HTML, wardNum, wardName) ?? null;
+      parseWardHTML(pageHtml, wardNum, wardName) ?? null;
 
     if (imgUrl) {
       console.log(`Retrieved image councillorUrl for ward ${wardNum}:`, imgUrl);
