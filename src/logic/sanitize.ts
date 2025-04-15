@@ -27,17 +27,14 @@ export const sanitize = (text: string) => {
 
 //TODO: move this to a more appropriate place
 export const validateUrl = async (url: string) => {
-  
   try {
     // Check if the URL is valid
     new URL(url);
-    
+
     // Check if the api given URL can be reached
-    const response = await fetch(url, { method: 'HEAD' }); 
+    const response = await fetch(url, { method: 'HEAD' });
     return response.ok;
   } catch {
-    console.log('Invalid URL:',url);
     return false;
   }
-
-}
+};

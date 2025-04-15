@@ -61,9 +61,10 @@ export const formatContactCsvStream = (
       if (!verifyFieldsAreNotNullish(MandatoryContactFields, row)) {
         throw new Error(`Missing not-nullable field(s)`, { cause: { row } });
       }
-      const contactName = toContactName(row.firstName, row.lastName);  
-      let imgUrl = row.photoUrl;
-      if (!(await validateUrl(row.photoUrl))) {
+      const contactName = toContactName(row.firstName, row.lastName);
+      let imgUrl: string | null = row.photoUrl ?? null;
+      if (!(await validateUrl(imgUrl))) {
+        console.log(`Invalid photo URL for councillor ${contactName}:`, imgUrl);
         imgUrl = await getMemberSitePortrait(row.districtId, contactName);
       }
 
