@@ -1,33 +1,26 @@
 import * as cheerio from 'cheerio';
 
-// NOTE:  Can only scrape active councillors, not past ones
+// NOTE:  Can only scrape active council members, not past ones
 // TODO: place file somewhere better
-function parseWardHTML(
-  html: string,
-  wardNum: number | string,
-  wardName: string,
-) {
+function parseWardHTML(html: string, councilMemberName: string) {
   const $ = cheerio.load(html);
 
-  const headerName: string =
-    $('#page-header--title').text().trim() || `Ward ${wardNum}`;
+  const headerName: string = $('#page-header--title').text().trim();
 
-  const wardNameToMatch = wardName.toLowerCase().split(/\s+/);
+  const councilMemberNameToMatch = councilMemberName.toLowerCase().split(/\s+/);
   const wardHeaderNameToMatch = headerName.trim().toLowerCase();
-  const isWardNameMatch = wardNameToMatch.some((word) =>
+  const isWardNameMatch = councilMemberNameToMatch.some((word) =>
     wardHeaderNameToMatch.includes(word),
   );
 
   if (!isWardNameMatch) {
     console.warn(
-      `Warning: "${wardName}" does not match site councillor header name "${headerName}".`,
+      `Warning: "${councilMemberName}" does not match council member name in site header "${headerName}".`,
     );
     return null;
   }
 
-  const imgUrl: string | undefined = $(
-    '#page-content > div > p > img, #page-content > div > h2 > img',
-  ).attr('src');
+  const imgUrl: string | undefined = $('#page-content > div img').attr('src');
 
   if (imgUrl) {
     console.log(`Retrieved image src URL for ${headerName}`);
@@ -39,28 +32,39 @@ function parseWardHTML(
 }
 
 export async function getMemberSitePortrait(
-  wardNum: number | string,
-  wardName: string,
+  wardNum: number | string | null,
+  councilMemberName: string,
+  primaryRole: string,
 ): Promise<string | null> {
-  const councillorUrl = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${wardNum}/`;
+  let councilMemberUrl = '';
+  if (wardNum === null && primaryRole === 'Mayor') {
+    councilMemberUrl = `https://www.toronto.ca/city-government/council/office-of-the-mayor/about-mayor/`;
+  } else if (primaryRole === 'Councillor' && wardNum !== null) {
+    councilMemberUrl = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${wardNum}/`;
+  } else {
+    throw new Error('Invalid primary role or missing ward number.');
+  }
 
   try {
-    const response = await fetch(councillorUrl);
+    const response = await fetch(councilMemberUrl);
     const pageHtml: string = await response.text();
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch toronto.ca councillor page ${response.status}`,
+        `Failed to fetch toronto.ca council member page ${response.status}`,
       );
     }
 
-    console.log('Retrieving img url for ward:', wardNum);
-
     const imgUrl: string | null =
-      parseWardHTML(pageHtml, wardNum, wardName) ?? null;
+      parseWardHTML(pageHtml, councilMemberName) ?? null;
 
     if (imgUrl) {
-      console.log(`Retrieved image councillorUrl for ward ${wardNum}:`, imgUrl);
+      console.log(
+        `Retrieved image URL for council member ${councilMemberName}${
+          wardNum !== null ? ` (Ward ${wardNum})` : ''
+        }:`,
+        imgUrl,
+      );
     } else {
       console.log(`No image found for ward ${wardNum}. Returning null`);
     }
