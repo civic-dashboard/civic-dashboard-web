@@ -1,5 +1,6 @@
 import { toSlug } from '@/logic/toSlug';
-
+import jschardet from 'jschardet';
+import iconlite from 'iconv-lite';
 /**
  * Finds a term e.g. "2024-2026" within a larger string
  * Throws if there is no term, or more than one term within the text
@@ -24,11 +25,14 @@ export function extractTermFromText(text: string): string {
  * @returns Combined name
  */
 export function toContactName(firstName: string, lastName: string) {
-  const trimmedFirstName = firstName.trim();
+  const decodedFirstName = encodeBuffer(Buffer.from(firstName, 'binary'));
+  const decodedLastName = encodeBuffer(Buffer.from(lastName, 'binary'));
+
+  const trimmedFirstName = decodedFirstName.trim();
   if (!trimmedFirstName)
     throw new Error(`Cannot create contact name with firstName "${firstName}"`);
 
-  const trimmedLastName = lastName.trim();
+  const trimmedLastName = decodedLastName.trim();
   if (!trimmedLastName)
     throw new Error(`Cannot create contact name with lastName "${lastName}"`);
 
@@ -77,4 +81,12 @@ function getCleanCouncillorSlug(approximateName: string) {
       `Failed to extract councillor slug from "${approximateName}"`,
     );
   return toSlug(cleanName);
+}
+
+function encodeBuffer(buffer: Buffer) {
+  const encoding = jschardet.detect(buffer).encoding;
+  if (!encoding) {
+    throw new Error(`Failed to detect text encoding`);
+  }
+  return iconlite.decode(buffer, encoding);
 }
