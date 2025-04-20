@@ -26,6 +26,8 @@ export const SearchInput = ({
       if (event.key === 'Enter')
         triggerOnChange.immediate(event.currentTarget.value);
     },
+    // In this case we only care about the callback reference, not it's parent
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [triggerOnChange.immediate],
   );
   useEffect(() => triggerOnChange.cancel, [triggerOnChange]);
