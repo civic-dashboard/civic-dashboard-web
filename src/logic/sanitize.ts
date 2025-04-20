@@ -24,3 +24,16 @@ export const sanitize = (text: string) => {
   if (!safeSummary) throw new Error(`No content after sanitizing`);
   return safeSummary;
 };
+
+export const validateUrl = async (url: string | null | undefined) => {
+  try {
+    // Check if the URL is valid
+    new URL(url);
+
+    // Check if the api given URL can be reached
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch {
+    return false;
+  }
+};
