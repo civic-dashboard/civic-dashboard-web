@@ -26,6 +26,7 @@ export const sanitize = (text: string) => {
 };
 
 export const validateUrl = async (url: string | null | undefined) => {
+  if (!url) return false;
   try {
     // Check if the URL is valid
     new URL(url);
