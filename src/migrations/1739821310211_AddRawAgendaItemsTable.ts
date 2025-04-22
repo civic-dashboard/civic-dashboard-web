@@ -2,7 +2,7 @@ import { sql, type Kysely } from 'kysely';
 
 export async function up(db: Kysely<unknown>): Promise<void> {
   await sql`
-    CREATE TABLE "RawAgendaItems" ("data" jsonb NOT NULL);
+    CREATE TABLE "RawAgendaItems" ("data" JSONB NOT NULL);
   `.execute(db);
 }
 

@@ -25,7 +25,7 @@ export async function up(db: Kysely<unknown>): Promise<void> {
       "subjectTerms" TEXT NOT NULL,
       "wardId" INT[],
       "backgroundAttachmentId" INT[],
-      "agendaItemAddress" json,
+      "agendaItemAddress" JSON,
       "address" TEXT[],
       "geoLocation" TEXT[],
       "planningApplicationNumber" TEXT,
