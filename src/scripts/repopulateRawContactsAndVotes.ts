@@ -60,9 +60,12 @@ class RepopulateRawContactsAndVotes {
   private async repopulateRawContacts() {
     const contactsPackage = await this.openDataClient.showPackage('contacts');
     await this.deleteAllRawContacts();
-    const contactsResources = contactsPackage.result.resources.filter(isCompleteCsvResource)
-    const batchSize = 4 // TODO: Adjust this based on constraints or add logic to determine batch size dynamically
-    await this.fetchInBatches(contactsResources, batchSize, async resource => {
+    const contactsResources = contactsPackage.result.resources.filter(
+      isCompleteCsvResource,
+    );
+    // TODO: Adjust this based on constraints or add logic to determine batch size dynamically
+    const batchSize = 4;
+    await processInBatches(contactsResources, batchSize, async (resource) => {
       console.log(`Processing resource ${resource.name}`);
       const term = extractTermFromText(resource.name);
       const requestStream = await this.openDataClient.fetchDataset(
@@ -71,9 +74,7 @@ class RepopulateRawContactsAndVotes {
       await this.bulkInsertRawContacts(
         formatContactCsvStream(term, requestStream),
       );
-      
-    })
-  
+    });
   }
 
   private async repopulateRawVotes() {
@@ -119,12 +120,6 @@ class RepopulateRawContactsAndVotes {
     }
   }
 
-  private async fetchInBatches<T>(items: AsyncIterable<T> | Array<T>, batchSize: number, processFunction: (item: T) => Promise<void>) {
-    for await (const batch of asBatches(items, batchSize)) {
-      await Promise.all(batch.map(item => processFunction(item)));
-    }
-  }
-
   private async deleteAllRawContacts() {
     await sql`TRUNCATE "RawContacts";`.execute(this.trx);
   }
@@ -139,7 +134,7 @@ const isCompleteCsvResource = (resource: PackageResource) =>
   resource.format.toLocaleLowerCase() === 'csv' &&
   resource.url.endsWith('.csv');
 
-async function* asBatches<T>(
+export async function* asBatches<T>(
   input: AsyncIterable<T> | Array<T>,
   batchSize: number,
 ): AsyncIterable<Array<T>> {
@@ -154,5 +149,14 @@ async function* asBatches<T>(
   if (batch.length > 0) yield batch;
 }
 
+export async function processInBatches<T>(
+  items: AsyncIterable<T> | Array<T>,
+  batchSize: number,
+  processFunction: (item: T) => Promise<void>,
+) {
+  for await (const batch of asBatches(items, batchSize)) {
+    await Promise.all(batch.map((item) => processFunction(item)));
+  }
+}
 await RepopulateRawContactsAndVotes.run(createDB());
 process.exit(0);

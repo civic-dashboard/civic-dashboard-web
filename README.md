@@ -58,7 +58,9 @@ This will download Agenda Item Considerations from the last month up until a mon
 ```sh
 npm run tsxe src/scripts/updateDatabase.ts
 ```
+
 This will download all available Votes and Councillors and save into your local database.
+
 ```sh
 npm run tsxe src/scripts/repopulateRawContactsAndVotes.ts
 ```
