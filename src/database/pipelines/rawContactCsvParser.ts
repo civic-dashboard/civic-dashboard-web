@@ -45,25 +45,24 @@ type CsvContactRow = CsvRow<typeof ContactCsvColumns>;
 
 export const formatContactCsvStream = (
   term: string,
-  requestStream: Readable
+  requestStream: Readable,
 ): AsyncIterable<InsertRawContact> => {
   const parsedRequestStream = requestStream.pipe(
     createCsvParser({
       trim: true,
       cast: sharedCast,
       columns: createColumnMapper(ContactCsvColumns),
-    })
+    }),
   );
   // Vacancies appear with nullish names
   const filteredRequestStream: AsyncIterable<CsvContactRow> =
     parsedRequestStream.filter((row: CsvContactRow) =>
-      Boolean(row.firstName && row.lastName)
+      Boolean(row.firstName && row.lastName),
     );
-  const rowBatch: Array<CsvContactRow> = [];
   // TODO: Adjust this based on constraints or add logic to determine batch size dynamically
   const batchSize = 26;
   return processRowsInBatches(filteredRequestStream, batchSize, (row) =>
-    processRow(row, term)
+    processRow(row, term),
   );
 };
 
@@ -80,7 +79,7 @@ async function processRow(row: CsvContactRow, term: string): InsertRawContact {
     imgUrl = await getMemberSitePortrait(
       row.districtId,
       contactName,
-      row.primaryRole
+      row.primaryRole,
     );
   }
 
@@ -110,7 +109,7 @@ async function processRow(row: CsvContactRow, term: string): InsertRawContact {
 async function* processRowsInBatches<T>(
   iterable: AsyncIterable<T>,
   batchSize: number,
-  processFunction: (item: T) => Promise<InsertRawContact>
+  processFunction: (item: T) => Promise<InsertRawContact>,
 ): AsyncIterable<InsertRawContact> {
   const batch: Array<T> = [];
   async function* processBatch() {
