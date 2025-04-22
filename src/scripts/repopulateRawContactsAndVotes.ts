@@ -60,8 +60,10 @@ class RepopulateRawContactsAndVotes {
   private async repopulateRawContacts() {
     const contactsPackage = await this.openDataClient.showPackage('contacts');
     await this.deleteAllRawContacts();
-    for (const resource of contactsPackage.result.resources) {
-      if (!isCompleteCsvResource(resource)) continue;
+    const contactsResources = contactsPackage.result.resources.filter(isCompleteCsvResource)
+    const batchSize = 4 // TODO: Adjust this based on constraints or add logic to determine batch size dynamically
+    await this.fetchInBatches(contactsResources, batchSize, async resource => {
+      console.log(`Processing resource ${resource.name}`);
       const term = extractTermFromText(resource.name);
       const requestStream = await this.openDataClient.fetchDataset(
         resource.url,
@@ -69,7 +71,9 @@ class RepopulateRawContactsAndVotes {
       await this.bulkInsertRawContacts(
         formatContactCsvStream(term, requestStream),
       );
-    }
+      
+    })
+  
   }
 
   private async repopulateRawVotes() {
@@ -115,6 +119,12 @@ class RepopulateRawContactsAndVotes {
     }
   }
 
+  private async fetchInBatches<T>(items: AsyncIterable<T> | Array<T>, batchSize: number, processFunction: (item: T) => Promise<void>) {
+    for await (const batch of asBatches(items, batchSize)) {
+      await Promise.all(batch.map(item => processFunction(item)));
+    }
+  }
+
   private async deleteAllRawContacts() {
     await sql`TRUNCATE "RawContacts";`.execute(this.trx);
   }
@@ -130,7 +140,7 @@ const isCompleteCsvResource = (resource: PackageResource) =>
   resource.url.endsWith('.csv');
 
 async function* asBatches<T>(
-  input: AsyncIterable<T>,
+  input: AsyncIterable<T> | Array<T>,
   batchSize: number,
 ): AsyncIterable<Array<T>> {
   let batch = new Array<T>();
