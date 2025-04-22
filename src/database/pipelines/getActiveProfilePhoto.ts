@@ -10,12 +10,12 @@ function parseWardHTML(html: string, councilMemberName: string) {
   const councilMemberNameToMatch = councilMemberName.toLowerCase().split(/\s+/);
   const wardHeaderNameToMatch = headerName.trim().toLowerCase();
   const isWardNameMatch = councilMemberNameToMatch.some((word) =>
-    wardHeaderNameToMatch.includes(word),
+    wardHeaderNameToMatch.includes(word)
   );
 
   if (!isWardNameMatch) {
     console.warn(
-      `Warning: "${councilMemberName}" does not match council member name in site header "${headerName}".`,
+      `Warning: "${councilMemberName}" does not match council member name in site header "${headerName}".`
     );
     return null;
   }
@@ -34,13 +34,17 @@ function parseWardHTML(html: string, councilMemberName: string) {
 export async function getMemberSitePortrait(
   wardNum: number | string | null,
   councilMemberName: string,
-  primaryRole: string,
+  primaryRole: string
 ): Promise<string | null> {
-  let councilMemberUrl = '';
+  let councilMemberUrl: URL;
   if (wardNum === null && primaryRole === 'Mayor') {
-    councilMemberUrl = `https://www.toronto.ca/city-government/council/office-of-the-mayor/about-mayor/`;
+    councilMemberUrl = new URL(
+      `https://www.toronto.ca/city-government/council/office-of-the-mayor/about-mayor/`
+    );
   } else if (primaryRole === 'Councillor' && wardNum !== null) {
-    councilMemberUrl = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${wardNum}/`;
+    councilMemberUrl = new URL(
+      `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${wardNum}/`
+    );
   } else {
     throw new Error('Invalid primary role or missing ward number.');
   }
@@ -51,7 +55,7 @@ export async function getMemberSitePortrait(
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch toronto.ca council member page ${response.status}`,
+        `Failed to fetch toronto.ca council member page ${response.status}`
       );
     }
 
@@ -63,7 +67,7 @@ export async function getMemberSitePortrait(
         `Retrieved image URL for council member ${councilMemberName}${
           wardNum !== null ? ` (Ward ${wardNum})` : ''
         }:`,
-        imgUrl,
+        imgUrl
       );
     } else {
       console.log(`No image found for ward ${wardNum}. Returning null`);
