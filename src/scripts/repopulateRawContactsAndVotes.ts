@@ -134,7 +134,7 @@ const isCompleteCsvResource = (resource: PackageResource) =>
   resource.format.toLocaleLowerCase() === 'csv' &&
   resource.url.endsWith('.csv');
 
-export async function* asBatches<T>(
+async function* asBatches<T>(
   input: AsyncIterable<T> | Array<T>,
   batchSize: number,
 ): AsyncIterable<Array<T>> {
@@ -149,7 +149,7 @@ export async function* asBatches<T>(
   if (batch.length > 0) yield batch;
 }
 
-export async function processInBatches<T>(
+async function processInBatches<T>(
   items: AsyncIterable<T> | Array<T>,
   batchSize: number,
   processFunction: (item: T) => Promise<void>,
