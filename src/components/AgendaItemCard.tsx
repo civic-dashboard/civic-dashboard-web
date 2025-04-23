@@ -12,7 +12,15 @@ import {
 import type { AgendaItem } from '@/database/queries/agendaItems';
 import { useSearch } from '@/contexts/SearchContext';
 import { Chip, ChipLink } from '@/components/ui/chip';
-import { Link2, MessageSquarePlus, Speech } from 'lucide-react';
+import {
+  Link2,
+  MessageSquarePlus,
+  Speech,
+  Bell,
+  Vote,
+  UserSquare2,
+  UserCheck,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -22,6 +30,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown';
 import Link from 'next/link';
+import {
+  ThumbsUpIcon,
+  ThumbsDownIcon,
+  CircleMinusIcon,
+  CircleDotDashedIcon,
+} from 'lucide-react';
+import Image from 'next/image';
 
 const submitCommentHref = (item: AgendaItem, decisionBody: DecisionBody) => {
   const formattedDate = new Date(item.meetingDate).toLocaleString('default', {
@@ -41,23 +56,23 @@ Comments:
 
 _____________________________________
 
-You can write whatever you’d like - there’s no one correct way to engage with democracy! That said, your message is likely to be more impactful if you are clear about who you are, what you want, and why you want it.
+You can write whatever you'd like - there's no one correct way to engage with democracy! That said, your message is likely to be more impactful if you are clear about who you are, what you want, and why you want it.
 
-If you’re not sure how to phrase your comments, try the following simple format to get started!
+If you're not sure how to phrase your comments, try the following simple format to get started!
 
-- Who you are - your name, where you live (if it’s relevant), and any relevant communities you are part of
-- Your relationship to the item - why do you care about it? How does it affect you? Why do you think it’s important?
+- Who you are - your name, where you live (if it's relevant), and any relevant communities you are part of
+- Your relationship to the item - why do you care about it? How does it affect you? Why do you think it's important?
 - What you want - what would you like this committee to do? Do you want them to vote yes or no on this item? Do you want them to amend/change it in some way?
 
 Example:
 
 Hi there!
 
-My name is Lisa Michaels, I’m a 20 year resident of the High Park neighbourhood, and I’m a lifelong birder and animal lover.
+My name is Lisa Michaels, I'm a 20 year resident of the High Park neighbourhood, and I'm a lifelong birder and animal lover.
 
 This item is meant to protect wildlife, and yet it will greatly increase the level of noise in high park, which scares and disorients birds, damages the ecosystem, and makes the park less enjoyable for everyone! Parks are about bringing people and nature together, and this would do the opposite.
 
-I ask that this committee either vote No on this item, or find a way to amend it that does not increase the level of noise in the park. My family, my birding group and I will be following this committee’s actions closely!
+I ask that this committee either vote No on this item, or find a way to amend it that does not increase the level of noise in the park. My family, my birding group and I will be following this committee's actions closely!
 
 Sincerely,
 Lisa Michaels
@@ -131,9 +146,6 @@ function AgendaItemCard({
       <CardHeader>
         <div className="flex gap-x-2 items-center">
           <Chip variant="green">{formattedDate}</Chip>
-          <span className="hidden sm:inline font-bold">
-            {item.decisionBodyName}
-          </span>
         </div>
         {externalLink ? (
           <ChipLink href={externalLink} target="_blank" variant="outline">
@@ -280,5 +292,273 @@ export function SearchResultAgendaItemCard({
         </div>
       </AgendaItemCard>
     </Link>
+  );
+}
+
+type Motion = {
+  committeeSlug: string;
+  motionType: string;
+  motionId: string;
+  voteDescription: string;
+  dateTime: string;
+  value: string;
+  tally: string;
+  resultKind: string;
+  committeeName: string;
+};
+
+type SearchPageAgendaItemCardProps = {
+  item: AgendaItem;
+  decisionBody: DecisionBody;
+  categories: string[];
+  motions: Motion[];
+};
+
+export function SearchPageAgendaItemCard({
+  item,
+  decisionBody,
+  categories,
+  motions,
+}: SearchPageAgendaItemCardProps) {
+  return (
+    <Link href={`/actions/item/${item.reference}`}>
+      <AgendaItemCard
+        item={item}
+        decisionBody={decisionBody}
+        className="transition-shadow hover:shadow-md"
+        Footer={() => (
+          <Button size="lg" className="w-full" variant="default">
+            Learn more
+          </Button>
+        )}
+      >
+        <div className="space-y-4">
+          {/* Category tags */}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <Chip
+                key={category}
+                variant="secondary"
+                className="bg-neutral-100 dark:bg-neutral-800"
+              >
+                {category}
+              </Chip>
+            ))}
+          </div>
+
+          {/* Title and summary */}
+          <div>
+            <h3 className="text-lg font-semibold">{item.agendaItemTitle}</h3>
+            <div
+              className="mt-2 text-neutral-600 dark:text-neutral-300"
+              dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
+            />
+          </div>
+
+          {/* Decision section if present */}
+          {item.agendaItemRecommendation && (
+            <div>
+              <h4 className="font-bold mb-2">The decision</h4>
+              <div
+                className="text-neutral-600 dark:text-neutral-300"
+                dangerouslySetInnerHTML={{
+                  __html: item.agendaItemRecommendation,
+                }}
+              />
+            </div>
+          )}
+
+          {/* Motions section using the councillor page style */}
+          <div className="mt-2">
+            {motions.map((motion) => (
+              <div key={motion.motionId} className="border-t p-4">
+                <dl className="flex -center mb-2 text-xs gap-1">
+                  <dt>Date</dt>
+                  <dd className="text-gray-500">{motion.dateTime}</dd>
+                  <dt className="ml-auto">Motion</dt>
+                  <dd className="text-gray-500">{motion.motionType}</dd>
+                </dl>
+
+                <dl className="flex flex-row gap-4 justify-between items-center text-xs">
+                  <div className="flex items-center">
+                    <dt className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#1870F8] text-white text-md">
+                      <VoteIcon value={motion.value} />
+                    </dt>
+                    <dd className="pl-2">
+                      <div>Vote</div>
+                      <div className="text-gray-500">{motion.value}</div>
+                    </dd>
+                  </div>
+
+                  <div className="flex flex-col items-center text-center">
+                    <dt>Decision body</dt>
+                    <dd className="text-gray-500">{motion.committeeName}</dd>
+                  </div>
+
+                  <div className="flex flex-col items-center text-center">
+                    <dt>Total</dt>
+                    <dd className="text-gray-500">{motion.tally}</dd>
+                  </div>
+
+                  <div className="flex flex-col items-center text-center">
+                    <dt>Status</dt>
+                    <dd className="text-gray-500">{motion.resultKind}</dd>
+                  </div>
+                </dl>
+              </div>
+            ))}
+          </div>
+        </div>
+      </AgendaItemCard>
+    </Link>
+  );
+}
+
+// Add the VoteIcon component at the top of the file
+const VoteIcon = ({ value }: { value: string }) => {
+  switch (value?.toLowerCase()) {
+    case 'yes':
+      return <ThumbsUpIcon className="w-4 h-4" />;
+    case 'no':
+      return <ThumbsDownIcon className="w-4 h-4" />;
+    case 'absent':
+      return <CircleMinusIcon className="w-4 h-4" />;
+    default:
+      return <CircleDotDashedIcon className="w-4 h-4" />;
+  }
+};
+
+// Add Councillor type before the SearchPageCouncillorCard
+export type Councillor = {
+  id: string;
+  name: string;
+  ward: string;
+  wardNumber: number;
+  email: string;
+  phone: string;
+  photoUrl: string;
+  keyIssues: string[];
+  profile: string;
+  stats: {
+    voted: number;
+    moved: number;
+    seconded: number;
+  };
+};
+
+export function SearchPageCouncillorCard({
+  councillor,
+  _decisionBody,
+}: {
+  councillor: Councillor;
+  _decisionBody: DecisionBody;
+}) {
+  return (
+    <Card className="transition-shadow hover:shadow-md">
+      <CardHeader>
+        <div>
+          <Chip variant="secondary" className="bg-blue-100 text-black">
+            Current Councillor
+          </Chip>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {/* Profile section */}
+          <div className="flex items-start gap-4">
+            <div className="relative w-16 h-16 rounded-full overflow-hidden">
+              <Image
+                src={councillor.photoUrl}
+                alt={councillor.name}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="flex-grow">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-semibold">{councillor.name}</h3>
+                <Button variant="ghost" size="icon">
+                  <Bell className="h-5 w-5" />
+                </Button>
+              </div>
+              <div>
+                Ward {councillor.wardNumber}, {councillor.ward}
+              </div>
+            </div>
+          </div>
+
+          {/* Contact info */}
+          <div className="space-y-2">
+            <div>
+              <span className="font-medium">Email</span>{' '}
+              <a
+                href={`mailto:${councillor.email}`}
+                className="text-blue-600 hover:underline"
+              >
+                {councillor.email}
+              </a>
+            </div>
+            <div>
+              <span className="font-medium">Phone</span>{' '}
+              <a
+                href={`tel:${councillor.phone}`}
+                className="text-blue-600 hover:underline"
+              >
+                {councillor.phone}
+              </a>
+            </div>
+          </div>
+
+          {/* Key Issues */}
+          <div>
+            <h4 className="font-semibold mb-2">Key Issues</h4>
+            <div className="flex flex-wrap gap-2">
+              {councillor.keyIssues.map((issue) => (
+                <Chip
+                  key={issue}
+                  variant="secondary"
+                  className="bg-neutral-100 dark:bg-neutral-800"
+                >
+                  {issue}
+                </Chip>
+              ))}
+            </div>
+          </div>
+
+          {/* Profile */}
+          <div>
+            <h4 className="font-semibold mb-2">Profile</h4>
+            <p className="text-gray-600">{councillor.profile}</p>
+          </div>
+
+          {/* Stats */}
+          <div className="flex justify-between items-center bg-gray-50 dark:bg-neutral-800 p-4 rounded-lg">
+            <div className="flex items-center gap-2">
+              <Vote className="h-5 w-5" />
+              <span className="font-medium">
+                Voted ({councillor.stats.voted})
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <UserSquare2 className="h-5 w-5" />
+              <span className="font-medium">
+                Moved ({councillor.stats.moved})
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <UserCheck className="h-5 w-5" />
+              <span className="font-medium">
+                Seconded ({councillor.stats.seconded})
+              </span>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button size="lg" className="w-full" variant="default">
+          Learn more
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
