@@ -4,6 +4,7 @@ import {
 } from '@/backend/open-data/OpenDataClient';
 import { DB, InsertRawContact, InsertRawVote } from '@/database/allDbTypes';
 import { createDB } from '@/database/kyselyDb';
+import { reencode } from '@/database/pipelines/csvUtils';
 
 import { formatContactCsvStream } from '@/database/pipelines/rawContactCsvParser';
 import { formatVoteCsvStream } from '@/database/pipelines/rawVoteCsvParser';
@@ -70,9 +71,13 @@ class RepopulateRawContactsAndVotes {
       const term = extractTermFromText(resource.name);
       const requestStream = await this.openDataClient.fetchDataset(
         resource.url,
+        'utf8',
       );
       await this.bulkInsertRawContacts(
-        formatContactCsvStream(term, requestStream),
+        formatContactCsvStream(
+          term,
+          requestStream.map((chunk) => reencode(chunk, 'latin1')),
+        ),
       );
     });
   }
@@ -158,5 +163,6 @@ async function processInBatches<T>(
     await Promise.all(batch.map((item) => processFunction(item)));
   }
 }
+
 await RepopulateRawContactsAndVotes.run(createDB());
 process.exit(0);

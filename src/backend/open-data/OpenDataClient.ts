@@ -53,21 +53,23 @@ export class OpenDataClient {
     );
   }
 
-  public async fetchDataset(url: string, init?: RequestInit) {
+  public async fetchDataset(url: string, encoding?: BufferEncoding) {
     if (!url.startsWith(OpenDataClient.baseUrl)) {
       throw new OpenDataClientError(
         `Provided URL "${url}" is not on expected origin "${OpenDataClient.baseUrl}"`,
       );
     }
     console.log('Fetching dataset', url);
-    const response = await fetch(url, init);
+    const response = await fetch(url);
     OpenDataClient.expectOk(response);
     if (!response.body) {
       throw new OpenDataClientError(
         `OpenDataClient found no response body for dataset ${url}`,
       );
     }
-    return Readable.fromWeb(response.body as ReadableStream);
+    return Readable.fromWeb(response.body as ReadableStream, {
+      encoding,
+    });
   }
 }
 

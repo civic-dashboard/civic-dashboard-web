@@ -92,7 +92,7 @@ async function processRow(row: CsvContactRow, term: string): InsertRawContact {
     wardId: row.districtId,
     wardName: row.districtName,
     primaryRole: row.primaryRole,
-    email: row.email,
+    email: repairEmail(row.email),
     photoUrl: imgUrl,
     website: row.website,
     addressLine1: row.addressLine1,
@@ -104,6 +104,16 @@ async function processRow(row: CsvContactRow, term: string): InsertRawContact {
     personalWebsite: row.personalWebsite,
     fax: row.fax,
   };
+}
+
+function repairEmail(rawEmail: string) {
+  const whitespaceFreeEmail = rawEmail.replaceAll(/\s/g, '');
+  if (rawEmail === whitespaceFreeEmail) return rawEmail;
+  console.warn(`Removed whitespace from email address`, {
+    rawEmail,
+    whitespaceFreeEmail,
+  });
+  return whitespaceFreeEmail;
 }
 
 async function* processRowsInBatches<T>(

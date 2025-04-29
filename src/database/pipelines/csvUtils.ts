@@ -72,6 +72,10 @@ export const castNullishText = (
   return text;
 };
 
+export function reencode(text: string, encoding: BufferEncoding) {
+  return Buffer.from(text, encoding).toString('utf8');
+}
+
 // Temporary workaround to fix encoding problems until we dig deeper into it
 // Possible double encoding of latin1?
 export const repairEncodingJank = (text: string) => {
