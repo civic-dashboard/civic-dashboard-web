@@ -1,4 +1,9 @@
+import { Metadata } from 'next';
 import { ExternalLink } from '@/components/ExternalLink';
+
+export const metadata: Metadata = {
+  title: 'Feedback – Civic Dashboard',
+};
 
 export default function ShareThoughtsPage() {
   return (

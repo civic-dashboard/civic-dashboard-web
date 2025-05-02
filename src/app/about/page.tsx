@@ -1,3 +1,9 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Us – Civic Dashboard',
+};
+
 export default function About() {
   return (
     <div className="min-h-screen bg-white">
