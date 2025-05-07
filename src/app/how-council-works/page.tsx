@@ -1,9 +1,14 @@
-'use client';
-
+import { Metadata } from 'next';
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  return {
+    title: 'How Toronto City Council Works – Civic Dashboard',
+  };
+};
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">

@@ -1,8 +1,15 @@
 'use server';
+import { Metadata } from 'next';
 import { createDB } from '@/database/kyselyDb';
 import { ExternalLink } from '@/components/ExternalLink';
 import { CouncillorsList } from '@/components/CouncillorsList';
 import { sql } from 'kysely';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Councillors on Toronto City Council – Civic Dashboard',
+  };
+}
 
 async function listCouncillors() {
   return await createDB()

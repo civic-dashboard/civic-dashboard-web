@@ -1,3 +1,9 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy – Civic Dashboard',
+};
+
 export default function Privacy() {
   return (
     <div className="min-h-screen bg-white">
