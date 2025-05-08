@@ -1,5 +1,10 @@
+import { Metadata } from 'next';
 import Script from 'next/script';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Join Our Newsletter – Civic Dashboard',
+};
 
 export default function JoinNewsletter() {
   return (

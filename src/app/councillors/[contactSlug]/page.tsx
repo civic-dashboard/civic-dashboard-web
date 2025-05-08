@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { createDB } from '@/database/kyselyDb';
 import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
@@ -142,4 +143,17 @@ export default async function CouncillorVotePage(props: {
       <CouncillorVoteContent agendaItems={agendaItems} />
     </main>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: ParamsType;
+}): Promise<Metadata> {
+  const db = createDB();
+  const councillor = await getCouncillor(db, params.contactSlug);
+
+  return {
+    title: `Voting record for ${councillor.contactName} – Civic Dashboard`,
+  };
 }
