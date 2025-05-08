@@ -99,6 +99,8 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
       variant={isSelected ? 'sky' : 'secondary'}
       onClick={onClick}
       title={tag.searchQuery}
+      data-umami-event="Tag click"
+      data-umami-event-tag={tagKey}
     >
       {isSelected && <Check size={16} />}
       {tag.displayName}
