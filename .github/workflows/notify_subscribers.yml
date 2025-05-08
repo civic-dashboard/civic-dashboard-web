@@ -35,5 +35,6 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          HOSTNAME_FOR_EMAIL_UPDATES: https://civicdashboard.ca
           NODE_ENV: 'production'
         run: npm run tsx src/scripts/notifySubscribers.ts
