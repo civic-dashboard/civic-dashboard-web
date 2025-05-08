@@ -154,6 +154,7 @@ export function ShowPastItems() {
       setSearchOptions((opts) => ({
         ...opts,
         minimumDate: checked === true ? undefined : new Date(),
+        maximumDate: checked === true ? new Date() : undefined, // added the maxdate condition to only show past events
       }));
     },
     [setSearchOptions],
