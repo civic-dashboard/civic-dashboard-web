@@ -244,9 +244,11 @@ export function SearchResultAgendaItemCard({
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size="lg" className="grow sm:flex-initial">
-                  Take action
-                </Button>
+                {new Date(item.meetingDate) > new Date() && (
+                  <Button size="lg" className="grow sm:flex-initial">
+                    Take action
+                  </Button>
+                )}
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" align="end">
                 <DropdownMenuLink href={commentHref}>
