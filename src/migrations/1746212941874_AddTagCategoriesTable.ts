@@ -1,7 +1,5 @@
 import { sql, type Kysely } from 'kysely';
 
-// Single table option
-
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
   CREATE TABLE "TagCategories" (
