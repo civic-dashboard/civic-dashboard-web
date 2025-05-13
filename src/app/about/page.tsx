@@ -6,16 +6,14 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <main className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto prose prose-lg">
-          <h1 className="text-4xl font-bold text-gray-900 mb-12">About Us</h1>
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-4xl font-bold mb-12">About Us</h1>
 
           <section className="mb-16">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-6">
-              Why We Exist
-            </h2>
-            <p className="text-gray-700 mb-6">
+            <h2 className="text-3xl font-semibold mb-6">Why We Exist</h2>
+            <p className="mb-6">
               In brief, we&apos;re regular Torontonians who believe:
             </p>
             <ul className="space-y-4 mb-8">
@@ -61,7 +59,7 @@ export default function About() {
                 <a
                   href="https://docs.google.com/document/d/1J-gB3mbbXEZJfA1QzSN-H-8ZZKGFwwW-ISAROL3PeQA/edit?tab=t.0"
                   target="_blank"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="classic-link"
                   rel="noopener noreferrer"
                 >
                   Theory of Change
@@ -72,10 +70,10 @@ export default function About() {
           </section>
 
           <section className="mb-16">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-6">
+            <h2 className="text-3xl font-semibold mb-6">
               About Our Organization
             </h2>
-            <p className="text-gray-700 mb-6">
+            <p className="mb-6">
               Here are the core things to know about our team!
             </p>
             <ul className="space-y-4 mb-8">
@@ -100,10 +98,7 @@ export default function About() {
             <div className="space-y-6">
               <p>
                 Learn more about the team and how you can contribute/join{' '}
-                <a
-                  href="/join"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                >
+                <a href="/join" className="classic-link">
                   here
                 </a>
                 .
@@ -118,7 +113,7 @@ export default function About() {
                   <a
                     href="https://docs.google.com/document/d/1o00Ce6k4YUFsKFju1BUJodRgOjXyaImXMHkdemTkSRA/edit?tab=t.0"
                     target="_blank"
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    className="classic-link"
                     rel="noopener noreferrer"
                   >
                     Our organization&apos;s core documents and directory
@@ -128,7 +123,7 @@ export default function About() {
                   <a
                     href="https://github.com/civic-dashboard/civic-dashboard"
                     target="_blank"
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    className="classic-link"
                     rel="noopener noreferrer"
                   >
                     Our code and associated documentation
@@ -138,7 +133,7 @@ export default function About() {
                   <a
                     href="http://link.civictech.ca/slack"
                     target="_blank"
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    className="classic-link"
                     rel="noopener noreferrer"
                   >
                     Our communications and action items (in the{' '}
@@ -164,21 +159,18 @@ export default function About() {
                 us an email at{' '}
                 <a
                   href="mailto:teamcivicdashboard@gmail.com"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="classic-link"
                 >
                   teamcivicdashboard@gmail.com
                 </a>
                 , join our{' '}
-                <a
-                  href="/join-newsletter"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                >
+                <a href="/join-newsletter" className="classic-link">
                   newsletter,
                 </a>{' '}
                 follow us on{' '}
                 <a
                   href="https://bsky.app/profile/civicdashboard.bsky.social"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="classic-link"
                   target="_blank"
                 >
                   BlueSky
@@ -187,7 +179,7 @@ export default function About() {
                 <a
                   href="http://link.civictech.ca/slack"
                   target="_blank"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="classic-link"
                   rel="noopener noreferrer"
                 >
                   #proj-civic-dashboard
@@ -199,7 +191,7 @@ export default function About() {
                 <a
                   href="https://civictech.ca"
                   target="_blank"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="classic-link"
                   rel="noopener noreferrer"
                 >
                   Civic Tech Toronto
@@ -212,7 +204,7 @@ export default function About() {
                 <a
                   href="https://guild.host/ctto/events"
                   target="_blank"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="classic-link"
                   rel="noopener noreferrer"
                 >
                   weekly hacknights
