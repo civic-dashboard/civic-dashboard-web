@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { menuItems } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { X } from 'lucide-react';
 import NotificationBanner from '@/components/navigation/NotificationBanner';
 
 const gradientAnimation = `
@@ -79,25 +80,39 @@ export default function Header() {
               </button>
             </div>
           </div>
-
-          {/* Mobile/Tablet Menu - with animation */}
-          {isMenuOpen && (
-            <div className="lg:hidden">
-              <div className="px-2 pt-2 pb-3 space-y-1 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-lg mt-2 shadow-xl">
-                {menuItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 hover:bg-blue-50 dark:hover:text-blue-400 dark:hover:bg-gray-700 transition-all duration-200"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
         </nav>
       </header>
+
+      {/* Mobile/Tablet Menu - moved outside header */}
+      {isMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-[51]">
+          <div
+            className="fixed inset-0 bg-black/50"
+            onClick={() => setIsMenuOpen(false)}
+          />
+          <div className="fixed inset-0 flex flex-col bg-white dark:bg-gray-900">
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute top-4 right-4 p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+              aria-label="Close menu"
+            >
+              <X size={24} color="red" />
+            </button>
+            <div className="w-full max-w-sm space-y-2 pt-16">
+              {menuItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-4 py-3 text-lg font-bold text-gray-700 dark:text-gray-300 hover:text-blue-600 hover:bg-blue-50 dark:hover:text-blue-400 dark:hover:bg-gray-700 transition-all duration-200 text-right"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
