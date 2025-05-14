@@ -185,10 +185,14 @@ export function FullPageAgendaItemCard({
             variant="outline"
             className="grow sm:flex-initial"
           >
-            <a href={commentHref}>Submit a comment</a>
+            <a href={commentHref} data-umami-event="Submit comment">
+              Submit a comment
+            </a>
           </Button>
           <Button asChild size="lg" className="grow sm:flex-initial">
-            <a href={requestToSpeakHref}>Request to speak</a>
+            <a href={requestToSpeakHref} data-umami-event="Request to speak">
+              Request to speak
+            </a>
           </Button>
         </>
       )}
@@ -244,17 +248,27 @@ export function SearchResultAgendaItemCard({
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size="lg" className="grow sm:flex-initial">
+                <Button
+                  size="lg"
+                  className="grow sm:flex-initial"
+                  data-umami-event="Take action"
+                >
                   Take action
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" align="end">
-                <DropdownMenuLink href={commentHref}>
+                <DropdownMenuLink
+                  href={commentHref}
+                  data-umami-event="Submit comment"
+                >
                   <MessageSquarePlus />
                   Submit a comment
                 </DropdownMenuLink>
                 <DropdownMenuSeparator />
-                <DropdownMenuLink href={requestToSpeakHref}>
+                <DropdownMenuLink
+                  href={requestToSpeakHref}
+                  data-umami-event="Request to speak"
+                >
                   <Speech />
                   Request to speak
                 </DropdownMenuLink>

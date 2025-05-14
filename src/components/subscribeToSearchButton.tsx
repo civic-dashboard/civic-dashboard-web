@@ -42,7 +42,9 @@ export const SubscribeToSearchButton = () => {
   return (
     <Popover modal onOpenChange={(isOpen) => isOpen && setSendState('ready')}>
       <PopoverTrigger asChild>
-        <Button variant="secondary-outline">Get Email Alerts</Button>
+        <Button variant="secondary-outline" data-umami-event="Get Email Alerts">
+          Get Email Alerts
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-90 min-w-72">
         <div className="flex flex-col space-y-2">
@@ -64,7 +66,11 @@ export const SubscribeToSearchButton = () => {
             {sendState === 'loading' ? (
               <Spinner />
             ) : (
-              <Button type="submit" disabled={sendState === 'sent'}>
+              <Button
+                type="submit"
+                disabled={sendState === 'sent'}
+                data-umami-event="Subscribe"
+              >
                 {sendState === 'ready' ? 'Subscribe' : 'Subscribed'}
               </Button>
             )}
