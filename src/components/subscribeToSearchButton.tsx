@@ -40,11 +40,16 @@ export const SubscribeToSearchButton = () => {
   );
 
   return (
-    <Popover modal onOpenChange={(isOpen) => isOpen && setSendState('ready')}>
+    <Popover
+      modal
+      onOpenChange={(isOpen) => {
+        if (!isOpen) return;
+        setSendState('ready');
+        umami.track('Get Email Alerts opened');
+      }}
+    >
       <PopoverTrigger asChild>
-        <Button variant="secondary-outline" data-umami-event="Get Email Alerts">
-          Get Email Alerts
-        </Button>
+        <Button variant="secondary-outline">Get Email Alerts</Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-90 min-w-72">
         <div className="flex flex-col space-y-2">

@@ -219,6 +219,41 @@ export function FullPageAgendaItemCard({
   );
 }
 
+type TakeActionDropdownProps = {
+  commentHref: string;
+  requestToSpeakHref: string;
+};
+const TakeActionDropdown = ({
+  commentHref,
+  requestToSpeakHref,
+}: TakeActionDropdownProps) => {
+  return (
+    <DropdownMenu
+      onOpenChange={(isOpen) => isOpen && umami.track('Take action opened')}
+    >
+      <DropdownMenuTrigger asChild>
+        <Button size="lg" className="grow sm:flex-initial">
+          Take action
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent side="top" align="end">
+        <DropdownMenuLink href={commentHref} data-umami-event="Submit comment">
+          <MessageSquarePlus />
+          Submit a comment
+        </DropdownMenuLink>
+        <DropdownMenuSeparator />
+        <DropdownMenuLink
+          href={requestToSpeakHref}
+          data-umami-event="Request to speak"
+        >
+          <Speech />
+          Request to speak
+        </DropdownMenuLink>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 type SearchResultAgendaItemCardProps = {
   item: AgendaItem;
   decisionBody: DecisionBody;
@@ -237,7 +272,7 @@ export function SearchResultAgendaItemCard({
         item={item}
         decisionBody={decisionBody}
         className="transition-shadow sm:hover:shadow-xl dark:hover:bg-neutral-700 group"
-        Footer={({ commentHref, requestToSpeakHref }) => (
+        Footer={(props) => (
           <>
             <Button
               size="lg"
@@ -246,34 +281,7 @@ export function SearchResultAgendaItemCard({
             >
               Learn more
             </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  size="lg"
-                  className="grow sm:flex-initial"
-                  data-umami-event="Take action"
-                >
-                  Take action
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="end">
-                <DropdownMenuLink
-                  href={commentHref}
-                  data-umami-event="Submit comment"
-                >
-                  <MessageSquarePlus />
-                  Submit a comment
-                </DropdownMenuLink>
-                <DropdownMenuSeparator />
-                <DropdownMenuLink
-                  href={requestToSpeakHref}
-                  data-umami-event="Request to speak"
-                >
-                  <Speech />
-                  Request to speak
-                </DropdownMenuLink>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <TakeActionDropdown {...props} />
           </>
         )}
       >
