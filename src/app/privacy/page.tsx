@@ -19,20 +19,20 @@ export default function Privacy() {
             <a href="/feedback">Let us know how we can do better! </a>
           </p>
 
-          <h2>Information You Submit To Us For Our Features To Work</h2>
+          <h2>Data You Submit To Us For Our Features To Work</h2>
           <p>
             If you subscribe to a search on the actions page, we will store your
             email address along with the associated search filters.
           </p>
 
-          <h2>Information We Collect To Help Us Improve Civic Dashboard</h2>
+          <h2>Data We Collect To Help Us Improve Civic Dashboard</h2>
           <p>
-            We store analytics information alongside an anonimyzed time-bound
+            We store analytics data alongside an anonimyzed time-bound
             identifier with{' '}
             <a href="https://umami.is/" target="_blank">
               Umami
             </a>
-            . We make this information{' '}
+            . We make this data{' '}
             <a
               href="https://eu.umami.is/share/6R9CNotgCUNEmDL5/civicdashboard.ca"
               target="_blank"
