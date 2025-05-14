@@ -33,6 +33,9 @@ export default function RootLayout({
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id="cc44ac27-34a8-4561-8a0f-c0b448b090cd"
+          // conservatively exclude search params and url hash so we don't accidentally log personal info if it ever gets stored there in the future (e.g. search text)
+          data-exclude-search="true"
+          data-exclude-hash="true"
         ></script>
       </head>
       <body
