@@ -40,7 +40,14 @@ export const SubscribeToSearchButton = () => {
   );
 
   return (
-    <Popover modal onOpenChange={(isOpen) => isOpen && setSendState('ready')}>
+    <Popover
+      modal
+      onOpenChange={(isOpen) => {
+        if (!isOpen) return;
+        setSendState('ready');
+        umami.track('Get Email Alerts opened');
+      }}
+    >
       <PopoverTrigger asChild>
         <Button variant="secondary-outline">Get Email Alerts</Button>
       </PopoverTrigger>
@@ -64,7 +71,11 @@ export const SubscribeToSearchButton = () => {
             {sendState === 'loading' ? (
               <Spinner />
             ) : (
-              <Button type="submit" disabled={sendState === 'sent'}>
+              <Button
+                type="submit"
+                disabled={sendState === 'sent'}
+                data-umami-event="Subscribe"
+              >
                 {sendState === 'ready' ? 'Subscribe' : 'Subscribed'}
               </Button>
             )}
