@@ -1,14 +1,18 @@
-name: Notify subscribers
+name: Repopulate raw contacts and votes
 
 on:
+  push:
+    branches: ['main']
   schedule:
-    - cron: '30 22 * * *'
+    - cron: '0 2 * * 0'
   workflow_dispatch:
 
 jobs:
-  notify-subscribers:
+  update-database:
     runs-on: ubuntu-latest
-    name: Notify subscribers
+    name: Update database
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,9 +36,4 @@ jobs:
         run: npm ci
 
       - name: Run update script
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          HOSTNAME_FOR_EMAIL_LINKS: https://civicdashboard.ca
-          NODE_ENV: 'production'
-        run: npm run tsx src/scripts/notifySubscribers.ts
+        run: npm run tsx src/scripts/repopulateRawContactsAndVotes.ts

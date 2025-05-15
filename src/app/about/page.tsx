@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { ExternalLink } from '@/components/ExternalLink';
 
 export const metadata: Metadata = {
   title: 'About Us – Civic Dashboard',
@@ -6,16 +7,14 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <main className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto prose prose-lg">
-          <h1 className="text-4xl font-bold text-gray-900 mb-12">About Us</h1>
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-4xl font-bold mb-12">About Us</h1>
 
           <section className="mb-16">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-6">
-              Why We Exist
-            </h2>
-            <p className="text-gray-700 mb-6">
+            <h2 className="text-3xl font-semibold mb-6">Why We Exist</h2>
+            <p className="mb-6">
               In brief, we&apos;re regular Torontonians who believe:
             </p>
             <ul className="space-y-4 mb-8">
@@ -58,24 +57,22 @@ export default function About() {
               </p>
               <p>
                 Learn more about our{' '}
-                <a
+                <ExternalLink
                   href="https://docs.google.com/document/d/1J-gB3mbbXEZJfA1QzSN-H-8ZZKGFwwW-ISAROL3PeQA/edit?tab=t.0"
-                  target="_blank"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                  rel="noopener noreferrer"
+                  className="classic-link"
                 >
                   Theory of Change
-                </a>{' '}
+                </ExternalLink>{' '}
                 here.
               </p>
             </div>
           </section>
 
           <section className="mb-16">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-6">
+            <h2 className="text-3xl font-semibold mb-6">
               About Our Organization
             </h2>
-            <p className="text-gray-700 mb-6">
+            <p className="mb-6">
               Here are the core things to know about our team!
             </p>
             <ul className="space-y-4 mb-8">
@@ -100,10 +97,7 @@ export default function About() {
             <div className="space-y-6">
               <p>
                 Learn more about the team and how you can contribute/join{' '}
-                <a
-                  href="/join"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                >
+                <a href="/join" className="classic-link">
                   here
                 </a>
                 .
@@ -115,35 +109,29 @@ export default function About() {
               </p>
               <ul className="space-y-4 mb-8">
                 <li>
-                  <a
+                  <ExternalLink
                     href="https://docs.google.com/document/d/1o00Ce6k4YUFsKFju1BUJodRgOjXyaImXMHkdemTkSRA/edit?tab=t.0"
-                    target="_blank"
-                    className="text-blue-600 hover:text-blue-800 underline"
-                    rel="noopener noreferrer"
+                    className="classic-link"
                   >
                     Our organization&apos;s core documents and directory
-                  </a>
+                  </ExternalLink>
                 </li>
                 <li>
-                  <a
+                  <ExternalLink
                     href="https://github.com/civic-dashboard/civic-dashboard"
-                    target="_blank"
-                    className="text-blue-600 hover:text-blue-800 underline"
-                    rel="noopener noreferrer"
+                    className="classic-link"
                   >
                     Our code and associated documentation
-                  </a>
+                  </ExternalLink>
                 </li>
                 <li>
-                  <a
+                  <ExternalLink
                     href="http://link.civictech.ca/slack"
-                    target="_blank"
-                    className="text-blue-600 hover:text-blue-800 underline"
-                    rel="noopener noreferrer"
+                    className="classic-link"
                   >
                     Our communications and action items (in the{' '}
                     #proj-civic-dashboard channel)
-                  </a>
+                  </ExternalLink>
                 </li>
               </ul>
               <p>
@@ -164,59 +152,49 @@ export default function About() {
                 us an email at{' '}
                 <a
                   href="mailto:teamcivicdashboard@gmail.com"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="classic-link"
                 >
                   teamcivicdashboard@gmail.com
                 </a>
                 , join our{' '}
-                <a
-                  href="/join-newsletter"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                >
+                <a href="/join-newsletter" className="classic-link">
                   newsletter,
                 </a>{' '}
                 follow us on{' '}
-                <a
+                <ExternalLink
                   href="https://bsky.app/profile/civicdashboard.bsky.social"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                  target="_blank"
+                  className="classic-link"
                 >
                   BlueSky
-                </a>{' '}
+                </ExternalLink>{' '}
                 or find us in the{' '}
-                <a
+                <ExternalLink
                   href="http://link.civictech.ca/slack"
-                  target="_blank"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                  rel="noopener noreferrer"
+                  className="classic-link"
                 >
                   #proj-civic-dashboard
-                </a>{' '}
+                </ExternalLink>{' '}
                 channel in the Civic Tech Toronto Slack!
               </p>
               <p>
                 We are a project of{' '}
-                <a
+                <ExternalLink
                   href="https://civictech.ca"
-                  target="_blank"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                  rel="noopener noreferrer"
+                  className="classic-link"
                 >
                   Civic Tech Toronto
-                </a>{' '}
+                </ExternalLink>{' '}
                 - a completely volunteer-run weekly civic tech lecture and work
                 session series that hasn&apos;t missed a Tuesday in almost a
                 decade! If you&apos;re interested in learning more about
                 projects like this one, the civic technology space, and meeting
                 folks passionate about it in Toronto, come to one of the{' '}
-                <a
+                <ExternalLink
                   href="https://guild.host/ctto/events"
-                  target="_blank"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                  rel="noopener noreferrer"
+                  className="classic-link"
                 >
                   weekly hacknights
-                </a>{' '}
+                </ExternalLink>{' '}
                 - they happen every Tuesday 7-9pm somewhere in Toronto and on
                 Zoom.
               </p>
