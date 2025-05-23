@@ -85,9 +85,12 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
 
   const onClick = useCallback(() => {
     setSearchOptions((opts) => {
-      const newTags = opts.tags.includes(tagKey)
+      const isSelected = opts.tags.includes(tagKey);
+      const newTags = isSelected
         ? opts.tags.filter((t) => t !== tagKey)
         : [...opts.tags, tagKey];
+
+      umami.track(isSelected ? 'Tag unselect' : 'Tag select', { tag: tagKey });
 
       return { ...opts, tags: newTags };
     });

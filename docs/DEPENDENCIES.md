@@ -19,6 +19,10 @@ This file comprehensively lists the dependencies of the project, and why they ar
 - `resend` is our prod email provider.
 - `nodemailer` and `maildev` are used for previewing emails in development.
 
+## Analytics
+
+- We use `umami` for analytics.
+
 ## UI
 
 - We use `shadcn/ui` as our component framework. It takes a unique approach where it simply inlines the code for the components you use into the library, so there's no direct dependency on it. But it installs several transitive dependencies
