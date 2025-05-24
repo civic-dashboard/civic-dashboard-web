@@ -1,8 +1,6 @@
 import { Resend } from 'resend';
 import { render } from '@react-email/components';
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
-
 type Options = {
   from: string;
   subject: string;
@@ -23,6 +21,7 @@ export async function sendEmail(options: Options) {
     return;
   }
 
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const response = await resend.emails.send(options);
 
   if (response.error) {

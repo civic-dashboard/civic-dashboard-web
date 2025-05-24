@@ -14,6 +14,12 @@ This is (probably not, but hopefully!) all the information you need to contribut
   - a linter, to make sure our code style is consistent
   - a preview deployment!
 
+### Permissions
+
+- anyone can open a PR from a fork, but it will not automatically run CI workflows until an org member approves (and even then the CI workflows will not have access to org secrets).
+- any org member can create branches and open PRs which will run the CI workflows, but they will not be able to merge to `main`.
+- only members of the github org with "maintain" permissions can merge to main (most notably, members of the "eng" team).
+
 ### Preview deployments
 
 - all PRs will generate a preview deployment, which is a live deployment of the app in the production environment with your code changes in the PR, only accessible via an obfuscated URL.
