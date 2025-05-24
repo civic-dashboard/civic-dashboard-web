@@ -39,21 +39,45 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
     .executeTakeFirst();
 }
 
+async function getMayor(db: Kysely<DB>, contactSlug: string) {
+  return await db
+    .selectFrom('Mayors')
+    .innerJoin('Contacts', (eb) =>
+      eb.onRef('Contacts.contactSlug', '=', 'Mayors.contactSlug'),
+    )
+    .select([
+      'Contacts.contactSlug',
+      'contactName',
+      'phone',
+      'photoUrl',
+      'email',
+    ])
+    .where('Mayors.contactSlug', '=', contactSlug)
+    .executeTakeFirst();
+}
+async function getCouncillorOrMayor(db: Kysely<DB>, contactSlug: string) {
+  const councillor = await getCouncillor(db, contactSlug);
+  if (councillor) return { role: 'councillor' as const, ...councillor };
+  const mayor = await getMayor(db, contactSlug);
+  if (mayor) return { role: 'mayor' as const, ...mayor };
+
+  throw new Error(`Unable to find councillor or mayor ${contactSlug}`);
+}
+
 export async function generateMetadata({
   params,
 }: {
   params: ParamsType;
 }): Promise<Metadata> {
   const db = createDB();
-  const councillor = await getCouncillor(db, params.contactSlug);
-  if (!councillor) {
+  const contact = await getCouncillorOrMayor(db, params.contactSlug);
+  if (!contact) {
     notFound();
   }
   return {
-    title: `Voting record for ${councillor.contactName} – Civic Dashboard`,
+    title: `Voting record for ${contact.contactName} – Civic Dashboard`,
   };
 }
-
 export default async function CouncillorVotePage(props: {
   searchParams: { page?: string };
   params: Promise<ParamsType>;
@@ -62,13 +86,13 @@ export default async function CouncillorVotePage(props: {
   const { contactSlug } = await props.params;
 
   const db = createDB();
-  const councillor = await getCouncillor(db, contactSlug);
-  if (!councillor) {
+  const contact = await getCouncillorOrMayor(db, contactSlug);
+  if (!contact) {
     notFound();
   }
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <CouncillorBio councillor={councillor} />
+      <CouncillorBio contact={contact} />
       <CouncillorVoteContent
         currentPage={currentPage}
         contactSlug={contactSlug}
