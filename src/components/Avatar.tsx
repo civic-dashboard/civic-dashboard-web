@@ -24,7 +24,7 @@ export const Avatar: FC<AvatarProps> = ({ src, size, alt = '' }) => {
           alt={alt}
           width={size}
           height={size}
-          className="object-cover object-top absolute inset-0"
+          className="object-cover object-top absolute inset-0 h-full"
           onError={() => setHasError(true)}
         />
       )}
