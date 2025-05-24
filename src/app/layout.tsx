@@ -18,7 +18,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'Civic Dashboard',
   description:
-    'Accessing Toronto City Council decisions shouldn’t be difficult, but today it is. The Civic Dashboard simplifies this process, letting Toronto residents easily search what their councillors are voting on, how they voted, and the history of decisions on key topics. Stay informed and engaged with your local government like never before.',
+    "Toronto City Council shouldn't feel complicated. We make it easy for Toronto residents to track councillor votes and get involved in local decisions.",
 };
 
 export default function RootLayout({
