@@ -17,6 +17,7 @@
     "db:create-migration": "kysely migrate:make",
     "db:list-migrations": "kysely migrate:list",
     "db:run-migrations": "kysely migrate:latest",
+    "db:run-seed": "kysely seed:run",
     "db:start": "docker compose up --detach database",
     "db:stop": "docker compose stop database",
     "docker:start": "docker compose up --detach",

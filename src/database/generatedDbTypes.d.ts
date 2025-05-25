@@ -236,6 +236,11 @@ export interface Subscriptions {
   tsQuery: string | null;
 }
 
+export interface TagCategories {
+  category: string;
+  tag: string;
+}
+
 export interface DB {
   AiSummaries: AiSummaries;
   RawAgendaItemConsiderations: RawAgendaItemConsiderations;
@@ -244,4 +249,5 @@ export interface DB {
   RawVotes: RawVotes;
   Subscribers: Subscribers;
   Subscriptions: Subscriptions;
+  TagCategories: TagCategories;
 }
