@@ -5,12 +5,11 @@ const client = new OpenAI({
     apiKey: process.env['OPENAI_API_KEY'],
   });
   
-const formatItemForSummarizer = (agendaItem: TMMISAgendaItem): string => {
-    const summary = agendaItem.agendaItemSummary;
-    const recommendations = agendaItem.agendaItemRecommendation || 'No recommendations provided';
-    const decisions = agendaItem.decisionRecommendations || 'No decisions made';
+const formatItemForSummarizer = (agendaItemSummary: string, agendaItemRecommendation: string|null|undefined, decisionRecommendations: string|null|undefined): string => {
+    const recommendations = agendaItemRecommendation || 'No recommendations provided';
+    const decisions = decisionRecommendations || 'No decisions made';
 
-    return `Summary: ${summary}\nRecommendation: ${recommendations}\nDecision Recommendations: ${decisions}`;
+    return `Summary: ${agendaItemSummary}\nRecommendation: ${recommendations}\nDecision Recommendations: ${decisions}`;
 };
 
 const callChatGPTApi = async (
@@ -47,11 +46,11 @@ const callChatGPTApi = async (
     return response;
   };
 
-  export const generateAISummary = async (agendaItem: TMMISAgendaItem): Promise<string | null> => {
+  export const generateAISummary = async (agendaItemSummary: string, agendaItemRecommendation: string|null|undefined, decisionRecommendations: string|null|undefined): Promise<string | null> => {
     const prompt_template = "You will be given a summary and a set of recommendations and decisions from a City Council meeting. Generate a synopsis of the meeting in less than 150 words. The synopsis must have two sections. The first section must be titled 'Context', and should provide context about the meeting. The second section must be titled 'Decisions and Recommendations' and should summarize the recommendations and decisions made. Both sections must be written in point form using simple English. You must be impartial, non-judgemental and gender neutral. Use only the information provided in the context below.\n"
 
     try {
-        const context = formatItemForSummarizer(agendaItem);
+        const context = formatItemForSummarizer(agendaItemSummary, agendaItemRecommendation, decisionRecommendations);
         const prompt = prompt_template + context;
         const response = await callChatGPTApi(prompt, 0.5);
         if (response && response.choices && response.choices.length > 0) {
