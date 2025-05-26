@@ -3,7 +3,7 @@ import { DB, JsonArray, JsonValue } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
 import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
 import { SearchOptions, SearchPagination } from '@/logic/search';
-import { generateAISummary } from '../pipelines/addAISummary';
+import { generateAISummary } from '@/database/pipelines/addAISummary';
 import { Kysely, sql } from 'kysely';
 
 export interface AgendaItem {
@@ -57,8 +57,11 @@ export const insertAgendaItems = async (
 ) => {
   const asDBType = await Promise.all(
     items.map(async ({ id: _, agendaItemAddress, ...item }) => {
-    
-      const aiSummary = await generateAISummary(item.agendaItemSummary, item.agendaItemRecommendation, item.decisionRecommendations);
+      const aiSummary = await generateAISummary(
+        item.agendaItemSummary,
+        item.agendaItemRecommendation,
+        item.decisionRecommendations,
+      );
 
       return {
         ...item,
@@ -67,7 +70,6 @@ export const insertAgendaItems = async (
       };
     }),
   );
-
 
   // kinda convoluted upsert but it gets the job done 🤷:
 
