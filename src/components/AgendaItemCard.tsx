@@ -185,10 +185,14 @@ export function FullPageAgendaItemCard({
             variant="outline"
             className="grow sm:flex-initial"
           >
-            <a href={commentHref}>Submit a comment</a>
+            <a href={commentHref} data-umami-event="Submit comment">
+              Submit a comment
+            </a>
           </Button>
           <Button asChild size="lg" className="grow sm:flex-initial">
-            <a href={requestToSpeakHref}>Request to speak</a>
+            <a href={requestToSpeakHref} data-umami-event="Request to speak">
+              Request to speak
+            </a>
           </Button>
         </>
       )}
@@ -215,6 +219,41 @@ export function FullPageAgendaItemCard({
   );
 }
 
+type TakeActionDropdownProps = {
+  commentHref: string;
+  requestToSpeakHref: string;
+};
+const TakeActionDropdown = ({
+  commentHref,
+  requestToSpeakHref,
+}: TakeActionDropdownProps) => {
+  return (
+    <DropdownMenu
+      onOpenChange={(isOpen) => isOpen && umami.track('Take action opened')}
+    >
+      <DropdownMenuTrigger asChild>
+        <Button size="lg" className="grow sm:flex-initial">
+          Take action
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent side="top" align="end">
+        <DropdownMenuLink href={commentHref} data-umami-event="Submit comment">
+          <MessageSquarePlus />
+          Submit a comment
+        </DropdownMenuLink>
+        <DropdownMenuSeparator />
+        <DropdownMenuLink
+          href={requestToSpeakHref}
+          data-umami-event="Request to speak"
+        >
+          <Speech />
+          Request to speak
+        </DropdownMenuLink>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 type SearchResultAgendaItemCardProps = {
   item: AgendaItem;
   decisionBody: DecisionBody;
@@ -233,7 +272,7 @@ export function SearchResultAgendaItemCard({
         item={item}
         decisionBody={decisionBody}
         className="transition-shadow sm:hover:shadow-xl dark:hover:bg-neutral-700 group"
-        Footer={({ commentHref, requestToSpeakHref }) => (
+        Footer={(props) => (
           <>
             <Button
               size="lg"
@@ -242,6 +281,7 @@ export function SearchResultAgendaItemCard({
             >
               Learn more
             </Button>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 {new Date(item.meetingDate) > new Date() && (
@@ -262,6 +302,9 @@ export function SearchResultAgendaItemCard({
                 </DropdownMenuLink>
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <TakeActionDropdown {...props} />
+
           </>
         )}
       >

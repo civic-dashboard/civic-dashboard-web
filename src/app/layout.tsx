@@ -18,7 +18,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'Civic Dashboard',
   description:
-    'Accessing Toronto City Council decisions shouldn’t be difficult, but today it is. The Civic Dashboard simplifies this process, letting Toronto residents easily search what their councillors are voting on, how they voted, and the history of decisions on key topics. Stay informed and engaged with your local government like never before.',
+    "Toronto City Council shouldn't feel complicated. We make it easy for Toronto residents to track councillor votes and get involved in local decisions.",
 };
 
 export default function RootLayout({
@@ -28,6 +28,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="cc44ac27-34a8-4561-8a0f-c0b448b090cd"
+          // conservatively exclude search params and url hash so we don't accidentally log personal info if it ever gets stored there in the future (e.g. search text)
+          data-exclude-search="true"
+          data-exclude-hash="true"
+        ></script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
