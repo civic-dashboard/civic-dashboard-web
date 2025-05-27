@@ -9,6 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
+import { logAnalytics } from '@/api/analytics';
 
 export const SubscribeToSearchButton = () => {
   const { searchOptions } = useSearch();
@@ -45,7 +46,7 @@ export const SubscribeToSearchButton = () => {
       onOpenChange={(isOpen) => {
         if (!isOpen) return;
         setSendState('ready');
-        umami.track('Get Email Alerts opened');
+        logAnalytics('Get Email Alerts opened');
       }}
     >
       <PopoverTrigger asChild>

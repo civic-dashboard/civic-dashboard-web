@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { logAnalytics } from '@/api/analytics';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
@@ -90,7 +91,7 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
         ? opts.tags.filter((t) => t !== tagKey)
         : [...opts.tags, tagKey];
 
-      umami.track(isSelected ? 'Tag unselect' : 'Tag select', { tag: tagKey });
+      logAnalytics(isSelected ? 'Tag unselect' : 'Tag select', { tag: tagKey });
 
       return { ...opts, tags: newTags };
     });
