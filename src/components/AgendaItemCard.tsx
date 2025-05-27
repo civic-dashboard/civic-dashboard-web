@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown';
 import Link from 'next/link';
+import { logAnalytics } from '@/api/analytics';
 
 const submitCommentHref = (item: AgendaItem, decisionBody: DecisionBody) => {
   const formattedDate = new Date(item.meetingDate).toLocaleString('default', {
@@ -229,7 +230,7 @@ const TakeActionDropdown = ({
 }: TakeActionDropdownProps) => {
   return (
     <DropdownMenu
-      onOpenChange={(isOpen) => isOpen && umami.track('Take action opened')}
+      onOpenChange={(isOpen) => isOpen && logAnalytics('Take action opened')}
     >
       <DropdownMenuTrigger asChild>
         <Button size="lg" className="grow sm:flex-initial">

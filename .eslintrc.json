@@ -11,6 +11,10 @@
   "plugins": ["@typescript-eslint", "sql"],
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
+    "no-restricted-globals": [
+      "error", 
+      {"name": "umami", "message": "Use logAnalytics instead."}
+    ],
     "no-restricted-imports": [
       "error",
       {
