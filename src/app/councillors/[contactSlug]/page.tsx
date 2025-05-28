@@ -42,8 +42,16 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
 async function getMayor(db: Kysely<DB>, contactSlug: string) {
   return await db
     .selectFrom('Mayors')
-    .innerJoin('Contacts', (eb) => eb.onRef('Contacts.contactSlug', '=', 'Mayors.contactSlug'))
-    .select(['Contacts.contactSlug', 'contactName', 'phone', 'photoUrl', 'email'])
+    .innerJoin('Contacts', (eb) =>
+      eb.onRef('Contacts.contactSlug', '=', 'Mayors.contactSlug'),
+    )
+    .select([
+      'Contacts.contactSlug',
+      'contactName',
+      'phone',
+      'photoUrl',
+      'email',
+    ])
     .where('Mayors.contactSlug', '=', contactSlug)
     .executeTakeFirst();
 }

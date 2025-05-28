@@ -11,25 +11,29 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export type Role = 'mayor' | 'councillor'
+export type Role = 'mayor' | 'councillor';
 
 async function listCouncillors() {
   return await createDB()
     .with('CouncillorsAndMayor', (eb) =>
-      eb.selectFrom('Councillors')
-      .select([
-        'contactSlug',
-        'term',
-        sql<string | null>`"wardSlug"`.as('wardSlug'),
-        sql<Role>`'councillor'`.as('role')
-      ])
-      .unionAll(eb =>
-        eb.selectFrom('Mayors').select([
+      eb
+        .selectFrom('Councillors')
+        .select([
           'contactSlug',
           'term',
-          sql<null>`null`.as('wardSlug'),
-          sql<Role>`'mayor'`.as('role')
-        ]))
+          sql<string | null>`"wardSlug"`.as('wardSlug'),
+          sql<Role>`'councillor'`.as('role'),
+        ])
+        .unionAll((eb) =>
+          eb
+            .selectFrom('Mayors')
+            .select([
+              'contactSlug',
+              'term',
+              sql<null>`null`.as('wardSlug'),
+              sql<Role>`'mayor'`.as('role'),
+            ]),
+        ),
     )
     .selectFrom('CouncillorsAndMayor')
     .innerJoin('Contacts', (eb) =>
@@ -42,7 +46,7 @@ async function listCouncillors() {
       'Contacts.contactSlug',
       'Contacts.contactName',
       'Contacts.photoUrl',
-      "role",
+      'role',
       'Wards.wardName',
       sql<string>`
       LOWER(
