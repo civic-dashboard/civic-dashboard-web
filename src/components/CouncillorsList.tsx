@@ -61,7 +61,6 @@ export const CouncillorsList = ({
                   {councillor.role === 'councillor' && councillor.wardName}
                   {councillor.role === 'mayor' && 'Mayor of Toronto'}
                 </p>
-
               </div>
               <div className="ml-auto">
                 <ChevronRightIcon />

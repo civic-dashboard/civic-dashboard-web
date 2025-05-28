@@ -1,7 +1,7 @@
-import { sql, type Kysely } from 'kysely'
+import { sql, type Kysely } from 'kysely';
 
 export async function up(db: Kysely<any>): Promise<void> {
-	await sql`
+  await sql`
 		CREATE MATERIALIZED VIEW "Mayors" AS
 		SELECT DISTINCT
 		  "contactSlug",
@@ -19,7 +19,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
-	await sql`
+  await sql`
     	DROP MATERIALIZED VIEW IF EXISTS "Mayors";
-	`.execute(db)
+	`.execute(db);
 }
