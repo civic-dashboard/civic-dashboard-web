@@ -9,6 +9,12 @@ export async function up(db: Kysely<any>): Promise<void> {
 		FROM
 			"RawContacts"
 		WHERE "primaryRole" = 'Mayor'
+		AND "term" = (
+			SELECT
+			max("term")
+			FROM
+			"RawContacts"
+		);
 	  `.execute(db);
 }
 
