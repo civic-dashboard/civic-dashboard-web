@@ -1,5 +1,6 @@
 'use client';
 
+import { Role } from '@/app/councillors/page';
 import { Avatar } from '@/components/Avatar';
 import { SearchInput } from '@/components/SearchInput';
 import { cn } from '@/components/ui/utils';
@@ -15,7 +16,8 @@ export const CouncillorsList = ({
     contactSlug: string;
     photoUrl: string | null;
     contactName: string;
-    wardName: string;
+    wardName: string | null;
+    role: Role;
     searchTarget: string;
   }>;
 }) => {
@@ -55,7 +57,11 @@ export const CouncillorsList = ({
               <Avatar src={councillor.photoUrl} size={52} />
               <div>
                 <h3 className="text-lg">{councillor.contactName}</h3>
-                <p>{councillor.wardName}</p>
+                <p>
+                  {councillor.role === 'councillor' && councillor.wardName}
+                  {councillor.role === 'mayor' && 'Mayor of Toronto'}
+                </p>
+
               </div>
               <div className="ml-auto">
                 <ChevronRightIcon />
