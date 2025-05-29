@@ -15,6 +15,21 @@
       "error", 
       {"name": "umami", "message": "Use logAnalytics instead."}
     ],
+    "react/no-unescaped-entities": [
+      "error",
+      {
+        "forbid": [
+          {
+            "char": ">",
+            "alternatives": ["&gt;"]
+          }, 
+          {
+            "char": "}",
+            "alternatives": ["&#125;"]
+          }
+        ]
+      }
+    ],
     "no-restricted-imports": [
       "error",
       {
