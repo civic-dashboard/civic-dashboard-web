@@ -1,4 +1,5 @@
 import { menuItems } from '@/constants/navigation';
+import { ExternalLink } from '@/components/ExternalLink';
 
 export default function Footer() {
   return (
@@ -43,12 +44,25 @@ export default function Footer() {
               <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                 Resources
               </h3>
-              <a
-                href="/privacy"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                Privacy Policy
-              </a>
+
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="/privacy"
+                    className="hover:text-blue-400 transition-colors duration-200"
+                  >
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <ExternalLink
+                    href="https://eu.umami.is/share/6R9CNotgCUNEmDL5/civicdashboard.ca?host=civicdashboard.ca"
+                    className="hover:text-blue-400 transition-colors duration-200"
+                  >
+                    Analytics
+                  </ExternalLink>
+                </li>
+              </ul>
             </div>
           </div>
 
