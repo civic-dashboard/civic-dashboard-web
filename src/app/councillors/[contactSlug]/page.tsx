@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createDB } from '@/database/kyselyDb';
-import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
+import ContactBio from '@/app/councillors/[contactSlug]/components/ContactBio';
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 import { Kysely, sql } from 'kysely';
 import { DB } from '@/database/allDbTypes';
@@ -36,7 +36,32 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
       'Wards.wardId',
     ])
     .where('Councillors.contactSlug', '=', contactSlug)
-    .executeTakeFirstOrThrow();
+    .executeTakeFirst();
+}
+
+async function getMayor(db: Kysely<DB>, contactSlug: string) {
+  return await db
+    .selectFrom('Mayors')
+    .innerJoin('Contacts', (eb) =>
+      eb.onRef('Contacts.contactSlug', '=', 'Mayors.contactSlug'),
+    )
+    .select([
+      'Contacts.contactSlug',
+      'contactName',
+      'phone',
+      'photoUrl',
+      'email',
+    ])
+    .where('Mayors.contactSlug', '=', contactSlug)
+    .executeTakeFirst();
+}
+async function getCouncillorOrMayor(db: Kysely<DB>, contactSlug: string) {
+  const councillor = await getCouncillor(db, contactSlug);
+  if (councillor) return { role: 'councillor' as const, ...councillor };
+  const mayor = await getMayor(db, contactSlug);
+  if (mayor) return { role: 'mayor' as const, ...mayor };
+
+  throw new Error(`Unable to find councillor or mayor ${contactSlug}`);
 }
 
 async function getVotesByAgendaItemsForContact(
@@ -134,12 +159,12 @@ export default async function CouncillorVotePage(props: {
 }) {
   const { contactSlug } = await props.params;
   const db = createDB();
-  const councillor = await getCouncillor(db, contactSlug);
+  const contact = await getCouncillorOrMayor(db, contactSlug);
   const agendaItems = await getVotesByAgendaItemsForContact(db, contactSlug);
 
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <CouncillorBio councillor={councillor} />
+      <ContactBio contact={contact} />
       <CouncillorVoteContent agendaItems={agendaItems} />
     </main>
   );
@@ -151,7 +176,7 @@ export async function generateMetadata({
   params: ParamsType;
 }): Promise<Metadata> {
   const db = createDB();
-  const councillor = await getCouncillor(db, params.contactSlug);
+  const councillor = await getCouncillorOrMayor(db, params.contactSlug);
 
   return {
     title: `Voting record for ${councillor.contactName} – Civic Dashboard`,
