@@ -16,9 +16,18 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://civicdashboard.ca'),
   title: 'Civic Dashboard',
   description:
     "Toronto City Council shouldn't feel complicated. We make it easy for Toronto residents to track councillor votes and get involved in local decisions.",
+  openGraph: {
+    images: {
+      url: '/toronto.png',
+      type: 'image/png',
+      width: 628,
+      height: 540,
+    },
+  },
 };
 
 export default function RootLayout({
