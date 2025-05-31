@@ -1,4 +1,8 @@
-import { Address, TMMISAgendaItem } from '@/api/agendaItem';
+import {
+  Address,
+  TMMISAgendaItem,
+  AgendaItemSubjectTerm,
+} from '@/api/agendaItem';
 import { DB, JsonArray, JsonValue } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
 import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
@@ -104,6 +108,36 @@ export const insertAgendaItems = async (
     )
     .values(asDBType)
     .execute();
+};
+
+export const insertAgendaItemSubjectTerms = async (
+  db: Kysely<DB>,
+  items: AgendaItemSubjectTerm[],
+) => {
+  await db.transaction().execute(async (trx) => {
+    await trx
+      .insertInto('AgendaItemSubjectTerm')
+      .values(
+        items.map(
+          ({
+            agendaItemId,
+            subjectTermRaw,
+            subjectTermNormalized,
+            subjectTermSlug,
+          }) => ({
+            agendaItemId,
+            subjectTermRaw,
+            subjectTermNormalized,
+            subjectTermSlug,
+          }),
+        ),
+      )
+      .onConflict((oc) =>
+        oc.columns(['agendaItemId', 'subjectTermSlug']).merge(),
+      )
+      .execute();
+    console.log(`Inserted/updated ${items.length} agenda item subject terms`);
+  });
 };
 
 export const getAgendaItemByReference = async (

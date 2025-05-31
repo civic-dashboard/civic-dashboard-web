@@ -61,6 +61,13 @@ export interface TMMISAgendaItem {
   neighbourhoodId?: number[];
 }
 
+export interface AgendaItemSubjectTerm {
+  agendaItemId: number;
+  subjectTermRaw: string; // Term exploded/unbracketed from subjectTerms without special chars replaced (e.g. "&" -X-> "and")
+  subjectTermNormalized: string; // Term exploded/unbracketed from subjectTerms wit special chars replaced (e.g. "&" -> "and")
+  subjectTermSlug: string; // Slugged term of normalized subjectTerm for potentially index-friendly db queries
+}
+
 type AgendaItemFetchOptions = {
   start: Date;
   end: Date;
