@@ -12,13 +12,13 @@ export default function ShareThoughtsPage() {
       <section className="mb-16">
         <h1 className="text-4xl font-bold">Share Your Thoughts</h1>
         <p className="mt-4">
-          We’d love to hear any thoughts you&apos;re willing to share! Know that
-          we read every piece of feedback, and that it is this project&apos;s
-          guiding light.
+          We’d love to hear any thoughts you're willing to share! Know that we
+          read every piece of feedback, and that it is this project's guiding
+          light.
         </p>
         <p className="mt-4">
-          All we ask is that you be respectful in your communication. It&apos;s
-          100% ok if you have strong negative feelings about any aspect of the
+          All we ask is that you be respectful in your communication. It's 100%
+          ok if you have strong negative feelings about any aspect of the
           project - we want to hear them! That said, everyone working on this
           project is a passion-driven volunteer who is truly doing their best -
           please keep this in mind as you share your thoughts 😊
@@ -88,7 +88,7 @@ export default function ShareThoughtsPage() {
             >
               sign up for our newsletter
             </a>{' '}
-            to know when we&apos;re asking for feedback!
+            to know when we're asking for feedback!
           </li>
           <li>
             <strong>Meet Us</strong> - Come to a{' '}
@@ -99,8 +99,8 @@ export default function ShareThoughtsPage() {
               Civic Tech Toronto hacknight
             </ExternalLink>
             . These happen every Tuesday 7-9pm, both in-person somewhere in
-            Toronto and over Zoom! They&apos;re full of friendly people working
-            to make our city better and having fun doing it 😊.
+            Toronto and over Zoom! They're full of friendly people working to
+            make our city better and having fun doing it 😊.
           </li>
         </ul>
       </section>

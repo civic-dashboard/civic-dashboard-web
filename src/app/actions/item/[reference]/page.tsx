@@ -35,7 +35,7 @@ export default async function AgendaItemPage({ params }: Props) {
   if (!agendaItem) {
     return (
       <main className="p-12 min-h-[500]">
-        <h1>We couldn&apos;t find that agenda item</h1>
+        <h1>We couldn't find that agenda item</h1>
       </main>
     );
   }

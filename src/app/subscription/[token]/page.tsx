@@ -17,7 +17,7 @@ export default async function SubscriptionsPage({ params }: Props) {
   if (!subscriptionInfo) {
     return (
       <main className="p-12 min-h-[500]">
-        <h1>We couldn&apos;t find that subscription</h1>
+        <h1>We couldn't find that subscription</h1>
       </main>
     );
   }

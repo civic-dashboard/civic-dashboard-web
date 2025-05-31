@@ -5,8 +5,8 @@ export default function JoinPage() {
       <section className="mb-16">
         <h1 className="text-4xl font-bold text-gray-900">Join The Team!</h1>
         <p className="mt-4 text-xl text-gray-700">
-          We&apos;re a completely volunteer-run team - meaning that all of us
-          were once where you are, just hearing about this project for the first
+          We're a completely volunteer-run team - meaning that all of us were
+          once where you are, just hearing about this project for the first
           time! No matter who you are, you can contribute to this project.
         </p>
       </section>
@@ -28,10 +28,10 @@ export default function JoinPage() {
           </p>
 
           <p>
-            If you&apos;re just someone who believes that we can more
-            peacefully, thoughtfully, creatively, and sustainably coexist,
-            believes this project could be a way to help do that, and wants to
-            contribute? We need you.
+            If you're just someone who believes that we can more peacefully,
+            thoughtfully, creatively, and sustainably coexist, believes this
+            project could be a way to help do that, and wants to contribute? We
+            need you.
           </p>
         </div>
       </section>
@@ -48,14 +48,13 @@ export default function JoinPage() {
           <li>
             <strong>Autonomy</strong> - you choose what you work on! Put your
             name down for tasks, and feel free to add tasks if you want to work
-            on something that isn&apos;t currently there. We trust your
-            intelligence!
+            on something that isn't currently there. We trust your intelligence!
           </li>
           <li>
             <strong>Ownership</strong> - our only rule is that if you recognize
-            you can&apos;t do something you have your name on, that&apos;s
-            perfectly ok! Just let us know and we&apos;ll either get you help or
-            find someone who can.
+            you can't do something you have your name on, that's perfectly ok!
+            Just let us know and we'll either get you help or find someone who
+            can.
           </li>
           <li>
             <strong>Longevity</strong> - do work such that others can pick up
@@ -89,10 +88,10 @@ export default function JoinPage() {
           </p>
 
           <p className="text-gray-700">
-            We&apos;ve had folks contribute continuously from the start of the
-            project, we&apos;ve had folks come in and out, we&apos;ve had folks
-            contribute intensely for a short stretch, and we&apos;re
-            accommodating of and deeply grateful for it all.
+            We've had folks contribute continuously from the start of the
+            project, we've had folks come in and out, we've had folks contribute
+            intensely for a short stretch, and we're accommodating of and deeply
+            grateful for it all.
           </p>
         </div>
       </section>
@@ -113,8 +112,8 @@ export default function JoinPage() {
             >
               Onboarding document
             </a>{' '}
-            to get a sense of what we&apos;re building, where we&apos;re aiming,
-            and how we&apos;re collaborating to get there.
+            to get a sense of what we're building, where we're aiming, and how
+            we're collaborating to get there.
           </li>
           <li>
             <strong>Email</strong> - Shoot an email to{' '}
