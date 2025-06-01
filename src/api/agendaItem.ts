@@ -62,7 +62,8 @@ export interface TMMISAgendaItem {
 }
 
 export interface AgendaItemSubjectTerm {
-  id: string; // Unique identifier for the subject term
+  reference: string; // Unique identifier for the subject term
+  meetingId: number; // Unique identifier for the subject term
   agendaItemId: number; // Not unique
   subjectTermRaw: string; // Term exploded/unbracketed from subjectTerms without special chars replaced (e.g. "&" -X-> "and")
   subjectTermNormalized: string; // Term exploded/unbracketed from subjectTerms wit special chars replaced (e.g. "&" -> "and")

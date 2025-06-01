@@ -30,7 +30,8 @@ export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
 export interface AgendaItemSubjectTerms {
   agendaItemId: number;
-  id: string;
+  meetingId: number;
+  reference: string;
   subjectTermNormalized: string;
   subjectTermRaw: string;
   subjectTermSlug: string;

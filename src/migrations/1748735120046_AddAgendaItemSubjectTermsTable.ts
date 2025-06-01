@@ -3,13 +3,14 @@ import { sql, type Kysely } from 'kysely';
 export async function up(db: Kysely<unknown>): Promise<void> {
   await sql`
     CREATE TABLE "AgendaItemSubjectTerms" (
-      "id" UUID NOT NULL,
+      "reference" TEXT NOT NULL,
+      "meetingId" INTEGER NOT NULL,
       "agendaItemId" INTEGER NOT NULL,
       "subjectTermRaw" TEXT NOT NULL,
       "subjectTermNormalized" TEXT NOT NULL,
       "subjectTermSlug" TEXT NOT NULL,
       PRIMARY KEY ("agendaItemId", "subjectTermSlug"),
-      CONSTRAINT fk_agenda_item FOREIGN KEY ("id") REFERENCES "RawAgendaItemConsiderations" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+      CONSTRAINT fk_agenda_item FOREIGN KEY ("reference", "meetingId") REFERENCES "RawAgendaItemConsiderations" ("reference", "meetingId") ON DELETE CASCADE ON UPDATE CASCADE
     );
   `.execute(db);
 }

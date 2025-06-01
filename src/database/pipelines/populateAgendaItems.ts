@@ -1,31 +1,11 @@
-import {
-  fetchAgendaItems,
-  TMMISAgendaItem,
-  AgendaItemSubjectTerm,
-} from '@/api/agendaItem';
+import { fetchAgendaItems } from '@/api/agendaItem';
 import {
   insertAgendaItems,
   insertAgendaItemSubjectTerms,
 } from '@/database/queries/agendaItems';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
-import { processSubjectTerms } from '@/database/pipelines/textParseUtils';
-import { toSlug } from '@/logic/toSlug';
-
-const normalizeSubjectTerms = (
-  agendaItems: TMMISAgendaItem[],
-): AgendaItemSubjectTerm[] => {
-  return agendaItems.flatMap((item) => {
-    return processSubjectTerms(item.subjectTerms).map((term) => ({
-      id: item.id,
-      agendaItemId: item.agendaItemId,
-      subjectTermRaw: term.raw,
-      subjectTermNormalized: term.normalized,
-      subjectTermSlug: toSlug(term.normalized),
-    }));
-  });
-};
-
+import { normalizeSubjectTerms } from '@/database/queries/agendaItems';
 export const populateAgendaItems = async (
   db: Kysely<DB>,
   start: Date,
@@ -51,6 +31,10 @@ export const populateAgendaItems = async (
        * -> Option 2: Normalize after insertion in a separate job for the sake of data synchronization
        */
       const normalizedSubjectTerms = normalizeSubjectTerms(agendaItems);
+      console.log(
+        normalizedSubjectTerms.length,
+        'normalized subject terms found',
+      );
       // Insert normalized subject terms into the database table AgendaItemSubjectTerm
       await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
     }

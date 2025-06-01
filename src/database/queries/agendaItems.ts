@@ -8,6 +8,8 @@ import { agendaItemConflictColumns } from '@/database/columns';
 import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
 import { SearchOptions, SearchPagination } from '@/logic/search';
 import { Kysely, sql } from 'kysely';
+import { processSubjectTerms } from '@/database/pipelines/textParseUtils';
+import { toSlug } from '@/logic/toSlug';
 
 export interface AgendaItem {
   id: string;
@@ -38,6 +40,11 @@ export interface AgendaItem {
   planningApplicationNumber: string | null;
   neighbourhoodId: number[] | null;
 }
+
+type AgendaItemForSubjectTerm = Pick<
+  AgendaItem,
+  'reference' | 'meetingId' | 'agendaItemId' | 'subjectTerms'
+>;
 
 const cleanAgendaItem = <
   T extends { meetingDate: string; agendaItemAddress: JsonValue },
@@ -120,13 +127,15 @@ export const insertAgendaItemSubjectTerms = async (
       .values(
         items.map(
           ({
-            id,
+            reference,
+            meetingId,
             agendaItemId,
             subjectTermRaw,
             subjectTermNormalized,
             subjectTermSlug,
           }) => ({
-            id,
+            reference,
+            meetingId,
             agendaItemId,
             subjectTermRaw,
             subjectTermNormalized,
@@ -134,12 +143,50 @@ export const insertAgendaItemSubjectTerms = async (
           }),
         ),
       )
-      .onConflict((oc) =>
-        oc.columns(['agendaItemId', 'subjectTermSlug']).doNothing(),
+      .onConflict(
+        (oc) => oc.columns(['agendaItemId', 'subjectTermSlug']).doNothing(), //TODO: instead of doing nothing update the values
       )
       .execute();
     console.log(`Inserted/updated ${items.length} agenda item subject terms`);
   });
+};
+
+export function normalizeSubjectTerms(
+  agendaItems: TMMISAgendaItem[] | AgendaItemForSubjectTerm[],
+): AgendaItemSubjectTerm[] {
+  return agendaItems.flatMap((item) => {
+    return processSubjectTerms(item.subjectTerms).map((term) => ({
+      reference: item.reference,
+      meetingId: item.meetingId,
+      agendaItemId: item.agendaItemId,
+      subjectTermRaw: term.raw,
+      subjectTermNormalized: term.normalized,
+      subjectTermSlug: toSlug(term.normalized),
+    }));
+  });
+}
+
+export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
+  // This function processes all the subject terms from the agenda items
+  // and inserts them into the database table AgendaItemSubjectTerms.
+
+  // Fetch agenda items
+  const agendaItems = await db
+    .selectFrom('RawAgendaItemConsiderations')
+    .select(['reference', 'meetingId', 'agendaItemId', 'subjectTerms'])
+    .orderBy('agendaItemId')
+    .execute();
+
+  // Normalize subject terms
+  const normalizedSubjectTerms = normalizeSubjectTerms(agendaItems);
+  if (normalizedSubjectTerms.length > 0) {
+    await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
+    console.log(
+      `Processed and inserted ${normalizedSubjectTerms.length} subject terms for agenda items.`,
+    );
+  } else {
+    console.log('No subject terms to process for agenda items.');
+  }
 };
 
 export const getAgendaItemByReference = async (
