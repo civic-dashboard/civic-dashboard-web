@@ -3,15 +3,13 @@ import { sql, type Kysely } from 'kysely';
 export async function up(db: Kysely<unknown>): Promise<void> {
   await sql`
     CREATE TABLE "AgendaItemSubjectTerms" (
-      "reference" TEXT NOT NULL,
-      "meetingId" INTEGER NOT NULL,
       "agendaItemId" INTEGER NOT NULL,
       "subjectTermRaw" TEXT NOT NULL,
       "subjectTermNormalized" TEXT NOT NULL,
-      "subjectTermSlug" TEXT NOT NULL,
-      PRIMARY KEY ("agendaItemId", "subjectTermSlug"),
-      CONSTRAINT fk_agenda_item FOREIGN KEY ("reference", "meetingId") REFERENCES "RawAgendaItemConsiderations" ("reference", "meetingId") ON DELETE CASCADE ON UPDATE CASCADE
+      "subjectTermSlug" TEXT NOT NULL
     );
+
+    CREATE UNIQUE INDEX "idx_agenda_item_subject_terms" ON "AgendaItemSubjectTerms" ("agendaItemId", "subjectTermSlug");
   `.execute(db);
 }
 

@@ -43,7 +43,7 @@ export interface AgendaItem {
 
 type AgendaItemForSubjectTerm = Pick<
   AgendaItem,
-  'reference' | 'meetingId' | 'agendaItemId' | 'subjectTerms'
+  'agendaItemId' | 'subjectTerms'
 >;
 
 const cleanAgendaItem = <
@@ -127,15 +127,11 @@ export const insertAgendaItemSubjectTerms = async (
       .values(
         items.map(
           ({
-            reference,
-            meetingId,
             agendaItemId,
             subjectTermRaw,
             subjectTermNormalized,
             subjectTermSlug,
           }) => ({
-            reference,
-            meetingId,
             agendaItemId,
             subjectTermRaw,
             subjectTermNormalized,
@@ -156,8 +152,6 @@ export function normalizeSubjectTerms(
 ): AgendaItemSubjectTerm[] {
   return agendaItems.flatMap((item) => {
     return processSubjectTerms(item.subjectTerms).map((term) => ({
-      reference: item.reference,
-      meetingId: item.meetingId,
       agendaItemId: item.agendaItemId,
       subjectTermRaw: term.raw,
       subjectTermNormalized: term.normalized,
