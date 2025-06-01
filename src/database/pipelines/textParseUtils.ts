@@ -108,11 +108,9 @@ function normalizeTextCharsSymbols(text: string): string {
 
 function extractBracketTerms(text: string): string[] {
   // Match text wrapped in brackets:(), {}, []
-  const matches = [...text.matchAll(/[\(\[\{]([^)\]\}]*)[\)\]\}]/g)];
+  const matches = [...text.matchAll(/[([{]([^)\]}]*)[)\]}]/g)];
   // Remove bracketed terms, returns "" if only contains bracketed terms
-  const unbracketedTerms = text
-    .replace(/[\(\[\{][^)\]\}]*[\)\]\}]/g, '')
-    .trim();
+  const unbracketedTerms = text.replace(/[([{][^)\]}]*[)\]}]/g, '').trim();
 
   // Get bracketed terms and trim spaces
   const extractedTerms = matches

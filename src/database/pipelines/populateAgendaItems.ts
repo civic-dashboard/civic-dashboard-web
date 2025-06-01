@@ -17,6 +17,7 @@ const normalizeSubjectTerms = (
 ): AgendaItemSubjectTerm[] => {
   return agendaItems.flatMap((item) => {
     return processSubjectTerms(item.subjectTerms).map((term) => ({
+      id: item.id,
       agendaItemId: item.agendaItemId,
       subjectTermRaw: term.raw,
       subjectTermNormalized: term.normalized,

@@ -62,7 +62,8 @@ export interface TMMISAgendaItem {
 }
 
 export interface AgendaItemSubjectTerm {
-  agendaItemId: number;
+  id: string; // Unique identifier for the subject term
+  agendaItemId: number; // Not unique
   subjectTermRaw: string; // Term exploded/unbracketed from subjectTerms without special chars replaced (e.g. "&" -X-> "and")
   subjectTermNormalized: string; // Term exploded/unbracketed from subjectTerms wit special chars replaced (e.g. "&" -> "and")
   subjectTermSlug: string; // Slugged term of normalized subjectTerm for potentially index-friendly db queries

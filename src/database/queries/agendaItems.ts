@@ -116,15 +116,17 @@ export const insertAgendaItemSubjectTerms = async (
 ) => {
   await db.transaction().execute(async (trx) => {
     await trx
-      .insertInto('AgendaItemSubjectTerm')
+      .insertInto('AgendaItemSubjectTerms')
       .values(
         items.map(
           ({
+            id,
             agendaItemId,
             subjectTermRaw,
             subjectTermNormalized,
             subjectTermSlug,
           }) => ({
+            id,
             agendaItemId,
             subjectTermRaw,
             subjectTermNormalized,
@@ -133,7 +135,7 @@ export const insertAgendaItemSubjectTerms = async (
         ),
       )
       .onConflict((oc) =>
-        oc.columns(['agendaItemId', 'subjectTermSlug']).merge(),
+        oc.columns(['agendaItemId', 'subjectTermSlug']).doNothing(),
       )
       .execute();
     console.log(`Inserted/updated ${items.length} agenda item subject terms`);
