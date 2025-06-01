@@ -169,7 +169,13 @@ export function normalizeSubjectTerms(
 export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
   // This function processes all the subject terms from the agenda items
   // and inserts them into the database table AgendaItemSubjectTerms.
-
+  // Delete all rows in AgendaItemSubjectTerms
+  const deleteResult = await db
+    .deleteFrom('AgendaItemSubjectTerms')
+    .executeTakeFirst();
+  const deletedRows = deleteResult.numDeletedRows ?? 0;
+  // So far number of deleted row is consistent with number of rows in table
+  console.log(`Deleted ${deletedRows} rows from AgendaItemSubjectTerms.`);
   // Fetch agenda items
   const agendaItems = await db
     .selectFrom('RawAgendaItemConsiderations')
@@ -181,6 +187,7 @@ export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
   const normalizedSubjectTerms = normalizeSubjectTerms(agendaItems);
   if (normalizedSubjectTerms.length > 0) {
     await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
+    // TODO: determine exactly how many rows of data were inserted, normalizedSubjectTerms.length does not reflect how many rows were inserted (could be less)
     console.log(
       `Processed and inserted ${normalizedSubjectTerms.length} subject terms for agenda items.`,
     );
