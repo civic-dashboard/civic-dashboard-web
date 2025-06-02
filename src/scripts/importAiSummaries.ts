@@ -3,11 +3,11 @@ import { DB } from '@/database/allDbTypes';
 import { createDB } from '@/database/kyselyDb';
 import { generateSummaryForReference } from '@/database/pipelines/addAISummary';
 
-class ImportAiSummaries {
-  public static async run(db: Kysely<DB>) {
+export class ImportAiSummaries {
+  public static async run(db: Kysely<DB>, references: Set<string>) {
     try {
       await db.transaction().execute(async (trx) => {
-        await new ImportAiSummaries(trx, db).run();
+        await new ImportAiSummaries(trx, db, references).run();
       });
     } catch (error) {
       console.error(`Error during ImportAiSummaries`, error);
@@ -18,14 +18,17 @@ class ImportAiSummaries {
   private constructor(
     private readonly trx: Transaction<DB>,
     private readonly db: Kysely<DB>,
+    private references: Set<string>,
   ) {}
 
   private async run() {
-    const candidateIds = await this.getCandidateAgendaItems();
+    if (this.references.size === 0) {
+      this.references = await this.getCandidateAgendaItems();
+    }
 
     const summaries = new Array<SummaryRow>();
 
-    for (const candidateId of candidateIds) {
+    for (const candidateId of this.references) {
       const summary = await generateSummaryForReference(this.db, candidateId);
       if (!summary) continue;
       summaries.push({
@@ -63,5 +66,6 @@ type SummaryRow = {
 };
 
 //! Actually runs the program
-await ImportAiSummaries.run(createDB());
+const references = new Set<string>();
+await ImportAiSummaries.run(createDB(), references);
 process.exit(0);
