@@ -22,11 +22,11 @@ const formatItemForSummarizer = (
 const callChatGPTApi = async (
   prompt: string,
   temperature: number = 0.5,
-): Promise<any> => {
+): Promise<OpenAI.Chat.Completions.ChatCompletion> => {
   const baseWait = 60 * 1000; // 60 seconds in milliseconds
   let exponentialBackoffMultiplier = 1;
   let complete = false;
-  let response: any = null;
+  let response: OpenAI.Chat.Completions.ChatCompletion = {} as OpenAI.Chat.Completions.ChatCompletion;
 
   while (!complete) {
     try {
@@ -36,8 +36,8 @@ const callChatGPTApi = async (
         temperature,
       });
       complete = true;
-    } catch (error: any) {
-      if (error.name === 'RateLimitError') {
+    } catch (error) {
+      if (error instanceof OpenAI.APIError && error.name === 'RateLimitError') {
         const waitTime = baseWait * Math.pow(2, exponentialBackoffMultiplier);
         console.log(`Waiting ${waitTime / 1000} seconds`);
         await new Promise((resolve) => setTimeout(resolve, waitTime));
@@ -70,7 +70,7 @@ export const generateAISummary = async (
     const prompt = prompt_template + context;
     const response = await callChatGPTApi(prompt, 0.5);
     if (response && response.choices && response.choices.length > 0) {
-      const summary = response.choices[0].message.content.trim();
+      const summary = response.choices[0]?.message?.content?.trim() || '';
       return summary;
     }
   } catch (error) {
