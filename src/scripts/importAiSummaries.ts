@@ -21,19 +21,16 @@ class ImportAiSummaries {
   ) {}
 
   private async run() {
-
     const candidateIds = await this.getCandidateAgendaItems();
 
     const summaries = new Array<SummaryRow>();
- 
+
     for (const candidateId of candidateIds) {
-      const summary = await generateSummaryForReference(
-        this.db,
-        candidateId,)
+      const summary = await generateSummaryForReference(this.db, candidateId);
       if (!summary) continue;
       summaries.push({
         agendaItemNumber: candidateId,
-        summary
+        summary,
       });
     }
     console.log('Found usable summaries', summaries);

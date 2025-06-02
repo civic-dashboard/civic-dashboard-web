@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { getAgendaItemByReference } from '../queries/agendaItems';
-import { Kysely} from 'kysely';
+import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 
 const client = new OpenAI({
@@ -82,29 +82,29 @@ export const generateAISummary = async (
 };
 
 export const generateSummaryForReference = async (
-    db: Kysely<DB>, // Database instance
-    reference: string, // User-provided reference
-  ): Promise<string | null> => {
-    try {
-      // Fetch the agenda item by reference
-      const agendaItem = await getAgendaItemByReference(db, reference);
-  
-      if (!agendaItem) {
-        console.log(`No agenda item found for reference: ${reference}`);
-        return null;
-      }
-  
-      // Generate the AI summary
-      const summary = await generateAISummary(
-        agendaItem.agendaItemSummary || '',
-        agendaItem.agendaItemRecommendation || null,
-        agendaItem.decisionRecommendations || null,
-      );
-  
-      console.log('Generated AI Summary for reference:', reference);
-      return summary;
-    } catch (error) {
-      console.error('Error generating summary for reference:', error);
+  db: Kysely<DB>, // Database instance
+  reference: string, // User-provided reference
+): Promise<string | null> => {
+  try {
+    // Fetch the agenda item by reference
+    const agendaItem = await getAgendaItemByReference(db, reference);
+
+    if (!agendaItem) {
+      console.log(`No agenda item found for reference: ${reference}`);
       return null;
     }
-  };
+
+    // Generate the AI summary
+    const summary = await generateAISummary(
+      agendaItem.agendaItemSummary || '',
+      agendaItem.agendaItemRecommendation || null,
+      agendaItem.decisionRecommendations || null,
+    );
+
+    console.log('Generated AI Summary for reference:', reference);
+    return summary;
+  } catch (error) {
+    console.error('Error generating summary for reference:', error);
+    return null;
+  }
+};
