@@ -26,7 +26,8 @@ const callChatGPTApi = async (
   const baseWait = 60 * 1000; // 60 seconds in milliseconds
   let exponentialBackoffMultiplier = 1;
   let complete = false;
-  let response: OpenAI.Chat.Completions.ChatCompletion = {} as OpenAI.Chat.Completions.ChatCompletion;
+  let response: OpenAI.Chat.Completions.ChatCompletion =
+    {} as OpenAI.Chat.Completions.ChatCompletion;
 
   while (!complete) {
     try {
