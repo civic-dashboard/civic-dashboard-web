@@ -10,7 +10,7 @@ export const populateAgendaItems = async (
 ) => {
   let insertedCount = BigInt(0);
   let current = start;
-  const references: string[] = [];
+  const references: Set<string> = new Set<string>();
   while (current < end) {
     const nextMonth = new Date(current);
     nextMonth.setMonth(nextMonth.getMonth() + 1);
@@ -22,7 +22,7 @@ export const populateAgendaItems = async (
     if (agendaItems.length > 0) {
       const result = await insertAgendaItems(db, agendaItems);
       agendaItems.forEach((item) => {
-        references.push(item.reference);
+        references.add(item.reference);
       });
 
       insertedCount += result[0].numInsertedOrUpdatedRows ?? BigInt(0);
