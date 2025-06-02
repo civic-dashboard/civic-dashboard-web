@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { getAgendaItemByReference } from '../queries/agendaItems';
+import { getAgendaItemByReference } from '@/database/queries/agendaItems';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 
