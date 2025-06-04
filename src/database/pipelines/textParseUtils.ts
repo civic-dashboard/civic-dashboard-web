@@ -128,7 +128,7 @@ function extractBracketTerms(text: string): string[] {
 function explodeSubjectTerms(subjectTerms: string): string[] {
   // Split on semicolons wrapped in brackets
   return subjectTerms
-    .split(/[;,]/)
+    .split(/[;,]/g)
     .map((term) => term.trim())
     .filter((term) => term.length > 0);
 }
