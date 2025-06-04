@@ -1,9 +1,15 @@
-import { Address, TMMISAgendaItem } from '@/api/agendaItem';
+import {
+  Address,
+  TMMISAgendaItem,
+  AgendaItemSubjectTerm,
+} from '@/api/agendaItem';
 import { DB, JsonArray, JsonValue } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
 import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
 import { SearchOptions, SearchPagination } from '@/logic/search';
 import { Kysely, sql } from 'kysely';
+import { processSubjectTerms } from '@/database/pipelines/textParseUtils';
+import { toSlug } from '@/logic/toSlug';
 
 export interface AgendaItem {
   id: string;
@@ -34,6 +40,11 @@ export interface AgendaItem {
   planningApplicationNumber: string | null;
   neighbourhoodId: number[] | null;
 }
+
+type AgendaItemForSubjectTerm = Pick<
+  AgendaItem,
+  'agendaItemId' | 'subjectTerms'
+>;
 
 const cleanAgendaItem = <
   T extends { meetingDate: string; agendaItemAddress: JsonValue },
@@ -104,6 +115,90 @@ export const insertAgendaItems = async (
     )
     .values(asDBType)
     .execute();
+};
+
+export const insertAgendaItemSubjectTerms = async (
+  db: Kysely<DB>,
+  items: AgendaItemSubjectTerm[],
+) => {
+  await db.transaction().execute(async (trx) => {
+    await trx
+      .insertInto('AgendaItemSubjectTerms')
+      .values(
+        items.map(
+          ({
+            agendaItemId,
+            subjectTermRaw,
+            subjectTermNormalized,
+            subjectTermSlug,
+          }) => ({
+            agendaItemId,
+            subjectTermRaw,
+            subjectTermNormalized,
+            subjectTermSlug,
+          }),
+        ),
+      )
+      .onConflict(
+        (oc) => oc.columns(['agendaItemId', 'subjectTermSlug']).doNothing(), //TODO: instead of doing nothing update the values
+      )
+      .execute();
+    console.log(`Inserted/updated ${items.length} agenda item subject terms`);
+  });
+};
+
+export function normalizeSubjectTerms(
+  agendaItems: TMMISAgendaItem[] | AgendaItemForSubjectTerm[],
+): AgendaItemSubjectTerm[] {
+  return agendaItems.flatMap((item) => {
+    return processSubjectTerms(item.subjectTerms).map((term) => ({
+      agendaItemId: item.agendaItemId,
+      subjectTermRaw: term.raw,
+      subjectTermNormalized: term.normalized,
+      subjectTermSlug: toSlug(term.normalized),
+    }));
+  });
+}
+
+export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
+  // This function processes all the subject terms from the agenda items
+  // and inserts them into the database table AgendaItemSubjectTerms.
+  // Delete all rows in AgendaItemSubjectTerms
+  const deleteResult = await db
+    .deleteFrom('AgendaItemSubjectTerms')
+    .executeTakeFirst();
+  const deletedRows = deleteResult.numDeletedRows ?? 0;
+  // So far number of deleted row is consistent with number of rows in table
+  console.log(`Deleted ${deletedRows} rows from AgendaItemSubjectTerms.`);
+
+  // Fetch agenda items and process by batchSize
+  let offset = 0;
+  // Set medium batch size btwn 1_000 and 5_000
+  const batchSize = 2_500;
+  let hasMore = true;
+  while (hasMore) {
+    const agendaItemRecords = await db
+      .selectFrom('RawAgendaItemConsiderations')
+      .select(['reference', 'meetingId', 'agendaItemId', 'subjectTerms'])
+      .limit(batchSize)
+      .offset(offset)
+      .orderBy('agendaItemId')
+      .execute();
+
+    // Normalize subject terms
+    const normalizedSubjectTerms = normalizeSubjectTerms(agendaItemRecords);
+    if (normalizedSubjectTerms.length > 0) {
+      await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
+      // TODO: determine exactly how many rows of data were inserted, normalizedSubjectTerms.length does not reflect how many rows were inserted (could be less)
+      console.log(
+        `Processed and inserted ${normalizedSubjectTerms.length} subject terms for agenda items.`,
+      );
+    } else {
+      console.log('No subject terms to process for agenda items.');
+    }
+    offset += batchSize;
+    hasMore = agendaItemRecords.length > 0;
+  }
 };
 
 export const getAgendaItemByReference = async (

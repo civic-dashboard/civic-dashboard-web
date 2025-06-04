@@ -78,3 +78,78 @@ function getCleanCouncillorSlug(approximateName: string) {
     );
   return toSlug(cleanName);
 }
+
+// Either leave here or place in @/logic/sanitize
+function normalizeTextCharsSymbols(text: string): string {
+  const replacements: Record<string, string> = {
+    '&': 'and',
+    '@': 'at',
+    '€': 'euro',
+    '£': 'pound',
+    '°': 'degree',
+    $: 'dollar',
+    '%': 'percent',
+    '§': 'section',
+    '#': 'number',
+    '-': ' ', // Not sure if this is desirable
+    _: ' ', // Not sure if this is desirable
+  };
+
+  const regex = new RegExp(Object.keys(replacements).join('|'), 'g');
+
+  const normalizedText = text
+    .replace(regex, (match) => replacements[match] || match)
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return normalizedText.length > 0 ? normalizedText : text;
+}
+
+function extractBracketTerms(text: string): string[] {
+  // Match text wrapped in brackets:(), {}, []
+  const matches = [...text.matchAll(/[([{]([^)\]}]*)[)\]}]/g)];
+  // Remove bracketed terms, returns "" if only contains bracketed terms
+  const unbracketedTerms = text.replace(/[([{][^)\]}]*[)\]}]/g, '').trim();
+
+  // Get bracketed terms and trim spaces
+  const extractedTerms = matches
+    .map((match) => match[1].trim())
+    .filter((term) => term.length > 0);
+
+  // Remove brackets
+  const cleanedTerms =
+    unbracketedTerms.length > 0
+      ? [unbracketedTerms, ...extractedTerms]
+      : extractedTerms;
+
+  return cleanedTerms;
+}
+
+function explodeSubjectTerms(subjectTerms: string): string[] {
+  // Split on semicolons wrapped in brackets
+  return subjectTerms
+    .split(/[;,]/g)
+    .map((term) => term.trim())
+    .filter((term) => term.length > 0);
+}
+
+export function processSubjectTerms(
+  subjectTerms: string,
+): { raw: string; normalized: string }[] {
+  if (subjectTerms.length === 0)
+    throw new Error(`Can't process empty subject terms`);
+
+  // Explode on semicolons and commas
+  const explodeTerms: string[] = explodeSubjectTerms(subjectTerms);
+
+  // Explode terms contain in brackets
+  const refinedTerms: string[] = explodeTerms.flatMap((term) =>
+    extractBracketTerms(term),
+  );
+
+  // Return both raw and normalized term
+  return refinedTerms.map((term) => ({
+    raw: term,
+    normalized: normalizeTextCharsSymbols(term),
+  }));
+}
