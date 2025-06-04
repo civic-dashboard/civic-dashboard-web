@@ -90,7 +90,6 @@ function normalizeTextCharsSymbols(text: string): string {
     $: 'dollar',
     '%': 'percent',
     '§': 'section',
-    '/': 'or',
     '#': 'number',
     '-': ' ', // Not sure if this is desirable
     _: ' ', // Not sure if this is desirable
