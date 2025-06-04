@@ -170,23 +170,34 @@ export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
   const deletedRows = deleteResult.numDeletedRows ?? 0;
   // So far number of deleted row is consistent with number of rows in table
   console.log(`Deleted ${deletedRows} rows from AgendaItemSubjectTerms.`);
-  // Fetch agenda items
-  const agendaItems = await db
-    .selectFrom('RawAgendaItemConsiderations')
-    .select(['reference', 'meetingId', 'agendaItemId', 'subjectTerms'])
-    .orderBy('agendaItemId')
-    .execute();
 
-  // Normalize subject terms
-  const normalizedSubjectTerms = normalizeSubjectTerms(agendaItems);
-  if (normalizedSubjectTerms.length > 0) {
-    await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
-    // TODO: determine exactly how many rows of data were inserted, normalizedSubjectTerms.length does not reflect how many rows were inserted (could be less)
-    console.log(
-      `Processed and inserted ${normalizedSubjectTerms.length} subject terms for agenda items.`,
-    );
-  } else {
-    console.log('No subject terms to process for agenda items.');
+  // Fetch agenda items and process by batchSize
+  let offset = 0;
+  // Set medium batch size btwn 1_000 and 5_000
+  const batchSize = 2_500;
+  let hasMore = true;
+  while (hasMore) {
+    const agendaItemRecords = await db
+      .selectFrom('RawAgendaItemConsiderations')
+      .select(['reference', 'meetingId', 'agendaItemId', 'subjectTerms'])
+      .limit(batchSize)
+      .offset(offset)
+      .orderBy('agendaItemId')
+      .execute();
+
+    // Normalize subject terms
+    const normalizedSubjectTerms = normalizeSubjectTerms(agendaItemRecords);
+    if (normalizedSubjectTerms.length > 0) {
+      await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
+      // TODO: determine exactly how many rows of data were inserted, normalizedSubjectTerms.length does not reflect how many rows were inserted (could be less)
+      console.log(
+        `Processed and inserted ${normalizedSubjectTerms.length} subject terms for agenda items.`,
+      );
+    } else {
+      console.log('No subject terms to process for agenda items.');
+    }
+    offset += batchSize;
+    hasMore = agendaItemRecords.length > 0;
   }
 };
 
