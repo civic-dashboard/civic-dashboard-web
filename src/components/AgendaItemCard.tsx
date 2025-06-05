@@ -64,7 +64,7 @@ Sincerely,
 Lisa Michaels
   `;
 
-  return `mailto:${decisionBody.email}?subject=${subject}&body=${body.replaceAll('\n', '%0A')}`;
+  return `mailto:${decisionBody.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 
 const requestToSpeakHref = (item: AgendaItem, decisionBody: DecisionBody) => {
@@ -97,7 +97,7 @@ When you request to speak, your name, e-mail, mailing address become part of the
 We are collecting your information under the authority of the Toronto Municipal Code Chapter 27, Council Procedures or any other applicable procedural By-law. As permitted under Section 27 of the Municipal Freedom of Information and Privacy Act, we are collecting this information to create a public record. Information in public records is not subject to privacy requirements. Have questions? Call or write: 416-392-8016 or clerk@toronto.ca
   `;
 
-  return `mailto:${decisionBody.email}?subject=${subject}&body=${body.replaceAll('\n', '%0A')}`;
+  return `mailto:${decisionBody.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 
 type AgendaItemCardProps = React.PropsWithChildren<{
