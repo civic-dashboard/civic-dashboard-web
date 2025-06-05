@@ -76,7 +76,7 @@ const requestToSpeakHref = (item: AgendaItem, decisionBody: DecisionBody) => {
   const subject = `Request to appear before ${formattedDate} ${decisionBody.decisionBodyName} on item ${item.reference}`;
   const body = `To the City Clerk:
 
-I would like to appear before the ${formattedDate} ${decisionBody.decisionBodyId} to speak on item ${item.reference}, ${item.agendaItemTitle}
+I would like to appear before the ${formattedDate} ${decisionBody.decisionBodyName} to speak on item ${item.reference}, ${item.agendaItemTitle}
 
 Name:
 Organization (if applicable):
