@@ -282,7 +282,30 @@ export function SearchResultAgendaItemCard({
             >
               Learn more
             </Button>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                {new Date(item.meetingDate) > new Date() && (
+                  <Button size="lg" className="grow sm:flex-initial">
+                    Take action
+                  </Button>
+                )}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="top" align="end">
+                <DropdownMenuLink href={commentHref}>
+                  <MessageSquarePlus />
+                  Submit a comment
+                </DropdownMenuLink>
+                <DropdownMenuSeparator />
+                <DropdownMenuLink href={requestToSpeakHref}>
+                  <Speech />
+                  Request to speak
+                </DropdownMenuLink>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <TakeActionDropdown {...props} />
+
           </>
         )}
       >
