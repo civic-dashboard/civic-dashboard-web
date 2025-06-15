@@ -19,8 +19,7 @@ import { Separator } from '@/app/labs/unified-search/separator';
 import { decisionBodies } from '@/constants/decisionBodies';
 import { allTags } from '@/constants/tags';
 import SearchBar from '@/app/labs/unified-search/SearchBar';
-import sampleCouncillorPhoto from '@/app/labs/unified-search/sample_councillor_img.png';
-import { PrototypeNotice } from '@/app/labs/PrototypeNotice';
+import sampleCouncillorPhoto from '@/app/labs/unified-search/sample-councillor-image.jpg';
 
 // Define the Motion type
 type Motion = {

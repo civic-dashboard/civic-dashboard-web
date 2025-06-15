@@ -1,4 +1,10 @@
 import { PrototypeNotice } from '@/app/labs/PrototypeNotice';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Advanced Search Prototype',
+  description: 'An experimental advanced search backend for Civic Dashboard',
+};
 
 export default function AdvancedSearch() {
   return (

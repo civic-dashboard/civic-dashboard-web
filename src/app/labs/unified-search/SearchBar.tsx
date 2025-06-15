@@ -2,7 +2,6 @@
 
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import Link from 'next/link';
 
 export default function SearchBar() {
   return (
@@ -16,13 +15,6 @@ export default function SearchBar() {
         <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
           <Search className="h-6 w-6 text-gray-500" />
         </div>
-      </div>
-
-      <div className="text-sm mb-4 px-2">
-        Feel free to use AND, OR, NOT -{' '}
-        <Link href="#" className="text-gray-700 underline">
-          learn more about search operators
-        </Link>
       </div>
     </div>
   );
