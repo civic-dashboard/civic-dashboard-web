@@ -119,10 +119,10 @@ export default function HowCouncilWorks() {
             >
               City Council
             </Tooltip>{' '}
-            is the decision-making body for the City of Toronto. It&apos;s made
-            up of elected officials who vote on policies, laws, and initiatives
-            that impact the city. These decisions affect everything from local
-            parks to public transit and housing. The process used to make these
+            is the decision-making body for the City of Toronto. It's made up of
+            elected officials who vote on policies, laws, and initiatives that
+            impact the city. These decisions affect everything from local parks
+            to public transit and housing. The process used to make these
             decisions follows three key steps.
           </SectionText>
           <ProcessImage src={imageData.toronto.src} />
@@ -158,7 +158,7 @@ export default function HowCouncilWorks() {
           <SectionHeading>The Three-Step City Council Process</SectionHeading>
 
           <SectionText>
-            Before we dive into the process, let&apos;s define what City Council
+            Before we dive into the process, let's define what City Council
             works on. An{' '}
             <Tooltip
               tooltipContent={tooltips.item.content}
@@ -179,8 +179,8 @@ export default function HowCouncilWorks() {
             recommendations.
             <br />
             <br />
-            Now, let&apos;s follow how an item moves through City Council and
-            how you can engage with it along the way.
+            Now, let's follow how an item moves through City Council and how you
+            can engage with it along the way.
           </SectionText>
         </div>
         {/* Staff Stage */}
@@ -220,11 +220,11 @@ export default function HowCouncilWorks() {
             >
               committee
             </Tooltip>
-            , a smaller group of council members. Committees review the
-            staff&apos;s recommendations, provide feedback, suggest changes, and
-            ask critical questions to ensure the proposals are well thought out.
-            While committees don&apos;t make final decisions, they refine the
-            item and send it to the full Council for voting.
+            , a smaller group of council members. Committees review the staff's
+            recommendations, provide feedback, suggest changes, and ask critical
+            questions to ensure the proposals are well thought out. While
+            committees don't make final decisions, they refine the item and send
+            it to the full Council for voting.
             <br />
             <br />
             This stage also provides an opportunity for public deputations,
