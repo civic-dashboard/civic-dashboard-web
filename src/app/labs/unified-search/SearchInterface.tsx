@@ -20,6 +20,7 @@ import { decisionBodies } from '@/constants/decisionBodies';
 import { allTags } from '@/constants/tags';
 import SearchBar from '@/app/labs/unified-search/SearchBar';
 import sampleCouncillorPhoto from '@/app/labs/unified-search/sample_councillor_img.png';
+import { PrototypeNotice } from '@/app/labs/PrototypeNotice';
 
 // Define the Motion type
 type Motion = {
@@ -175,28 +176,6 @@ export function SearchInterface() {
     // Commenting out SearchProvider since we're not using real search
     // <SearchProvider>
     <div className="container mx-auto px-4">
-      {/* Prototype Notice */}
-      <div className="flex flex-col items-end space-y-4 pt-4">
-        <Accordion
-          type="multiple"
-          defaultValue={['prototype']}
-          className="w-full"
-        >
-          <AccordionItem value="prototype">
-            <AccordionTrigger className="text-orange-500">
-              Prototype Notice
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="text-sm text-muted-foreground text-orange-500">
-                This is a prototype version of the search interface. All data is
-                currently hardcoded and search functionality is not yet
-                implemented. The final version will include dynamic search
-                capabilities and real-time data.
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </div>
       {/* Search Bar */}
       <div>
         <SearchBar />

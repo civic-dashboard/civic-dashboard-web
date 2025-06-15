@@ -8,7 +8,7 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import Link from 'next/link';
-import elasticSearch from '@/app/labs/elastic-search/screenshot.png';
+import advancedSearch from '@/app/labs/advanced-search/screenshot.png';
 import unifiedSearch from '@/app/labs/unified-search/screenshot.png';
 import interactiveTags from '@/app/labs/interactive-tags/screenshot.png';
 import { ExternalLink } from '@/components/ExternalLink';
@@ -58,19 +58,17 @@ export default function About() {
         <h1>🔬Civic Dashboard Labs</h1>
         <section className="mb-8">
           <p>
-            Not everything we do is ready for production or ends up fitting into
-            the project, but that doesn't mean there isn't value in sharing it!
-            This page is a collection of cool stuff that for one reason or
-            another isn't incorporated into the main website right now.
+            Here are some experimental projects we've worked on! Try them out
+            and <Link href="/feedback">let us know what you think</Link>!
           </p>
         </section>
 
         <section className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
           <LabCard
-            title="AI Summaries"
-            internalHref="/labs/elastic-search"
+            title="Advanced Search"
+            internalHref="/labs/advanced-search"
             description="The first version of agenda item search incorporating AI summaries and fuzzy search."
-            imageSrc={elasticSearch.src}
+            imageSrc={advancedSearch.src}
             imageAlt="Screenshot of a search page with a search for bikes and agenda item results with AI summaries."
           />
           <LabCard
