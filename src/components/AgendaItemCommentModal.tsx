@@ -126,6 +126,8 @@ ${commenterName}
               <Label id="comment">
                 Your comments
                 <Tooltip
+                  // @ts-expect-error TODO: thinking about replacing this with an accordion.
+                  // this is too much text for a tooltip.
                   tooltipContent={
                     <div className="text-base">
                       <p>
