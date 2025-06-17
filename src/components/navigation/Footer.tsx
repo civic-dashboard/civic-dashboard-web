@@ -22,6 +22,15 @@ export default function Footer() {
                   </a>
                 </li>
               ))}
+
+              <li>
+                <a
+                  href="/labs"
+                  className="hover:text-blue-400 transition-colors duration-200"
+                >
+                  Labs
+                </a>
+              </li>
             </ul>
           </div>
 
