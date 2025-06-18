@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/dropdown';
 import Link from 'next/link';
 import { logAnalytics } from '@/api/analytics';
+import { AgendaItemCommentModal } from '@/components/AgendaItemCommentModal';
 
 const submitCommentHref = (item: AgendaItem, decisionBody: DecisionBody) => {
   const formattedDate = new Date(item.meetingDate).toLocaleString('default', {
@@ -223,10 +224,14 @@ export function FullPageAgendaItemCard({
 type TakeActionDropdownProps = {
   commentHref: string;
   requestToSpeakHref: string;
+  agendaItem: AgendaItem;
+  decisionBody: DecisionBody;
 };
 const TakeActionDropdown = ({
   commentHref,
   requestToSpeakHref,
+  agendaItem,
+  decisionBody,
 }: TakeActionDropdownProps) => {
   return (
     <DropdownMenu
@@ -238,6 +243,11 @@ const TakeActionDropdown = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="end">
+        <AgendaItemCommentModal
+          agendaItem={agendaItem}
+          decisionBody={decisionBody}
+        />
+
         <DropdownMenuLink href={commentHref} data-umami-event="Submit comment">
           <MessageSquarePlus />
           Submit a comment
@@ -282,7 +292,11 @@ export function SearchResultAgendaItemCard({
             >
               Learn more
             </Button>
-            <TakeActionDropdown {...props} />
+            <TakeActionDropdown
+              {...props}
+              agendaItem={item}
+              decisionBody={decisionBody}
+            />
           </>
         )}
       >
