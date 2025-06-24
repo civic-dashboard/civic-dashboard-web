@@ -12,8 +12,8 @@
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
     "no-restricted-globals": [
-      "error", 
-      {"name": "umami", "message": "Use logAnalytics instead."}
+      "error",
+      { "name": "umami", "message": "Use logAnalytics instead." }
     ],
     "no-restricted-imports": [
       "error",
