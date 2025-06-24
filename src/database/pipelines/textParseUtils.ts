@@ -79,7 +79,55 @@ function getCleanCouncillorSlug(approximateName: string) {
   return toSlug(cleanName);
 }
 
-// Either leave here or place in @/logic/sanitize
+// function normalizeTextCharsSymbols(text: string): string {
+//   const replacements: Record<string, string> = {
+//     '&': 'and',
+//     '@': 'at',
+//     '€': 'euro',
+//     '£': 'pound',
+//     '°': 'degree',
+//     $: 'dollar',
+//     '%': 'percent',
+//     '§': 'section',
+//     '#': 'number',
+//     '-': ' ',
+//     _: ' ',
+//   };
+
+//   const regex = new RegExp(Object.keys(replacements).join('|'), 'g');
+
+//   const normalizedText = text
+//     .replace(regex, (match) => replacements[match] || match)
+//     .replace(/\s+/g, ' ')
+//     .trim();
+
+//   return normalizedText.length > 0 ? normalizedText : text;
+// }
+
+// function explodeSubjectTerms(textInput: string): string[] {
+//   // Split on semicolons and brackets
+//   return textInput
+//     .split(/[({[\]});,]+/g)
+//     .map((text) => text.trim())
+//     .filter(Boolean);
+// }
+
+// export function processSubjectTerms(
+//   subjectTerms: string,
+// ): { raw: string; normalized: string }[] {
+//   if (subjectTerms.length === 0)
+//     throw new Error(`Can't process empty subject terms`);
+
+//   // Explode on semicolons and commas
+//   const explodeTerms = explodeSubjectTerms(subjectTerms);
+
+//   // Return both raw and normalized term
+//   return explodeTerms.map((term) => ({
+//     raw: term,
+//     normalized: normalizeTextCharsSymbols(term),
+//   }));
+// }
+
 function normalizeTextCharsSymbols(text: string): string {
   const replacements: Record<string, string> = {
     '&': 'and',

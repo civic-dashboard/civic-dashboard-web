@@ -120,12 +120,20 @@ export const insertAgendaItems = async (
 export const insertAgendaItemSubjectTerms = async (
   db: Kysely<DB>,
   items: AgendaItemSubjectTerm[],
-) => {
-  await db.transaction().execute(async (trx) => {
-    await trx
+): Promise<AgendaItemSubjectTerm[]> => {
+  const uniqueRows = Array.from(
+    items
+      .reduce((map, obj) => {
+        const key = `${obj.agendaItemId}::${obj.subjectTermSlug}`;
+        return map.set(key, obj);
+      }, new Map())
+      .values(),
+  );
+  return db.transaction().execute(async (trx) => {
+    const insertedRows = await trx
       .insertInto('AgendaItemSubjectTerms')
       .values(
-        items.map(
+        uniqueRows.map(
           ({
             agendaItemId,
             subjectTermRaw,
@@ -139,11 +147,15 @@ export const insertAgendaItemSubjectTerms = async (
           }),
         ),
       )
-      .onConflict(
-        (oc) => oc.columns(['agendaItemId', 'subjectTermSlug']).doNothing(), //TODO: instead of doing nothing update the values
+      .onConflict((oc) =>
+        oc.columns(['agendaItemId', 'subjectTermSlug']).doUpdateSet((eb) => ({
+          subjectTermRaw: eb.ref('excluded.subjectTermRaw'),
+          subjectTermNormalized: eb.ref('excluded.subjectTermNormalized'),
+        })),
       )
+      .returningAll()
       .execute();
-    console.log(`Inserted/updated ${items.length} agenda item subject terms`);
+    return insertedRows;
   });
 };
 
@@ -161,19 +173,15 @@ export function normalizeSubjectTerms(
 }
 
 export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
-  // This function processes all the subject terms from the agenda items
-  // and inserts them into the database table AgendaItemSubjectTerms.
-  // Delete all rows in AgendaItemSubjectTerms
   const deleteResult = await db
     .deleteFrom('AgendaItemSubjectTerms')
     .executeTakeFirst();
-  const deletedRows = deleteResult.numDeletedRows ?? 0;
-  // So far number of deleted row is consistent with number of rows in table
+  const deletedRows = deleteResult.numDeletedRows || 0;
   console.log(`Deleted ${deletedRows} rows from AgendaItemSubjectTerms.`);
 
   // Fetch agenda items and process by batchSize
   let offset = 0;
-  // Set medium batch size btwn 1_000 and 5_000
+  // Setting medium batch size
   const batchSize = 2_500;
   let hasMore = true;
   while (hasMore) {
@@ -188,10 +196,12 @@ export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
     // Normalize subject terms
     const normalizedSubjectTerms = normalizeSubjectTerms(agendaItemRecords);
     if (normalizedSubjectTerms.length > 0) {
-      await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
-      // TODO: determine exactly how many rows of data were inserted, normalizedSubjectTerms.length does not reflect how many rows were inserted (could be less)
+      const rowsInserted = await insertAgendaItemSubjectTerms(
+        db,
+        normalizedSubjectTerms,
+      );
       console.log(
-        `Processed and inserted ${normalizedSubjectTerms.length} subject terms for agenda items.`,
+        `Processed and inserted ${rowsInserted.length} subject terms for agenda items.`,
       );
     } else {
       console.log('No subject terms to process for agenda items.');
