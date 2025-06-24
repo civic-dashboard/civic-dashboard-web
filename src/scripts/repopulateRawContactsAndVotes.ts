@@ -55,6 +55,10 @@ class RepopulateRawContactsAndVotes {
       REFRESH MATERIALIZED VIEW "Motions";
 
       REFRESH MATERIALIZED VIEW "Votes";
+
+      REFRESH MATERIALIZED VIEW "Mayors";
+
+      REFRESH MATERIALIZED VIEW "CouncilMembers";
     `.execute(this.trx);
   }
 
