@@ -1,15 +1,13 @@
 'use client';
 
 import { DecisionBody } from '@/api/decisionBody';
-// import { cn } from '@/components/ui/utils';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { CopyIcon, InfoIcon, MessageSquarePlus } from 'lucide-react';
+import { CopyIcon, MailIcon, MessageSquarePlus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { TextArea } from '@/components/ui/textarea';
 import { ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Tooltip } from '@/components/ui/tooltip';
 
 interface Props {
   agendaItem: AgendaItem;
@@ -18,14 +16,6 @@ interface Props {
 
 function Fieldset({ children }: { children: ReactNode }) {
   return <fieldset className="block mb-4">{children}</fieldset>;
-}
-
-function Label({ id, children }: { id: string; children: ReactNode }) {
-  return (
-    <label className="block text-base mb-2" htmlFor={id}>
-      {children}
-    </label>
-  );
 }
 
 function ReadonlyTextField({
@@ -39,11 +29,11 @@ function ReadonlyTextField({
 }) {
   return (
     <fieldset className="flex mb-2">
-      <label className="block w-1/2 text-base" htmlFor={id}>
+      <label className="block w-1/2 text-sm" htmlFor={id}>
         {label}
       </label>
       <Input
-        className="border-none h-auto p-0 text-base font-semibold"
+        className="border-none h-auto p-0 text-sm font-semibold"
         id={id}
         value={value}
         type="text"
@@ -82,7 +72,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
         <MessageSquarePlus />
         Submit a comment (NEW!)
       </DialogTrigger>
-      <DialogContent className="flex flex-col w-full md:max-w-6xl  h-[calc(100vh-4rem)]">
+      <DialogContent className="flex flex-col w-full md:max-w-6xl h-[calc(100vh-4rem)] overflow-y-scroll">
         <h1 className="text-2xl leading-snug">
           Submit a comment for
           <br />
@@ -90,130 +80,138 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
             {agendaItem.agendaItemTitle}
           </span>
         </h1>
-        <div className="flex flex-col grow md:flex-row gap-6">
-          <div className="w-full md:w-1/2">
-            <div className="mb-8">
-              <ReadonlyTextField
-                id="agendaRef"
-                label="Agenda reference #:"
-                value={agendaItem.reference}
-              />
-              <ReadonlyTextField
-                id="meetingDate"
-                label="Meeting date:"
-                value={formattedDate}
-              />
-              <ReadonlyTextField
-                id="decisionBody"
-                label="Decision body:"
-                value={decisionBody.decisionBodyName}
-              />
+        <div className="mb-4">
+          <ReadonlyTextField
+            id="agendaRef"
+            label="Agenda reference #:"
+            value={agendaItem.reference}
+          />
+          <ReadonlyTextField
+            id="meetingDate"
+            label="Meeting date:"
+            value={formattedDate}
+          />
+          <ReadonlyTextField
+            id="decisionBody"
+            label="Decision body:"
+            value={decisionBody.decisionBodyName}
+          />
+        </div>
+        <div className="flex flex-col grow w-full">
+          {/* email subject row */}
+          <div className="flex flex-col md:flex-row mb-6">
+            <div className="flex flex-col grow w-full md:w-2/3">
+              <h2 className="grow text-sm font-semibold mb-2">Email subject</h2>
+              <div className="text-base">{subject}</div>
+            </div>
+            <div className="w-full mt-2 md:w-1/3">
+              <Button size="sm" onClick={() => alert('not implemented yet')}>
+                <CopyIcon />
+                Copy subject line
+              </Button>
+            </div>
+          </div>
+          {/* email body opening row */}
+          <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col grow w-full md:w-2/3">
+              <h2 className="grow text-sm font-semibold mb-2">Email body</h2>
+              {bodyStartParagraphs.map((s, i) => (
+                <p key={i} className="mb-3">
+                  {s}
+                </p>
+              ))}
             </div>
 
-            <Tooltip
-              // @ts-expect-error TODO: thinking about replacing this with an accordion.
-              // this is too much text for a tooltip.
-              tooltipContent={
-                <div className="text-base">
-                  <p>
-                    Describe who you are, what you want, and why you want it.
-                  </p>
-                  <ul>
-                    <li>
-                      Who you are - your name, where you live (if it’s
-                      relevant), and any relevant communities you are part of
-                    </li>
-                    <li>
-                      Your relationship to the item - why do you care about it?
-                      How does it affect you? Why do you think it’s important?
-                    </li>
-                    <li>
-                      What you want - what would you like this committee to do?
-                      Do you want them to vote yes or no on this item? Do you
-                      want them to amend/change it in some way?
-                    </li>
-                  </ul>
-                  <p>
-                    Example:
-                    <br />
-                    My name is Lisa Michaels, I’m a 20 year resident of the High
-                    Park neighbourhood, and I’m a lifelong birder and animal
-                    lover.
-                    <br />
-                    This item is meant to protect wildlife, and yet it will
-                    greatly increase the level of noise in High Park, which
-                    scares and disorients birds, damages the ecosystem, and
-                    makes the park less enjoyable for everyone! Parks are about
-                    bringing people and nature together, and this would do the
-                    opposite.
-                    <br />I ask that this committee either vote No on this item,
-                    or find a way to amend it that does not increase the level
-                    of noise in the park. My family, my birding group and I will
-                    be following this committee’s actions closely!
-                  </p>
-                </div>
-              }
-            >
-              <InfoIcon />
-            </Tooltip>
+            <div className="w-full md:w-1/3"></div>
           </div>
-          <div className="flex flex-col grow w-full md:w-1/2">
-            <div className="flex">
-              <span className="grow self-center text-sm font-semibold mb-2">
-                Email subject
-              </span>
-              <Button
-                size="sm"
-                title="Copy email subject line"
-                onClick={() => alert('not implemented yet')}
-              >
-                <CopyIcon />
-                <span className="sr-only">Copy email subject line</span>
-              </Button>
+          {/* comments + rest row */}
+          <div className="flex flex-col md:flex-row mb-6 gap-4">
+            <div className="flex flex-col grow w-full md:w-2/3">
+              <Fieldset>
+                <label className="sr-only" htmlFor="comment">
+                  Your comments
+                </label>
+                <TextArea
+                  id="comment"
+                  placeholder="Your comments"
+                  aria-describedby="comment-detailed-description"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+              </Fieldset>
+              <p className="mb-3">{closing}</p>
+              <Fieldset>
+                <label className="sr-only" htmlFor="commenterName">
+                  Your name
+                </label>
+                <Input
+                  id="commenterName"
+                  type="text"
+                  placeholder="Your name"
+                  value={commenterName}
+                  onChange={(e) => setCommenterName(e.target.value)}
+                />
+              </Fieldset>
+              <div className="flex gap-2">
+                <Button size="sm" onClick={() => alert('not implemented yet')}>
+                  <CopyIcon />
+                  Copy email body
+                </Button>
+
+                <Button
+                  size="sm"
+                  onClick={() =>
+                    alert('not implemented yet, but will be a mailto link')
+                  }
+                >
+                  <MailIcon />
+                  Send email (opens your mail client)
+                </Button>
+              </div>
             </div>
-            <div className="text-base mb-6">{subject}</div>
-            <div className="flex">
-              <span className="grow self-center text-sm font-semibold mb-2">
-                Email body
-              </span>
-              <Button
-                size="sm"
-                title="Copy email body"
-                onClick={() => alert('not implemented yet')}
+            <div className="w-full md:w-1/3">
+              <div
+                className="text-base text-sm space-y-2"
+                id="comment-detailed-description"
               >
-                <CopyIcon />
-                <span className="sr-only">Copy email body</span>
-              </Button>
+                <p>Describe:</p>
+                <ul className="list-disc">
+                  <li className="ml-4">
+                    <b>Who you are:</b> Your name, where you live (if relevant),
+                    and any relevant communities you are part of
+                  </li>
+                  <li className="ml-4">
+                    <b>Your relationship to the item:</b> Why do you care about
+                    it? How does it affect you? Why do you think it&rsquo;s
+                    important?
+                  </li>
+                  <li className="ml-4">
+                    <b>What you want:</b> What would you like this committee to
+                    do? Do you want them to vote yes or no on this item? Do you
+                    want them to amend/change it in some way?
+                  </li>
+                </ul>
+                <h3 className="font-semibold">Example:</h3>
+                <p>
+                  My name is Lisa Michaels, I&rsquo;m a 20 year resident of the
+                  High Park neighbourhood, and I&rsquo;m a lifelong birder and
+                  animal lover.
+                </p>
+                <p>
+                  This item is meant to protect wildlife, and yet it will
+                  greatly increase the level of noise in High Park, which scares
+                  and disorients birds, damages the ecosystem, and makes the
+                  park less enjoyable for everyone! Parks are about bringing
+                  people and nature together, and this would do the opposite.
+                </p>
+                <p>
+                  I ask that this committee either vote No on this item, or find
+                  a way to amend it that does not increase the level of noise in
+                  the park. My family, my birding group and I will be following
+                  this committee&rsquo;s actions closely!
+                </p>
+              </div>
             </div>
-            {bodyStartParagraphs.map((s, i) => (
-              <p key={i} className="mb-3">
-                {s}
-              </p>
-            ))}
-            <Fieldset>
-              <label className="sr-only" htmlFor="comment">
-                Your comments
-              </label>
-              <TextArea
-                id="comment"
-                placeholder="Your comments"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-            </Fieldset>
-            <p className="mb-3">{closing}</p>
-            <Fieldset>
-              <label className="sr-only" htmlFor="commenterName">
-                Your name
-              </label>
-              <Input
-                id="commenterName"
-                type="text"
-                placeholder="Your name"
-                value={commenterName}
-                onChange={(e) => setCommenterName(e.target.value)}
-              />
-            </Fieldset>
           </div>
         </div>
       </DialogContent>
