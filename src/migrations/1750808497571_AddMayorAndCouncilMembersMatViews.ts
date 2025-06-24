@@ -42,9 +42,9 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 
 export async function down(db: Kysely<unknown>): Promise<void> {
   await sql`
-     DROP MATERIALIZED VIEW IF EXISTS "Mayors";
-   `.execute(db);
-  await sql`
     DROP MATERIALIZED VIEW IF EXISTS "CouncilMembers";
   `.execute(db);
+  await sql`
+     DROP MATERIALIZED VIEW IF EXISTS "Mayors";
+   `.execute(db);
 }
