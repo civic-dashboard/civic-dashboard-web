@@ -155,7 +155,7 @@ export const insertAgendaItemSubjectTerms = async (
       )
       .returningAll()
       .execute();
-    return insertedRows;
+    return insertedRows.length;
   });
 };
 
@@ -163,6 +163,12 @@ export function normalizeSubjectTerms(
   agendaItems: TMMISAgendaItem[] | AgendaItemForSubjectTerm[],
 ): AgendaItemSubjectTerm[] {
   return agendaItems.flatMap((item) => {
+    if (!item.subjectTerms) {
+      console.log(
+        `Skipping agendaItemId ${item.agendaItemId} — empty or missing subjectTerms`,
+      );
+      return [];
+    }
     return processSubjectTerms(item.subjectTerms).map((term) => ({
       agendaItemId: item.agendaItemId,
       subjectTermRaw: term.raw,
@@ -179,7 +185,7 @@ export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
   const deletedRows = deleteResult.numDeletedRows || 0;
   console.log(`Deleted ${deletedRows} rows from AgendaItemSubjectTerms.`);
 
-  // Fetch agenda items and process by batchSize
+  // Fetch agenda items and process by batchSize sequentially
   let offset = 0;
   // Setting medium batch size
   const batchSize = 2_500;
@@ -193,21 +199,24 @@ export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
       .orderBy('agendaItemId')
       .execute();
 
+    hasMore = agendaItemRecords.length > 0;
+    if (!hasMore) break;
+
     // Normalize subject terms
     const normalizedSubjectTerms = normalizeSubjectTerms(agendaItemRecords);
+
     if (normalizedSubjectTerms.length > 0) {
       const rowsInserted = await insertAgendaItemSubjectTerms(
         db,
         normalizedSubjectTerms,
       );
       console.log(
-        `Processed and inserted ${rowsInserted.length} subject terms for agenda items.`,
+        `Processed and inserted ${rowsInserted} subject terms for agenda items.`,
       );
     } else {
       console.log('No subject terms to process for agenda items.');
     }
     offset += batchSize;
-    hasMore = agendaItemRecords.length > 0;
   }
 };
 
