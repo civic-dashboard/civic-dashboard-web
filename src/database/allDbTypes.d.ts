@@ -68,6 +68,7 @@ export type Mayor = {
 export type CouncilMember = {
   contactSlug: string;
   term: string;
+  role: 'Mayor' | 'Councillor';
   wardSlug: string | null;
   wardName: string | null;
   wardId: number | null;

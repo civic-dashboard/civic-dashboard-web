@@ -22,6 +22,7 @@ export async function up(db: Kysely<unknown>): Promise<void> {
   SELECT
     "contactSlug",
     "term",
+    'Councillor' AS "role",
     "wardSlug",
     "wardName",
     "wardId"
@@ -32,6 +33,7 @@ export async function up(db: Kysely<unknown>): Promise<void> {
   SELECT
     "contactSlug",
     "term",
+    'Mayor' AS "role",
     NULL AS "wardSlug",
     NULL AS "wardName",
     NULL AS "wardId"
