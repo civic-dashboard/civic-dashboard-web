@@ -120,7 +120,7 @@ export const insertAgendaItems = async (
 export const insertAgendaItemSubjectTerms = async (
   db: Kysely<DB>,
   items: AgendaItemSubjectTerm[],
-): Promise<AgendaItemSubjectTerm[]> => {
+): Promise<number> => {
   const uniqueRows = Array.from(
     items
       .reduce((map, obj) => {
