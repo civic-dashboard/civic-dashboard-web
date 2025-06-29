@@ -8,7 +8,14 @@ const nextMonth = new Date();
 nextMonth.setMonth(nextMonth.getMonth() + 1);
 
 const references = await populateAgendaItems(createDB(), lastMonth, nextMonth);
-await ImportAiSummaries.run(createDB(), references);
+
+if (process.env.OPENAI_API_KEY) {
+  await ImportAiSummaries.run(createDB(), references);
+} else {
+  console.log(
+    'Skipping AI summary generation: The environment variable OPENAI_API_KEY is not set.',
+  );
+}
 
 // for some reason the script doesn't end properly when run for a wide date range
 // so manually exit here

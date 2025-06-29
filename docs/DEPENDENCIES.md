@@ -36,6 +36,7 @@ This file comprehensively lists the dependencies of the project, and why they ar
 
 - All `kysely` and `postgres` related packages are used for the database.
 - `hash-sum`, `csv-parse`, and `slugify` are used for various backend data-munging purposes.
+- We use `openai` to generate AI summaries which are added to the db. This requires an API key set using the env `OPENAI_API_KEY`
 
 ## Search
 
