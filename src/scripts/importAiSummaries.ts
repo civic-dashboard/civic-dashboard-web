@@ -1,7 +1,7 @@
 import { Kysely, Transaction } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { createDB } from '@/database/kyselyDb';
-import { generateSummaryForReference } from '@/database/pipelines/addAISummary';
+import { generateSummaryForReference } from '@/database/pipelines/generateAISummary';
 
 export class ImportAiSummaries {
   public static async run(db: Kysely<DB>, references: Set<string>) {
