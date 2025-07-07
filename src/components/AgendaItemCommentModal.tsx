@@ -65,6 +65,24 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
   ];
   const closing = `Sincerely,`;
 
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('Copied the text: ' + text);
+    } catch (err) {
+      alert('Could not copy this text automatically to the clipboard');
+      console.error(err);
+    }
+  };
+  const copySubjectText = async () => {
+    copyToClipboard(subject);
+  };
+  const copyBodyText = async () => {
+    const textArray = [...bodyStartParagraphs, comment, closing];
+    const text = textArray.join('\n\n');
+    copyToClipboard(text);
+  };
+
   return (
     <Dialog>
       {/* TODO: This duplicates styling for DropdownMenuItem... */}
@@ -105,7 +123,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
               <div className="text-base">{subject}</div>
             </div>
             <div className="w-full mt-2 md:w-1/3">
-              <Button size="sm" onClick={() => alert('not implemented yet')}>
+              <Button size="sm" onClick={() => copySubjectText()}>
                 <CopyIcon />
                 Copy subject line
               </Button>
@@ -153,7 +171,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
                 />
               </Fieldset>
               <div className="flex gap-2">
-                <Button size="sm" onClick={() => alert('not implemented yet')}>
+                <Button size="sm" onClick={() => copyBodyText()}>
                   <CopyIcon />
                   Copy email body
                 </Button>
