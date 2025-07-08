@@ -65,6 +65,14 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
   ];
   const closing = `Sincerely,`;
 
+  const getFullBodyText = () => {
+    const textArray = [...bodyStartParagraphs, comment, closing];
+    return textArray.join('\n\n');
+  };
+  const makeMailtoLink = () => {
+    const body = getFullBodyText();
+    return `mailto:${decisionBody.email}?subject=${subject}&body=${body.replaceAll('\n', '%0A')}`;
+  };
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -74,14 +82,8 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
       console.error(err);
     }
   };
-  const copySubjectText = async () => {
-    copyToClipboard(subject);
-  };
-  const copyBodyText = async () => {
-    const textArray = [...bodyStartParagraphs, comment, closing];
-    const text = textArray.join('\n\n');
-    copyToClipboard(text);
-  };
+  const copySubjectText = async () => copyToClipboard(subject);
+  const copyBodyText = async () => copyToClipboard(getFullBodyText());
 
   return (
     <Dialog>
@@ -176,14 +178,11 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
                   Copy email body
                 </Button>
 
-                <Button
-                  size="sm"
-                  onClick={() =>
-                    alert('not implemented yet, but will be a mailto link')
-                  }
-                >
-                  <MailIcon />
-                  Send email (opens your mail client)
+                <Button asChild size="sm">
+                  <a href={makeMailtoLink()}>
+                    <MailIcon />
+                    Send email (opens your mail client)
+                  </a>
                 </Button>
               </div>
             </div>
