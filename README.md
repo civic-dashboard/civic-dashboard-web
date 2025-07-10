@@ -71,4 +71,4 @@ npm run tsxe src/scripts/repopulateRawContactsAndVotes.ts
 npm run dev
 ```
 
-Try editing `src/app/page.tsx` to see your changes live!
+Try editing `src/app/page.tsx` to see your changes live! They should be visible on http://localhost:3000
