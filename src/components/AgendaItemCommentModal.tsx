@@ -33,7 +33,7 @@ function ReadonlyTextField({
   value: string;
 }) {
   return (
-    <fieldset className="flex mb-2">
+    <fieldset className="flex flex-col md:flex-row mb-2">
       <label className="block w-1/2 text-sm" htmlFor={id}>
         {label}
       </label>
@@ -196,7 +196,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
                 All done? Use these buttons to copy the text into an email, and
                 send that email to: <b>{decisionBody.email}</b>
               </p>
-              <div className="flex gap-2 mb-4">
+              <div className="flex flex-wrap gap-2 mb-4">
                 <Button
                   size="sm"
                   onClick={() => copyToClipboard(decisionBody.email!)}
