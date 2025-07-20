@@ -3,7 +3,12 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { CopyIcon, InfoIcon, MailIcon, MessageSquarePlus } from 'lucide-react';
+import {
+  CopyIcon,
+  ExternalLink,
+  InfoIcon,
+  MessageSquarePlus,
+} from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { TextArea } from '@/components/ui/textarea';
 import { ReactNode, useState } from 'react';
@@ -143,12 +148,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
               <h2 className="grow text-sm font-semibold mb-2">Email subject</h2>
               <div className="text-base">{subject}</div>
             </div>
-            <div className="w-full mt-2 md:w-1/3">
-              <Button size="sm" onClick={() => copySubjectText()}>
-                <CopyIcon />
-                Copy subject line
-              </Button>
-            </div>
+            <div className="w-full mt-2 md:w-1/3"></div>
           </div>
           {/* email body opening row */}
           <div className="flex flex-col md:flex-row">
@@ -191,23 +191,40 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
                   onChange={(e) => setCommenterName(e.target.value)}
                 />
               </Fieldset>
-              <div className="flex gap-2 mb-3">
+
+              <p className="text-base text-sm mt-4 mb-2">
+                All done? Use these buttons to copy the text into an email, and
+                send that email to: <b>{decisionBody.email}</b>
+              </p>
+              <div className="flex gap-2 mb-4">
+                <Button
+                  size="sm"
+                  onClick={() => copyToClipboard(decisionBody.email!)}
+                >
+                  <CopyIcon />
+                  Copy email: {decisionBody.email}
+                </Button>
+                <Button size="sm" onClick={() => copySubjectText()}>
+                  <CopyIcon />
+                  Copy subject line
+                </Button>
                 <Button size="sm" onClick={() => copyBodyText()}>
                   <CopyIcon />
                   Copy email body
                 </Button>
-
+              </div>
+              <p className="text-base text-sm mt-2 mb-2">
+                Or, use this button, which will start a new email in your email
+                client with all the text prefilled for you:
+              </p>
+              <div className="flex gap-2 mb-4">
                 <Button asChild size="sm">
                   <a href={makeMailtoLink()}>
-                    <MailIcon />
-                    Send email (opens your mail client)
+                    <ExternalLink />
+                    Create email (opens your mail client)
                   </a>
                 </Button>
               </div>
-              <p className="text-base text-sm">
-                Copy this text into your email client, and send it to:{' '}
-                {decisionBody.email}
-              </p>
             </div>
             <div className="w-full md:w-1/3">
               <div
