@@ -3,7 +3,7 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { CopyIcon, MailIcon, MessageSquarePlus } from 'lucide-react';
+import { CopyIcon, InfoIcon, MailIcon, MessageSquarePlus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { TextArea } from '@/components/ui/textarea';
 import { ReactNode, useState } from 'react';
@@ -101,6 +101,24 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
             {agendaItem.agendaItemTitle}
           </span>
         </h1>
+        <div className="mb-4 border rounded p-4 bg-blue-900/50">
+          <h2 className="text-lg flex items-center">
+            <InfoIcon className="mr-2" /> How to use this page
+          </h2>
+          <p>
+            Submitting a comment involves sending an email to the relevant
+            decision body! This form helps you put together this email.
+            <ol className="list-decimal mt-2 pl-4">
+              <li className="ml-4">Fill out the form</li>
+              <li className="ml-4">
+                Use the Copy buttons to copy the text into your email client of
+                choice, and send it off! Or, use the create email button, which
+                will automatically open your email client with the text already
+                filled in for you.
+              </li>
+            </ol>
+          </p>
+        </div>
         <div className="mb-4">
           <ReadonlyTextField
             id="agendaRef"
