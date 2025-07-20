@@ -140,6 +140,7 @@ export function FullPageAgendaItemCard({
                 size="lg"
                 variant="outline"
                 className="grow sm:flex-initial"
+                data-umami-event="Submit comment"
               >
                 Submit a comment
               </Button>
@@ -202,7 +203,10 @@ const TakeActionDropdown = ({
             // This duplicates the classes on DropdownMenuItem. Doing it this way because
             // Using that component directly causes the opened modal to immediately unmount
             // when the menu item is clicked
-            <button className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
+            <button
+              className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+              data-umami-event="Submit comment"
+            >
               <MessageSquarePlus /> Submit a comment
             </button>
           }
