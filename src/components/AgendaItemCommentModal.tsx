@@ -72,11 +72,17 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
     `Please add my comments to the agenda for the ${formattedDate} ${decisionBody.decisionBodyId} meeting on item ${agendaItem.reference}, ${agendaItem.agendaItemTitle}`,
     'I understand that my comments and the personal information in this email will form part of the public record and that my name will be listed as a correspondent on agendas and minutes of City Council or its committees. Also, I understand that agendas and minutes are posted online and my name may be indexed by search engines like Google.',
   ];
+  const commentsHeading = 'Comments:';
   const closing = `Sincerely,`;
 
   const getFullBodyText = () => {
     const closingWithName = `${closing}\n${commenterName}`;
-    const textArray = [...bodyStartParagraphs, comment, closingWithName];
+    const textArray = [
+      ...bodyStartParagraphs,
+      commentsHeading,
+      comment,
+      closingWithName,
+    ];
     return textArray.join('\n\n');
   };
   const makeMailtoLink = () => {
@@ -102,7 +108,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
         <MessageSquarePlus />
         Submit a comment (NEW!)
       </DialogTrigger>
-      <DialogContent className="flex flex-col w-full md:max-w-6xl max-h-screen md:h-[calc(100vh-4rem)] overflow-y-scroll">
+      <DialogContent className="flex flex-col w-full md:max-w-4xl max-h-screen md:h-[calc(100vh-4rem)] overflow-y-scroll">
         <h1 className="text-2xl leading-snug">
           Submit a comment for
           <br />
@@ -121,7 +127,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
               <li className="ml-4">Fill out the form</li>
               <li className="ml-4">
                 Use the Copy buttons to copy the text into your email client of
-                choice, and send it off! Or, use the Create Email button, which
+                choice, and send it off! Or use the Create Email button, which
                 will automatically open your email client with the text already
                 filled in for you.
               </li>
@@ -147,75 +153,65 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
         </div>
         <div className="flex flex-col grow w-full">
           {/* email subject row */}
-          <div className="flex flex-col md:flex-row mb-6">
-            <div className="flex flex-col grow w-full md:w-2/3">
-              <h2 className="grow text-sm font-semibold mb-2">Email subject</h2>
-              <div className="text-base">{subject}</div>
-            </div>
-            <div className="w-full mt-2 md:w-1/3"></div>
+          <div className="flex flex-col grow w-full mb-6">
+            <h2 className="grow text-sm font-semibold mb-2">Email subject</h2>
+            <div className="text-base">{subject}</div>
           </div>
           {/* email body opening row */}
-          <div className="flex flex-col md:flex-row">
-            <div className="flex flex-col grow w-full md:w-2/3">
-              <h2 className="grow text-sm font-semibold mb-2">Email body</h2>
-              {bodyStartParagraphs.map((s, i) => (
-                <p key={i} className="mb-3">
-                  {s}
-                </p>
-              ))}
-            </div>
-
-            <div className="w-full md:w-1/3"></div>
+          <div className="flex flex-col grow w-full mb-6">
+            <h2 className="grow text-sm font-semibold mb-2">Email body</h2>
+            {bodyStartParagraphs.map((s, i) => (
+              <p key={i} className="mb-3">
+                {s}
+              </p>
+            ))}
           </div>
           {/* comments row */}
-          <div className="flex flex-col md:flex-row mb-6 gap-4">
-            <div className="flex flex-col grow w-full md:w-2/3">
-              <Fieldset>
-                <div className="relative mb-2">
-                  <label htmlFor="comment">Comments:</label>
-                  <Accordion type="multiple">
-                    <AccordionItem
-                      value="comment-help"
-                      className="relative border-none"
-                    >
-                      <AccordionTrigger className="absolute -top-5 right-0">
-                        Help
-                      </AccordionTrigger>
-                      <AccordionContent className="m-0 p-0">
-                        <div className="mt-2 mb-2 border rounded p-4 bg-blue-900/50">
-                          <CommentHelpContent />
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-                <TextArea
-                  id="comment"
-                  placeholder="Your comments"
-                  aria-describedby="comment-detailed-description"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                />
-              </Fieldset>
-              <p className="mb-3">{closing}</p>
-              <Fieldset>
-                <label className="sr-only" htmlFor="commenterName">
-                  Your name
-                </label>
-                <Input
-                  id="commenterName"
-                  type="text"
-                  placeholder="Your name"
-                  value={commenterName}
-                  onChange={(e) => setCommenterName(e.target.value)}
-                />
-              </Fieldset>
-            </div>
-            <div className="w-full md:w-1/3"></div>
+          <div className="flex flex-col grow w-full mb-6">
+            <Fieldset>
+              <div className="relative mb-2">
+                <label htmlFor="comment">{commentsHeading}</label>
+                <Accordion type="multiple">
+                  <AccordionItem
+                    value="comment-help"
+                    className="relative border-none"
+                  >
+                    <AccordionTrigger className="absolute -top-5 right-0">
+                      Help
+                    </AccordionTrigger>
+                    <AccordionContent className="m-0 p-0">
+                      <div className="mt-2 mb-2 border rounded p-4 bg-blue-900/50">
+                        <CommentHelpContent />
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+              <TextArea
+                id="comment"
+                placeholder="Your comments"
+                aria-describedby="comment-detailed-description"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </Fieldset>
+            <p className="mb-3">{closing}</p>
+            <Fieldset>
+              <label className="sr-only" htmlFor="commenterName">
+                Your name
+              </label>
+              <Input
+                id="commenterName"
+                type="text"
+                placeholder="Your name"
+                value={commenterName}
+                onChange={(e) => setCommenterName(e.target.value)}
+              />
+            </Fieldset>
           </div>
           {/* copy/send buttons */}
           <div className="">
-            <p className="text-base text-sm mt-4 mb-2">
+            <p className="text-base text-sm mb-2">
               All done? Use these buttons to copy the text into an email, and
               send that email to: <b>{decisionBody.email}</b>
             </p>
