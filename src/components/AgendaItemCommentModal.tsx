@@ -3,12 +3,7 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { AgendaItem } from '@/database/queries/agendaItems';
-import {
-  CopyIcon,
-  ExternalLink,
-  InfoIcon,
-  MessageSquarePlus,
-} from 'lucide-react';
+import { CopyIcon, ExternalLink, InfoIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { TextArea } from '@/components/ui/textarea';
 import { ReactNode, useState } from 'react';
@@ -23,6 +18,7 @@ import {
 interface Props {
   agendaItem: AgendaItem;
   decisionBody: DecisionBody;
+  trigger: ReactNode;
 }
 
 function Fieldset({ children }: { children: ReactNode }) {
@@ -54,7 +50,11 @@ function ReadonlyTextField({
   );
 }
 
-export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
+export function AgendaItemCommentModal({
+  agendaItem,
+  decisionBody,
+  trigger,
+}: Props) {
   const [comment, setComment] = useState('');
   const [commenterName, setCommenterName] = useState('');
 
@@ -103,11 +103,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
 
   return (
     <Dialog>
-      {/* TODO: This duplicates styling for DropdownMenuItem... */}
-      <DialogTrigger className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
-        <MessageSquarePlus />
-        Submit a comment (NEW!)
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="flex flex-col w-full md:max-w-4xl max-h-screen md:h-[calc(100vh-4rem)] overflow-y-scroll">
         <h1 className="text-2xl leading-snug">
           Submit a comment for
