@@ -66,7 +66,8 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
   const closing = `Sincerely,`;
 
   const getFullBodyText = () => {
-    const textArray = [...bodyStartParagraphs, comment, closing];
+    const closingWithName = `${closing}\n${commenterName}`;
+    const textArray = [...bodyStartParagraphs, comment, closingWithName];
     return textArray.join('\n\n');
   };
   const makeMailtoLink = () => {
@@ -172,7 +173,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
                   onChange={(e) => setCommenterName(e.target.value)}
                 />
               </Fieldset>
-              <div className="flex gap-2">
+              <div className="flex gap-2 mb-3">
                 <Button size="sm" onClick={() => copyBodyText()}>
                   <CopyIcon />
                   Copy email body
@@ -185,6 +186,10 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
                   </a>
                 </Button>
               </div>
+              <p className="text-base text-sm">
+                Copy this text into your email client, and send it to:{' '}
+                {decisionBody.email}
+              </p>
             </div>
             <div className="w-full md:w-1/3">
               <div
