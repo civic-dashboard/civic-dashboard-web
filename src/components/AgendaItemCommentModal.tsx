@@ -98,7 +98,7 @@ export function AgendaItemCommentModal({ agendaItem, decisionBody }: Props) {
         <MessageSquarePlus />
         Submit a comment (NEW!)
       </DialogTrigger>
-      <DialogContent className="flex flex-col w-full md:max-w-6xl h-[calc(100vh-4rem)] overflow-y-scroll">
+      <DialogContent className="flex flex-col w-full md:max-w-6xl max-h-screen md:h-[calc(100vh-4rem)] overflow-y-scroll">
         <h1 className="text-2xl leading-snug">
           Submit a comment for
           <br />
