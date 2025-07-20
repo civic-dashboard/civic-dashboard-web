@@ -147,23 +147,21 @@ export function AgendaItemCommentModal({
             value={decisionBody.decisionBodyName}
           />
         </div>
-        <div className="flex flex-col grow w-full">
-          {/* email subject row */}
-          <div className="flex flex-col grow w-full mb-6">
-            <h2 className="grow text-sm font-semibold mb-2">Email subject</h2>
+        <div className="">
+          {/* email subject */}
+          <div className="mb-6">
+            <h2 className="text-sm font-semibold mb-2">Email subject</h2>
             <div className="text-base">{subject}</div>
           </div>
-          {/* email body opening row */}
-          <div className="flex flex-col grow w-full">
-            <h2 className="grow text-sm font-semibold mb-2">Email body</h2>
+          {/* email body */}
+          <div className="mb-6">
+            <h2 className="text-sm font-semibold mb-2">Email body</h2>
             {bodyStartParagraphs.map((s, i) => (
               <p key={i} className="mb-3">
                 {s}
               </p>
             ))}
-          </div>
-          {/* comments row */}
-          <div className="flex flex-col grow w-full mb-6">
+            {/* comments */}
             <Fieldset>
               <div className="relative mb-2">
                 <label htmlFor="comment">{commentsHeading}</label>
@@ -191,6 +189,7 @@ export function AgendaItemCommentModal({
                 onChange={(e) => setComment(e.target.value)}
               />
             </Fieldset>
+            {/* closing */}
             <p className="mb-3">{closing}</p>
             <Fieldset>
               <label className="sr-only" htmlFor="commenterName">
