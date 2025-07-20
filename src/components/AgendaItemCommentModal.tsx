@@ -154,7 +154,7 @@ export function AgendaItemCommentModal({
             <div className="text-base">{subject}</div>
           </div>
           {/* email body opening row */}
-          <div className="flex flex-col grow w-full mb-6">
+          <div className="flex flex-col grow w-full">
             <h2 className="grow text-sm font-semibold mb-2">Email body</h2>
             {bodyStartParagraphs.map((s, i) => (
               <p key={i} className="mb-3">
