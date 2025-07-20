@@ -87,7 +87,7 @@ export function AgendaItemCommentModal({
   };
   const makeMailtoLink = () => {
     const body = getFullBodyText();
-    return `mailto:${decisionBody.email}?subject=${subject}&body=${body.replaceAll('\n', '%0A')}`;
+    return `mailto:${decisionBody.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
   const copyToClipboard = async (text: string) => {
     try {

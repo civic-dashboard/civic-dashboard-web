@@ -6259,7 +6259,7 @@ export const decisionBodies: Record<number, DecisionBody> = {
     decisionBodyId: 1927,
     committeeCodeId: 881,
     termId: 7,
-    decisionBodyName: 'Economic and Community Development Committee ',
+    decisionBodyName: 'Economic and Community Development Committee',
     email: 'ecdc@toronto.ca',
     duties:
       "The Economic and Community Development Committee's primary focus in on social cohesion and the economy, with a mandate to monitor and make recommendations on strengthening communities, neighbourhoods and the economy.",

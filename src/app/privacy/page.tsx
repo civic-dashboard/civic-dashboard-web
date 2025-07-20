@@ -14,8 +14,8 @@ export default function Privacy() {
           <p>
             We strive to keep this page up to date with a simple explanation of
             what data about you we store or send to 3rd parties as part of
-            operating Civic Dashboard! This project is nascent, and we&apos;re
-            aware we need to flesh this out more.{' '}
+            operating Civic Dashboard! This project is nascent, and we're aware
+            we need to flesh this out more.{' '}
             <a href="/feedback">Let us know how we can do better! </a>
           </p>
 
@@ -47,8 +47,8 @@ export default function Privacy() {
           <p>
             That means the pages you view and significant actions you take on
             the website (but NOT any content you submit to the website) will be
-            stored alongside an identifier that can&apos;t be linked back to
-            you, and which is changed every month.
+            stored alongside an identifier that can't be linked back to you, and
+            which is changed every month.
           </p>
 
           <p>

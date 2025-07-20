@@ -20,7 +20,7 @@ export default function Home() {
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <div className="text-white space-y-6">
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-4 animate-fade-in">
-              Know what&apos;s happening in{' '}
+              Know what's happening in{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                 Toronto City Council
               </span>
@@ -54,7 +54,7 @@ export default function Home() {
               The Civic Dashboard Project
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              It shouldn&apos;t take 3 hours and a political science degree to
+              It shouldn't take 3 hours and a political science degree to
               understand City Council and how to meaningfully engage with it. We
               make it take a few minutes.
             </p>
@@ -112,7 +112,7 @@ export default function Home() {
               Join us in making democracy more accessible
             </h2>
             <p className="text-white/90 text-lg mb-8">
-              We&apos;re regular, passionate Torontonians building a better city
+              We're regular, passionate Torontonians building a better city
               together
             </p>
             <a
