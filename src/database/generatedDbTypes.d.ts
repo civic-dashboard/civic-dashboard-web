@@ -28,6 +28,11 @@ export type JsonPrimitive = boolean | number | string | null;
 
 export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
+export interface AgendaItemCategories {
+  agendaItemId: number;
+  category: string;
+}
+
 export interface AgendaItemSubjectTerms {
   agendaItemId: number;
   subjectTermNormalized: string;
@@ -245,10 +250,13 @@ export interface Subscriptions {
 
 export interface TagCategories {
   category: string;
-  tag: string;
+  tagNormalized: string;
+  tagRaw: string;
+  tagSlug: string;
 }
 
 export interface DB {
+  AgendaItemCategories: AgendaItemCategories;
   AgendaItemSubjectTerms: AgendaItemSubjectTerms;
   AiSummaries: AiSummaries;
   RawAgendaItemConsiderations: RawAgendaItemConsiderations;

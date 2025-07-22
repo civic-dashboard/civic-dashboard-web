@@ -3,7 +3,7 @@ import { sql, type Kysely } from 'kysely';
 export async function up(db: Kysely<unknown>): Promise<void> {
   await sql`
     CREATE TABLE "AgendaItemSubjectTerms" (
-      "agendaItemId" INTEGER NOT NULL,
+      "agendaItemId" INT NOT NULL,
       "subjectTermRaw" TEXT NOT NULL,
       "subjectTermNormalized" TEXT NOT NULL,
       "subjectTermSlug" TEXT NOT NULL
