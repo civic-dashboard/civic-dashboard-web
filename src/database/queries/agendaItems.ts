@@ -121,14 +121,11 @@ export const insertAgendaItemSubjectTerms = async (
   db: Kysely<DB>,
   items: AgendaItemSubjectTerm[],
 ): Promise<number> => {
-  const uniqueRows = Array.from(
-    items
-      .reduce((map, obj) => {
-        const key = `${obj.agendaItemId}::${obj.subjectTermSlug}`;
-        return map.set(key, obj);
-      }, new Map())
-      .values(),
-  );
+  const uniqueRows = [
+    ...new Map(
+      items.map((row) => [`${row.agendaItemId}::${row.subjectTermSlug}`, row]),
+    ).values(),
+  ];
   return db.transaction().execute(async (trx) => {
     const insertedRows = await trx
       .insertInto('AgendaItemSubjectTerms')
