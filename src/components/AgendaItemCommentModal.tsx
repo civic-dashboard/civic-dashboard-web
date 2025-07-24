@@ -233,7 +233,11 @@ export function AgendaItemCommentModal({
             </p>
             <div className="flex gap-2 mb-4">
               <Button asChild size="sm">
-                <a href={makeMailtoLink()}>
+                <a
+                  href={makeMailtoLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <ExternalLink />
                   Create email (opens your mail client)
                 </a>
