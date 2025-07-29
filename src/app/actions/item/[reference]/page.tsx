@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation'
+import { notFound } from 'next/navigation';
 import { FullPageAgendaItemCard } from '@/components/AgendaItemCard';
 import { decisionBodies } from '@/constants/decisionBodies';
 import { createDB } from '@/database/kyselyDb';
