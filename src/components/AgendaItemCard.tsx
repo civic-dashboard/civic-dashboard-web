@@ -25,6 +25,7 @@ import Link from 'next/link';
 import { logAnalytics } from '@/api/analytics';
 import { AgendaItemCommentModal } from '@/components/AgendaItemCommentModal';
 
+const today = new Date();
 today.setHours(0, 0, 0, 0); // Reset to midnight
 
 const requestToSpeakHref = (item: AgendaItem, decisionBody: DecisionBody) => {
