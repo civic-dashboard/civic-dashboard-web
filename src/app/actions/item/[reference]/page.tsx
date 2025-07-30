@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { FullPageAgendaItemCard } from '@/components/AgendaItemCard';
 import { decisionBodies } from '@/constants/decisionBodies';
 import { createDB } from '@/database/kyselyDb';
@@ -10,9 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const agendaItem = await getAgendaItemByReference(db, reference);
 
   if (!agendaItem) {
-    return {
-      title: 'Civic Dashboard',
-    };
+    return {};
   }
 
   return {
@@ -33,11 +32,7 @@ export default async function AgendaItemPage({ params }: Props) {
   const agendaItem = await getAgendaItemByReference(db, reference);
 
   if (!agendaItem) {
-    return (
-      <main className="p-12 min-h-[500]">
-        <h1>We couldn't find that agenda item</h1>
-      </main>
-    );
+    notFound();
   }
 
   return (
