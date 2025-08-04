@@ -5,7 +5,7 @@ import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { AgendaItem } from '@/database/queries/agendaItems';
 import { CopyIcon, ExternalLink, InfoIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { ReactNode, useState } from 'react';
+import { InputHTMLAttributes, ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ReadonlyTextField } from '@/components/deputation-modals/ReadOnlyTextField';
 import {
@@ -19,10 +19,16 @@ interface Props {
   trigger: ReactNode;
 }
 
-function InlineFieldset({ children }: { children: ReactNode }) {
+function InlineInputField({
+  label,
+  ...inputProps
+}: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <fieldset className="flex flex-col md:flex-row items-center">
-      {children}
+    <fieldset className="flex flex-col md:flex-row items-center mb-4 md:mb-1">
+      <label className="w-full md:w-1/4 mb-1 md:mb-0" htmlFor={inputProps.id}>
+        {label}
+      </label>
+      <Input className="w-full md:w-3/4" {...inputProps} />
     </fieldset>
   );
 }
@@ -150,58 +156,38 @@ To learn more about speaking to committees, visit: toronto.ca/council */}
               </p>
             ))}
             {/* fields */}
-            <InlineFieldset>
-              <label className="" htmlFor="name">
-                {nameLabel}
-              </label>
-              <Input
-                className="w-auto"
-                id="name"
-                type="text"
-                placeholder="Your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </InlineFieldset>
-            <InlineFieldset>
-              <label className="" htmlFor="organization">
-                {organizationLabel}
-              </label>
-              <Input
-                className="w-auto"
-                id="organization"
-                type="text"
-                placeholder="Your organization"
-                value={organization}
-                onChange={(e) => setOrganization(e.target.value)}
-              />
-            </InlineFieldset>
-            <InlineFieldset>
-              <label className="" htmlFor="address">
-                {addressLabel}
-              </label>
-              <Input
-                className="w-auto"
-                id="address"
-                type="text"
-                placeholder="Your address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </InlineFieldset>
-            <InlineFieldset>
-              <label className="" htmlFor="telephone">
-                {telephoneLabel}
-              </label>
-              <Input
-                className="w-auto"
-                id="telephone"
-                type="text"
-                placeholder="Your telephone"
-                value={telephone}
-                onChange={(e) => setTelephone(e.target.value)}
-              />
-            </InlineFieldset>
+            <InlineInputField
+              id="name"
+              label={nameLabel}
+              type="text"
+              placeholder="Your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <InlineInputField
+              id="organization"
+              label={organizationLabel}
+              type="text"
+              placeholder="Your organization"
+              value={organization}
+              onChange={(e) => setOrganization(e.target.value)}
+            />
+            <InlineInputField
+              id="address"
+              label={addressLabel}
+              type="text"
+              placeholder="Your address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <InlineInputField
+              id="telephone"
+              label={telephoneLabel}
+              type="tel"
+              placeholder="Your telephone"
+              value={telephone}
+              onChange={(e) => setTelephone(e.target.value)}
+            />
           </div>
           {/* copy/send buttons */}
           <div className="">
