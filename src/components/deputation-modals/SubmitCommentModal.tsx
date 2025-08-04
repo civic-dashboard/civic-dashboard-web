@@ -92,16 +92,16 @@ export function SubmitCommentModal({
           <p>
             Submitting a comment involves sending an email to the relevant
             decision body! This form helps you put together this email.
-            <ol className="list-decimal mt-2 pl-4">
-              <li className="ml-4">Fill out the form</li>
-              <li className="ml-4">
-                Use the Copy buttons to copy the text into your email client of
-                choice, and send it off! Or use the Create Email button, which
-                will automatically open your email client with the text already
-                filled in for you.
-              </li>
-            </ol>
           </p>
+          <ol className="list-decimal mt-2 pl-4">
+            <li className="ml-4">Fill out the form</li>
+            <li className="ml-4">
+              Use the Copy buttons to copy the text into your email client of
+              choice, and send it off! Or use the Create Email button, which
+              will automatically open your email client with the text already
+              filled in for you.
+            </li>
+          </ol>
         </div>
         <div className="mb-4">
           <ReadonlyTextField

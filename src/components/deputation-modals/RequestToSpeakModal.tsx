@@ -3,7 +3,7 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { CopyIcon, ExternalLink, InfoIcon } from 'lucide-react';
+import { CopyIcon, ExternalLink, HelpCircle, InfoIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { InputHTMLAttributes, ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -98,11 +98,6 @@ export function RequestToSpeakModal({
           <h2 className="text-lg flex items-center">
             <InfoIcon className="mr-2" /> How to use this page
           </h2>
-          <p>
-            When you request to speak, you are requesting to go to the meeting
-            later to share your comments live in person. This form helps you put
-            together the initial request to speak, which is sent via email.
-          </p>
           <ol className="list-decimal mt-2 pl-4">
             <li className="ml-4">Fill out the form</li>
             <li className="ml-4">
@@ -112,16 +107,47 @@ export function RequestToSpeakModal({
               filled in for you.
             </li>
           </ol>
+        </div>
+        <div className="mb-4 border rounded p-4 bg-blue-900/50">
+          <h2 className="text-lg flex items-center">
+            <HelpCircle className="mr-2" /> What does requesting to speak mean?
+          </h2>
           <p>
-            {/* When you request to speak, your name, e-mail, mailing address become part of the record of the meeting.
-  - The day of the meeting, your name will appear on the "Speakers List" which is posted online
-  - If you choose to speak, you will appear in the live broadcast and video archive of the meeting
-  - Your name will appear online in the meeting minutes
-  - For certain items, we will share your information with third-parties like the Local Planning Appeal Tribunal as required by law
-
-We are collecting your information under the authority of the Toronto Municipal Code Chapter 27, Council Procedures or any other applicable procedural By-law. As permitted under Section 27 of the Municipal Freedom of Information and Privacy Act, we are collecting this information to create a public record. Information in public records is not subject to privacy requirements. Have questions? Call or write: 416-392-8016 or clerk@toronto.ca
-
-To learn more about speaking to committees, visit: toronto.ca/council */}
+            When you request to speak, you are requesting to go to the meeting
+            to share your comments live in person.
+          </p>
+          <ul className="list-disc mt-2 pl-4">
+            <li className="ml-4">
+              Your name, e-mail, mailing address becomes part of the record of
+              the meeting.
+            </li>
+            <li className="ml-4">
+              The day of the meeting, your name will appear on the "Speakers
+              List" which is posted online.
+            </li>
+            <li className="ml-4">
+              If you choose to speak, you will appear in the live broadcast and
+              video archive of the meeting.
+            </li>
+            <li className="ml-4">
+              Your name will appear online in the meeting minutes.
+            </li>
+            <li className="ml-4">
+              For certain items, your information will be shared with like the
+              Local Planning Appeal Tribunal as required by law.
+              {/* We are collecting your information under the authority of the Toronto Municipal Code Chapter 27, Council Procedures or any other applicable procedural By-law. As permitted under Section 27 of the Municipal Freedom of Information and Privacy Act, we are collecting this information to create a public record. Information in public records is not subject to privacy requirements. Have questions? Call or write: 416-392-8016 or clerk@toronto.ca */}
+            </li>
+          </ul>
+          <p className="mt-2">
+            To learn more about speaking to committees, visit{' '}
+            <a
+              href="https://toronto.ca/council"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              toronto.ca/council
+            </a>
+            .
           </p>
         </div>
         <div className="mb-4">
