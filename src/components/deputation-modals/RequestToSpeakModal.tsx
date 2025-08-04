@@ -8,6 +8,10 @@ import { Input } from '@/components/ui/input';
 import { ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ReadonlyTextField } from '@/components/deputation-modals/ReadOnlyTextField';
+import {
+  copyToClipboard,
+  makeMailtoLink,
+} from '@/components/deputation-modals/utils';
 
 interface Props {
   agendaItem: AgendaItem;
@@ -64,21 +68,14 @@ export function RequestToSpeakModal({
     const textArray = [...bodyStartParagraphs, fields.join('\n')];
     return textArray.join('\n\n');
   };
-  const makeMailtoLink = () => {
-    const body = getFullBodyText();
-    return `mailto:${decisionBody.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert('Copied the text: ' + text);
-    } catch (err) {
-      alert('Could not copy this text automatically to the clipboard');
-      console.error(err);
-    }
-  };
   const copySubjectText = async () => copyToClipboard(subject);
   const copyBodyText = async () => copyToClipboard(getFullBodyText());
+
+  const mailtoLink = makeMailtoLink({
+    email: decisionBody.email!,
+    subject,
+    body: getFullBodyText(),
+  });
 
   return (
     <Dialog>
@@ -235,11 +232,7 @@ To learn more about speaking to committees, visit: toronto.ca/council */}
             </p>
             <div className="flex gap-2 mb-4">
               <Button asChild size="sm">
-                <a
-                  href={makeMailtoLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={mailtoLink} target="_blank" rel="noopener noreferrer">
                   <ExternalLink />
                   Create email (opens your mail client)
                 </a>
