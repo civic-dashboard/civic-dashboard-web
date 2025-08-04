@@ -44,7 +44,7 @@ export function RequestToSpeakModal({
   const [telephone, setTelephone] = useState('');
 
   const nameLabel = 'Name:';
-  const organizationLabel = 'Organization (if applicable):';
+  const organizationLabel = 'Organization:';
   const addressLabel = 'Mailing Address:';
   const telephoneLabel = 'Telephone:';
 
@@ -192,7 +192,7 @@ export function RequestToSpeakModal({
             />
             <InlineInputField
               id="organization"
-              label={organizationLabel}
+              label="Organization (if applicable):"
               type="text"
               placeholder="Your organization"
               value={organization}
