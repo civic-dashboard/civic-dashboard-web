@@ -22,8 +22,8 @@ import {
 } from '@/components/ui/dropdown';
 import Link from 'next/link';
 import { logAnalytics } from '@/api/analytics';
-import { AgendaItemCommentModal } from '@/components/AgendaItemCommentModal';
-import { AgendaItemRequestToSpeakModal } from '@/components/AgendaItemRequestToSpeakModal';
+import { SubmitCommentModal } from '@/components/deputation-modals/SubmitCommentModal';
+import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 
 type AgendaItemCardProps = React.PropsWithChildren<{
   item: AgendaItem;
@@ -98,7 +98,7 @@ export function FullPageAgendaItemCard({
       externalLink={`https://secure.toronto.ca/council/agenda-item.do?item=${item.reference}`}
       Footer={() => (
         <>
-          <AgendaItemCommentModal
+          <SubmitCommentModal
             agendaItem={item}
             decisionBody={decisionBody}
             trigger={
@@ -112,7 +112,7 @@ export function FullPageAgendaItemCard({
               </Button>
             }
           />
-          <AgendaItemRequestToSpeakModal
+          <RequestToSpeakModal
             agendaItem={item}
             decisionBody={decisionBody}
             trigger={
@@ -169,7 +169,7 @@ const TakeActionDropdown = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="end">
-        <AgendaItemCommentModal
+        <SubmitCommentModal
           agendaItem={agendaItem}
           decisionBody={decisionBody}
           trigger={
@@ -185,7 +185,7 @@ const TakeActionDropdown = ({
           }
         />
         <DropdownMenuSeparator />
-        <AgendaItemRequestToSpeakModal
+        <RequestToSpeakModal
           agendaItem={agendaItem}
           decisionBody={decisionBody}
           trigger={
