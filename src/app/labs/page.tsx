@@ -35,7 +35,7 @@ const LabCard = ({
   const Content = (
     <Card>
       <CardHeader>
-        <h2>{title}</h2>
+        <h2 className="mb-0">{title}</h2>
       </CardHeader>
       <CardContent className="relative h-48">
         <Image src={imageSrc} alt={imageAlt} layout="fill" objectFit="cover" />
