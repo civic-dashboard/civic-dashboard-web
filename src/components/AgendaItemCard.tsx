@@ -25,8 +25,15 @@ import Link from 'next/link';
 import { logAnalytics } from '@/api/analytics';
 import { AgendaItemCommentModal } from '@/components/AgendaItemCommentModal';
 
-const today = new Date();
-today.setHours(0, 0, 0, 0); // Reset to midnight
+function itemDateIsAfterToday(dateNumber: number): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset to midnight
+
+  const date = new Date(dateNumber);
+  date.setHours(0, 0, 0, 0);
+
+  return date >= today;
+}
 
 const requestToSpeakHref = (item: AgendaItem, decisionBody: DecisionBody) => {
   const formattedDate = new Date(item.meetingDate).toLocaleString('default', {
@@ -127,9 +134,7 @@ export function FullPageAgendaItemCard({
   item,
   decisionBody,
 }: FullPageAgendaItemCardProps) {
-  const itemDate = new Date(item.meetingDate);
-  itemDate.setHours(0, 0, 0, 0);
-  const isMeetingUpcomingOrToday = itemDate >= today;
+  const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
   return (
     <AgendaItemCard
       className="max-sm:rounded-none"
@@ -248,7 +253,7 @@ export function SearchResultAgendaItemCard({
   } = useSearch();
   const itemDate = new Date(item.meetingDate);
   itemDate.setHours(0, 0, 0, 0);
-  const isMeetingUpcomingOrToday = itemDate >= today;
+  const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
   return (
     <Link href={`/actions/item/${item.reference}`} target="_blank">
