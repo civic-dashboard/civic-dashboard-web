@@ -24,7 +24,7 @@ const CardHeader = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'flex flex-row p-3 sm:py-3 sm:px-8 items-start content-start justify-between h-max rounded-t-[13px] border-neutral-100 dark:border-neutral-600 border-b',
+      'flex flex-row p-4 md:px-6 items-start content-start justify-between h-max rounded-t-[13px] border-neutral-100 dark:border-neutral-600 border-b',
       className,
     )}
     {...props}
@@ -38,10 +38,7 @@ const CardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      'text-md font-semibold leading-none tracking-tight',
-      className,
-    )}
+    className={cn('text-md font-semibold mb-3', className)}
     {...props}
   />
 ));
@@ -51,7 +48,7 @@ const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('p-6', className)} {...props} />
+  <div ref={ref} className={cn('p-4 md:p-6', className)} {...props} />
 ));
 CardContent.displayName = 'CardContent';
 
@@ -62,7 +59,7 @@ const CardFooter = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'flex items-center justify-stretch py-4 px-3 gap-x-3 sm:justify-end sm:gap-x-2 sm:p-6 border-t border-neutral-100 dark:border-neutral-600 rounded-b-[13px]',
+      'flex items-center p-4 md:px-6 gap-x-2 sm:gap-x-3 justify-stretch sm:justify-end border-t border-neutral-100 dark:border-neutral-600 rounded-b-[13px]',
       className,
     )}
     {...props}
