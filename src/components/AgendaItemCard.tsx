@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  dropdownMenuItemCssClassName,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown';
@@ -174,7 +175,7 @@ const TakeActionDropdown = ({
           decisionBody={decisionBody}
           trigger={
             <button
-              className="relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 focus:bg-accent focus:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+              className={dropdownMenuItemCssClassName}
               data-umami-event="Submit comment"
             >
               <MessageSquarePlus /> Submit a comment
@@ -187,7 +188,7 @@ const TakeActionDropdown = ({
           decisionBody={decisionBody}
           trigger={
             <button
-              className="relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 focus:bg-accent focus:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+              className={dropdownMenuItemCssClassName}
               data-umami-event="Request to speak"
             >
               <Speech /> Request to speak
