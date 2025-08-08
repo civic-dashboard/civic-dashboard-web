@@ -3,7 +3,7 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { CopyIcon, ExternalLink, HelpCircle, InfoIcon } from 'lucide-react';
+import { CopyIcon, HelpCircle, InfoIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { InputHTMLAttributes, ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import {
   copyToClipboard,
   makeMailtoLink,
 } from '@/components/deputation-modals/utils';
+import { ExternalLink } from '@/components/ExternalLink';
 
 interface Props {
   agendaItem: AgendaItem;
@@ -140,13 +141,12 @@ export function RequestToSpeakModal({
           </ul>
           <p className="mt-2">
             To learn more about speaking to committees, visit{' '}
-            <a
+            <ExternalLink
               href="https://toronto.ca/council"
-              target="_blank"
-              rel="noopener noreferrer"
+              className="classic-link"
             >
               toronto.ca/council
-            </a>
+            </ExternalLink>
             .
           </p>
         </div>
