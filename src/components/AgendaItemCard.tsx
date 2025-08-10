@@ -251,8 +251,6 @@ export function SearchResultAgendaItemCard({
   const {
     searchOptions: { textQuery },
   } = useSearch();
-  const itemDate = new Date(item.meetingDate);
-  itemDate.setHours(0, 0, 0, 0);
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
   return (
