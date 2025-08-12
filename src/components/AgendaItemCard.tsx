@@ -26,6 +26,16 @@ import { logAnalytics } from '@/api/analytics';
 import { SubmitCommentModal } from '@/components/deputation-modals/SubmitCommentModal';
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 
+function itemDateIsAfterToday(dateNumber: number): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset to midnight
+
+  const date = new Date(dateNumber);
+  date.setHours(0, 0, 0, 0);
+
+  return date >= today;
+}
+
 type AgendaItemCardProps = React.PropsWithChildren<{
   item: AgendaItem;
   decisionBody: DecisionBody;
@@ -91,6 +101,7 @@ export function FullPageAgendaItemCard({
   item,
   decisionBody,
 }: FullPageAgendaItemCardProps) {
+  const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
   return (
     <AgendaItemCard
       className="max-sm:rounded-none"
@@ -99,34 +110,38 @@ export function FullPageAgendaItemCard({
       externalLink={`https://secure.toronto.ca/council/agenda-item.do?item=${item.reference}`}
       Footer={() => (
         <>
-          <SubmitCommentModal
-            agendaItem={item}
-            decisionBody={decisionBody}
-            trigger={
-              <Button
-                size="lg"
-                variant="outline"
-                className="grow sm:flex-initial"
-                data-umami-event="Submit comment"
-              >
-                Submit a comment
-              </Button>
-            }
-          />
-          <RequestToSpeakModal
-            agendaItem={item}
-            decisionBody={decisionBody}
-            trigger={
-              <Button
-                size="lg"
-                variant="outline"
-                className="grow sm:flex-initial"
-                data-umami-event="Request to speak"
-              >
-                Request to speak
-              </Button>
-            }
-          />
+          {isMeetingUpcomingOrToday && (
+            <SubmitCommentModal
+              agendaItem={item}
+              decisionBody={decisionBody}
+              trigger={
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="grow sm:flex-initial"
+                  data-umami-event="Submit comment"
+                >
+                  Submit a comment
+                </Button>
+              }
+            />
+          )}
+          {isMeetingUpcomingOrToday && (
+            <RequestToSpeakModal
+              agendaItem={item}
+              decisionBody={decisionBody}
+              trigger={
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="grow sm:flex-initial"
+                  data-umami-event="Request to speak"
+                >
+                  Request to speak
+                </Button>
+              }
+            />
+          )}
         </>
       )}
     >
@@ -211,6 +226,7 @@ export function SearchResultAgendaItemCard({
   const {
     searchOptions: { textQuery },
   } = useSearch();
+  const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
   return (
     <Link href={`/actions/item/${item.reference}`} target="_blank">
@@ -227,7 +243,12 @@ export function SearchResultAgendaItemCard({
             >
               Learn more
             </Button>
-            <TakeActionDropdown agendaItem={item} decisionBody={decisionBody} />
+            {isMeetingUpcomingOrToday && (
+              <TakeActionDropdown
+                agendaItem={item}
+                decisionBody={decisionBody}
+              />
+            )}
           </>
         )}
       >
