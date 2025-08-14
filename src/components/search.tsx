@@ -14,10 +14,66 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { logAnalytics } from '@/api/analytics';
+import { SortByOption, sortByOptions, SearchOptions, SortDirectionOption, sortDirectionOptions } from '../logic/search';
+import { sortByFilterOptions } from '@/constants/sortByFilterOptions';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
 };
+
+type SortByOptionsSelectorProps = {
+  sortByOptionsSelection: Record<string, SortByOption>
+}
+
+export function SortByOptionsFilter() {
+  const {
+    searchOptions: { sortList },
+    setSearchOptions,
+  } = useSearch();
+
+  const sortByOptionsList = useMemo(
+      () =>
+        Object.fromEntries(
+          Object.entries(sortByFilterOptions)
+        ),
+      [],
+    )
+
+  const options = useMemo(
+    () =>
+      Object.values(sortByOptionsList).map(
+        ({ sortId, sortLabel }) => ({
+          id: sortId,
+          label: sortLabel,
+        }),
+      ),
+    [sortByOptionsList],
+  );
+
+  const onSelect = useCallback(
+    (selectedId: number) => {
+      setSearchOptions((opts) => ({
+        ...opts,
+        sortIds: opts.sortByFilterOptions.includes(selectedId)
+          ? opts.sortIds.filter((id) => id !== selectedId)
+          : [...opts.sortIds, selectedId],
+      }));
+    },
+    [setSearchOptions],
+  );
+
+  return (
+    <Combobox
+      options={options}
+      multiple
+      value={sortIds}
+      onSelect={onSelect}
+      placeholder="Select Sort Option..."
+    />
+  );
+}
+
+
 export function DecisionBodyFilter({
   decisionBodies,
 }: DecisionBodyFilterProps) {
@@ -70,6 +126,7 @@ export function AdvancedFilters({ decisionBodies }: AdvancedFiltersProps) {
           <div className="flex flex-wrap gap-y-6 gap-x-8">
             <DecisionBodyFilter decisionBodies={decisionBodies} />
             <ShowPastItems />
+            <SortByOptionsFilter decisionBodies={decisionBodies}/>
           </div>
         </AccordionContent>
       </AccordionItem>
