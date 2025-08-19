@@ -17,13 +17,14 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLink,
+  dropdownMenuItemCssClassName,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown';
 import Link from 'next/link';
 import { logAnalytics } from '@/api/analytics';
-import { AgendaItemCommentModal } from '@/components/AgendaItemCommentModal';
+import { SubmitCommentModal } from '@/components/deputation-modals/SubmitCommentModal';
+import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 
 function itemDateIsAfterToday(dateNumber: number): boolean {
   const today = new Date();
@@ -35,50 +36,16 @@ function itemDateIsAfterToday(dateNumber: number): boolean {
   return date >= today;
 }
 
-const requestToSpeakHref = (item: AgendaItem, decisionBody: DecisionBody) => {
-  const formattedDate = new Date(item.meetingDate).toLocaleString('default', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-  const subject = `Request to appear before ${formattedDate} ${decisionBody.decisionBodyName} on item ${item.reference}`;
-  const body = `To the City Clerk:
-
-I would like to appear before the ${formattedDate} ${decisionBody.decisionBodyName} to speak on item ${item.reference}, ${item.agendaItemTitle}
-
-Name:
-Organization (if applicable):
-Mailing Address:
-Telephone:
-
-To learn more about speaking to committees, visit: toronto.ca/council
-
-****
-Notice:
-
-When you request to speak, your name, e-mail, mailing address become part of the record of the meeting.
-  - The day of the meeting, your name will appear on the "Speakers List" which is posted online
-  - If you choose to speak, you will appear in the live broadcast and video archive of the meeting
-  - Your name will appear online in the meeting minutes
-  - For certain items, we will share your information with third-parties like the Local Planning Appeal Tribunal as required by law
-
-We are collecting your information under the authority of the Toronto Municipal Code Chapter 27, Council Procedures or any other applicable procedural By-law. As permitted under Section 27 of the Municipal Freedom of Information and Privacy Act, we are collecting this information to create a public record. Information in public records is not subject to privacy requirements. Have questions? Call or write: 416-392-8016 or clerk@toronto.ca
-  `;
-
-  return `mailto:${decisionBody.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-};
-
 type AgendaItemCardProps = React.PropsWithChildren<{
   item: AgendaItem;
   decisionBody: DecisionBody;
   externalLink?: string;
-  Footer: (props: { requestToSpeakHref: string }) => React.ReactNode;
+  Footer: () => React.ReactNode;
   className?: string;
 }>;
 
 function AgendaItemCard({
   item,
-  decisionBody,
   className,
   Footer,
   externalLink,
@@ -120,7 +87,7 @@ function AgendaItemCard({
         {children}
       </CardContent>
       <CardFooter>
-        <Footer requestToSpeakHref={requestToSpeakHref(item, decisionBody)} />
+        <Footer />
       </CardFooter>
     </Card>
   );
@@ -141,10 +108,10 @@ export function FullPageAgendaItemCard({
       item={item}
       decisionBody={decisionBody}
       externalLink={`https://secure.toronto.ca/council/agenda-item.do?item=${item.reference}`}
-      Footer={({ requestToSpeakHref }) => (
+      Footer={() => (
         <>
           {isMeetingUpcomingOrToday && (
-            <AgendaItemCommentModal
+            <SubmitCommentModal
               agendaItem={item}
               decisionBody={decisionBody}
               trigger={
@@ -159,13 +126,21 @@ export function FullPageAgendaItemCard({
               }
             />
           )}
-
           {isMeetingUpcomingOrToday && (
-            <Button asChild size="lg" className="grow sm:flex-initial">
-              <a href={requestToSpeakHref} data-umami-event="Request to speak">
-                Request to speak
-              </a>
-            </Button>
+            <RequestToSpeakModal
+              agendaItem={item}
+              decisionBody={decisionBody}
+              trigger={
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="grow sm:flex-initial"
+                  data-umami-event="Request to speak"
+                >
+                  Request to speak
+                </Button>
+              }
+            />
           )}
         </>
       )}
@@ -193,12 +168,10 @@ export function FullPageAgendaItemCard({
 }
 
 type TakeActionDropdownProps = {
-  requestToSpeakHref: string;
   agendaItem: AgendaItem;
   decisionBody: DecisionBody;
 };
 const TakeActionDropdown = ({
-  requestToSpeakHref,
   agendaItem,
   decisionBody,
 }: TakeActionDropdownProps) => {
@@ -212,15 +185,12 @@ const TakeActionDropdown = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="end">
-        <AgendaItemCommentModal
+        <SubmitCommentModal
           agendaItem={agendaItem}
           decisionBody={decisionBody}
           trigger={
-            // This duplicates the classes on DropdownMenuItem. Doing it this way because
-            // Using that component directly causes the opened modal to immediately unmount
-            // when the menu item is clicked
             <button
-              className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+              className={dropdownMenuItemCssClassName}
               data-umami-event="Submit comment"
             >
               <MessageSquarePlus /> Submit a comment
@@ -228,13 +198,18 @@ const TakeActionDropdown = ({
           }
         />
         <DropdownMenuSeparator />
-        <DropdownMenuLink
-          href={requestToSpeakHref}
-          data-umami-event="Request to speak"
-        >
-          <Speech />
-          Request to speak
-        </DropdownMenuLink>
+        <RequestToSpeakModal
+          agendaItem={agendaItem}
+          decisionBody={decisionBody}
+          trigger={
+            <button
+              className={dropdownMenuItemCssClassName}
+              data-umami-event="Request to speak"
+            >
+              <Speech /> Request to speak
+            </button>
+          }
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -259,7 +234,7 @@ export function SearchResultAgendaItemCard({
         item={item}
         decisionBody={decisionBody}
         className="transition-shadow sm:hover:shadow-xl dark:hover:bg-neutral-700 group"
-        Footer={(props) => (
+        Footer={() => (
           <>
             <Button
               size="lg"
@@ -270,7 +245,6 @@ export function SearchResultAgendaItemCard({
             </Button>
             {isMeetingUpcomingOrToday && (
               <TakeActionDropdown
-                requestToSpeakHref={props.requestToSpeakHref}
                 agendaItem={item}
                 decisionBody={decisionBody}
               />
