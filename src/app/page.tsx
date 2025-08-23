@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import { tooltips } from '@/constants/tooltips';
+import { ExternalLink } from '@/components/ExternalLink';
 
 export default function Home() {
   return (
@@ -23,7 +24,7 @@ export default function Home() {
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
             <div className="text-white space-y-6">
               <h1 className="text-4xl md:text-6xl font-normal tracking-tight mb-4 animate-fade-in">
-                Take Action on What’s Happening at <br />
+                Take Action on What's Happening at <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-semibold">
                   Toronto City Council
                 </span>
@@ -33,21 +34,21 @@ export default function Home() {
                 decisions.
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
-                <a
+                <Link
                   href="/actions"
                   className="inline-flex items-center justify-center px-6 py-[20px] whitespace-nowrap bg-white border-white text-xl text-gray-900 rounded-xl font-medium hover:bg-gray-100 transition-all transform hover:scale-105"
                 >
                   <span className="leading-none">
                     Take Action on City Issues
                   </span>
-                </a>
+                </Link>
 
-                <a
+                <Link
                   href="/how-council-works"
                   className="inline-flex items-center justify-center px-6 py-[20px] whitespace-nowrap bg-transparent border-2 border-white text-white text-xl rounded-xl font-medium hover:bg-white/10 transition-all transform hover:scale-105"
                 >
                   <span className="leading-none">Learn How Council Works</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -182,10 +183,8 @@ export default function Home() {
                 Check us out on these platforms!
               </h3>
               <div className="flex justify-center gap-6">
-                <a
+                <ExternalLink
                   href="https://www.linkedin.com/company/civic-dashboard/"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="w-[26px] h-[26px] flex items-center justify-center"
                 >
                   <Image
@@ -195,11 +194,9 @@ export default function Home() {
                     height={26}
                     className="w-full h-full object-contain"
                   />
-                </a>
-                <a
+                </ExternalLink>
+                <ExternalLink
                   href="https://bsky.app/profile/civicdashboard.bsky.social"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="w-[26px] h-[26px] flex items-center justify-center"
                 >
                   <Image
@@ -209,11 +206,9 @@ export default function Home() {
                     height={26}
                     className="w-full h-full object-contain"
                   />
-                </a>
-                <a
+                </ExternalLink>
+                <ExternalLink
                   href="https://civictechto.slack.com/archives/C06KU3DHEKV"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="w-[26px] h-[26px] flex items-center justify-center"
                 >
                   <Image
@@ -223,7 +218,7 @@ export default function Home() {
                     height={26}
                     className="w-full h-full object-contain"
                   />
-                </a>
+                </ExternalLink>
               </div>
             </div>
           </div>
