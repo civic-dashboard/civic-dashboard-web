@@ -24,7 +24,7 @@ export default function Home() {
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
             <div className="text-white space-y-6">
               <h1 className="text-4xl md:text-6xl font-normal tracking-tight mb-4 animate-fade-in">
-                Take Action on What's Happening at <br />
+                Take Action on what's happening at <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-semibold">
                   Toronto City Council
                 </span>
@@ -105,7 +105,7 @@ export default function Home() {
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
                   See what decisions are coming up at Council and act on them in
                   one click. Use this page to subscribe to issues you care about
-                  and speak up when ready.
+                  and speak up when they come up.
                 </p>
                 <Link
                   href="/actions"
@@ -136,7 +136,7 @@ export default function Home() {
                   href="/councillors"
                   className="inline-flex items-center justify-center px-6 py-[20px] w-full bg-[#6035C4] text-white text-xl rounded-xl font-medium"
                 >
-                  <span className="leading-none">Find Your Councillor</span>
+                  <span className="leading-none">Find your councillor</span>
                 </Link>
               </div>
             </div>
