@@ -16,7 +16,7 @@
     "db:update-types": "kysely-codegen --out-file ./src/database/generatedDbTypes.d.ts --url $DATABASE_URL && eslint ./src/database/generatedDbTypes.d.ts --fix",
     "db:create-migration": "kysely migrate:make",
     "db:list-migrations": "kysely migrate:list",
-    "db:run-migrations": "kysely migrate:latest",
+    "db:run-migrations": "kysely migrate:latest && kysely seed:run",
     "db:run-seed": "kysely seed:run",
     "db:start": "docker compose up --detach database",
     "db:stop": "docker compose stop database",
