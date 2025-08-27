@@ -14,16 +14,11 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { logAnalytics } from '@/api/analytics';
-import { SortByOption, sortByOptions, SearchOptions, SortDirectionOption, sortDirectionOptions } from '../logic/search';
 import { sortByFilterOptions } from '@/constants/sortByFilterOptions';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
 };
-
-type SortByOptionsSelectorProps = {
-  sortByOptionsSelection: Record<string, SortByOption>
-}
 
 export function SortDropdown() {
   const {
@@ -35,21 +30,32 @@ export function SortDropdown() {
   const options = useMemo(
     () =>
       Object.values(sortByFilterOptions)
-        .filter(opt => opt.sortId !== undefined && opt.sortLabel !== undefined)
+        .filter(
+          (opt) => opt.sortId !== undefined && opt.sortLabel !== undefined,
+        )
         .map((opt) => ({
           id: opt.sortId as number,
-          label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant' | 'Least Relevant',
+          label: opt.sortLabel as
+            | 'Oldest'
+            | 'Newest'
+            | 'Most Relevant'
+            | 'Least Relevant',
         })),
     [],
   );
 
   const onSelect = useCallback(
     (selectedId: number) => {
-      const selectedOption = Object.values(sortByFilterOptions).find(opt => opt.sortId === selectedId);
+      const selectedOption = Object.values(sortByFilterOptions).find(
+        (opt) => opt.sortId === selectedId,
+      );
       setSearchOptions((opts) => ({
         ...opts,
-        sortBy: selectedOption?.sortBy as 'date' | 'relevance' | undefined,
-        sortDirection: selectedOption?.sortDirection as 'ascending' | 'descending' | undefined,
+        sortBy: selectedOption?.sortBy as 'date' | 'relevance',
+        sortDirection: selectedOption?.sortDirection as
+          | 'ascending'
+          | 'descending'
+          | undefined,
       }));
     },
     [setSearchOptions],
@@ -57,24 +63,21 @@ export function SortDropdown() {
 
   // Find the selected option's id based on sortBy value
   const selectedId = useMemo(() => {
-    const selectedOption = 
-    Object.values(sortByFilterOptions)
-    .find(
-      opt => opt.sortBy === sortBy && opt.sortDirection === sortDirection
+    const selectedOption = Object.values(sortByFilterOptions).find(
+      (opt) => opt.sortBy === sortBy && opt.sortDirection === sortDirection,
     );
     return selectedOption?.sortId;
   }, [sortBy, sortDirection]);
-
   return (
     <Combobox
       options={options}
       value={selectedId}
       onSelect={onSelect}
-      placeholder="Sort by..." 
-      multiple={false}  
+      placeholder="Sort by..."
+      multiple={false}
       searchable={false} // <-- Hide search bar
       reorderSelected={false} // <-- Keep original order
-        />
+    />
   );
 }
 
