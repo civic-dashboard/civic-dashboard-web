@@ -30,10 +30,6 @@ export function SearchProvider({ children }: Props) {
     tags: [],
     decisionBodyIds: [],
     minimumDate: new Date(),
-    sortBy: 'relevance',
-    sortDirection: 'descending', 
-    sortId: 3, 
-    sortLabel: 'Most Relevant'
   });
 
   const [searchResults, setSearchResults] =

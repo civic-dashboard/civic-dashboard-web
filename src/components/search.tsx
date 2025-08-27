@@ -25,54 +25,54 @@ type SortByOptionsSelectorProps = {
   sortByOptionsSelection: Record<string, SortByOption>
 }
 
-export function SortByOptionsFilter() {
+export function SortDropdown() {
   const {
-    searchOptions: { sortList },
+    searchOptions: { sortBy, sortDirection },
     setSearchOptions,
   } = useSearch();
 
-  const sortByOptionsList = useMemo(
-      () =>
-        Object.fromEntries(
-          Object.entries(sortByFilterOptions)
-        ),
-      [],
-    )
-
+  // Use sortByFilterOptions instead of sortByOptions
   const options = useMemo(
     () =>
-      Object.values(sortByOptionsList).map(
-        ({ sortId, sortLabel }) => ({
-          id: sortId,
-          label: sortLabel,
-        }),
-      ),
-    [sortByOptionsList],
+      Object.values(sortByFilterOptions)
+        .filter(opt => opt.sortId !== undefined && opt.sortLabel !== undefined)
+        .map((opt) => ({
+          id: opt.sortId as number,
+          label: opt.sortLabel as "Oldest" | "Newest" | "Most Relevant" | "Least Relevant",
+        })),
+    [],
   );
 
   const onSelect = useCallback(
     (selectedId: number) => {
+      const selectedOption = Object.values(sortByFilterOptions).find(opt => opt.sortId === selectedId);
       setSearchOptions((opts) => ({
         ...opts,
-        sortIds: opts.sortByFilterOptions.includes(selectedId)
-          ? opts.sortIds.filter((id) => id !== selectedId)
-          : [...opts.sortIds, selectedId],
+        sortBy: selectedOption?.sortBy as "date" | "relevance" | undefined,
+        sortDirection: selectedOption?.sortDirection as "ascending" | "descending" | undefined,
       }));
     },
     [setSearchOptions],
   );
 
+  // Find the selected option's id based on sortBy value
+  const selectedId = useMemo(() => {
+    const selectedOption = Object.values(sortByFilterOptions).find(opt => opt.sortBy === sortBy && opt.sortDirection === sortDirection);
+    return selectedOption?.sortId;
+  }, [sortBy, sortDirection]);
+
   return (
     <Combobox
       options={options}
-      multiple
-      value={sortIds}
+      value={selectedId}
       onSelect={onSelect}
-      placeholder="Select Sort Option..."
-    />
+      placeholder="Sort by..." 
+      multiple={false}  
+      searchable={false} // <-- Hide search bar
+      reorderSelected={false} // <-- Keep original order
+        />
   );
 }
-
 
 export function DecisionBodyFilter({
   decisionBodies,
@@ -126,7 +126,6 @@ export function AdvancedFilters({ decisionBodies }: AdvancedFiltersProps) {
           <div className="flex flex-wrap gap-y-6 gap-x-8">
             <DecisionBodyFilter decisionBodies={decisionBodies} />
             <ShowPastItems />
-            <SortByOptionsFilter decisionBodies={decisionBodies}/>
           </div>
         </AccordionContent>
       </AccordionItem>

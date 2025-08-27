@@ -59,10 +59,10 @@ export const sortDirectionOptions = ['ascending', 'descending'] as const;
 export type SortDirectionOption = (typeof sortDirectionOptions)[number];
 
 export type SearchSort = {
-  sortId: number;
-  sortLabel: SortLabel;
-  sortBy: SortByOption;
-  sortDirection: SortDirectionOption;
+  sortId?: number;
+  sortLabel?: SortLabel;
+  sortBy?: SortByOption;
+  sortDirection?: SortDirectionOption;
 };
 
 export type SearchOptions = SearchFilters & SearchSort;

@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
+import { cpSync } from 'fs';
 
 type Option<ID extends number | string> = {
   id: ID;
@@ -28,6 +29,8 @@ type Props<ID extends number | string> = {
   value?: ID | ID[];
   placeholder?: string;
   noResults?: string;
+  searchable?: boolean;
+  reorderSelected?: boolean;
 };
 
 // TODO: how to dynamically/responsively size this?
@@ -37,10 +40,12 @@ export const Combobox = <ID extends number | string>({
   multiple,
   value,
   placeholder,
-  noResults,
+  noResults, 
+  searchable = true,
+  reorderSelected = true,
 }: Props<ID>) => {
   const [open, setOpen] = useState(false);
-
+  console.log(searchable)
   if (multiple && !Array.isArray(value)) {
     throw new Error(
       'Must pass list of strings for value if using multiple option on combobox.',
@@ -79,11 +84,11 @@ export const Combobox = <ID extends number | string>({
   );
 
   const orderedOptions = useMemo(
-    () => [
+    () => reorderSelected ? [
       ...options.filter((opt) => isValueSelected(opt.id)),
       ...options.filter((opt) => !isValueSelected(opt.id)),
-    ],
-    [options, isValueSelected],
+    ] : options,
+    [options, isValueSelected, reorderSelected],
   );
 
   return (
@@ -106,7 +111,7 @@ export const Combobox = <ID extends number | string>({
       </PopoverTrigger>
       <PopoverContent className="max-w-[500px] p-0">
         <Command>
-          <CommandInput placeholder={placeholder} />
+          {searchable && <CommandInput placeholder={placeholder} />}
           <CommandList>
             {noResults && <CommandEmpty>{noResults}</CommandEmpty>}
             <CommandGroup>

@@ -22,7 +22,7 @@ export const sortByFilterOptions: Record<number, SearchSort> = {
   4: {
     sortId: 4,
     sortLabel: "Least Relevant",
-    sortBy: "date", 
+    sortBy: "relevance", 
     sortDirection: "ascending"
   },
 };
