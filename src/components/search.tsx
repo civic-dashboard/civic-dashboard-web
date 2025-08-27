@@ -38,7 +38,7 @@ export function SortDropdown() {
         .filter(opt => opt.sortId !== undefined && opt.sortLabel !== undefined)
         .map((opt) => ({
           id: opt.sortId as number,
-          label: opt.sortLabel as "Oldest" | "Newest" | "Most Relevant" | "Least Relevant",
+          label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant' | 'Least Relevant',
         })),
     [],
   );
@@ -48,8 +48,8 @@ export function SortDropdown() {
       const selectedOption = Object.values(sortByFilterOptions).find(opt => opt.sortId === selectedId);
       setSearchOptions((opts) => ({
         ...opts,
-        sortBy: selectedOption?.sortBy as "date" | "relevance" | undefined,
-        sortDirection: selectedOption?.sortDirection as "ascending" | "descending" | undefined,
+        sortBy: selectedOption?.sortBy as 'date' | 'relevance' | undefined,
+        sortDirection: selectedOption?.sortDirection as 'ascending' | 'descending' | undefined,
       }));
     },
     [setSearchOptions],
@@ -57,7 +57,11 @@ export function SortDropdown() {
 
   // Find the selected option's id based on sortBy value
   const selectedId = useMemo(() => {
-    const selectedOption = Object.values(sortByFilterOptions).find(opt => opt.sortBy === sortBy && opt.sortDirection === sortDirection);
+    const selectedOption = 
+    Object.values(sortByFilterOptions)
+    .find(
+      opt => opt.sortBy === sortBy && opt.sortDirection === sortDirection
+    );
     return selectedOption?.sortId;
   }, [sortBy, sortDirection]);
 

@@ -84,10 +84,13 @@ export const Combobox = <ID extends number | string>({
   );
 
   const orderedOptions = useMemo(
-    () => reorderSelected ? [
+    () => 
+      reorderSelected ? 
+    [
       ...options.filter((opt) => isValueSelected(opt.id)),
       ...options.filter((opt) => !isValueSelected(opt.id)),
-    ] : options,
+    ] 
+    : options,
     [options, isValueSelected, reorderSelected],
   );
 
