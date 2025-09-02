@@ -51,12 +51,16 @@ export type TransientSearchFilters = {
 
 export type SearchFilters = SubscribableSearchFilters & TransientSearchFilters;
 
+export const sortLabels = ['Oldest', 'Newest', 'Most Relevant'] as const;
+export type SortLabel = (typeof sortLabels)[number];
 export const sortByOptions = ['date', 'relevance'] as const;
 export type SortByOption = (typeof sortByOptions)[number];
 export const sortDirectionOptions = ['ascending', 'descending'] as const;
 export type SortDirectionOption = (typeof sortDirectionOptions)[number];
 
 export type SearchSort = {
+  sortId?: number;
+  sortLabel?: SortLabel;
   sortBy?: SortByOption;
   sortDirection?: SortDirectionOption;
 };
