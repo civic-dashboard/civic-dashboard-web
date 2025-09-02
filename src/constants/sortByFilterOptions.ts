@@ -19,10 +19,4 @@ export const sortByFilterOptions: Record<number, SearchSort> = {
     sortBy: 'relevance',
     sortDirection: 'descending',
   },
-  4: {
-    sortId: 4,
-    sortLabel: 'Least Relevant',
-    sortBy: 'relevance',
-    sortDirection: 'ascending',
-  },
 };

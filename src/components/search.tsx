@@ -35,11 +35,7 @@ export function SortDropdown() {
         )
         .map((opt) => ({
           id: opt.sortId as number,
-          label: opt.sortLabel as
-            | 'Oldest'
-            | 'Newest'
-            | 'Most Relevant'
-            | 'Least Relevant',
+          label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant',
         })),
     [],
   );
@@ -73,6 +69,7 @@ export function SortDropdown() {
       options={options}
       value={selectedId}
       onSelect={onSelect}
+      defaultValue={options.find((opt) => opt.label === 'Most Relevant')?.id}
       placeholder="Sort by..."
       multiple={false}
       searchable={false} // <-- Hide search bar
