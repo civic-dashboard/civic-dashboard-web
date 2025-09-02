@@ -14,6 +14,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { ReadonlyTextField } from '@/components/deputation-modals/ReadOnlyTextField';
+import {
+  copyToClipboard,
+  makeMailtoLink,
+} from '@/components/deputation-modals/utils';
 
 interface Props {
   agendaItem: AgendaItem;
@@ -25,32 +30,7 @@ function Fieldset({ children }: { children: ReactNode }) {
   return <fieldset className="block mb-4">{children}</fieldset>;
 }
 
-function ReadonlyTextField({
-  id,
-  label,
-  value,
-}: {
-  id: string;
-  label: string;
-  value: string;
-}) {
-  return (
-    <fieldset className="flex flex-col md:flex-row mb-2">
-      <label className="block w-1/2 text-sm" htmlFor={id}>
-        {label}
-      </label>
-      <Input
-        className="border-none h-auto p-0 text-sm font-semibold"
-        id={id}
-        value={value}
-        type="text"
-        readOnly
-      />
-    </fieldset>
-  );
-}
-
-export function AgendaItemCommentModal({
+export function SubmitCommentModal({
   agendaItem,
   decisionBody,
   trigger,
@@ -85,21 +65,14 @@ export function AgendaItemCommentModal({
     ];
     return textArray.join('\n\n');
   };
-  const makeMailtoLink = () => {
-    const body = getFullBodyText();
-    return `mailto:${decisionBody.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert('Copied the text: ' + text);
-    } catch (err) {
-      alert('Could not copy this text automatically to the clipboard');
-      console.error(err);
-    }
-  };
   const copySubjectText = async () => copyToClipboard(subject);
   const copyBodyText = async () => copyToClipboard(getFullBodyText());
+
+  const mailtoLink = makeMailtoLink({
+    email: decisionBody.email!,
+    subject,
+    body: getFullBodyText(),
+  });
 
   return (
     <Dialog>
@@ -119,16 +92,16 @@ export function AgendaItemCommentModal({
           <p>
             Submitting a comment involves sending an email to the relevant
             decision body! This form helps you put together this email.
-            <ol className="list-decimal mt-2 pl-4">
-              <li className="ml-4">Fill out the form</li>
-              <li className="ml-4">
-                Use the Copy buttons to copy the text into your email client of
-                choice, and send it off! Or use the Create Email button, which
-                will automatically open your email client with the text already
-                filled in for you.
-              </li>
-            </ol>
           </p>
+          <ol className="list-decimal mt-2 pl-4">
+            <li className="ml-4">Fill out the form</li>
+            <li className="ml-4">
+              Use the Copy buttons to copy the text into your email client of
+              choice, and send it off! Or use the Create Email button, which
+              will automatically open your email client with the text already
+              filled in for you.
+            </li>
+          </ol>
         </div>
         <div className="mb-4">
           <ReadonlyTextField
@@ -233,11 +206,7 @@ export function AgendaItemCommentModal({
             </p>
             <div className="flex gap-2 mb-4">
               <Button asChild size="sm">
-                <a
-                  href={makeMailtoLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={mailtoLink} target="_blank" rel="noopener noreferrer">
                   <ExternalLink />
                   Create email (opens your mail client)
                 </a>
