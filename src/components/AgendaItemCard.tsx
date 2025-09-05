@@ -81,7 +81,7 @@ function AgendaItemCard({
         )}
       </CardHeader>
       <CardContent className="sm:hidden border-b border-neutral-100 dark:border-neutral-600 flex justify-center p-2">
-        <span className="font-bold">{item.decisionBodyName}</span> // used when?
+        <span className="font-bold">{item.decisionBodyName}</span>
       </CardContent>
       <CardContent className="[&_ul]:ml-8 [&_ul]:list-disc [&_td]:dark:!border-white">
         {children}
@@ -166,13 +166,18 @@ export function FullPageAgendaItemCard({
       {item.backgroundAttachmentId && (
         <>
           <h4 className="mt-8 font-bold">Background resources</h4>
-          {item.backgroundAttachmentId.map( (id, i) => {
+          {item.backgroundAttachmentId.map((id, i) => {
             return (
-              <ChipLink href={`https://www.toronto.ca/legdocs/mmis/${item.termYear}/${item.agendaCd}/bgrd/backgroundfile-${id}.pdf`} target="_blank" variant="outline">
+              <ChipLink
+                href={`https://www.toronto.ca/legdocs/mmis/${item.termYear}/${item.agendaCd.toLowerCase()}/bgrd/backgroundfile-${id}.pdf`}
+                key={i}
+                target="_blank"
+                variant="outline"
+              >
                 <Link2 size={14} />
-                Resource {i+1}
+                Resource {i++}
               </ChipLink>
-            )
+            );
           })}
         </>
       )}
