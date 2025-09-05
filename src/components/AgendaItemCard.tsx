@@ -94,7 +94,7 @@ function AgendaItemCard({
 }
 
 type FullPageAgendaItemCardProps = {
-  item: AgendaItem;
+  item: AgendaItem; // [ANDRE] Agenda item should have backgroundAttachmentIds
   decisionBody: DecisionBody;
 };
 export function FullPageAgendaItemCard({
@@ -161,6 +161,24 @@ export function FullPageAgendaItemCard({
             className="mt-2"
             dangerouslySetInnerHTML={{ __html: item.agendaItemRecommendation }}
           />
+        </>
+      )}
+      {item.backgroundAttachmentId && (
+        <>
+          <h4 className="mt-8 font-bold">Background resources</h4>
+          {item.backgroundAttachmentId.map((id, i) => {
+            return (
+              <ChipLink
+                href={`https://www.toronto.ca/legdocs/mmis/${item.termYear}/${item.agendaCd.toLowerCase()}/bgrd/backgroundfile-${id}.pdf`}
+                key={i}
+                target="_blank"
+                variant="outline"
+              >
+                <Link2 size={14} />
+                Resource {i++}
+              </ChipLink>
+            );
+          })}
         </>
       )}
     </AgendaItemCard>
