@@ -1,15 +1,13 @@
-import { readFile } from 'fs/promises';
-import { parse } from 'csv-parse';
-import { argv } from 'process';
 import { Kysely, Transaction } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { createDB } from '@/database/kyselyDb';
+import { generateSummaryForReference } from '@/database/pipelines/generateAISummary';
 
-class ImportAiSummaries {
-  public static async run(inputFileName: string, db: Kysely<DB>) {
+export class ImportAiSummaries {
+  public static async run(db: Kysely<DB>, references: Set<string>) {
     try {
       await db.transaction().execute(async (trx) => {
-        await new ImportAiSummaries(inputFileName, trx).run();
+        await new ImportAiSummaries(trx, db, references).run();
       });
     } catch (error) {
       console.error(`Error during ImportAiSummaries`, error);
@@ -18,23 +16,24 @@ class ImportAiSummaries {
   }
 
   private constructor(
-    private readonly inputFileName: string,
     private readonly trx: Transaction<DB>,
+    private readonly db: Kysely<DB>,
+    private references: Set<string>,
   ) {}
 
   private async run() {
-    if (!this.inputFileName)
-      throw new Error(`Invalid file name ${this.inputFileName}`);
-
-    const candidateIds = await this.getCandidateAgendaItems();
-    const inputStream = await this.createInputStream();
+    if (this.references.size === 0) {
+      this.references = await this.getCandidateAgendaItems();
+    }
 
     const summaries = new Array<SummaryRow>();
-    for await (const inputRow of inputStream) {
-      if (!candidateIds.has(inputRow.reference)) continue;
+
+    for (const candidateId of this.references) {
+      const summary = await generateSummaryForReference(this.db, candidateId);
+      if (!summary) continue;
       summaries.push({
-        agendaItemNumber: inputRow.reference,
-        summary: inputRow.ai_summary,
+        agendaItemNumber: candidateId,
+        summary,
       });
     }
     console.log('Found usable summaries', summaries);
@@ -55,24 +54,18 @@ class ImportAiSummaries {
     return new Set(rows.map((row) => row.agendaItemNumber));
   }
 
-  private async createInputStream(): Promise<AsyncIterable<InputRow>> {
-    return parse(await readFile(this.inputFileName), {
-      columns: true,
-    });
-  }
-
   private async upsertSummaries(summaries: SummaryRow[]) {
     await this.trx.deleteFrom('AiSummaries').execute();
     await this.trx.insertInto('AiSummaries').values(summaries).execute();
   }
 }
 
-type InputRow = { reference: string; ai_summary: string };
 type SummaryRow = {
   summary: string;
   agendaItemNumber: string;
 };
 
 //! Actually runs the program
-await ImportAiSummaries.run(argv[2], createDB());
+const references = new Set<string>();
+await ImportAiSummaries.run(createDB(), references);
 process.exit(0);
