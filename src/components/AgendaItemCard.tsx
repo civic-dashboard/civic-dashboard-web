@@ -175,7 +175,7 @@ export function FullPageAgendaItemCard({
                 variant="outline"
               >
                 <Link2 size={14} />
-                Resource {i++}
+                Resource {i + 1}
               </ChipLink>
             );
           })}
