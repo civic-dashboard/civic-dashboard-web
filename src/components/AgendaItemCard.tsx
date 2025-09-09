@@ -165,7 +165,7 @@ export function FullPageAgendaItemCard({
       )}
       {item.backgroundAttachmentId && (
         <>
-          <h4 className="mt-8 font-bold">Background resources</h4>
+          <h4 className="mt-8 font-bold">Background Information</h4>
           {item.backgroundAttachmentId.map((id, i) => {
             return (
               <ChipLink
@@ -175,7 +175,7 @@ export function FullPageAgendaItemCard({
                 variant="outline"
               >
                 <Link2 size={14} />
-                Resource {i + 1}
+                Attachment {i + 1}
               </ChipLink>
             );
           })}
