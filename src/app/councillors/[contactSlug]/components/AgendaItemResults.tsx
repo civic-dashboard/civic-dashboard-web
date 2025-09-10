@@ -41,7 +41,6 @@ const AgendaItemCard = memo(function AgendaItemCard({
   );
 });
 
-// Pagination hook
 function usePagination<T>(items: T[], itemsPerPage: number = 10) {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -70,13 +69,13 @@ function usePagination<T>(items: T[], itemsPerPage: number = 10) {
 
   const goToNextPage = () => {
     if (paginationData.hasNextPage) {
-      setCurrentPage(prev => prev + 1);
+      setCurrentPage((prev) => prev + 1);
     }
   };
 
   const goToPreviousPage = () => {
     if (paginationData.hasPreviousPage) {
-      setCurrentPage(prev => prev - 1);
+      setCurrentPage((prev) => prev - 1);
     }
   };
 
@@ -94,7 +93,6 @@ function usePagination<T>(items: T[], itemsPerPage: number = 10) {
   };
 }
 
-// Pagination component
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -116,14 +114,14 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const getVisiblePages = () => {
     const maxVisible = 5;
-    
+
     if (totalPages <= maxVisible) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
     const half = Math.floor(maxVisible / 2);
     let start = Math.max(1, currentPage - half);
-    let end = Math.min(totalPages, start + maxVisible - 1);
+    const end = Math.min(totalPages, start + maxVisible - 1);
 
     if (end - start + 1 < maxVisible) {
       start = Math.max(1, end - maxVisible + 1);
@@ -161,7 +159,7 @@ const Pagination: React.FC<PaginationProps> = ({
           </>
         )}
 
-        {visiblePages.map(page => (
+        {visiblePages.map((page) => (
           <button
             key={page}
             onClick={() => onPageChange(page)}
@@ -209,7 +207,7 @@ export default function AgendaItemResults({
   searchTerm?: string;
 }) {
   const tidySearchQuery = searchTerm.toLocaleLowerCase().trim();
-  
+
   const filteredItems = useMemo(
     () =>
       tidySearchQuery
@@ -239,7 +237,9 @@ export default function AgendaItemResults({
       <div className="flex justify-between items-center mb-8">
         <div className="text-sm text-gray-600">
           {totalItems > 0 ? (
-            <>Showing {startIndex}-{endIndex} of {totalItems} results</>
+            <>
+              Showing {startIndex}-{endIndex} of {totalItems} results
+            </>
           ) : (
             'No results found'
           )}
@@ -251,7 +251,7 @@ export default function AgendaItemResults({
         {currentItems.map((item) => (
           <AgendaItemCard key={item.agendaItemNumber} item={item} />
         ))}
-        
+
         {currentItems.length === 0 && (
           <div className="text-center py-8 text-gray-500">
             No agenda items to display.
