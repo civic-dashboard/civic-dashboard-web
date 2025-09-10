@@ -79,7 +79,6 @@ function usePagination<T>(items: T[], itemsPerPage: number = 10) {
     }
   };
 
-  // Reset to first page when items change
   useEffect(() => {
     setCurrentPage(1);
   }, [items]);
