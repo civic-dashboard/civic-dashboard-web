@@ -12,7 +12,7 @@ import {
 import type { AgendaItem } from '@/database/queries/agendaItems';
 import { useSearch } from '@/contexts/SearchContext';
 import { Chip, ChipLink } from '@/components/ui/chip';
-import { Link2, MessageSquarePlus, Speech } from 'lucide-react';
+import { Link2, MessageSquarePlus, Paperclip, Speech } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -165,16 +165,17 @@ export function FullPageAgendaItemCard({
       )}
       {item.backgroundAttachmentId && (
         <>
-          <h4 className="mt-8 font-bold">Background Information</h4>
+          <h4 className="mt-8 mb-1 font-bold">Background Information</h4>
           {item.backgroundAttachmentId.map((id, i) => {
             return (
               <ChipLink
+                className="pl-2 mr-1"
                 href={`https://www.toronto.ca/legdocs/mmis/${item.termYear}/${item.agendaCd.toLowerCase()}/bgrd/backgroundfile-${id}.pdf`}
                 key={i}
                 target="_blank"
                 variant="outline"
               >
-                <Link2 size={14} />
+                <Paperclip size={14} />
                 Attachment {i + 1}
               </ChipLink>
             );
