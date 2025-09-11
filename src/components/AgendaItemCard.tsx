@@ -25,6 +25,7 @@ import Link from 'next/link';
 import { logAnalytics } from '@/api/analytics';
 import { SubmitCommentModal } from '@/components/deputation-modals/SubmitCommentModal';
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
+import { allTags } from '@/constants/tags';
 
 function itemDateIsAfterToday(dateNumber: number): boolean {
   const today = new Date();
@@ -102,6 +103,20 @@ export function FullPageAgendaItemCard({
   decisionBody,
 }: FullPageAgendaItemCardProps) {
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
+
+  const relatedTags: string[] = []
+  Object.entries(allTags).forEach((tag) => {
+    const tagName = tag[0]
+    const tagSearch: string[] = tag[1]["searchQuery"].replaceAll('"', '').split(" OR ")
+
+    for (const keyword of tagSearch) {
+      if (item.agendaItemSummary.search(keyword) !== -1) {
+        relatedTags.push(tagName)
+        break
+      }
+    }
+  })
+
   return (
     <AgendaItemCard
       className="max-sm:rounded-none"
@@ -161,6 +176,17 @@ export function FullPageAgendaItemCard({
             className="mt-2"
             dangerouslySetInnerHTML={{ __html: item.agendaItemRecommendation }}
           />
+        </>
+      )}
+      {item.agendaItemSummary && (
+        <>
+          <h4 className="mt-4 mb-2 font-bold">Tags</h4>
+          {relatedTags.map((tag) => (
+            <ChipLink className="mr-1" href={"redirect to search page with tag selected"} target="_blank" variant="outline">
+              {tag.toUpperCase()}
+            </ChipLink>
+          ))
+          }
         </>
       )}
     </AgendaItemCard>
