@@ -15,8 +15,51 @@ export default function Ward25FAQ() {
             FAQs - Ward 25 By-Election
           </h1>
 
+          <ol className="list-decimal pl-6 mb-12 space-y-1">
+            <li>
+              <Link href="#why" className="classic-link">
+                Why is there an election?
+              </Link>
+            </li>
+            <li>
+              <Link href="#voters" className="classic-link">
+                Who can vote?
+              </Link>
+            </li>
+            <li>
+              <Link href="#candidates" className="classic-link">
+                Who can I vote for?
+              </Link>
+            </li>
+            <li>
+              <Link href="#when-where" className="classic-link">
+                When/where can I vote?
+              </Link>
+            </li>
+            <li>
+              <Link href="#do-i-need-to-register" className="classic-link">
+                Do I need to register to vote in this election?
+              </Link>
+            </li>
+            <li>
+              <Link href="#what-to-bring" className="classic-link">
+                What do I bring on the day?
+              </Link>
+            </li>
+            <li>
+              <Link href="#alternative-voting-methods" className="classic-link">
+                What should I do if I am unable to vote in person?
+              </Link>
+            </li>
+            <li>
+              <Link href="#how-to-stay-engaged" className="classic-link">
+                How do I stay engaged after the election?
+              </Link>
+            </li>
+          </ol>
+
           <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-2xl font-semibold mb-4" id="why">
               Why is there an election?
             </h2>
             <div className="space-y-4">
@@ -39,7 +82,9 @@ export default function Ward25FAQ() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">Who can vote?</h2>
+            <h2 className="text-2xl font-semibold mb-4" id="voters">
+              Who can vote?
+            </h2>
             <div className="space-y-4">
               <p>To vote in the Ward 25 By-Election, you must be:</p>
               <ul className="list-disc pl-6 space-y-2">
@@ -120,7 +165,9 @@ export default function Ward25FAQ() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">Who can I vote for?</h2>
+            <h2 className="text-2xl font-semibold mb-4" id="candidates">
+              Who can I vote for?
+            </h2>
             <p>
               A complete list of certified candidates, along with details of
               their nomination date, contact information and social media pages,
@@ -136,7 +183,7 @@ export default function Ward25FAQ() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-2xl font-semibold mb-4" id="when-where">
               When/where can I vote?
             </h2>
             <div className="space-y-4">
@@ -591,7 +638,10 @@ export default function Ward25FAQ() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2
+              className="text-2xl font-semibold mb-4"
+              id="do-i-need-to-register"
+            >
               Do I need to register to vote in this election?
             </h2>
             <div className="space-y-4">
@@ -658,7 +708,7 @@ export default function Ward25FAQ() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-2xl font-semibold mb-4" id="what-to-bring">
               What do I bring on the day?
             </h2>
             <div className="space-y-4">
@@ -688,7 +738,10 @@ export default function Ward25FAQ() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2
+              className="text-2xl font-semibold mb-4"
+              id="alternative-voting-methods"
+            >
               What should I do if I am unable to vote in person?
             </h2>
             <div className="space-y-4">
@@ -808,7 +861,10 @@ export default function Ward25FAQ() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2
+              className="text-2xl font-semibold mb-4"
+              id="how-to-stay-engaged"
+            >
               How do I stay engaged after the election?
             </h2>
             <div className="space-y-4">
