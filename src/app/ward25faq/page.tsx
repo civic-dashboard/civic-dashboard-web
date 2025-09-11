@@ -1,17 +1,31 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
+import { ArrowUpIcon } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'FAQs - Ward 25 By-Election – Civic Dashboard',
 };
+
+function JumpToTopLink() {
+  return (
+    <div className="mt-8">
+      <Link
+        href="#top"
+        className="inline-flex items-center gap-x-1 text-xs font-semibold hover:underline"
+      >
+        <ArrowUpIcon className="w-4 h-4" /> Jump to top
+      </Link>
+    </div>
+  );
+}
 
 export default function Ward25FAQ() {
   return (
     <div className="min-h-screen">
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-12">
+          <h1 className="text-4xl font-bold mb-12" id="top">
             FAQs - Ward 25 By-Election
           </h1>
 
@@ -79,6 +93,8 @@ export default function Ward25FAQ() {
                 <strong>municipal elections</strong> on October 26th, 2026.
               </p>
             </div>
+
+            <JumpToTopLink />
           </section>
 
           <section className="mb-12">
@@ -162,6 +178,8 @@ export default function Ward25FAQ() {
                 .
               </p>
             </div>
+
+            <JumpToTopLink />
           </section>
 
           <section className="mb-12">
@@ -180,6 +198,8 @@ export default function Ward25FAQ() {
               </ExternalLink>
               .
             </p>
+
+            <JumpToTopLink />
           </section>
 
           <section className="mb-12">
@@ -635,6 +655,8 @@ export default function Ward25FAQ() {
                 </table>
               </div>
             </div>
+
+            <JumpToTopLink />
           </section>
 
           <section className="mb-12">
@@ -705,6 +727,8 @@ export default function Ward25FAQ() {
                 website.
               </p>
             </div>
+
+            <JumpToTopLink />
           </section>
 
           <section className="mb-12">
@@ -735,6 +759,8 @@ export default function Ward25FAQ() {
                 .
               </p>
             </div>
+
+            <JumpToTopLink />
           </section>
 
           <section className="mb-12">
@@ -858,6 +884,8 @@ export default function Ward25FAQ() {
                 .
               </p>
             </div>
+
+            <JumpToTopLink />
           </section>
 
           <section className="mb-12">
@@ -936,6 +964,8 @@ export default function Ward25FAQ() {
                 and hit the "take action" button!
               </p>
             </div>
+
+            <JumpToTopLink />
           </section>
         </div>
       </main>
