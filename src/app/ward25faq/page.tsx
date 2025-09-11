@@ -674,7 +674,7 @@ export default function Ward25FAQ() {
                 Voters' List can be beneficial.
               </p>
 
-              <h3 className="text-xl font-medium mb-3">
+              <h3 className="text-xl font-bold mb-3">
                 Registering in Advance for the Voters' List
               </h3>
               <p>
@@ -706,7 +706,7 @@ export default function Ward25FAQ() {
                 by-election.
               </p>
 
-              <h3 className="text-xl font-medium mb-3">
+              <h3 className="text-xl font-bold mb-3">
                 Registering for the Voters' List When You Arrive to Vote
               </h3>
               <p>
@@ -778,7 +778,7 @@ export default function Ward25FAQ() {
                 <strong>vote by proxy</strong>.
               </p>
 
-              <h3 className="text-xl font-medium mb-3">Mail-in Voting:</h3>
+              <h3 className="text-xl font-bold mb-3">Mail-in Voting:</h3>
               <p>
                 To mail in your vote, you must{' '}
                 <ExternalLink
@@ -827,7 +827,7 @@ export default function Ward25FAQ() {
                 .
               </p>
 
-              <h3 className="text-xl font-medium mb-3">Proxy Voting:</h3>
+              <h3 className="text-xl font-bold mb-3">Proxy Voting:</h3>
               <p>
                 Eligible voters can also elect to have someone vote on their
                 behalf, known as proxy voting. You can appoint anyone that is
@@ -910,7 +910,7 @@ export default function Ward25FAQ() {
                 Council once the by-election is over:
               </p>
 
-              <h3 className="text-xl font-medium mb-3">
+              <h3 className="text-xl font-bold mb-3">
                 1. Follow up with your new Councillor
               </h3>
               <p>
@@ -926,7 +926,7 @@ export default function Ward25FAQ() {
                 decisions.
               </p>
 
-              <h3 className="text-xl font-medium mb-3">
+              <h3 className="text-xl font-bold mb-3">
                 2. Attend a Consultation
               </h3>
               <p>
@@ -944,7 +944,7 @@ export default function Ward25FAQ() {
                 - see if you can find one you are interested in attending!
               </p>
 
-              <h3 className="text-xl font-medium mb-3">
+              <h3 className="text-xl font-bold mb-3">
                 3. Submit a Comment or make a Deputation
               </h3>
               <p>
