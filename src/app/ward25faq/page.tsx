@@ -220,7 +220,7 @@ export default function Ward25FAQ() {
               <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse border border-gray-300">
                   <thead>
-                    <tr className="bg-gray-50">
+                    <tr className="bg-gray-50 dark:bg-gray-800">
                       <th className="border border-gray-300 px-4 py-2 text-left">
                         #
                       </th>
