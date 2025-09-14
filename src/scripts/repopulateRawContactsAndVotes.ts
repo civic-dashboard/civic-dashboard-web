@@ -44,6 +44,8 @@ class RepopulateRawContactsAndVotes {
 
       REFRESH MATERIALIZED VIEW "Councillors";
 
+      REFRESH MATERIALIZED VIEW "Mayors";
+
       REFRESH MATERIALIZED VIEW "Wards";
 
       REFRESH MATERIALIZED VIEW "Committees";
