@@ -11,6 +11,9 @@ import React, {
 import { fetchSearchResults, SearchOptions } from '@/logic/search';
 import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
 import { PAGE_LIMIT, SEARCH_DEBOUNCE_DELAY_MS } from '@/constants/search';
+import { TagEnum } from '@/constants/tags';
+import { useSearchParams } from 'next/navigation';
+import { allTags } from '@/constants/tags';
 
 type SearchContext = {
   searchOptions: SearchOptions;
@@ -31,6 +34,26 @@ export function SearchProvider({ children }: Props) {
     decisionBodyIds: [],
     minimumDate: new Date(),
   });
+  try {
+    const searchParams = useSearchParams()
+    //console.log("Read searchParams")
+    if (searchParams.get("tag") !== null && searchOptions.tags.length == 0) {
+      const tagSelected = searchParams.get("tag") as string
+      const tagMap = new Map<string, string>()
+      const tagKeys = Object.keys(allTags)
+      tagKeys.forEach((tagKey) => {
+        tagMap.set(tagKey.toLowerCase().replaceAll(" ", ""), tagKey)
+      })
+      const tagMapKeys = Array.from(tagMap.keys())
+      if (tagMapKeys.includes(tagSelected)) {
+        const tag: TagEnum[] = [tagMap.get(tagSelected)] as TagEnum[]
+        setSearchOptions({ ...searchOptions, tags: tag })
+      }
+    }
+  } catch (e) {
+    console.log("error with URL parameter", { e })
+    setSearchOptions({ ...searchOptions, tags: [] }) // make sure tags is clear
+  }
 
   const [searchResults, setSearchResults] =
     useState<AgendaItemSearchResponse | null>(null);

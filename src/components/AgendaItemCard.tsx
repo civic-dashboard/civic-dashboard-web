@@ -26,6 +26,7 @@ import { logAnalytics } from '@/api/analytics';
 import { SubmitCommentModal } from '@/components/deputation-modals/SubmitCommentModal';
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 import { allTags } from '@/constants/tags';
+import React, { useCallback } from 'react';
 
 function itemDateIsAfterToday(dateNumber: number): boolean {
   const today = new Date();
@@ -35,6 +36,26 @@ function itemDateIsAfterToday(dateNumber: number): boolean {
   date.setHours(0, 0, 0, 0);
 
   return date >= today;
+}
+function DisplayTag({ tag, id }: { tag: string; id: number }) {
+  const onClick = useCallback(() => {
+    console.log("Search options on click set to:") // on redirect, want to automatically set the tags on the /actions page
+  }, [])
+
+  return (
+    <>
+      <Link
+        className="mr-1"
+        href={`/actions?tag=${tag.replaceAll(" ", "")}`}
+        key={"link" + id}
+        onClick={onClick}
+      >
+        <Chip className="hover:underline" variant="outline" key={"chip" + id}>
+          {tag.toUpperCase()}
+        </Chip>
+      </Link>
+    </>
+  )
 }
 
 type AgendaItemCardProps = React.PropsWithChildren<{
@@ -106,11 +127,11 @@ export function FullPageAgendaItemCard({
 
   const relatedTags: string[] = []
   Object.entries(allTags).forEach((tag) => {
-    const tagName = tag[0]
+    const tagName = tag[1]["displayName"]
     const tagSearch: string[] = tag[1]["searchQuery"].replaceAll('"', '').split(" OR ")
 
     for (const keyword of tagSearch) {
-      if (item.agendaItemSummary.search(keyword) !== -1) {
+      if (item.agendaItemSummary.toLowerCase().search(keyword) !== -1) {
         relatedTags.push(tagName)
         break
       }
@@ -178,15 +199,12 @@ export function FullPageAgendaItemCard({
           />
         </>
       )}
-      {item.agendaItemSummary && (
+      {relatedTags.length > 0 && (
         <>
           <h4 className="mt-4 mb-2 font-bold">Tags</h4>
-          {relatedTags.map((tag) => (
-            <ChipLink className="mr-1" href={"redirect to search page with tag selected"} target="_blank" variant="outline">
-              {tag.toUpperCase()}
-            </ChipLink>
-          ))
-          }
+          {relatedTags.map((tag, id) => (
+            <DisplayTag tag={tag} id={id} key={id} />
+          ))}
         </>
       )}
     </AgendaItemCard>
@@ -255,7 +273,7 @@ export function SearchResultAgendaItemCard({
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
   return (
-    <Link href={`/actions/item/${item.reference}`} target="_blank">
+    <Link href={`/actions/item/${item.reference}`}>
       <AgendaItemCard
         item={item}
         decisionBody={decisionBody}

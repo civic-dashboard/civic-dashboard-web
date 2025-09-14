@@ -7,13 +7,14 @@ import {
   SearchBar,
   Tags,
 } from '@/components/search';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { decisionBodies } from '@/constants/decisionBodies';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 function ResultList() {
   const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
@@ -53,6 +54,14 @@ function ResultList() {
 }
 
 export function AgendaItemList() {
+  const router = useRouter()
+  const params = useSearchParams()
+
+  useEffect(() => {
+    if (params.get("tag") !== null)
+      router.replace("/actions")
+  }, [])
+
   const currentTermDecisionBodies = useMemo(
     () =>
       Object.fromEntries(
