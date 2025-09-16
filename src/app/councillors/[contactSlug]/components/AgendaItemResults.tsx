@@ -4,7 +4,7 @@ import { Link2Icon } from 'lucide-react';
 import { SummaryPanel } from '@/app/councillors/[contactSlug]/components/SummaryPanel';
 import { MotionsList } from '@/app/councillors/[contactSlug]/components/MotionsList';
 import { AgendaItemLink } from '@/components/AgendaItemLink';
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants, Button } from '@/components/ui/button';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
@@ -19,7 +19,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
             {formatDateString(item.motions[0].dateTime)}
           </div>
           <AgendaItemLink
-            className={buttonVariants({ variant: 'outline' })}
+            className={buttonVariants({ variant: 'default' })}
             agendaItemNumber={item.agendaItemNumber}
           >
             <Link2Icon className="w-[14px] h-[14px] mr-2" />
@@ -135,23 +135,23 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav className="flex items-center justify-center space-x-2 mt-8">
-      <button
+      <Button
         onClick={onPreviousPage}
         disabled={!hasPreviousPage}
-        className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        variant="secondary-outline"
       >
         Previous
-      </button>
+      </Button>
 
       <div className="flex space-x-1">
         {visiblePages[0] > 1 && (
           <>
-            <button
+            <Button
               onClick={() => onPageChange(1)}
               className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
             >
               1
-            </button>
+            </Button>
             {visiblePages[0] > 2 && (
               <span className="px-3 py-2 text-sm text-gray-500">...</span>
             )}
@@ -159,7 +159,7 @@ const Pagination: React.FC<PaginationProps> = ({
         )}
 
         {visiblePages.map((page) => (
-          <button
+          <Button
             key={page}
             onClick={() => onPageChange(page)}
             className={`px-3 py-2 text-sm font-medium rounded-md border ${
@@ -169,7 +169,7 @@ const Pagination: React.FC<PaginationProps> = ({
             }`}
           >
             {page}
-          </button>
+          </Button>
         ))}
 
         {visiblePages[visiblePages.length - 1] < totalPages && (
@@ -177,23 +177,23 @@ const Pagination: React.FC<PaginationProps> = ({
             {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
               <span className="px-3 py-2 text-sm text-gray-500">...</span>
             )}
-            <button
+            <Button
               onClick={() => onPageChange(totalPages)}
               className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
             >
               {totalPages}
-            </button>
+            </Button>
           </>
         )}
       </div>
 
-      <button
+      <Button
         onClick={onNextPage}
         disabled={!hasNextPage}
-        className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        variant="secondary-outline"
       >
         Next
-      </button>
+      </Button>
     </nav>
   );
 };
