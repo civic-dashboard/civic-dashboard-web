@@ -29,11 +29,10 @@ export function SortDropdown() {
   // Use sortByFilterOptions instead of sortByOptions
   const options = useMemo(
     () =>
-      Object.values(sortByFilterOptions)
-        .map((opt) => ({
-          id: opt.sortId as number,
-          label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant',
-        })),
+      Object.values(sortByFilterOptions).map((opt) => ({
+        id: opt.sortId as number,
+        label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant',
+      })),
     [],
   );
 
@@ -69,8 +68,8 @@ export function SortDropdown() {
       defaultValue={options.find((opt) => opt.label === 'Most Relevant')?.id}
       placeholder="Sort by..."
       multiple={false}
-      searchable={false} 
-      reorderSelected={false} 
+      searchable={false}
+      reorderSelected={false}
     />
   );
 }
