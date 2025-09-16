@@ -146,10 +146,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <div className="flex space-x-1">
         {visiblePages[0] > 1 && (
           <>
-            <Button
-              onClick={() => onPageChange(1)}
-              className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-            >
+            <Button onClick={() => onPageChange(1)} variant="secondary">
               1
             </Button>
             {visiblePages[0] > 2 && (
@@ -162,11 +159,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <Button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`px-3 py-2 text-sm font-medium rounded-md border ${
-              page === currentPage
-                ? 'bg-blue-600 text-white border-blue-600'
-                : 'text-gray-700 bg-white border-gray-300 hover:bg-gray-50'
-            }`}
+            variant={`${page === currentPage ? 'default' : 'secondary'}`}
           >
             {page}
           </Button>
@@ -179,7 +172,7 @@ const Pagination: React.FC<PaginationProps> = ({
             )}
             <Button
               onClick={() => onPageChange(totalPages)}
-              className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              variant="secondary"
             >
               {totalPages}
             </Button>
