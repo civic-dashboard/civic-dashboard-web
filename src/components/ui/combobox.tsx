@@ -28,7 +28,9 @@ type Props<ID extends number | string> = {
   value?: ID | ID[];
   placeholder?: string;
   noResults?: string;
+  /** Hides search bar if false */
   searchable?: boolean;
+  /** Keeps original order if false. Otherwise, reorders the items in the combo box based on selection */
   reorderSelected?: boolean;
   defaultValue?: ID | ID[];
 };

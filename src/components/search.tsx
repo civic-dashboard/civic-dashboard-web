@@ -30,9 +30,6 @@ export function SortDropdown() {
   const options = useMemo(
     () =>
       Object.values(sortByFilterOptions)
-        .filter(
-          (opt) => opt.sortId !== undefined && opt.sortLabel !== undefined,
-        )
         .map((opt) => ({
           id: opt.sortId as number,
           label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant',
@@ -72,8 +69,8 @@ export function SortDropdown() {
       defaultValue={options.find((opt) => opt.label === 'Most Relevant')?.id}
       placeholder="Sort by..."
       multiple={false}
-      searchable={false} // <-- Hide search bar
-      reorderSelected={false} // <-- Keep original order
+      searchable={false} 
+      reorderSelected={false} 
     />
   );
 }

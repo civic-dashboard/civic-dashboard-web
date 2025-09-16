@@ -67,7 +67,7 @@ export function AgendaItemList() {
   return (
     <SearchProvider>
       <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
-        <div className="flex flex-row self-stretch space-x-2">
+        <div className="flex flex-row self-stretch items-center space-x-2">
           <div className="flex-grow">
             <SearchBar />
           </div>
