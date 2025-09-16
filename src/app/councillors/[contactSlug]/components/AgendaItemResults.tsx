@@ -226,7 +226,7 @@ export default function AgendaItemResults({
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mt-2 mb-8">
         <div className="text-sm text-gray-600">
           {totalItems > 0 ? (
             <>
@@ -236,7 +236,6 @@ export default function AgendaItemResults({
             'No results found'
           )}
         </div>
-        <div className="font-medium">{totalItems} results</div>
       </div>
 
       <div>
@@ -260,12 +259,6 @@ export default function AgendaItemResults({
         onNextPage={goToNextPage}
         onPreviousPage={goToPreviousPage}
       />
-
-      {totalPages > 1 && (
-        <div className="text-center mt-4 text-sm text-gray-500">
-          Page {currentPage} of {totalPages}
-        </div>
-      )}
     </div>
   );
 }
