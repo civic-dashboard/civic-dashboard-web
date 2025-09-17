@@ -41,7 +41,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           # upload preview and extract preview URL
-          preview_upload_output=$(npm run preview-remote:worker)
+          preview_upload_output=$(npm run preview)
           echo "$preview_upload_output"
           preview_url=$(echo "$preview_upload_output" | grep -oP '(?<=Version Preview URL: )https?://\S+')
           echo "PREVIEW_URL=$preview_url" >> $GITHUB_ENV
