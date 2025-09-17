@@ -9,6 +9,8 @@
     "start": "next start",
     "lint": "next lint && tsc --noEmit",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "preview:remote": "opennextjs-cloudflare build && opennextjs-cloudflare preview --remote",
+    "preview-remote:worker": "opennextjs-cloudflare build && wrangler versions upload",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
