@@ -10,3 +10,7 @@ enabled = true
 
 [vars]
 HOSTNAME_FOR_EMAIL_LINKS = "https://civicdashboard.ca"
+
+[[r2_buckets]]
+binding = "NEXT_INC_CACHE_R2_BUCKET"
+bucket_name = "civic-dashboard-inc-cache"
