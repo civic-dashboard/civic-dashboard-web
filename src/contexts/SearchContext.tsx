@@ -34,9 +34,13 @@ export function SearchProvider({ children }: Props) {
     decisionBodyIds: [],
     minimumDate: new Date(),
   });
+
+  const [searchResults, setSearchResults] =
+    useState<AgendaItemSearchResponse | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   try {
     const searchParams = useSearchParams()
-    //console.log("Read searchParams")
     if (searchParams.get("tag") !== null && searchOptions.tags.length == 0) {
       const tagSelected = searchParams.get("tag") as string
       const tagMap = new Map<string, string>()
@@ -51,13 +55,8 @@ export function SearchProvider({ children }: Props) {
       }
     }
   } catch (e) {
-    console.log("error with URL parameter", { e })
     setSearchOptions({ ...searchOptions, tags: [] }) // make sure tags is clear
   }
-
-  const [searchResults, setSearchResults] =
-    useState<AgendaItemSearchResponse | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // needed for pagination / infinite scrolling
   const [currentPage, setCurrentPage] = useState(0);

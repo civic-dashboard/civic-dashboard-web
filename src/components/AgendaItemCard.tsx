@@ -26,7 +26,7 @@ import { logAnalytics } from '@/api/analytics';
 import { SubmitCommentModal } from '@/components/deputation-modals/SubmitCommentModal';
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 import { allTags } from '@/constants/tags';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 function itemDateIsAfterToday(dateNumber: number): boolean {
   const today = new Date();
@@ -38,20 +38,15 @@ function itemDateIsAfterToday(dateNumber: number): boolean {
   return date >= today;
 }
 function DisplayTag({ tag, id }: { tag: string; id: number }) {
-  const onClick = useCallback(() => {
-    console.log("Search options on click set to:") // on redirect, want to automatically set the tags on the /actions page
-  }, [])
-
   return (
     <>
       <Link
-        className="mr-1"
+        className="mr-1.5"
         href={`/actions?tag=${tag.replaceAll(" ", "")}`}
         key={"link" + id}
-        onClick={onClick}
       >
-        <Chip className="hover:underline" variant="outline" key={"chip" + id}>
-          {tag.toUpperCase()}
+        <Chip className="hover:border-gray-400 hover:underline text-md" variant="outline" key={"chip" + id}>
+          {tag.toLowerCase()}
         </Chip>
       </Link>
     </>
@@ -273,7 +268,7 @@ export function SearchResultAgendaItemCard({
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
   return (
-    <Link href={`/actions/item/${item.reference}`}>
+    <Link href={`/actions/item/${item.reference}`} target="_blank">
       <AgendaItemCard
         item={item}
         decisionBody={decisionBody}
