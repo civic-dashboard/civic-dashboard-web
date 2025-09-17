@@ -49,7 +49,8 @@ function DisplayTag({ tag, id }: { tag: string; id: number }) {
         <Chip
           className="hover:border-gray-400 hover:underline text-md"
           variant="outline"
-          key={'chip' + id}>
+          key={'chip' + id}
+        >
           {tag.toLowerCase()}
         </Chip>
       </Link>
