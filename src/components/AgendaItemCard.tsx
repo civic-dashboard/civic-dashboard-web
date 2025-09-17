@@ -37,20 +37,24 @@ function itemDateIsAfterToday(dateNumber: number): boolean {
 
   return date >= today;
 }
+
 function DisplayTag({ tag, id }: { tag: string; id: number }) {
   return (
     <>
       <Link
         className="mr-1.5"
-        href={`/actions?tag=${tag.replaceAll(" ", "")}`}
-        key={"link" + id}
+        href={`/actions?tag=${tag.replaceAll(' ', '')}`}
+        key={'link' + id}
       >
-        <Chip className="hover:border-gray-400 hover:underline text-md" variant="outline" key={"chip" + id}>
+        <Chip
+          className="hover:border-gray-400 hover:underline text-md"
+          variant="outline"
+          key={'chip' + id}>
           {tag.toLowerCase()}
         </Chip>
       </Link>
     </>
-  )
+  );
 }
 
 type AgendaItemCardProps = React.PropsWithChildren<{
@@ -120,18 +124,20 @@ export function FullPageAgendaItemCard({
 }: FullPageAgendaItemCardProps) {
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
-  const relatedTags: string[] = []
+  const relatedTags: string[] = [];
   Object.entries(allTags).forEach((tag) => {
-    const tagName = tag[1]["displayName"]
-    const tagSearch: string[] = tag[1]["searchQuery"].replaceAll('"', '').split(" OR ")
+    const tagName = tag[1]['displayName'];
+    const tagSearch: string[] = tag[1]['searchQuery']
+      .replaceAll('"', '')
+      .split(' OR ');
 
     for (const keyword of tagSearch) {
       if (item.agendaItemSummary.toLowerCase().search(keyword) !== -1) {
-        relatedTags.push(tagName)
-        break
+        relatedTags.push(tagName);
+        break;
       }
     }
-  })
+  });
 
   return (
     <AgendaItemCard

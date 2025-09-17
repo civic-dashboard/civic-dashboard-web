@@ -54,13 +54,12 @@ function ResultList() {
 }
 
 export function AgendaItemList() {
-  const router = useRouter()
-  const params = useSearchParams()
+  const router = useRouter();
+  const params = useSearchParams();
 
   useEffect(() => {
-    if (params.get("tag") !== null)
-      router.replace("/actions")
-  }, [])
+    if (params.get('tag') !== null) router.replace('/actions');
+  });
 
   const currentTermDecisionBodies = useMemo(
     () =>

@@ -40,22 +40,23 @@ export function SearchProvider({ children }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   try {
-    const searchParams = useSearchParams()
-    if (searchParams.get("tag") !== null && searchOptions.tags.length == 0) {
-      const tagSelected = searchParams.get("tag") as string
-      const tagMap = new Map<string, string>()
-      const tagKeys = Object.keys(allTags)
+    const searchParams = useSearchParams();
+    if (searchParams.get('tag') !== null && searchOptions.tags.length == 0) {
+      const tagSelected = searchParams.get('tag') as string;
+      const tagMap = new Map<string, string>();
+      const tagKeys = Object.keys(allTags);
       tagKeys.forEach((tagKey) => {
-        tagMap.set(tagKey.toLowerCase().replaceAll(" ", ""), tagKey)
-      })
-      const tagMapKeys = Array.from(tagMap.keys())
+        tagMap.set(tagKey.toLowerCase().replaceAll(' ', ''), tagKey);
+      });
+      const tagMapKeys = Array.from(tagMap.keys());
       if (tagMapKeys.includes(tagSelected)) {
-        const tag: TagEnum[] = [tagMap.get(tagSelected)] as TagEnum[]
-        setSearchOptions({ ...searchOptions, tags: tag })
+        const tag: TagEnum[] = [tagMap.get(tagSelected)] as TagEnum[];
+        setSearchOptions({ ...searchOptions, tags: tag });
       }
     }
   } catch (e) {
-    setSearchOptions({ ...searchOptions, tags: [] }) // make sure tags is clear
+    console.log('Error occured when parsing parameters: ', e);
+    setSearchOptions({ ...searchOptions, tags: [] }); // make sure tags is clear
   }
 
   // needed for pagination / infinite scrolling
