@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     "Toronto City Council shouldn't feel complicated. We make it easy for Toronto residents to track councillor votes and get involved in local decisions.",
   openGraph: {
     images: {
-      url: '/toronto.png',
-      type: 'image/png',
+      url: '/toronto.jpg',
+      type: 'image/jpeg',
       width: 628,
       height: 540,
     },

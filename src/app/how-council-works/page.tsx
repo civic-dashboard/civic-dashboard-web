@@ -53,16 +53,16 @@ const WikiLink = () => (
 export default function HowCouncilWorks() {
   const imageData = {
     toronto: {
-      src: '/toronto.png',
+      src: '/toronto.jpg',
     },
     staff: {
-      src: '/staff.png',
+      src: '/staff.jpg',
     },
     committee: {
-      src: '/committee.png',
+      src: '/committee.jpg',
     },
     council: {
-      src: '/council.png',
+      src: '/council.jpg',
     },
   };
 

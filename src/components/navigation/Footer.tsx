@@ -1,4 +1,5 @@
 import { menuItems } from '@/constants/navigation';
+import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
 
 export default function Footer() {
@@ -14,22 +15,30 @@ export default function Footer() {
             <ul className="space-y-3">
               {menuItems.map((item) => (
                 <li key={item.label}>
-                  <a
+                  <Link
                     href={item.href}
                     className="hover:text-blue-400 transition-colors duration-200 block"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
 
               <li>
-                <a
+                <Link
                   href="/labs"
                   className="hover:text-blue-400 transition-colors duration-200"
                 >
                   Labs
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/ward25faq"
+                  className="hover:text-blue-400 transition-colors duration-200 block"
+                >
+                  Ward 25 By-Election FAQ
+                </Link>
               </li>
             </ul>
           </div>
@@ -40,12 +49,12 @@ export default function Footer() {
               <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                 Contact
               </h3>
-              <a
+              <ExternalLink
                 href="mailto:teamcivicdashboard@gmail.com"
                 className="hover:text-blue-400 transition-colors duration-200"
               >
                 teamcivicdashboard@gmail.com
-              </a>
+              </ExternalLink>
             </div>
 
             {/* Resources (currently just privacy) */}
@@ -56,12 +65,12 @@ export default function Footer() {
 
               <ul className="space-y-3">
                 <li>
-                  <a
+                  <Link
                     href="/privacy"
                     className="hover:text-blue-400 transition-colors duration-200"
                   >
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <ExternalLink
@@ -87,49 +96,45 @@ export default function Footer() {
               >
                 Twitter
               </a> */}
-              <a
+              <ExternalLink
                 href="https://civictechto.slack.com/archives/C06KU3DHEKV"
                 className="hover:text-blue-400 transition-colors duration-200"
-                target="_blank"
               >
                 Slack
-              </a>
-              <a
+              </ExternalLink>
+              <ExternalLink
                 href="https://www.linkedin.com/company/civic-dashboard/about/"
                 className="hover:text-blue-400 transition-colors duration-200"
-                target="_blank"
               >
                 LinkedIn
-              </a>
-              <a
+              </ExternalLink>
+              <ExternalLink
                 href="https://github.com/civic-dashboard"
                 className="hover:text-blue-400 transition-colors duration-200"
-                target="_blank"
               >
                 GitHub
-              </a>
-              <a
+              </ExternalLink>
+              <ExternalLink
                 href="https://bsky.app/profile/civicdashboard.bsky.social"
                 className="hover:text-blue-400 transition-colors duration-200"
-                target="_blank"
               >
                 Bluesky
-              </a>
+              </ExternalLink>
             </div>
 
-            <a
+            <Link
               href="/join-newsletter"
               className="w-full block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg text-center"
             >
               Subscribe to Newsletter
-            </a>
+            </Link>
 
-            <a
+            <ExternalLink
               href="https://civictech.ca/"
               className="block text-center py-2 px-4 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:scale-105"
             >
               Civic Tech Toronto
-            </a>
+            </ExternalLink>
           </div>
         </div>
 
