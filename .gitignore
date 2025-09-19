@@ -53,3 +53,5 @@ db-data
 data/
 
 public/sitemap*.xml
+
+.vscode

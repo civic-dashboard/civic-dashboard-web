@@ -90,6 +90,6 @@
     "tsx": "^4.19.3",
     "typescript": "^5",
     "typescript-eslint": "^8.18.0",
-    "wrangler": "^4.37.1"
+    "wrangler": "^4.38.0"
   }
 }
