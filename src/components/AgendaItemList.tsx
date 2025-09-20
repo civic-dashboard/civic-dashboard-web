@@ -5,6 +5,7 @@ import {
   AdvancedFilters,
   ResultCount,
   SearchBar,
+  SortDropdown,
   Tags,
 } from '@/components/search';
 import { useMemo } from 'react';
@@ -66,7 +67,14 @@ export function AgendaItemList() {
   return (
     <SearchProvider>
       <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
-        <SearchBar />
+        <div className="flex flex-row self-stretch items-center space-x-2">
+          <div className="flex-grow">
+            <SearchBar />
+          </div>
+          <div className="sm:max-w-max-content-width">
+            <SortDropdown />
+          </div>
+        </div>
         <Tags />
         <hr />
         <AdvancedFilters decisionBodies={currentTermDecisionBodies} />
