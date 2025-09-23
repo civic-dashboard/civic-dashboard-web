@@ -3,7 +3,7 @@ import {
   toQueryString,
   fromQueryString,
   paramNames,
-} from '@/contexts/SearchContext';
+} from '@/logic/queryState';
 import type { SearchOptions } from '@/logic/search';
 import { TagEnum } from '@/constants/tags';
 
@@ -91,7 +91,7 @@ describe('toQueryString', () => {
     );
 
     // Full round-trip via fromQueryString:
-    const parsed = fromQueryString(qs, {});
+    const parsed = fromQueryString(qs);
     expect(parsed.textQuery).toBe(textQuery);
     expect(parsed.tags).toEqual(tags);
     expect(parsed.decisionBodyIds).toEqual(decisionBodyIds);
@@ -118,7 +118,7 @@ describe('fromQueryString', () => {
       `&${paramNames.minimumDate}=${minDateStr}`;
 
     // Act
-    const parsed = fromQueryString(qs, {});
+    const parsed = fromQueryString(qs);
 
     // Assert
     expect(parsed.textQuery).toBe(textQuery);
@@ -133,10 +133,10 @@ describe('fromQueryString', () => {
     const qs = '';
 
     // Act
-    const parsed = fromQueryString(qs, {});
+    const parsed = fromQueryString(qs);
 
     // Assert
-    expect(parsed.textQuery).toBeUndefined();
+    expect(parsed.textQuery).toBe('');
     expect(parsed.tags).toEqual([]);
     expect(parsed.decisionBodyIds).toEqual([]);
     expect(parsed.minimumDate).toBeUndefined();
