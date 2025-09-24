@@ -116,7 +116,7 @@ function AgendaItemCard({
 }
 
 type FullPageAgendaItemCardProps = {
-  item: AgendaItem; // [ANDRE] Agenda item should have backgroundAttachmentIds
+  item: AgendaItem;
   decisionBody: DecisionBody;
 };
 export function FullPageAgendaItemCard({
