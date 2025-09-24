@@ -42,12 +42,12 @@ function DisplayTag({ tag, id }: { tag: string; id: number }) {
   return (
     <>
       <Link
-        className="mr-1.5"
+        className="mr-1"
         href={`/actions?tag=${tag.replaceAll(' ', '')}`}
         key={'link' + id}
       >
         <Chip
-          className="hover:border-gray-400 hover:underline text-md"
+          className="hover:border-gray-400 hover:underline text-sm"
           variant="outline"
           key={'chip' + id}
         >
@@ -209,14 +209,6 @@ export function FullPageAgendaItemCard({
           />
         </>
       )}
-      {relatedTags.length > 0 && (
-        <>
-          <h4 className="mt-4 mb-2 font-bold">Tags</h4>
-          {relatedTags.map((tag, id) => (
-            <DisplayTag tag={tag} id={id} key={id} />
-          ))}
-        </>
-      )}
       {item.backgroundAttachmentId && (
         <>
           <h4 className="mt-8 mb-1 font-bold">Background Information</h4>
@@ -234,6 +226,14 @@ export function FullPageAgendaItemCard({
               </ChipLink>
             );
           })}
+        </>
+      )}
+      {relatedTags.length > 0 && (
+        <>
+          <h4 className="mt-4 mb-1 font-bold">Related tags</h4>
+          {relatedTags.map((tag, id) => (
+            <DisplayTag tag={tag} id={id} key={id} />
+          ))}
         </>
       )}
     </AgendaItemCard>
