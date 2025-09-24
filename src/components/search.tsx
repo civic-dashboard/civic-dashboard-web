@@ -29,7 +29,7 @@ export function SortDropdown() {
   // Use sortByFilterOptions instead of sortByOptions
   const options = useMemo(
     () =>
-      Object.values(sortByFilterOptions).map((opt) => ({
+      sortByFilterOptions.map((opt) => ({
         id: opt.sortId as number,
         label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant',
       })),
