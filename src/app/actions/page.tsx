@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { AgendaItemList } from '@/components/AgendaItemList';
+import { Suspense } from 'react';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -10,7 +11,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <AgendaItemList />
+      <Suspense>
+        <AgendaItemList />
+      </Suspense>
     </div>
   );
 }
