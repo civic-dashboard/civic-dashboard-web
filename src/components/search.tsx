@@ -38,7 +38,7 @@ export function SortDropdown() {
 
   const onSelect = useCallback(
     (selectedId: number) => {
-      const selectedOption = Object.values(sortByFilterOptions).find(
+      const selectedOption = sortByFilterOptions.find(
         (opt) => opt.sortId === selectedId,
       );
       setSearchOptions((opts) => ({
