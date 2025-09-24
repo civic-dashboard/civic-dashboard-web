@@ -55,7 +55,7 @@ export function SortDropdown() {
 
   // Find the selected option's id based on sortBy value
   const selectedId = useMemo(() => {
-    const selectedOption = Object.values(sortByFilterOptions).find(
+    const selectedOption = sortByFilterOptions.find(
       (opt) => opt.sortBy === sortBy && opt.sortDirection === sortDirection,
     );
     return selectedOption?.sortId;
