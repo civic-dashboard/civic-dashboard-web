@@ -132,8 +132,16 @@ export function FullPageAgendaItemCard({
       .replaceAll('"', '')
       .split(' OR ');
 
+    const textToSearch = item.agendaItemRecommendation
+      ? (
+          item.agendaItemRecommendation +
+          item.agendaItemSummary +
+          item.agendaItemTitle
+        ).toLowerCase()
+      : (item.agendaItemSummary + item.agendaItemTitle).toLowerCase();
+
     for (const keyword of tagSearch) {
-      if (item.agendaItemSummary.toLowerCase().search(keyword) !== -1) {
+      if (textToSearch.search(keyword) !== -1) {
         relatedTags.push(tagName);
         break;
       }
