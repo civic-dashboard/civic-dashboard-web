@@ -1,19 +1,27 @@
-import React from 'react'
-import { SearchBar } from '@/components/search'
-import { SearchContext } from '@/contexts/SearchContext';
+import React from 'react';
+import { SearchBar } from '@/components/search';
+import { SearchContext, SearchContextType } from '@/contexts/SearchContext';
 
 describe('<SearchBar />', () => {
   it('renders', () => {
-    const mockSearchContextValue = {
-      setSearchOptions: cy.spy().as('setSearchOptions'), // Use a spy to test if the function is called
-      searchOptions: { query: '', filters: {} }, // Provide a default state
+    const mockSearchContextValue: SearchContextType = {
+      searchOptions: {
+        textQuery: '',
+        tags: [],
+        decisionBodyIds: [],
+        minimumDate: new Date(),
+      },
+      setSearchOptions: cy.stub().as('setSearchOptions'),
+      searchResults: null,
+      isLoadingMore: false,
+      hasMoreSearchResults: false,
+      getNextPage: cy.stub().as('getNextPage'),
     };
-
     // Mount the SearchBar wrapped in the context provider
     cy.mount(
       <SearchContext.Provider value={mockSearchContextValue}>
         <SearchBar />
-      </SearchContext.Provider>
+      </SearchContext.Provider>,
     );
     cy.get('input').should('be.visible');
   });

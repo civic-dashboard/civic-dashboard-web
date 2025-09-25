@@ -1,10 +1,11 @@
 export default {
   component: {
     devServer: {
-      framework: "next",
-      bundler: "webpack",
+      framework: 'next',
+      bundler: 'webpack',
     },
-    specPattern: 'tests/**/*.{cy.ts,cy.tsx}'
+    specPattern: 'tests/**/*.{cy.ts,cy.tsx}',
+    supportFile: 'cypress/support/component.tsx',
   },
 
   e2e: {

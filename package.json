@@ -51,6 +51,7 @@
     "lucide-react": "^0.460.0",
     "mark.js": "^8.11.1",
     "next": "^14.2.18",
+    "next-router-mock": "^1.0.2",
     "next-sitemap": "^4.2.3",
     "node-fetch": "^3.3.2",
     "postgres": "^3.4.5",
