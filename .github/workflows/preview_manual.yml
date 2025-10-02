@@ -89,13 +89,24 @@ jobs:
             exit 1
           fi
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+      
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: preview_url_comment
+        with:
+          issue-number: ${{ github.event.inputs.pr_number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Preview
 
-      - name: Comment Preview URL on PR
+      - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          comment-id: ${{ steps.preview_url_comment.outputs.comment-id }}
           issue-number: ${{ github.event.inputs.pr_number }}
           body: |
             :rocket: Preview URL for this PR: ${{ steps.publish.outputs.preview_url }}
+          edit-mode: replace
 
       - name: Set "Upload preview deployment" status to success
         if: success()
