@@ -10,7 +10,7 @@ on:
 permissions:
   contents: read
   issues: write         # needed to post PR comments
-  pull-requests: read
+  pull-requests: write
   statuses: write       # needed to set the required check
 
 jobs:
