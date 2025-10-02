@@ -9,12 +9,13 @@ on:
 
 permissions:
   contents: read
+  issues: write         # needed to post PR comments
   pull-requests: read
-  statuses: write
+  statuses: write       # needed to set the required check
 
 jobs:
   preview:
-    name: Preview
+    name: Upload preview deployment   #
     runs-on: ubuntu-latest
 
     steps:
@@ -25,16 +26,14 @@ jobs:
           script: |
             const prNumber = Number(core.getInput('pr_number'));
             const { owner, repo } = context.repo;
-            const { data: pr } = await github.rest.pulls.get({
-              owner, repo, pull_number: prNumber
-            });
+            const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number: prNumber });
             core.setOutput('sha', pr.head.sha);
             core.setOutput('ref', pr.head.ref);
             core.setOutput('repo_full_name', pr.head.repo.full_name);
             core.setOutput('html_url', pr.html_url);
 
-      # Optional but nice UX: mark the check as "pending" immediately.
-      - name: Set "Preview" status to pending
+      # Optional nice UX: show a pending check immediately
+      - name: Set "Upload preview deployment" status to pending
         uses: actions/github-script@v7
         with:
           script: |
@@ -43,7 +42,7 @@ jobs:
               repo: context.repo.repo,
               sha: '${{ steps.pr.outputs.sha }}',
               state: 'pending',
-              context: 'Preview',
+              context: 'Upload preview deployment',
               description: 'Building preview…'
             });
 
@@ -96,7 +95,7 @@ jobs:
           body: |
             :rocket: Preview URL for this PR: ${{ steps.publish.outputs.preview_url }}
 
-      - name: Set "Preview" status to success
+      - name: Set "Upload preview deployment" status to success
         if: success()
         uses: actions/github-script@v7
         with:
@@ -106,12 +105,12 @@ jobs:
               repo: context.repo.repo,
               sha: '${{ steps.pr.outputs.sha }}',
               state: 'success',
-              context: 'Preview',
+              context: 'Upload preview deployment',
               target_url: '${{ steps.publish.outputs.preview_url }}',
               description: 'Preview ready'
             });
 
-      - name: Set "Preview" status to failure
+      - name: Set "Upload preview deployment" status to failure
         if: failure()
         uses: actions/github-script@v7
         with:
@@ -121,6 +120,6 @@ jobs:
               repo: context.repo.repo,
               sha: '${{ steps.pr.outputs.sha }}',
               state: 'failure',
-              context: 'Preview',
+              context: 'Upload preview deployment',
               description: 'Preview build failed'
             });
