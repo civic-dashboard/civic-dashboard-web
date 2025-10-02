@@ -14,6 +14,7 @@ import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
+import { useSearchParams } from 'next/navigation';
 
 function ResultList() {
   const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
@@ -53,6 +54,13 @@ function ResultList() {
 }
 
 export function AgendaItemList() {
+  const params = useSearchParams();
+  let selectedTag = '';
+
+  if (params.get('tag') !== null) {
+    selectedTag = params.get('tag') as string;
+  }
+
   const currentTermDecisionBodies = useMemo(
     () =>
       Object.fromEntries(
@@ -66,7 +74,7 @@ export function AgendaItemList() {
   return (
     <SearchProvider>
       <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
-        <SearchBar />
+        <SearchBar selectedTag={selectedTag} />
         <Tags />
         <hr />
         <AdvancedFilters decisionBodies={currentTermDecisionBodies} />
