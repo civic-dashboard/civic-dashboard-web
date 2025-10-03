@@ -12,19 +12,20 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-      checks: write     # <-- needed for checks.create
+      checks: write     # needed for checks.create / checks.update
 
     steps:
-      # Post the required check as "in_progress" right away
+      # Create the required check as "in_progress" and store its ID
       - name: Mark check in_progress
         uses: actions/github-script@v7
+        id: start_check
         with:
           script: |
-            await github.rest.checks.create({
+            const res = await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: 'Upload preview deployment',                    // must match branch protection
-              head_sha: '${{ github.event.pull_request.head.sha }}', // PR head SHA
+              name: 'Upload preview deployment',                     // must match branch protection
+              head_sha: '${{ github.event.pull_request.head.sha }}',  // PR head SHA
               status: 'in_progress',
               started_at: new Date().toISOString(),
               output: {
@@ -32,6 +33,7 @@ jobs:
                 summary: 'Auto preview starting.',
               },
             });
+            core.setOutput('check_id', res.data.id);
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -92,17 +94,16 @@ jobs:
             :rocket: Preview URL for this PR: ${{ env.PREVIEW_URL }}
           edit-mode: replace
 
-      # Mark success/failure on the same custom check name
+      # Update the same check run with success/failure
       - name: Mark check success
         if: success()
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.checks.create({
+            await github.rest.checks.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: 'Upload preview deployment',
-              head_sha: '${{ github.event.pull_request.head.sha }}',
+              check_run_id: ${{ steps.start_check.outputs.check_id }},
               status: 'completed',
               conclusion: 'success',
               completed_at: new Date().toISOString(),
@@ -117,11 +118,10 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.checks.create({
+            await github.rest.checks.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: 'Upload preview deployment',
-              head_sha: '${{ github.event.pull_request.head.sha }}',
+              check_run_id: ${{ steps.start_check.outputs.check_id }},
               status: 'completed',
               conclusion: 'failure',
               completed_at: new Date().toISOString(),
