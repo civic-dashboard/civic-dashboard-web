@@ -1,4 +1,4 @@
-name: Upload preview deployment
+name: Upload preview deployment manual
 
 on:
   workflow_dispatch:
@@ -9,13 +9,13 @@ on:
 
 permissions:
   contents: read
-  issues: write         # needed to post PR comments
+  issues: write
   pull-requests: write
-  statuses: write       # needed to set the required check
+  checks: write         # <-- use checks API (GitHub Actions app)
 
 jobs:
   preview:
-    name: Upload preview deployment   #
+    name: Upload preview deployment
     runs-on: ubuntu-latest
 
     steps:
@@ -34,18 +34,22 @@ jobs:
             core.setOutput('repo_full_name', pr.head.repo.full_name);
             core.setOutput('html_url', pr.html_url);
 
-      # Optional nice UX: show a pending check immediately
-      - name: Set "Upload preview deployment" status to pending
+      # Pending/in-progress check (nice UX)
+      - name: Set "Upload preview deployment" check to in_progress
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.repos.createCommitStatus({
+            await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: '${{ steps.pr.outputs.sha }}',
-              state: 'pending',
-              context: 'Upload preview deployment',
-              description: 'Building preview…'
+              name: 'Upload preview deployment',                 // must match branch protection
+              head_sha: '${{ steps.pr.outputs.sha }}',           // PR HEAD SHA
+              status: 'in_progress',
+              started_at: new Date().toISOString(),
+              output: {
+                title: 'Building preview…',
+                summary: 'Preview build started.',
+              }
             });
 
       - name: Checkout PR HEAD (no persisted creds)
@@ -89,7 +93,7 @@ jobs:
             exit 1
           fi
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
-      
+
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: preview_url_comment
@@ -108,31 +112,40 @@ jobs:
             :rocket: Preview URL for this PR: ${{ steps.publish.outputs.preview_url }}
           edit-mode: replace
 
-      - name: Set "Upload preview deployment" status to success
+      - name: Set "Upload preview deployment" check to success
         if: success()
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.repos.createCommitStatus({
+            await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: '${{ steps.pr.outputs.sha }}',
-              state: 'success',
-              context: 'Upload preview deployment',
-              target_url: '${{ steps.publish.outputs.preview_url }}',
-              description: 'Preview ready'
+              name: 'Upload preview deployment',
+              head_sha: '${{ steps.pr.outputs.sha }}',
+              status: 'completed',
+              conclusion: 'success',
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'Preview ready',
+                summary: 'Preview: ${{ steps.publish.outputs.preview_url }}'
+              }
             });
 
-      - name: Set "Upload preview deployment" status to failure
+      - name: Set "Upload preview deployment" check to failure
         if: failure()
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.repos.createCommitStatus({
+            await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: '${{ steps.pr.outputs.sha }}',
-              state: 'failure',
-              context: 'Upload preview deployment',
-              description: 'Preview build failed'
+              name: 'Upload preview deployment',
+              head_sha: '${{ steps.pr.outputs.sha }}',
+              status: 'completed',
+              conclusion: 'failure',
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'Preview failed',
+                summary: 'The preview upload failed. See job logs for details.'
+              }
             });

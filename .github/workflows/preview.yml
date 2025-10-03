@@ -2,7 +2,6 @@ name: Upload preview deployment
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   deploy:
