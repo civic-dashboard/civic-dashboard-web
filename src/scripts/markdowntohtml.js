@@ -6,7 +6,7 @@ import { marked } from 'marked';
 
 // Configuration
 const CONFIG = {
-  inputDir: './content/markdown',
+  inputDir: './contents/markdown',
   outputDir: './public/html',
   templatePath: './src/scripts/template.html',
 };
