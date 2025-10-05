@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
-/* eslint-disable @typescript-eslint/no-require-imports */
-const fs = require('fs');
-const path = require('path');
-const { marked } = require('marked');
+import fs from 'fs';
+import path from 'path';
+import { marked } from 'marked';
 
 // Configuration
 const CONFIG = {
-  inputDir: './content/markdown', // Where your .md files are
-  outputDir: './public/html', // Where HTML files will be generated
-  templatePath: './scripts/template.html', // Optional HTML template
+  inputDir: './content/markdown',
+  outputDir: './public/html',
+  templatePath: './src/scripts/template.html',
 };
 
 // HTML template (used if no template file exists)
@@ -187,8 +186,8 @@ function main() {
   console.log(`✨ Completed! Generated ${processedFiles.length} HTML files in ${CONFIG.outputDir}`);
 }
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
 
-module.exports = { processMarkdownFile, CONFIG };
+export { processMarkdownFile, CONFIG };
