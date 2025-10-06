@@ -59,7 +59,7 @@ function extractTitle(content) {
   if (h1Match) {
     return h1Match[1];
   }
-  
+
   // Fallback to filename-based title
   return 'Generated HTML';
 }
@@ -74,16 +74,16 @@ function loadTemplate() {
 function processMarkdownFile(filePath, template) {
   const fileName = path.basename(filePath, '.md');
   const content = fs.readFileSync(filePath, 'utf8');
-  
+
   // Extract metadata if present (simple front matter)
   let title = fileName;
   let markdownContent = content;
-  
+
   const frontMatterMatch = content.match(/^---\s*\n(.*?)\n---\s*\n(.*)$/s);
   if (frontMatterMatch) {
     const frontMatter = frontMatterMatch[1];
     markdownContent = frontMatterMatch[2];
-    
+
     // Extract title from front matter
     const titleMatch = frontMatter.match(/title:\s*['"]?([^'"]+)['"]?/);
     if (titleMatch) {
@@ -93,29 +93,29 @@ function processMarkdownFile(filePath, template) {
     // Try to extract title from content
     title = extractTitle(content) || fileName;
   }
-  
+
   // Convert markdown to HTML
   const htmlContent = marked(markdownContent);
-  
+
   // Apply template
   const finalHtml = template
     .replace(/\{\{title\}\}/g, title)
     .replace(/\{\{content\}\}/g, htmlContent)
     .replace(/\{\{filename\}\}/g, fileName);
-  
+
   // Write output file
   const outputPath = path.join(CONFIG.outputDir, `${fileName}.html`);
   fs.writeFileSync(outputPath, finalHtml);
-  
+
   console.log(`✅ Generated: ${fileName}.md → ${fileName}.html`);
   return { fileName, title, outputPath };
 }
 
 function generateIndex(processedFiles) {
   const indexContent = processedFiles
-    .map(file => `<li><a href="${file.fileName}.html">${file.title}</a></li>`)
+    .map((file) => `<li><a href="${file.fileName}.html">${file.title}</a></li>`)
     .join('\n');
-  
+
   const indexHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -150,44 +150,73 @@ function generateIndex(processedFiles) {
 
 function main() {
   console.log('🚀 Starting markdown to HTML conversion...');
-  
+  console.log('📂 Looking in:', CONFIG.inputDir);
+  console.log('📂 Current directory:', process.cwd());
+
   // Check if input directory exists
   if (!fs.existsSync(CONFIG.inputDir)) {
     console.error(`❌ Input directory not found: ${CONFIG.inputDir}`);
+    console.error(
+      `📂 Absolute path would be: ${path.resolve(CONFIG.inputDir)}`,
+    );
     process.exit(1);
   }
-  
+
+  console.log('✅ Input directory exists!');
+
   // Ensure output directory exists
   ensureDirectoryExists(CONFIG.outputDir);
-  
+
   // Load template
   const template = loadTemplate();
-  
+  console.log('✅ Template loaded');
+
   // Find all markdown files
-  const markdownFiles = fs.readdirSync(CONFIG.inputDir)
-    .filter(file => path.extname(file).toLowerCase() === '.md')
-    .map(file => path.join(CONFIG.inputDir, file));
-  
+  const allFiles = fs.readdirSync(CONFIG.inputDir);
+  console.log('📄 All files in directory:', allFiles);
+
+  const markdownFiles = allFiles
+    .filter((file) => path.extname(file).toLowerCase() === '.md')
+    .map((file) => path.join(CONFIG.inputDir, file));
+
+  console.log('📝 Markdown files found:', markdownFiles);
+
   if (markdownFiles.length === 0) {
     console.log(`⚠️  No markdown files found in ${CONFIG.inputDir}`);
     return;
   }
-  
+
   console.log(`📁 Found ${markdownFiles.length} markdown file(s)`);
-  
+
   // Process each file
-  const processedFiles = markdownFiles.map(filePath => 
-    processMarkdownFile(filePath, template)
+  const processedFiles = markdownFiles.map((filePath) =>
+    processMarkdownFile(filePath, template),
   );
-  
+
   // Generate index page
   generateIndex(processedFiles);
-  
-  console.log(`✨ Completed! Generated ${processedFiles.length} HTML files in ${CONFIG.outputDir}`);
+
+  console.log(
+    `✨ Completed! Generated ${processedFiles.length} HTML files in ${CONFIG.outputDir}`,
+  );
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Check if this file is being run directly
+const isRunningDirectly =
+  process.argv[1] &&
+  (import.meta.url === `file://${process.argv[1]}` ||
+    import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`);
+
+console.log('Debug - import.meta.url:', import.meta.url);
+console.log('Debug - process.argv[1]:', process.argv[1]);
+console.log('Debug - isRunningDirectly:', isRunningDirectly);
+
+if (isRunningDirectly) {
   main();
+} else {
+  console.log(
+    '⚠️  Script is being imported, not run directly. Call main() to execute.',
+  );
 }
 
 export { processMarkdownFile, CONFIG };
