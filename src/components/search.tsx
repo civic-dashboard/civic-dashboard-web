@@ -14,7 +14,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { logAnalytics } from '@/api/analytics';
-import { useEffect, useRef } from 'react';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
