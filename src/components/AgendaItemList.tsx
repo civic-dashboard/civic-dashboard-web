@@ -67,6 +67,17 @@ export function AgendaItemList() {
   return (
     <SearchProvider>
       <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
+        <div className="mt-4 mb-2">
+          <h1 className="text-2xl font-bold">Actions</h1>
+          <p>
+            Here are agenda items that the City of Toronto will discuss at
+            upcoming meetings. You can provide feedback on these items by
+            submitting comments by email, which will be read at the meeting, or
+            requesting to speak at the meeting live, in person or over video
+            conferencing.
+          </p>
+        </div>
+        <hr />
         <div className="flex flex-row self-stretch items-center space-x-2">
           <div className="flex-grow">
             <SearchBar />
