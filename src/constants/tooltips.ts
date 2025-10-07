@@ -7,7 +7,7 @@ export const tooltips = {
   ward: {
     trigger: 'Ward',
     content:
-      'Toronto is divided into 25 geographic areas, each represented by a City Councillor. These areas are called "wards.',
+      'Toronto is divided into 25 geographic areas, each represented by a City Councillor. These areas are called "wards".',
   },
   councillor: {
     trigger: 'Councillor',
@@ -33,5 +33,25 @@ export const tooltips = {
     trigger: 'Deputations',
     content:
       'Deputations are opportunities for citizens to speak directly to a committee about a specific issue or recommendation being discussed. Deputations allow citizens to share their opinions and influence the decisions being made.',
+  },
+  byElection: {
+    trigger: 'by-election',
+    content: `By-elections are held to to fill vacancies on City Council that occur between general elections. Vacancies can occur due to a member's resignation, death, ineligibility to sit, or expulsion from their post.`,
+  },
+  cityCouncilTerm: {
+    trigger: 'City Council term',
+    content: `Toronto's City Council terms are four years long, after which elections are held to elect new Councillors across the city. The current term began on November 15, 2022, and will end on November 14, 2026.`,
+  },
+  municipalElections: {
+    trigger: 'municipal elections',
+    content: `Municipal elections occur across Ontario every four years on the fourth Monday in October. The next Municipal election will take place on October 26, 2026.`,
+  },
+  municipality: {
+    trigger: 'municipality',
+    content: `Municipalities are local governments (cities, towns, villages, townships, or counties) with elected Councillors and a Mayor. Ontario has 444 municipalities, managing local roads, waste, transit, zoning and libraries. Ontario has 444 municipalities.`,
+  },
+  votersList: {
+    trigger: "Voters' List",
+    content: `The Voter's List is a list of the name, address and date of birth of all eligible voters across Ontario. It is used by election staff to verify whether voters are eligible to vote in a given election or by-election.`,
   },
 };

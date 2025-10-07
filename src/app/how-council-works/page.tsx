@@ -213,7 +213,7 @@ export default function HowCouncilWorks() {
           <ProcessImage src={imageData.council.src} />
           <SectionText>
             Finally, the item reaches the full City Council, which consists of
-            all elected council members. At this stage, councilors review the
+            all elected council members. At this stage, councillors review the
             item, debate its merits, and vote on whether to approve or reject
             it. Each councilor casts a vote—green for approval, red for
             rejection. If a majority votes in favor, the item becomes a new law,
