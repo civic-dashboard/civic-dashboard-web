@@ -39,7 +39,7 @@ function getAllMarkdownContent(): MarkdownDocument[] {
 
         // Parse front matter
         const frontMatterMatch = fileContent.match(
-          /^---\s*\n(.*?)\n---\s*\n(.*)$/s,
+          /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/,
         );
 
         if (frontMatterMatch) {
@@ -85,7 +85,7 @@ export default function DocsPage() {
         <main className="container mx-auto px-4 py-12">
           <div className="max-w-3xl mx-auto">
             <p className="text-red-600">
-              This wiki section is under construction
+              No markdown files found in contents/markdown/
             </p>
           </div>
         </main>
