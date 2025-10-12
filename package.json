@@ -25,7 +25,6 @@
     "tsx": "tsx --tsconfig=tsconfig.tsx.json",
     "tsxe": "tsx --tsconfig=tsconfig.tsx.json --env-file=.env",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
-    "build:html": "node src/scripts/markdowntohtml.js",
     "dev:html": "npm run build:html && echo 'HTML files generated in public/html'"
   },
   "dependencies": {

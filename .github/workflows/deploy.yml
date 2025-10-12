@@ -36,8 +36,6 @@ jobs:
             ${{ runner.os }}-frontend-${{ hashFiles('**/package-lock.json') }}-
       - name: Install dependencies
         run: npm ci
-      - name: Generate HTML from Markdown
-        run: npm run build:html
       - name: Deploy to cloudflare pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
