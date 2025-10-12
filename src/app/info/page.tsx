@@ -85,7 +85,7 @@ export default function DocsPage() {
         <main className="container mx-auto px-4 py-12">
           <div className="max-w-3xl mx-auto">
             <p className="text-red-600">
-              No markdown files found in contents/markdown/
+              This wiki section is under construction
             </p>
           </div>
         </main>
