@@ -17,4 +17,8 @@ export const menuItems = [
     label: 'Feedback',
     href: '/feedback',
   },
+  {
+    label: 'Info',
+    href: '/info',
+  }
 ];
