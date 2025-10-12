@@ -28,6 +28,11 @@ type Props<ID extends number | string> = {
   value?: ID | ID[];
   placeholder?: string;
   noResults?: string;
+  /** Hides search bar if false */
+  searchable?: boolean;
+  /** Keeps original order if false. Otherwise, reorders the items in the combo box based on selection */
+  reorderSelected?: boolean;
+  defaultValue?: ID | ID[];
 };
 
 // TODO: how to dynamically/responsively size this?
@@ -38,9 +43,11 @@ export const Combobox = <ID extends number | string>({
   value,
   placeholder,
   noResults,
+  searchable = true,
+  reorderSelected = true,
+  defaultValue = undefined,
 }: Props<ID>) => {
   const [open, setOpen] = useState(false);
-
   if (multiple && !Array.isArray(value)) {
     throw new Error(
       'Must pass list of strings for value if using multiple option on combobox.',
@@ -66,7 +73,17 @@ export const Combobox = <ID extends number | string>({
       if (value.length === 0) return placeholder;
       return value.map((id) => optionMap[id].label).join(', ');
     }
-    if (value === undefined) return placeholder;
+    if (value === undefined) {
+      if (defaultValue !== undefined) {
+        if (Array.isArray(defaultValue)) {
+          return defaultValue
+            .map((id) => optionMap[id]?.label ?? '')
+            .join(', ');
+        }
+        return optionMap[defaultValue]?.label ?? placeholder;
+      }
+      return placeholder;
+    }
     return optionMap[value].label;
   }, [optionMap, placeholder, value]);
 
@@ -79,11 +96,14 @@ export const Combobox = <ID extends number | string>({
   );
 
   const orderedOptions = useMemo(
-    () => [
-      ...options.filter((opt) => isValueSelected(opt.id)),
-      ...options.filter((opt) => !isValueSelected(opt.id)),
-    ],
-    [options, isValueSelected],
+    () =>
+      reorderSelected
+        ? [
+            ...options.filter((opt) => isValueSelected(opt.id)),
+            ...options.filter((opt) => !isValueSelected(opt.id)),
+          ]
+        : options,
+    [options, isValueSelected, reorderSelected],
   );
 
   return (
@@ -106,7 +126,7 @@ export const Combobox = <ID extends number | string>({
       </PopoverTrigger>
       <PopoverContent className="max-w-[500px] p-0">
         <Command>
-          <CommandInput placeholder={placeholder} />
+          {searchable && <CommandInput placeholder={placeholder} />}
           <CommandList>
             {noResults && <CommandEmpty>{noResults}</CommandEmpty>}
             <CommandGroup>
