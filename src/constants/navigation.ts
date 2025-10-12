@@ -20,5 +20,5 @@ export const menuItems = [
   {
     label: 'Wiki',
     href: '/wiki',
-  }
+  },
 ];
