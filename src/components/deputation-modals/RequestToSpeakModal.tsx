@@ -57,7 +57,7 @@ export function RequestToSpeakModal({
       year: 'numeric',
     },
   );
-  const subject = `Request to appear before ${formattedDate} ${decisionBody.decisionBodyName} on item ${agendaItem.agendaItemId}`;
+  const subject = `Request to appear before ${formattedDate} ${decisionBody.decisionBodyName} on item ${agendaItem.reference}`;
   const bodyStartParagraphs = [
     'To the City Clerk:',
     `I would like to appear before the ${formattedDate} ${decisionBody.decisionBodyId} to speak on item ${agendaItem.reference}, ${agendaItem.agendaItemTitle}.`,
