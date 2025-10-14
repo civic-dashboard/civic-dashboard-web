@@ -12,13 +12,18 @@ This is (probably not, but hopefully!) all the information you need to contribut
 - Commits to `main` _require_ a PR
 - PRs can only be merged if all the CI checks pass. that includes:
   - a linter, to make sure our code style is consistent
-  - a preview deployment!
+  - a preview deployment that executes and deploy successfully!
+
+### Code review
+
+- PRs currently require a review from 1 team member.
+  - If you're not sure who should be doing a review, post on Slack within `#tech-civic-dashboard`
 
 ### Permissions
 
-- anyone can open a PR from a fork, but it will not automatically run CI workflows until an org member approves (and even then the CI workflows will not have access to org secrets).
 - any org member can create branches and open PRs which will run the CI workflows, but they will not be able to merge to `main`.
-- only members of the github org with "maintain" permissions can merge to main (most notably, members of the "eng" team).
+- members of the "eng" (engineering) team and "write" team are able to merge to `main`
+- If someone is not currently part of the org, they can open a PR from a fork. However it will not automatically run the preview deployment CI because the fork does not have access to org secrets. Someone from the "eng" or "write" team can manually trigger the `Upload preview deployment manual` Github Actions after reviewing what the PR does
 
 ### Preview deployments
 
@@ -26,16 +31,6 @@ This is (probably not, but hopefully!) all the information you need to contribut
 - this is a very handy way to be able to check that your changes are working as expected before merging.
 - any behavior you see in the preview deployment should (i say should because when does software _always_ do what you want it to) be identical once you merge to `main`
 - note that preview deployments run against the production database since we currently have no staging database!! see [Migrations](#migrations) for more info
-
-### Code review
-
-- PRs do _not_ currently require a review.
-  - because we're super async we don't want to hold up changes based on people's availability for a review
-  - please use your best judgement re: whether it would be good to have a second pair of eyes on your code
-  - some rules of thumb:
-    - if you're nervous about merging, request a review!
-    - if it's your first PR, request a review!
-    - if you're not sure the right way to write some code, request a review!
 
 ### Migrations
 
