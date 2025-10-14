@@ -54,3 +54,7 @@ We've documented how we use Github for project management in this [Google Doc](h
   - try to import them in as few places as possible, by creating wrapper functions and using the `no-restricted-imports` eslint rule
     - this allows us flexibility to adjust the API of the dependency, and makes it easy to swap it out or remove it if necessary
     - see [`toSlug.ts`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/src/logic/toSlug.ts) and [`.eslintrc.json`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/.eslintrc.json#L14) for an example of this.
+
+## Teams
+As soon as you have been onboarded and feel comfortable with submitting your first PR, you can get added to the `write` Github team. This team has the Github Write access which will allow you to merge PRs, see the execution of our Github actions, etc. If you have been on the project for a few months, you can join the `eng` team which has the Github Maintain access. Read the official [Github docs on Repository Roles
+](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization) for more infos
