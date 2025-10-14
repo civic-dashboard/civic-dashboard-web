@@ -1,3 +1,5 @@
+'use client';
+
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
 import { useMemo, memo, useState, useEffect } from 'react';
 import { Link2Icon } from 'lucide-react';
@@ -5,6 +7,8 @@ import { SummaryPanel } from '@/app/councillors/[contactSlug]/components/Summary
 import { MotionsList } from '@/app/councillors/[contactSlug]/components/MotionsList';
 import { AgendaItemLink } from '@/components/AgendaItemLink';
 import { buttonVariants, Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
@@ -41,18 +45,18 @@ const AgendaItemCard = memo(function AgendaItemCard({
   );
 });
 
-function usePagination<T>(items: T[], itemsPerPage: number = 10) {
-  const [currentPage, setCurrentPage] = useState(1);
-
+function usePagination(
+  currentPage: number,
+  totalItems: number,
+  contactSlug: string,
+  itemsPerPage: number = 10,
+) {
   const paginationData = useMemo(() => {
-    const totalItems = items.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentItems = items.slice(startIndex, endIndex);
 
     return {
-      currentItems,
       totalPages,
       totalItems,
       startIndex: startIndex + 1,
@@ -60,7 +64,16 @@ function usePagination<T>(items: T[], itemsPerPage: number = 10) {
       hasNextPage: currentPage < totalPages,
       hasPreviousPage: currentPage > 1,
     };
-  }, [items, currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage, totalItems]);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const setCurrentPage = (page: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', page.toString());
+    router.push(`/councillors/${contactSlug}/?${params.toString()}`);
+  };
 
   const goToPage = (page: number) => {
     const pageNumber = Math.max(1, Math.min(page, paginationData.totalPages));
@@ -69,19 +82,15 @@ function usePagination<T>(items: T[], itemsPerPage: number = 10) {
 
   const goToNextPage = () => {
     if (paginationData.hasNextPage) {
-      setCurrentPage((prev) => prev + 1);
+      setCurrentPage(currentPage + 1);
     }
   };
 
   const goToPreviousPage = () => {
     if (paginationData.hasPreviousPage) {
-      setCurrentPage((prev) => prev - 1);
+      setCurrentPage(currentPage - 1);
     }
   };
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [items]);
 
   return {
     ...paginationData,
@@ -193,26 +202,34 @@ const Pagination: React.FC<PaginationProps> = ({
 
 export default function AgendaItemResults({
   agendaItems,
+  contactSlug,
+  currentPage,
+  itemCount,
   searchTerm = '',
 }: {
   agendaItems: AgendaItem[];
+  contactSlug: string;
+  currentPage: number;
+  itemCount: number;
   searchTerm?: string;
 }) {
+  const [pageAgendaItems, setPageAgendaItems] =
+    useState<AgendaItem[]>(agendaItems);
+  const [agendaItemCount, setAgendaItemCount] = useState(itemCount);
+
   const tidySearchQuery = searchTerm.toLocaleLowerCase().trim();
 
   const filteredItems = useMemo(
     () =>
       tidySearchQuery
-        ? agendaItems.filter((item) =>
+        ? pageAgendaItems.filter((item) =>
             item.agendaItemTitle.toLowerCase().includes(tidySearchQuery),
           )
-        : agendaItems,
-    [agendaItems, tidySearchQuery],
+        : pageAgendaItems,
+    [pageAgendaItems, tidySearchQuery],
   );
 
   const {
-    currentItems,
-    currentPage,
     totalPages,
     totalItems,
     startIndex,
@@ -222,7 +239,27 @@ export default function AgendaItemResults({
     goToPage,
     goToNextPage,
     goToPreviousPage,
-  } = usePagination(filteredItems, 10);
+  } = usePagination(currentPage, agendaItemCount, contactSlug, 10);
+
+  useEffect(() => {
+    setPageAgendaItems([]);
+    const res = async () => {
+      const response = await fetch(
+        `http://localhost:3000//api/councillor-items?contactSlug=${contactSlug}&page=${currentPage}&pageSize=10`,
+        {
+          method: 'GET',
+        },
+      );
+      const itemCount = Number(response.headers.get('agenda-item-count'));
+      const newAgendaItems = (await response.json()) as AgendaItem[];
+      if (!newAgendaItems || !itemCount) return;
+
+      if (itemCount && itemCount > 0) setAgendaItemCount(itemCount);
+
+      setPageAgendaItems(newAgendaItems);
+    };
+    res();
+  }, [currentPage, contactSlug]);
 
   return (
     <div>
@@ -239,11 +276,11 @@ export default function AgendaItemResults({
       </div>
 
       <div>
-        {currentItems.map((item) => (
+        {filteredItems.map((item) => (
           <AgendaItemCard key={item.agendaItemNumber} item={item} />
         ))}
 
-        {currentItems.length === 0 && (
+        {filteredItems.length === 0 && (
           <div className="text-center py-8 text-gray-500">
             No agenda items to display.
           </div>

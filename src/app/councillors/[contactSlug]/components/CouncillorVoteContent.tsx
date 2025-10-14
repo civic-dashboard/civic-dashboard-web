@@ -6,8 +6,14 @@ import { SearchInput } from '@/components/SearchInput';
 
 export default function CouncillorVoteContent({
   agendaItems,
+  contactSlug,
+  currentPage,
+  itemCount,
 }: {
   agendaItems: AgendaItem[];
+  contactSlug: string;
+  currentPage: number;
+  itemCount: number;
 }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -19,7 +25,13 @@ export default function CouncillorVoteContent({
         placeholder="Search agenda items…"
         className="dark:bg-transparent"
       />
-      <AgendaItemResults agendaItems={agendaItems} searchTerm={searchTerm} />
+      <AgendaItemResults
+        currentPage={currentPage}
+        agendaItems={agendaItems}
+        itemCount={itemCount}
+        searchTerm={searchTerm}
+        contactSlug={contactSlug}
+      />
     </>
   );
 }
