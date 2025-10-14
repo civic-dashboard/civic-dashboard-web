@@ -14,7 +14,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { logAnalytics } from '@/api/analytics';
-import { useEffect, useRef } from 'react';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
@@ -125,26 +124,8 @@ export function Tags() {
   );
 }
 
-export function SearchBar({ selectedTag }: { selectedTag: string }) {
-  const { searchOptions, setSearchOptions } = useSearch();
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    if (selectedTag && isFirstRender.current) {
-      const tagSelected = selectedTag;
-      const tagMap = new Map<string, string>();
-      const tagKeys = Object.keys(allTags);
-      tagKeys.forEach((tagKey) => {
-        tagMap.set(tagKey.toLowerCase().replaceAll(' ', ''), tagKey);
-      });
-      const tagMapKeys = Array.from(tagMap.keys());
-      if (tagMapKeys.includes(tagSelected)) {
-        const tag: TagEnum[] = [tagMap.get(tagSelected)] as TagEnum[];
-        setSearchOptions({ ...searchOptions, tags: tag });
-      }
-    }
-    isFirstRender.current = false;
-  }, [selectedTag, searchOptions, setSearchOptions]);
+export function SearchBar() {
+  const { setSearchOptions } = useSearch();
 
   return (
     <div className="flex justify-center">

@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { AgendaItemList } from '@/components/AgendaItemList';
-import { Suspense } from 'react';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -8,12 +7,15 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <Suspense>
-        <AgendaItemList />
-      </Suspense>
+      <AgendaItemList initialSearchParams={params} />
     </div>
   );
 }
