@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
   return res;
 }
 
-export async function getTotalAgendaItemsForContact(
+async function getTotalAgendaItemsForContact(
   db: Kysely<DB>,
   contactSlug: string,
 ): Promise<{ itemCount: number }[]> {

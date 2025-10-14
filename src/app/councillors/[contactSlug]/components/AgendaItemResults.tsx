@@ -270,7 +270,7 @@ export default function AgendaItemResults({
               Showing {startIndex}-{endIndex} of {totalItems} results
             </>
           ) : (
-            'No results found'
+            'Loading results'
           )}
         </div>
       </div>
@@ -282,7 +282,7 @@ export default function AgendaItemResults({
 
         {filteredItems.length === 0 && (
           <div className="text-center py-8 text-gray-500">
-            No agenda items to display.
+            Loading agenda items.
           </div>
         )}
       </div>
