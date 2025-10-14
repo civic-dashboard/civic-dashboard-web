@@ -6,6 +6,13 @@ This is (probably not, but hopefully!) all the information you need to contribut
 
 🚧 There obviously won't be room to do a comprehensive tutorial on Next, TypeScript, JavaScript, React, all of web dev, etc... but it'd be nice to have a brief explanation and some helpful links here. Please ask around if that would be useful until then! 🚧
 
+## Github Issues and Github Project
+
+We use [Github Issues](https://github.com/civic-dashboard/civic-dashboard-web/issues) and have a [Project Board](https://github.com/orgs/civic-dashboard/projects/3) to help us manage everything that needs to be done. You can pick an issue and assign yourself to it or even create new issues! 
+
+We've documented how we use Github for project management in this [Google Doc](https://docs.google.com/document/d/1xehRm-2yZvC_9VRm5CrhbzlIyVNDNh3cpTQPDdtLRso/edit?tab=t.46j0b7xt6q03)
+
+
 ## Pull request and commit workflow
 
 - Commits to `main` trigger a new production deployment (a bit scary!)
@@ -47,9 +54,3 @@ This is (probably not, but hopefully!) all the information you need to contribut
   - try to import them in as few places as possible, by creating wrapper functions and using the `no-restricted-imports` eslint rule
     - this allows us flexibility to adjust the API of the dependency, and makes it easy to swap it out or remove it if necessary
     - see [`toSlug.ts`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/src/logic/toSlug.ts) and [`.eslintrc.json`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/.eslintrc.json#L14) for an example of this.
-
-## Emails
-
-We use [maildev](https://github.com/maildev/maildev) to preview emails in development. Make sure you've started your docker containers with `npm run docker:start`, and navigate to `localhost:1080` in your browser. All emails that are sent from the app in development mode will show up in this inbox!
-
-Note that links in emails will by default link to `https://civicdashboard.ca`, rather than your local dev server. You can set `HOSTNAME_FOR_EMAIL_LINKS` in your `.env` to account for this.
