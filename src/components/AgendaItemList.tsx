@@ -8,13 +8,15 @@ import {
   SortDropdown,
   Tags,
 } from '@/components/search';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { decisionBodies } from '@/constants/decisionBodies';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
+import { usePathname, useRouter } from 'next/navigation';
+import { isTag } from '@/constants/tags';
 
 function ResultList() {
   const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
@@ -53,7 +55,48 @@ function ResultList() {
   );
 }
 
-export function AgendaItemList() {
+type Props = {
+  initialSearchParams: { [key: string]: string | string[] | undefined };
+};
+
+function AgendaItemListInner({ initialSearchParams }: Props) {
+  const { searchOptions, setSearchOptions } = useSearch();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // Read initial query params from server-side rendered URL.
+    //
+    // TODO: We're only reading/setting tags in the url right now,
+    // // but in the future, we can support other search/filter options.
+    const tags =
+      typeof initialSearchParams.tag === 'string'
+        ? [initialSearchParams.tag]
+        : initialSearchParams.tag || [];
+    const validTags = tags.filter(isTag);
+
+    setSearchOptions((opts) => ({ ...opts, tags: validTags }));
+    // This only runs once; passing empty deps array on purpose.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    // Whenever search options change, update url to reflect these changes.
+    //
+    // TODO: We're only reading/setting tags in the url right now,
+    // // but in the future, we can support other search/filter options.
+    const tags = searchOptions.tags;
+
+    const params = new URLSearchParams();
+    for (const i in tags) {
+      params.append('tag', tags[i]);
+    }
+
+    const queryString = params.toString();
+    const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
+    router.push(updatedPath);
+  }, [searchOptions, router, pathname]);
+
   const currentTermDecisionBodies = useMemo(
     () =>
       Object.fromEntries(
@@ -95,8 +138,16 @@ export function AgendaItemList() {
             <SubscribeToSearchButton />
           </div>
         </div>
-        <ResultList />
       </div>
+      <ResultList />
+    </SearchProvider>
+  );
+}
+
+export function AgendaItemList({ initialSearchParams }: Props) {
+  return (
+    <SearchProvider>
+      <AgendaItemListInner initialSearchParams={initialSearchParams} />
     </SearchProvider>
   );
 }
