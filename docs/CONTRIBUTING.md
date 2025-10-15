@@ -17,7 +17,7 @@ We've documented how we use Github for project management in this [Google Doc](h
 
 - Commits to `main` trigger a new production deployment (a bit scary!)
 - Commits to `main` _require_ a PR
-- PRs can only be merged if all the CI checks pass. that includes:
+- PRs can only be merged if all the CI checks pass and have at least one approval from a team member. CI checks include:
   - a linter, to make sure our code style is consistent
   - a preview deployment that executes and deploy successfully!
 
