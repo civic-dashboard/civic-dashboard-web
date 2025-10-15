@@ -57,4 +57,4 @@ We've documented how we use Github for project management in this [Google Doc](h
 
 ## Teams
 As soon as you have been onboarded and feel comfortable with submitting your first PR, you can ask to join the `write` Github team. This team has the Github Write access which will allow you to merge PRs, see the execution of our Github actions, etc. If you have been on the project for a few months, you can join the `eng` team which has the Github Maintain access. Read the official [Github docs on Repository Roles
-](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization) for more infos
+](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization) for more info
