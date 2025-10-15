@@ -24,7 +24,7 @@ We've documented how we use Github for project management in this [Google Doc](h
 ### Code review
 
 - PRs currently require a review from 1 team member.
-  - If you're not sure who should be doing a review, post on Slack within `#tech-civic-dashboard`
+  - If you're not sure who to request a review from, post on Slack within `#tech-civic-dashboard`
 
 ### Permissions
 
