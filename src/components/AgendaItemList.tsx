@@ -140,7 +140,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
         </div>
       </div>
       <ResultList />
-    </div>
+    </SearchProvider>
   );
 }
 
