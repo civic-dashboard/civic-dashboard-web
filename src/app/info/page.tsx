@@ -10,14 +10,14 @@ async function getHtmlContent(filename: string) {
   try {
     const filePath = path.join(process.cwd(), 'public', 'html', filename);
     const htmlContent = fs.readFileSync(filePath, 'utf8');
-    
+
     // Extract just the body content (remove the template wrapper)
     const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-    
+
     if (bodyMatch) {
       return bodyMatch[1];
     }
-    
+
     // If no body tag found, return the full content
     return htmlContent;
   } catch (error) {
