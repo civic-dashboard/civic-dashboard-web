@@ -1,42 +1,66 @@
-name: Upload preview deployment
+name: Upload preview deployment manual
 
 on:
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to preview (from a fork or same-repo)'
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  checks: write
 
 jobs:
-  deploy:
-    # Only run the auto preview for same-repo PRs (forks will use the manual workflow)
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
-    runs-on: ubuntu-latest
+  preview:
     name: Upload preview deployment
-    permissions:
-      contents: read
-      pull-requests: write
-      checks: write     # needed for checks.create / checks.update
+    runs-on: ubuntu-latest
 
     steps:
-      # Create the required check as "in_progress" and store its ID
-      - name: Mark check in_progress
+      - name: Get PR data
+        id: pr
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ github.event.inputs.pr_number }}
+        with:
+          script: |
+            const prNumber = Number(process.env.PR_NUMBER);
+            const { owner, repo } = context.repo;
+            const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number: prNumber });
+            core.setOutput('sha', pr.head.sha);
+            core.setOutput('ref', pr.head.ref);
+            core.setOutput('repo_full_name', pr.head.repo.full_name);
+            core.setOutput('html_url', pr.html_url);
+
+      # Create the check and save its ID for later update
+      - name: Set "Upload preview deployment" check to in_progress
         id: start_check
+        uses: actions/github-script@v7
         with:
           script: |
             const res = await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: 'Upload preview deployment',                     // must match branch protection
-              head_sha: '${{ github.event.pull_request.head.sha }}',  // PR head SHA
+              name: 'Upload preview deployment',                 // must match branch protection
+              head_sha: '${{ steps.pr.outputs.sha }}',           // PR HEAD SHA
               status: 'in_progress',
               started_at: new Date().toISOString(),
               output: {
                 title: 'Building preview…',
-                summary: 'Auto preview starting.',
-              },
+                summary: 'Preview build started.',
+              }
             });
             core.setOutput('check_id', res.data.id);
 
-      - name: Checkout
+      - name: Checkout PR HEAD (no persisted creds)
         uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.pr.outputs.repo_full_name }}
+          ref: ${{ steps.pr.outputs.ref }}
+          persist-credentials: false
+          fetch-depth: 1
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -44,7 +68,7 @@ jobs:
           node-version: '20'
           cache: npm
 
-      - name: Restore cache
+      - name: Restore Next.js cache
         uses: actions/cache@v4
         with:
           path: .next/cache
@@ -65,22 +89,18 @@ jobs:
           set -euo pipefail
           preview_upload_output=$(npm run preview-remote:worker)
           echo "$preview_upload_output"
-
-          # Extract the preview URL
           preview_url=$(echo "$preview_upload_output" | grep -oP '(?<=Version Preview URL: )https?://\S+' || true)
           if [ -z "$preview_url" ]; then
             echo "Failed to extract preview URL from output." >&2
             exit 1
           fi
-
-          echo "PREVIEW_URL=$preview_url" >> "$GITHUB_ENV"
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: preview_url_comment
         with:
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ github.event.inputs.pr_number }}
           comment-author: 'github-actions[bot]'
           body-includes: Preview
 
@@ -89,13 +109,13 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.preview_url_comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ github.event.inputs.pr_number }}
           body: |
-            :rocket: Preview URL for this PR: ${{ env.PREVIEW_URL }}
+            :rocket: Preview URL for this PR: ${{ steps.publish.outputs.preview_url }}
           edit-mode: replace
 
       # Update the same check run with success/failure
-      - name: Mark check success
+      - name: Set "Upload preview deployment" check to success
         if: success()
         uses: actions/github-script@v7
         with:
@@ -109,11 +129,11 @@ jobs:
               completed_at: new Date().toISOString(),
               output: {
                 title: 'Preview ready',
-                summary: 'Preview: ${{ steps.publish.outputs.preview_url || env.PREVIEW_URL }}',
-              },
+                summary: 'Preview: ${{ steps.publish.outputs.preview_url }}'
+              }
             });
 
-      - name: Mark check failure
+      - name: Set "Upload preview deployment" check to failure
         if: failure()
         uses: actions/github-script@v7
         with:
@@ -127,6 +147,6 @@ jobs:
               completed_at: new Date().toISOString(),
               output: {
                 title: 'Preview failed',
-                summary: 'Auto preview failed. Run the manual preview to publish a preview and satisfy this required check.',
-              },
+                summary: 'The preview upload failed. See job logs for details.'
+              }
             });

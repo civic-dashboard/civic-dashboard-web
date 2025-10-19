@@ -8,11 +8,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && tsc --noEmit",
-    "build:worker": "opennextjs-cloudflare",
-    "dev:worker": "wrangler dev --port 8771",
-    "preview-local:worker": "npm run build:worker && npm run dev:worker",
-    "preview-remote:worker": "npm run build:worker && wrangler versions upload",
-    "deploy:worker": "npm run build:worker && wrangler deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "preview:remote": "opennextjs-cloudflare build && opennextjs-cloudflare preview --remote",
+    "preview-remote:worker": "opennextjs-cloudflare build && wrangler versions upload",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "db:update-types": "kysely-codegen --out-file ./src/database/generatedDbTypes.d.ts --url $DATABASE_URL && eslint ./src/database/generatedDbTypes.d.ts --fix",
     "db:create-migration": "kysely migrate:make",
     "db:list-migrations": "kysely migrate:list",
@@ -65,7 +66,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
-    "@opennextjs/cloudflare": "^0.4.4",
+    "@opennextjs/cloudflare": "^1.8.2",
     "@tailwindcss/typography": "^0.5.15",
     "@types/hash-sum": "1.0.2",
     "@types/mark.js": "^8.11.12",
@@ -92,6 +93,6 @@
     "tsx": "^4.19.3",
     "typescript": "^5",
     "typescript-eslint": "^8.18.0",
-    "wrangler": "^3.91.0"
+    "wrangler": "^4.37.1"
   }
 }
