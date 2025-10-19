@@ -1,40 +1,33 @@
 import { Metadata } from 'next';
 import fs from 'fs';
 import path from 'path';
-import { marked } from 'marked';
 
 export const metadata: Metadata = {
   title: 'Info – Civic Dashboard',
 };
 
-marked.setOptions({
-  gfm: true,
-  breaks: false,
-});
-
-async function getMarkdownContent(filename: string) {
+async function getHtmlContent(filename: string) {
   try {
-    const filePath = path.join(process.cwd(), 'contents', 'markdown', filename);
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-
-    const frontMatterMatch = fileContent.match(
-      /^---\s*\n(.*?)\n---\s*\n(.*)$/s,
-    );
-
-    if (frontMatterMatch) {
-      const markdownContent = frontMatterMatch[2];
-      return marked(markdownContent);
+    const filePath = path.join(process.cwd(), 'public', 'html', filename);
+    const htmlContent = fs.readFileSync(filePath, 'utf8');
+    
+    // Extract just the body content (remove the template wrapper)
+    const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+    
+    if (bodyMatch) {
+      return bodyMatch[1];
     }
-
-    return marked(fileContent);
+    
+    // If no body tag found, return the full content
+    return htmlContent;
   } catch (error) {
-    console.error(`Error reading markdown file: ${filename}`, error);
+    console.error(`Error reading HTML file: ${filename}`, error);
     return null;
   }
 }
 
 export default async function Info() {
-  const infoContent = await getMarkdownContent('info.md');
+  const infoContent = await getHtmlContent('info.html');
 
   if (!infoContent) {
     return (
