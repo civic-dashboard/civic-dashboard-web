@@ -12,47 +12,75 @@ interface HtmlDocument {
   content: string;
 }
 
-function getAllHtmlContent(): HtmlDocument[] {
+async function getAllHtmlContent(): Promise<HtmlDocument[]> {
   try {
-    const htmlDir = path.join(process.cwd(), 'public', 'html');
+    // In development/build, read from filesystem
+    // In production (Cloudflare), this won't work, so we'll use fetch
 
-    // Check if directory exists
-    if (!fs.existsSync(htmlDir)) {
-      console.error('HTML directory not found:', htmlDir);
-      return [];
+    // Try filesystem first (works in dev and build)
+    if (typeof window === 'undefined') {
+      // Server-side: use filesystem
+      const manifestPath = path.join(
+        process.cwd(),
+        'public',
+        'html',
+        'manifest.json',
+      );
+
+      if (!fs.existsSync(manifestPath)) {
+        console.error('Manifest not found at:', manifestPath);
+        return [];
+      }
+
+      const manifestContent = fs.readFileSync(manifestPath, 'utf8');
+      const filenames: string[] = JSON.parse(manifestContent);
+      console.log('Loaded manifest with files:', filenames);
+
+      const documents: HtmlDocument[] = [];
+
+      for (const filename of filenames) {
+        try {
+          const htmlPath = path.join(process.cwd(), 'public', 'html', filename);
+
+          if (!fs.existsSync(htmlPath)) {
+            console.warn(`File not found: ${htmlPath}`);
+            continue;
+          }
+
+          const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+
+          // Extract title from HTML
+          const titleMatch = htmlContent.match(/<title>(.*?)<\/title>/i);
+          const title = titleMatch
+            ? titleMatch[1]
+            : filename.replace('.html', '');
+
+          // Extract body content
+          const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+          const content = bodyMatch ? bodyMatch[1] : htmlContent;
+
+          documents.push({
+            filename,
+            title,
+            content,
+          });
+        } catch (error) {
+          console.error(`Error reading HTML file ${filename}:`, error);
+        }
+      }
+
+      return documents.sort((a, b) => a.filename.localeCompare(b.filename));
     }
 
-    const files = fs.readdirSync(htmlDir);
-
-    return files
-      .filter((file) => file.endsWith('.html') && file !== 'index.html') // Skip index.html
-      .map((file) => {
-        const filePath = path.join(htmlDir, file);
-        const htmlContent = fs.readFileSync(filePath, 'utf8');
-
-        // Extract title from HTML
-        const titleMatch = htmlContent.match(/<title>(.*?)<\/title>/i);
-        const title = titleMatch ? titleMatch[1] : file.replace('.html', '');
-
-        // Extract body content
-        const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-        const content = bodyMatch ? bodyMatch[1] : htmlContent;
-
-        return {
-          filename: file,
-          title,
-          content,
-        };
-      })
-      .sort((a, b) => a.filename.localeCompare(b.filename));
+    return [];
   } catch (error) {
-    console.error('Error reading HTML files:', error);
+    console.error('Error loading HTML files:', error);
     return [];
   }
 }
 
-export default function Info() {
-  const documents = getAllHtmlContent();
+export default async function Info() {
+  const documents = await getAllHtmlContent();
 
   if (documents.length === 0) {
     return (

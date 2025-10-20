@@ -79,7 +79,9 @@ function processMarkdownFile(filePath, template) {
   let title = fileName;
   let markdownContent = content;
 
-  const frontMatterMatch = content.match(/^---\s*\n(.*?)\n---\s*\n(.*)$/s);
+  const frontMatterMatch = content.match(
+    /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/,
+  );
   if (frontMatterMatch) {
     const frontMatter = frontMatterMatch[1];
     markdownContent = frontMatterMatch[2];
@@ -195,6 +197,14 @@ function main() {
 
   // Generate index page
   generateIndex(processedFiles);
+
+  // Generate manifest file for dynamic loading
+  const manifest = processedFiles.map((file) => `${file.fileName}.html`);
+  const manifestPath = path.join(CONFIG.outputDir, 'manifest.json');
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+  console.log(
+    `📋 Generated manifest: manifest.json (${manifest.length} files)`,
+  );
 
   console.log(
     `✨ Completed! Generated ${processedFiles.length} HTML files in ${CONFIG.outputDir}`,
