@@ -1,6 +1,6 @@
 // app/info/page.tsx
 import { Metadata } from 'next';
-import HtmlDocumentsClient from './HtmlDocumentsClient';
+import HtmlDocumentsClient from '@/app/info/htmlDocumentsClient';
 
 export const metadata: Metadata = {
   title: 'Info – Civic Dashboard',
