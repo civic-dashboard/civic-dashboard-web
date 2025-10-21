@@ -1,14 +1,14 @@
-// File: src/app/info/page.tsx
-
+// app/info/page.tsx
 import { Metadata } from 'next';
+import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Info – Civic Dashboard',
 };
 
-// Force static generation at build time
-export const dynamic = 'force-static';
-export const revalidate = false;
+// Optional: force dynamic so Cloudflare/Next won’t cache this page
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface HtmlDocument {
   filename: string;
@@ -16,50 +16,79 @@ interface HtmlDocument {
   content: string;
 }
 
+function buildOrigin() {
+  const h = headers();
+  // Cloudflare / proxies typically set these:
+  const proto = h.get('x-forwarded-proto') || 'https';
+  const host =
+    h.get('x-forwarded-host') ||
+    h.get('host') ||
+    process.env.NEXT_PUBLIC_SITE_HOST ||
+    'localhost:3000';
+
+  return `${proto}://${host}`;
+}
+
 async function getAllHtmlContent(): Promise<HtmlDocument[]> {
   try {
-    // Fetch manifest.json
-    const manifestResponse = await fetch('/html/manifest.json');
-    
+    const origin =
+      process.env.NEXT_PUBLIC_SITE_URL /* explicit override if you want */ ||
+      buildOrigin();
+
+    // Fetch manifest (absolute URL required on edge)
+    const manifestUrl = `${origin}/html/manifest.json`;
+    const manifestResponse = await fetch(manifestUrl, {
+      // Avoid CDN & Next caching while you iterate; relax later if needed
+      cache: 'no-store',
+      headers: {
+        // Helps some CDNs treat this as non-cacheable during dev
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+      },
+    });
+
     if (!manifestResponse.ok) {
-      console.error('Manifest not found:', manifestResponse.statusText);
+      console.error(
+        'Failed to fetch manifest:',
+        manifestResponse.status,
+        manifestUrl,
+      );
       return [];
     }
 
     const filenames: string[] = await manifestResponse.json();
-    console.log('Loaded manifest with files:', filenames);
-
     const documents: HtmlDocument[] = [];
 
     for (const filename of filenames) {
+      const fileUrl = `${origin}/html/${filename}`;
       try {
-        // Fetch individual HTML file
-        const htmlResponse = await fetch(`/html/${filename}`);
-        
-        if (!htmlResponse.ok) {
-          console.warn(`File not found: ${filename}`);
+        const response = await fetch(fileUrl, {
+          cache: 'no-store',
+          headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
+        });
+
+        if (!response.ok) {
+          console.warn(
+            `Failed to fetch ${filename}: ${response.status}`,
+            fileUrl,
+          );
           continue;
         }
 
-        const htmlContent = await htmlResponse.text();
+        const htmlContent = await response.text();
 
-        // Extract title from HTML
+        // Extract <title>...</title>
         const titleMatch = htmlContent.match(/<title>(.*?)<\/title>/i);
         const title = titleMatch
           ? titleMatch[1]
           : filename.replace('.html', '');
 
-        // Extract body content
+        // Extract <body>...</body>
         const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
         const content = bodyMatch ? bodyMatch[1] : htmlContent;
 
-        documents.push({
-          filename,
-          title,
-          content,
-        });
+        documents.push({ filename, title, content });
       } catch (error) {
-        console.error(`Error reading HTML file ${filename}:`, error);
+        console.error(`Error fetching HTML file ${filename}:`, error);
       }
     }
 
@@ -103,8 +132,6 @@ export default async function Info() {
               className="prose prose-lg dark:prose-invert max-w-none"
             >
               <div dangerouslySetInnerHTML={{ __html: doc.content }} />
-
-              {/* Separator between documents (except last one) */}
               {index < documents.length - 1 && (
                 <hr className="my-16 border-t-2 border-gray-200" />
               )}
