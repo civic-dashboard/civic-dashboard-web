@@ -1,8 +1,6 @@
 // File: src/app/info/page.tsx
 
 import { Metadata } from 'next';
-import fs from 'fs';
-import path from 'path';
 
 export const metadata: Metadata = {
   title: 'Info – Civic Dashboard',
@@ -20,34 +18,30 @@ interface HtmlDocument {
 
 async function getAllHtmlContent(): Promise<HtmlDocument[]> {
   try {
-    const manifestPath = path.join(
-      process.cwd(),
-      'public',
-      'html',
-      'manifest.json',
-    );
-
-    if (!fs.existsSync(manifestPath)) {
-      console.error('Manifest not found at:', manifestPath);
+    // Fetch manifest.json
+    const manifestResponse = await fetch('/html/manifest.json');
+    
+    if (!manifestResponse.ok) {
+      console.error('Manifest not found:', manifestResponse.statusText);
       return [];
     }
 
-    const manifestContent = fs.readFileSync(manifestPath, 'utf8');
-    const filenames: string[] = JSON.parse(manifestContent);
+    const filenames: string[] = await manifestResponse.json();
     console.log('Loaded manifest with files:', filenames);
 
     const documents: HtmlDocument[] = [];
 
     for (const filename of filenames) {
       try {
-        const htmlPath = path.join(process.cwd(), 'public', 'html', filename);
-
-        if (!fs.existsSync(htmlPath)) {
-          console.warn(`File not found: ${htmlPath}`);
+        // Fetch individual HTML file
+        const htmlResponse = await fetch(`/html/${filename}`);
+        
+        if (!htmlResponse.ok) {
+          console.warn(`File not found: ${filename}`);
           continue;
         }
 
-        const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+        const htmlContent = await htmlResponse.text();
 
         // Extract title from HTML
         const titleMatch = htmlContent.match(/<title>(.*?)<\/title>/i);
