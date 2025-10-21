@@ -1,3 +1,5 @@
+// File: src/app/info/page.tsx
+
 import { Metadata } from 'next';
 import fs from 'fs';
 import path from 'path';
@@ -5,6 +7,10 @@ import path from 'path';
 export const metadata: Metadata = {
   title: 'Info – Civic Dashboard',
 };
+
+// Force static generation at build time
+export const dynamic = 'force-static';
+export const revalidate = false;
 
 interface HtmlDocument {
   filename: string;
@@ -14,65 +20,56 @@ interface HtmlDocument {
 
 async function getAllHtmlContent(): Promise<HtmlDocument[]> {
   try {
-    // In development/build, read from filesystem
-    // In production (Cloudflare), this won't work, so we'll use fetch
+    const manifestPath = path.join(
+      process.cwd(),
+      'public',
+      'html',
+      'manifest.json',
+    );
 
-    // Try filesystem first (works in dev and build)
-    if (typeof window === 'undefined') {
-      // Server-side: use filesystem
-      const manifestPath = path.join(
-        process.cwd(),
-        'public',
-        'html',
-        'manifest.json',
-      );
-
-      if (!fs.existsSync(manifestPath)) {
-        console.error('Manifest not found at:', manifestPath);
-        return [];
-      }
-
-      const manifestContent = fs.readFileSync(manifestPath, 'utf8');
-      const filenames: string[] = JSON.parse(manifestContent);
-      console.log('Loaded manifest with files:', filenames);
-
-      const documents: HtmlDocument[] = [];
-
-      for (const filename of filenames) {
-        try {
-          const htmlPath = path.join(process.cwd(), 'public', 'html', filename);
-
-          if (!fs.existsSync(htmlPath)) {
-            console.warn(`File not found: ${htmlPath}`);
-            continue;
-          }
-
-          const htmlContent = fs.readFileSync(htmlPath, 'utf8');
-
-          // Extract title from HTML
-          const titleMatch = htmlContent.match(/<title>(.*?)<\/title>/i);
-          const title = titleMatch
-            ? titleMatch[1]
-            : filename.replace('.html', '');
-
-          // Extract body content
-          const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-          const content = bodyMatch ? bodyMatch[1] : htmlContent;
-
-          documents.push({
-            filename,
-            title,
-            content,
-          });
-        } catch (error) {
-          console.error(`Error reading HTML file ${filename}:`, error);
-        }
-      }
-
-      return documents.sort((a, b) => a.filename.localeCompare(b.filename));
+    if (!fs.existsSync(manifestPath)) {
+      console.error('Manifest not found at:', manifestPath);
+      return [];
     }
 
-    return [];
+    const manifestContent = fs.readFileSync(manifestPath, 'utf8');
+    const filenames: string[] = JSON.parse(manifestContent);
+    console.log('Loaded manifest with files:', filenames);
+
+    const documents: HtmlDocument[] = [];
+
+    for (const filename of filenames) {
+      try {
+        const htmlPath = path.join(process.cwd(), 'public', 'html', filename);
+
+        if (!fs.existsSync(htmlPath)) {
+          console.warn(`File not found: ${htmlPath}`);
+          continue;
+        }
+
+        const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+
+        // Extract title from HTML
+        const titleMatch = htmlContent.match(/<title>(.*?)<\/title>/i);
+        const title = titleMatch
+          ? titleMatch[1]
+          : filename.replace('.html', '');
+
+        // Extract body content
+        const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+        const content = bodyMatch ? bodyMatch[1] : htmlContent;
+
+        documents.push({
+          filename,
+          title,
+          content,
+        });
+      } catch (error) {
+        console.error(`Error reading HTML file ${filename}:`, error);
+      }
+    }
+
+    return documents.sort((a, b) => a.filename.localeCompare(b.filename));
   } catch (error) {
     console.error('Error loading HTML files:', error);
     return [];
