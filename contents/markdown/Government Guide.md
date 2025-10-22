@@ -3,7 +3,7 @@
 title: Toronto City Government Guide
 order: 1
 ---
-
+# Government Guide
 # City Council
 
 Toronto City Council is the decision-making body for the City of Toronto. It's made up of elected officials who vote on policies, laws, and initiatives that impact the city. These decisions affect everything from local parks to public transit and housing. See "Division of Powers" for more information about what municipal governments do!

@@ -1,4 +1,4 @@
-# Deputations Wiki
+# Deputations 
 
 ## What are Deputations?
 

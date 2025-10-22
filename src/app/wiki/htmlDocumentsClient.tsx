@@ -8,101 +8,111 @@ interface HtmlDocument {
 }
 
 export default function HtmlDocumentsClient() {
-  const [docs, setDocs] = useState<HtmlDocument[] | null>(null);
+  const [docs, setDocs] = useState<HtmlDocument[]>([]);
+  const [selectedDoc, setSelectedDoc] = useState<HtmlDocument | null>(null);
+  const [htmlContent, setHtmlContent] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Load the manifest on mount
   useEffect(() => {
     (async () => {
       try {
-        // Fetch manifest dynamically relative to the current deployment
-        const manifestRes = await fetch('/html/manifest.json', {
-          cache: 'no-store',
-        });
-        if (!manifestRes.ok) {
-          setError(`Failed to fetch manifest: ${manifestRes.status}`);
-          setDocs([]);
-          return;
-        }
+        const res = await fetch('/html/manifest.json', { cache: 'no-store' });
+        if (!res.ok)
+          throw new Error(`Failed to fetch manifest (${res.status})`);
+        const filenames: string[] = await res.json();
 
-        const filenames: string[] = await manifestRes.json();
-        const documents: HtmlDocument[] = [];
-
+        const titles: HtmlDocument[] = [];
         for (const filename of filenames) {
-          // Try to extract a human-friendly title from each file
           try {
-            const res = await fetch(`/html/${filename}`, { cache: 'no-store' });
-            if (!res.ok) continue;
-            const html = await res.text();
-
+            const htmlRes = await fetch(`/html/${filename}`, {
+              cache: 'no-store',
+            });
+            if (!htmlRes.ok) continue;
+            const html = await htmlRes.text();
             const titleMatch = html.match(/<title>(.*?)<\/title>/i);
             const title = titleMatch
               ? titleMatch[1]
               : filename.replace('.html', '');
-
-            documents.push({ filename, title });
+            titles.push({ filename, title });
           } catch {
-            // ignore individual fetch errors
+            // ignore individual file failures
           }
         }
-
-        documents.sort((a, b) => a.filename.localeCompare(b.filename));
-        setDocs(documents);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        titles.sort((a, b) => a.title.localeCompare(b.title));
+        setDocs(titles);
       } catch (e: any) {
         setError(e?.message ?? 'Unknown error');
-        setDocs([]);
       }
     })();
   }, []);
 
-  if (docs === null) {
-    return (
-      <div className="max-w-2xl mx-auto text-center">
-        <p className="text-gray-600">Loading…</p>
-      </div>
-    );
-  }
+  const handleClick = async (doc: HtmlDocument) => {
+    setSelectedDoc(doc);
+    setLoading(true);
+    setHtmlContent(null);
+    setError(null);
 
-  if (docs.length === 0) {
-    return (
-      <div className="max-w-2xl mx-auto text-center">
-        {error ? (
-          <p className="text-red-600">{error}</p>
-        ) : (
-          <>
-            <p className="text-red-600">No HTML files found in public/html/</p>
-            <p className="text-gray-600 mt-2">
-              Run{' '}
-              <code className="bg-gray-100 px-2 py-1 rounded">
-                npm run build:html
-              </code>{' '}
-              to generate HTML files from markdown.
-            </p>
-          </>
-        )}
-      </div>
-    );
-  }
+    try {
+      const res = await fetch(`/html/${doc.filename}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Failed to fetch ${doc.filename}`);
+      const html = await res.text();
+      const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+      setHtmlContent(bodyMatch ? bodyMatch[1] : html);
+    } catch (e: any) {
+      setError(e?.message ?? 'Error loading file');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-3xl mx-auto">
       <h1 className="text-3xl font-semibold mb-6 text-center">
-        Civic Dashboard Wiki Resources
+        Civic Dashboard Wiki
       </h1>
-      <ul className="space-y-3 text-lg">
+
+      {/* Links list */}
+      {error && <p className="text-red-600 mb-4">{error}</p>}
+
+      {docs.length === 0 && !error && <p className="text-gray-600">Loading…</p>}
+
+      <ul className="space-y-3 text-lg mb-8 text-center">
         {docs.map((doc) => (
           <li key={doc.filename}>
-            <a
-              href={`/html/${doc.filename}`}
-              className="text-blue-600 hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => handleClick(doc)}
+              className={`text-blue-600 hover:underline ${
+                selectedDoc?.filename === doc.filename ? 'font-semibold' : ''
+              }`}
             >
               {doc.title}
-            </a>
+            </button>
           </li>
         ))}
       </ul>
+
+      {/* Render HTML after click */}
+      {selectedDoc && (
+        <div className="border-t border-gray-300 pt-8">
+          <h2 className="text-2xl font-bold mb-4 text-center">
+            {selectedDoc.title}
+          </h2>
+
+          {loading && (
+            <p className="text-gray-600 text-center">Loading content…</p>
+          )}
+          {error && <p className="text-red-600 text-center">{error}</p>}
+
+          {htmlContent && (
+            <article
+              className="prose prose-lg dark:prose-invert max-w-none"
+              dangerouslySetInnerHTML={{ __html: htmlContent }}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
