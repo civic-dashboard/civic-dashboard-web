@@ -2,7 +2,6 @@
 import { headers } from 'next/headers';
 import type { Metadata } from 'next';
 
-export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -16,7 +15,6 @@ function buildOrigin() {
   return `${proto}://${host}`;
 }
 
-// Optional: keep a provisional title; real content still renders from body
 export async function generateMetadata({
   params,
 }: {
@@ -55,11 +53,7 @@ export default async function WikiDoc({ params }: { params: Params }) {
 
   const html = await res.text();
 
-  // We still parse the <title> if you want to use it later (SEO, breadcrumbs, etc.)
-  // const titleMatch = html.match(/<title>(.*?)<\/title>/i);
-  // const title = titleMatch ? titleMatch[1] : params.slug;
-
-  // Extract only the body content (which already includes the <h1> from your markdown)
+  // Use only the body content (your generated HTML already contains the <h1> from markdown)
   const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   const body = bodyMatch ? bodyMatch[1] : html;
 

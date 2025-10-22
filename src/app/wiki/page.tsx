@@ -6,7 +6,6 @@ import { headers } from 'next/headers';
 export const metadata: Metadata = {
   title: 'Generated Pages – Civic Dashboard',
 };
-export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -30,7 +29,6 @@ async function getDocs() {
   const filenames = (await res.json()) as string[];
 
   const docs: { slug: string; title: string }[] = [];
-  // Pull titles from each HTML file
   for (const filename of filenames) {
     const slug = filename.replace(/\.html$/i, '');
     try {
@@ -60,7 +58,7 @@ export default async function WikiIndex() {
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-3xl font-semibold mb-6 text-center">
-            Wiki Resources
+            Generated Pages
           </h1>
 
           {docs.length === 0 ? (
