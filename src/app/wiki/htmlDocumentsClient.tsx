@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -7,7 +5,6 @@ import { useEffect, useState } from 'react';
 interface HtmlDocument {
   filename: string;
   title: string;
-  content: string;
 }
 
 export default function HtmlDocumentsClient() {
@@ -17,7 +14,7 @@ export default function HtmlDocumentsClient() {
   useEffect(() => {
     (async () => {
       try {
-        // Relative path => always correct for the current deploy hostname
+        // Fetch manifest dynamically relative to the current deployment
         const manifestRes = await fetch('/html/manifest.json', {
           cache: 'no-store',
         });
@@ -26,14 +23,15 @@ export default function HtmlDocumentsClient() {
           setDocs([]);
           return;
         }
-        const filenames: string[] = await manifestRes.json();
 
+        const filenames: string[] = await manifestRes.json();
         const documents: HtmlDocument[] = [];
+
         for (const filename of filenames) {
+          // Try to extract a human-friendly title from each file
           try {
             const res = await fetch(`/html/${filename}`, { cache: 'no-store' });
             if (!res.ok) continue;
-
             const html = await res.text();
 
             const titleMatch = html.match(/<title>(.*?)<\/title>/i);
@@ -41,17 +39,15 @@ export default function HtmlDocumentsClient() {
               ? titleMatch[1]
               : filename.replace('.html', '');
 
-            const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-            const content = bodyMatch ? bodyMatch[1] : html;
-
-            documents.push({ filename, title, content });
-          } catch (e) {
-            // ignore individual file failures
+            documents.push({ filename, title });
+          } catch {
+            // ignore individual fetch errors
           }
         }
 
         documents.sort((a, b) => a.filename.localeCompare(b.filename));
         setDocs(documents);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         setError(e?.message ?? 'Unknown error');
         setDocs([]);
@@ -61,7 +57,7 @@ export default function HtmlDocumentsClient() {
 
   if (docs === null) {
     return (
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-2xl mx-auto text-center">
         <p className="text-gray-600">Loading…</p>
       </div>
     );
@@ -69,7 +65,7 @@ export default function HtmlDocumentsClient() {
 
   if (docs.length === 0) {
     return (
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-2xl mx-auto text-center">
         {error ? (
           <p className="text-red-600">{error}</p>
         ) : (
@@ -89,19 +85,24 @@ export default function HtmlDocumentsClient() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-16">
-      {docs.map((doc, index) => (
-        <section
-          key={doc.filename}
-          id={doc.filename.replace('.html', '')}
-          className="prose prose-lg dark:prose-invert max-w-none"
-        >
-          <div dangerouslySetInnerHTML={{ __html: doc.content }} />
-          {index < docs.length - 1 && (
-            <hr className="my-16 border-t-2 border-gray-200" />
-          )}
-        </section>
-      ))}
+    <div className="max-w-2xl mx-auto">
+      <h1 className="text-3xl font-semibold mb-6 text-center">
+        Civic Dashboard Wiki Resources
+      </h1>
+      <ul className="space-y-3 text-lg">
+        {docs.map((doc) => (
+          <li key={doc.filename}>
+            <a
+              href={`/html/${doc.filename}`}
+              className="text-blue-600 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {doc.title}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
