@@ -42,6 +42,7 @@ export default function HtmlDocumentsClient() {
         }
         titles.sort((a, b) => a.title.localeCompare(b.title));
         setDocs(titles);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         setError(e?.message ?? 'Unknown error');
       }
@@ -60,6 +61,7 @@ export default function HtmlDocumentsClient() {
       const html = await res.text();
       const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
       setHtmlContent(bodyMatch ? bodyMatch[1] : html);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       setError(e?.message ?? 'Error loading file');
     } finally {
@@ -70,7 +72,7 @@ export default function HtmlDocumentsClient() {
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-3xl font-semibold mb-6 text-center">
-        Civic Dashboard Wiki
+        Generated Pages
       </h1>
 
       {/* Links list */}
