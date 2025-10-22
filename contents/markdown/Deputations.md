@@ -1,4 +1,4 @@
-# Deputations 
+# Deputations
 
 ## What are Deputations?
 
