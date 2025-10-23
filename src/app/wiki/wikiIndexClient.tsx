@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-type Doc = { slug: string; title: string };
+type Doc = { filename: string; title: string };
 
 export default function WikiIndexClient() {
   const [docs, setDocs] = useState<Doc[] | null>(null);
@@ -25,13 +25,15 @@ export default function WikiIndexClient() {
             if (!htmlRes.ok) continue;
             const html = await htmlRes.text();
             const titleMatch = html.match(/<title>(.*?)<\/title>/i);
-            const slug = filename.replace(/\.html$/i, '');
-            const title = titleMatch ? titleMatch[1] : slug;
-            list.push({ slug, title });
+            const title = titleMatch
+              ? titleMatch[1]
+              : filename.replace(/\.html$/i, '');
+            list.push({ filename, title });
           } catch {
-            // ignore file error
+            /* ignore per-file errors */
           }
         }
+
         list.sort((a, b) => a.title.localeCompare(b.title));
         setDocs(list);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,13 +60,13 @@ export default function WikiIndexClient() {
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-semibold mb-6 text-center">
-        Generated Pages
+        Civic Dashboard Wiki
       </h1>
       <ul className="space-y-3 text-lg text-center">
         {docs.map((doc) => (
-          <li key={doc.slug}>
+          <li key={doc.filename}>
             <Link
-              href={`/wiki/${doc.slug}`}
+              href={`/wiki/${encodeURIComponent(doc.filename)}`}
               className="text-blue-600 hover:underline"
             >
               {doc.title}
