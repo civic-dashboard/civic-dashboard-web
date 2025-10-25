@@ -1,10 +1,6 @@
 # Civic Dashboard Web App
 
-This repository hosts the in-progress Civic Dashboard Web App! Currently, the landing page and actions page are here, and work is in progress to also bring the councillors page in as well. Eventually, we'd like to have a single web app providing the entire frontend and backend API experience for Civic Dashboard. This page focuses on giving users an easy way to identify upcoming civic engagement opportunities in Toronto, and how they can take action on those opportunities. The currently deployed version can be found at [civicdashboard.ca](https://civicdashboard.ca).
-
-# Development
-
-**Status**: Early development, but open to contributions! Please check in first before making any big PRs because the file structure is subject to change.
+This repository hosts the in-progress Civic Dashboard Web App! This page focuses on giving users an easy way to identify upcoming civic engagement opportunities in Toronto, and how they can take action on those opportunities. The currently deployed version can be found at [civicdashboard.ca](https://civicdashboard.ca).
 
 ## Quick links
 
@@ -72,3 +68,9 @@ npm run dev
 ```
 
 Try editing `src/app/page.tsx` to see your changes live! They should be visible on http://localhost:3000
+
+### Emails
+
+We use maildev to preview emails in development. After starting your docker containers, navigate to http://localhost:1080 in your browser. All emails that are sent from the app in development mode will show up in this inbox!
+
+Note that links in emails will by default link to https://civicdashboard.ca, rather than your local dev server. `HOSTNAME_FOR_EMAIL_LINKS`  in your environment file is where you can change this.
