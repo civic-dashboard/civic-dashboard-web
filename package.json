@@ -25,7 +25,9 @@
     "docker:stop": "docker compose stop",
     "tsx": "tsx --tsconfig=tsconfig.tsx.json",
     "tsxe": "tsx --tsconfig=tsconfig.tsx.json --env-file=.env",
-    "postbuild": "next-sitemap --config next-sitemap.config.cjs"
+    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
+    "build:html": "node src/scripts/markdowntohtml.js",
+    "dev:html": "npm run build:html && echo 'HTML files generated in public/html'"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",
@@ -81,6 +83,7 @@
     "eslint-plugin-sql": "^3.2.1",
     "kysely-codegen": "^0.17.0",
     "kysely-ctl": "^0.10.1",
+    "marked": "^9.1.6",
     "nodemailer": "^6.10.0",
     "pg": "^8.13.2",
     "postcss": "^8",
