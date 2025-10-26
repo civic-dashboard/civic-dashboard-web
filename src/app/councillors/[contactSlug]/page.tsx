@@ -40,8 +40,9 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
 }
 
 async function getAgendaItems(contactSlug: string) {
+  const base_url = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   const response = await fetch(
-    `http://localhost:3000//api/councillor-items?contactSlug=${contactSlug}&page=1&pageSize=10`,
+    `${base_url}/api/councillor-items?contactSlug=${contactSlug}&page=1&pageSize=10`,
     {
       method: 'GET',
     },
