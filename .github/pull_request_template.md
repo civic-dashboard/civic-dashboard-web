@@ -1,10 +1,11 @@
 ## Description
 
 <!-- 1. Link the related issue here. -->
-<!-- Use "Resolves #123" to autoclose the related issue when this PR is merged. -->
-<!-- If the issue should stay open, use "Related to #123" instead. -->
+<!-- Replace "Resolves" with "Related to" if this PR should not close the issue (e.g. if the issue requires several PRs to complete) -->
+Resolves #issue_number
 
 <!-- 2. Give a high-level description of what this PR does. -->
+<!-- What was the behaviour before? What should it be now? -->
 
 <!-- 3. If this PR results in something changing visually on the site, include before/after screenshots. -->
 
