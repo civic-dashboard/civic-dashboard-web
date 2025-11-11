@@ -5,7 +5,6 @@ import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/Co
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types/index';
-import { headers } from 'next/headers';
 
 type ParamsType = {
   contactSlug: string;
@@ -41,11 +40,7 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
 }
 
 async function getAgendaItems(contactSlug: string) {
-  const headersList = headers();
-  const protocol = headersList.get('x-forwarded-proto') || 'http';
-  const host = headersList.get('host');
-  const base_url = `${protocol}://${host}`;
-  const url = `${base_url}/api/councillor-items?contactSlug=${contactSlug}&page=1&pageSize=10`;
+  const url = `/api/councillor-items?contactSlug=${contactSlug}&page=1&pageSize=10`;
   const response = await fetch(url, {
     method: 'GET',
   });

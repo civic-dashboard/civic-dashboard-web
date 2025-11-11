@@ -244,9 +244,8 @@ export default function AgendaItemResults({
   useEffect(() => {
     setPageAgendaItems([]);
     const res = async () => {
-      const base_url = window.location.origin;
       const response = await fetch(
-        `${base_url}/api/councillor-items?contactSlug=${contactSlug}&page=${currentPage}&pageSize=10`,
+        `/api/councillor-items?contactSlug=${contactSlug}&page=${currentPage}&pageSize=10`,
         {
           method: 'GET',
         },
