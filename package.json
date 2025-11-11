@@ -25,7 +25,7 @@
     "docker:stop": "docker compose stop",
     "tsx": "tsx --tsconfig=tsconfig.tsx.json",
     "tsxe": "tsx --tsconfig=tsconfig.tsx.json --env-file=.env",
-    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
+    "postbuild": "next-sitemap --config next-sitemap.config.mjs",
     "build:html": "node src/scripts/markdowntohtml.js",
     "dev:html": "npm run build:html && echo 'HTML files generated in public/html'"
   },
