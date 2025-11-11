@@ -61,6 +61,12 @@ This will download all available Votes and Councillors and save into your local 
 npm run tsxe src/scripts/repopulateRawContactsAndVotes.ts
 ```
 
+### Generate the static pages for the wiki
+
+```sh
+npm run dev:html
+```
+
 ### Run the app
 
 ```sh
