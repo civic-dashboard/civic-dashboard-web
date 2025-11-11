@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import WikiIndexClient from '@/app/wiki/wikiIndexClient';
 
 export const metadata: Metadata = {
-  title: 'Generated Pages – Civic Dashboard',
+  title: 'Wiki – Civic Dashboard',
 };
 
 export default function WikiIndex() {
