@@ -1,3 +1,8 @@
+# Wiki pages
+
+We have wiki pages created in the Wiki Section of the dashboard site, and they are added in the contents/markdown folder. After the pages are added in a markdown format into the contents/markdown folder, they can be accessed in the Civic Dashboard wiki section. The wiki pages are generated in the Wiki Section via a script that reads the markdown files from the contents/markdown folder, and generates them as basic html wiki pages in the wiki section.
+
+## How to create or update a page
 ## Steps
 
 1. Navigate to the Civic-dashboard-web project in github
