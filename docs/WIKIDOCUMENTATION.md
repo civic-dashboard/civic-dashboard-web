@@ -1,4 +1,4 @@
-Steps
+## Steps
 
 1. Navigate to the Civic-dashboard-web project in github
 2. Go to the branch dropdown on github, navigate to the 'View all branches'
