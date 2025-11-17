@@ -43,8 +43,8 @@ const ProcessImage = ({ src, alt }: { src: string; alt?: string }) => (
 const WikiLink = () => (
   <span className="italic">
     For a more in-depth explanation, visit the{' '}
-    <a href="/coming-soon" className="classic-link">
-      City Council Wiki
+    <a href="/wiki" className="classic-link">
+      Civic Dashboard Wiki
     </a>
     .
   </span>
@@ -271,16 +271,6 @@ export default function HowCouncilWorks() {
             At the committee stage, you can also make a comment on each agenda
             item that is being considered. Your comments can influence the
             members of the committee as they make their decisions.
-            <br />
-            <br />
-            <span className="italic">
-              Want more ways to get involved, or how to raise an unaddressed
-              issue? Visit the{' '}
-              <a href="/coming-soon" className="classic-link">
-                City Council Wiki
-              </a>
-              .
-            </span>
           </SectionText>
         </Section>
         <Section>
