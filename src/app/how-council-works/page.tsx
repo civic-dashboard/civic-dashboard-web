@@ -43,9 +43,9 @@ const ProcessImage = ({ src, alt }: { src: string; alt?: string }) => (
 const WikiLink = () => (
   <span className="italic">
     For a more in-depth explanation, visit the{' '}
-    <a href="/wiki" className="classic-link">
+    <Link href="/wiki" className="classic-link">
       Civic Dashboard Wiki
-    </a>
+    </Link>
     .
   </span>
 );
