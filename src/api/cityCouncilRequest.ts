@@ -28,6 +28,14 @@ export const cityCouncilXSRFPost = async ({ url, body }: Args) => {
     'https://secure.toronto.ca/council/api/csrf.json',
   );
 
+  if (!csrfResponse.ok) {
+    // .ok === true for all 2xx responses
+    // e.g. 200–299
+    throw new Error(
+      `Failed to fetch CSRF token: ${csrfResponse.status} ${csrfResponse.statusText}`,
+    );
+  }
+
   const cookies = csrfResponse.headers.get('set-cookie');
   const xsrfToken = csrfResponse.headers
     .raw()
