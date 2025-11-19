@@ -46,7 +46,7 @@ export const cityCouncilXSRFPost = async ({ url, body }: Args) => {
 
   if (!csrfResponse.ok) {
     throw new Error(
-      `Failed to fetch CSRF token: ${csrfResponse.status} ${csrfResponse.statusText}\n`
+      `Failed to fetch CSRF token: ${csrfResponse.status} ${csrfResponse.statusText}\n`,
     );
   }
 
