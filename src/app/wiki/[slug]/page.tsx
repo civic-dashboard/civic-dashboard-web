@@ -10,7 +10,9 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   // params.slug is the full filename, e.g., "Deputations.html"
-  return { title: `Page – ${params.slug.replace(/\.html$/i, '')}` };
+  return {
+    title: `${params.slug.replace(/\.html$/i, '')} – Civic Dashboard`,
+  };
 }
 
 export default function WikiDocPage({ params }: { params: { slug: string } }) {
