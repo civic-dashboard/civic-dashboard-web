@@ -60,6 +60,20 @@ export type AgendaItem = {
   secondedBy: string[];
 };
 
+export type Mayor = {
+  contactSlug: string;
+  term: string;
+};
+
+export type CouncilMember = {
+  contactSlug: string;
+  term: string;
+  role: 'Mayor' | 'Councillor';
+  wardSlug: string | null;
+  wardName: string | null;
+  wardId: number | null;
+};
+
 export type DB = generated.DB & {
   Councillors: Councillor;
   Contacts: Contact;
@@ -68,6 +82,8 @@ export type DB = generated.DB & {
   Motions: Motion;
   AgendaItems: AgendaItem;
   Committees: Committees;
+  Mayors: Mayor;
+  CouncilMembers: CouncilMember;
 };
 
 export type InsertRawContact = Insertable<generated.RawContacts>;
