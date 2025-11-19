@@ -44,6 +44,12 @@ export const cityCouncilXSRFPost = async ({ url, body }: Args) => {
     { headers: DEFAULT_COUNCIL_HEADERS },
   );
 
+  if (!csrfResponse.ok) {
+    throw new Error(
+      `Failed to fetch CSRF token: ${csrfResponse.status} ${csrfResponse.statusText}\n`
+    );
+  }
+
   const cookies = csrfResponse.headers.get('set-cookie');
   const xsrfToken = csrfResponse.headers
     .raw()
