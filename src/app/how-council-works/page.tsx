@@ -3,6 +3,7 @@ import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
+import { tooltips } from '@/constants/tooltips';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   return {
@@ -42,64 +43,26 @@ const ProcessImage = ({ src, alt }: { src: string; alt?: string }) => (
 const WikiLink = () => (
   <span className="italic">
     For a more in-depth explanation, visit the{' '}
-    <a href="/coming-soon" className="classic-link">
-      City Council Wiki
-    </a>
+    <Link href="/wiki" className="classic-link">
+      Civic Dashboard Wiki
+    </Link>
     .
   </span>
 );
 
 export default function HowCouncilWorks() {
-  const tooltips = {
-    cityCouncil: {
-      trigger: 'City Council',
-      content:
-        "City Council refers to the group of Councillors, who are elected to represent each of Toronto's wards, and the Mayor, who is elected city-wide. There are 25 Councillors and one Mayor, making 26 total City Council members.",
-    },
-    ward: {
-      trigger: 'Ward',
-      content:
-        'Toronto is divided into 25 geographic areas, each represented by a City Councillor. These areas are called "wards.',
-    },
-    councillor: {
-      trigger: 'Councillor',
-      content:
-        "A Councillor is an elected official who represents a specific ward in Toronto. Councillors are responsible for voicing the concerns of their constituents, debating issues, and voting on decisions that shape the city's policies and laws.",
-    },
-    item: {
-      trigger: 'Item',
-      content:
-        'An item is any topic or issue listed on a City Council or committee agenda for discussion or decision. Items can include a wide range of matters, such as proposed bylaws, policy decisions, or requests for studies.',
-    },
-    reports: {
-      trigger: 'Reports',
-      content:
-        'Reports are detailed documents prepared by city staff to provide background information, analysis, and recommendations on specific issues.',
-    },
-    committees: {
-      trigger: 'Committees',
-      content:
-        'A Committee is a smaller group of council members that focus on specific areas like the environment, transportation, or housing. Committees review recommendations from city staff, ask questions, and suggest changes.',
-    },
-    deputations: {
-      trigger: 'Deputations',
-      content:
-        'Deputations are opportunities for citizens to speak directly to a committee about a specific issue or recommendation being discussed. Deputations allow citizens to share their opinions and influence the decisions being made.',
-    },
-  };
-
   const imageData = {
     toronto: {
-      src: '/toronto.png',
+      src: '/toronto.jpg',
     },
     staff: {
-      src: '/staff.png',
+      src: '/staff.jpg',
     },
     committee: {
-      src: '/committee.png',
+      src: '/committee.jpg',
     },
     council: {
-      src: '/council.png',
+      src: '/council.jpg',
     },
   };
 
@@ -250,7 +213,7 @@ export default function HowCouncilWorks() {
           <ProcessImage src={imageData.council.src} />
           <SectionText>
             Finally, the item reaches the full City Council, which consists of
-            all elected council members. At this stage, councilors review the
+            all elected council members. At this stage, councillors review the
             item, debate its merits, and vote on whether to approve or reject
             it. Each councilor casts a vote—green for approval, red for
             rejection. If a majority votes in favor, the item becomes a new law,
@@ -308,16 +271,6 @@ export default function HowCouncilWorks() {
             At the committee stage, you can also make a comment on each agenda
             item that is being considered. Your comments can influence the
             members of the committee as they make their decisions.
-            <br />
-            <br />
-            <span className="italic">
-              Want more ways to get involved, or how to raise an unaddressed
-              issue? Visit the{' '}
-              <a href="/coming-soon" className="classic-link">
-                City Council Wiki
-              </a>
-              .
-            </span>
           </SectionText>
         </Section>
         <Section>

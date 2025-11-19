@@ -5,12 +5,36 @@ on:
 
 jobs:
   deploy:
+    # Only run the auto preview for same-repo PRs (forks will use the manual workflow)
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    name: Upload preview deployment
     permissions:
       contents: read
       pull-requests: write
-    runs-on: ubuntu-latest
-    name: Upload preview deployment
+      checks: write     # needed for checks.create / checks.update
+
     steps:
+      # Create the required check as "in_progress" and store its ID
+      - name: Mark check in_progress
+        uses: actions/github-script@v7
+        id: start_check
+        with:
+          script: |
+            const res = await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Upload preview deployment',                     // must match branch protection
+              head_sha: '${{ github.event.pull_request.head.sha }}',  // PR head SHA
+              status: 'in_progress',
+              started_at: new Date().toISOString(),
+              output: {
+                title: 'Building preview…',
+                summary: 'Auto preview starting.',
+              },
+            });
+            core.setOutput('check_id', res.data.id);
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -23,28 +47,37 @@ jobs:
       - name: Restore cache
         uses: actions/cache@v4
         with:
-          path: |
-            .next/cache
-          # Generate a new cache whenever packages or source files change.
+          path: .next/cache
           key: ${{ runner.os }}-frontend-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-frontend-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate HTML from Markdown
+        run: npm run build:html
+
       - name: Upload preview deployment
+        id: publish
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          # upload preview and extract preview URL
+          set -euo pipefail
           preview_upload_output=$(npm run preview-remote:worker)
           echo "$preview_upload_output"
-          preview_url=$(echo "$preview_upload_output" | grep -oP '(?<=Version Preview URL: )https?://\S+')
-          echo "PREVIEW_URL=$preview_url" >> $GITHUB_ENV
+
+          # Extract the preview URL
+          preview_url=$(echo "$preview_upload_output" | grep -oP '(?<=Version Preview URL: )https?://\S+' || true)
+          if [ -z "$preview_url" ]; then
+            echo "Failed to extract preview URL from output." >&2
+            exit 1
+          fi
+
+          echo "PREVIEW_URL=$preview_url" >> "$GITHUB_ENV"
+          echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
@@ -63,3 +96,40 @@ jobs:
           body: |
             :rocket: Preview URL for this PR: ${{ env.PREVIEW_URL }}
           edit-mode: replace
+
+      # Update the same check run with success/failure
+      - name: Mark check success
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.checks.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              check_run_id: ${{ steps.start_check.outputs.check_id }},
+              status: 'completed',
+              conclusion: 'success',
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'Preview ready',
+                summary: 'Preview: ${{ steps.publish.outputs.preview_url || env.PREVIEW_URL }}',
+              },
+            });
+
+      - name: Mark check failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.checks.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              check_run_id: ${{ steps.start_check.outputs.check_id }},
+              status: 'completed',
+              conclusion: 'failure',
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'Preview failed',
+                summary: 'Auto preview failed. Run the manual preview to publish a preview and satisfy this required check.',
+              },
+            });

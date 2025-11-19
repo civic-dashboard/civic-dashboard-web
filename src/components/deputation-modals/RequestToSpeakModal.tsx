@@ -1,0 +1,246 @@
+'use client';
+
+import { DecisionBody } from '@/api/decisionBody';
+import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
+import { AgendaItem } from '@/database/queries/agendaItems';
+import { CopyIcon, HelpCircle, InfoIcon } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { InputHTMLAttributes, ReactNode, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { ReadonlyTextField } from '@/components/deputation-modals/ReadOnlyTextField';
+import {
+  copyToClipboard,
+  makeMailtoLink,
+} from '@/components/deputation-modals/utils';
+import { ExternalLink } from '@/components/ExternalLink';
+
+interface Props {
+  agendaItem: AgendaItem;
+  decisionBody: DecisionBody;
+  trigger: ReactNode;
+}
+
+function InlineInputField({
+  label,
+  ...inputProps
+}: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <fieldset className="flex flex-col md:flex-row items-center mb-4 md:mb-1">
+      <label className="w-full md:w-1/4 mb-1 md:mb-0" htmlFor={inputProps.id}>
+        {label}
+      </label>
+      <Input className="w-full md:w-3/4" {...inputProps} />
+    </fieldset>
+  );
+}
+
+export function RequestToSpeakModal({
+  agendaItem,
+  decisionBody,
+  trigger,
+}: Props) {
+  const [name, setName] = useState('');
+  const [organization, setOrganization] = useState('');
+  const [address, setAddress] = useState('');
+  const [telephone, setTelephone] = useState('');
+
+  const nameLabel = 'Name:';
+  const organizationLabel = 'Organization:';
+  const addressLabel = 'Mailing Address:';
+  const telephoneLabel = 'Telephone:';
+
+  const formattedDate = new Date(agendaItem.meetingDate).toLocaleString(
+    'default',
+    {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    },
+  );
+  const subject = `Request to appear before ${formattedDate} ${decisionBody.decisionBodyName} on item ${agendaItem.reference}`;
+  const bodyStartParagraphs = [
+    'To the City Clerk:',
+    `I would like to appear before the ${formattedDate} ${decisionBody.decisionBodyId} to speak on item ${agendaItem.reference}, ${agendaItem.agendaItemTitle}.`,
+  ];
+  const getFullBodyText = () => {
+    const fields = [`${nameLabel} ${name}`];
+
+    if (organization.trim()) {
+      fields.push(`${organizationLabel} ${organization}`);
+    }
+
+    fields.push(`${addressLabel} ${address}`);
+    fields.push(`${telephoneLabel} ${telephone}`);
+
+    const textArray = [...bodyStartParagraphs, fields.join('\n')];
+    return textArray.join('\n\n');
+  };
+  const copySubjectText = async () => copyToClipboard(subject);
+  const copyBodyText = async () => copyToClipboard(getFullBodyText());
+
+  const mailtoLink = makeMailtoLink({
+    email: decisionBody.email!,
+    subject,
+    body: getFullBodyText(),
+  });
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className="flex flex-col w-full md:max-w-4xl max-h-screen md:h-[calc(100vh-4rem)] overflow-y-scroll">
+        <h1 className="text-2xl leading-snug">
+          Request to speak on
+          <br />
+          <span className="inline-block font-semibold pt-1">
+            {agendaItem.agendaItemTitle}
+          </span>
+        </h1>
+        <div className="mb-4 border rounded p-4 bg-blue-900/50">
+          <h2 className="text-lg flex items-center">
+            <InfoIcon className="mr-2" /> How to use this page
+          </h2>
+          <ol className="list-decimal mt-2 pl-4">
+            <li className="ml-4">Fill out the form</li>
+            <li className="ml-4">
+              Use the Copy buttons to copy the text into your email client of
+              choice, and send it off! Or use the Create Email button, which
+              will automatically open your email client with the text already
+              filled in for you.
+            </li>
+          </ol>
+        </div>
+        <div className="mb-4 border rounded p-4 bg-blue-900/50">
+          <h2 className="text-lg flex items-center">
+            <HelpCircle className="mr-2" /> What does requesting to speak mean?
+          </h2>
+          <p className="mt-2">
+            When you request to speak, you are requesting to go to the meeting
+            to share your comments live, in a short 3-5 minute speech, in person
+            or over video conference. Anyone can do this -- even if you are not
+            eligible to vote in the city. It is your right as a constitutent!
+          </p>
+          <p className="mt-4">
+            By requesting to speak, your name, e-mail, mailing address becomes
+            part of the record of the meeting. The meetings are full-day events,
+            usually 9:30 am to 4 pm. The day of the meeting, your name will
+            appear on the "Speakers List", which is posted online; this gives
+            you an idea of when it will be your turn to speak. Your speech will
+            appear in the live broadcast and video archive of the meeting.
+          </p>
+          <p className="mt-4">
+            To learn more about speaking to committees, visit{' '}
+            <ExternalLink
+              href="https://toronto.ca/council"
+              className="classic-link"
+            >
+              toronto.ca/council
+            </ExternalLink>
+            .
+          </p>
+        </div>
+        <div className="mb-4">
+          <ReadonlyTextField
+            id="agendaRef"
+            label="Agenda reference #:"
+            value={agendaItem.reference}
+          />
+          <ReadonlyTextField
+            id="meetingDate"
+            label="Meeting date:"
+            value={formattedDate}
+          />
+          <ReadonlyTextField
+            id="decisionBody"
+            label="Decision body:"
+            value={decisionBody.decisionBodyName}
+          />
+        </div>
+        <div className="">
+          {/* email subject */}
+          <div className="mb-6">
+            <h2 className="text-sm font-semibold mb-2">Email subject</h2>
+            <div className="text-base">{subject}</div>
+          </div>
+          {/* email body */}
+          <div className="mb-6">
+            <h2 className="text-sm font-semibold mb-2">Email body</h2>
+            {bodyStartParagraphs.map((s, i) => (
+              <p key={i} className="mb-3">
+                {s}
+              </p>
+            ))}
+            {/* fields */}
+            <InlineInputField
+              id="name"
+              label={nameLabel}
+              type="text"
+              placeholder="Your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <InlineInputField
+              id="organization"
+              label="Organization (if applicable):"
+              type="text"
+              placeholder="Your organization"
+              value={organization}
+              onChange={(e) => setOrganization(e.target.value)}
+            />
+            <InlineInputField
+              id="address"
+              label={addressLabel}
+              type="text"
+              placeholder="Your address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <InlineInputField
+              id="telephone"
+              label={telephoneLabel}
+              type="tel"
+              placeholder="Your telephone"
+              value={telephone}
+              onChange={(e) => setTelephone(e.target.value)}
+            />
+          </div>
+          {/* copy/send buttons */}
+          <div className="">
+            <p className="text-base text-sm mb-2">
+              All done? Use these buttons to copy the text into an email, and
+              send that email to: <b>{decisionBody.email}</b>
+            </p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              <Button
+                size="sm"
+                onClick={() => copyToClipboard(decisionBody.email!)}
+              >
+                <CopyIcon />
+                Copy email: {decisionBody.email}
+              </Button>
+              <Button size="sm" onClick={() => copySubjectText()}>
+                <CopyIcon />
+                Copy subject line
+              </Button>
+              <Button size="sm" onClick={() => copyBodyText()}>
+                <CopyIcon />
+                Copy email body
+              </Button>
+            </div>
+            <p className="text-base text-sm mt-2 mb-2">
+              Or, use this button, which will start a new email in your email
+              client with all the text prefilled for you:
+            </p>
+            <div className="flex gap-2 mb-4">
+              <Button asChild size="sm">
+                <a href={mailtoLink} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink />
+                  Create email (opens your mail client)
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}

@@ -8,22 +8,26 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && tsc --noEmit",
-    "build:worker": "opennextjs-cloudflare",
-    "dev:worker": "wrangler dev --port 8771",
-    "preview-local:worker": "npm run build:worker && npm run dev:worker",
-    "preview-remote:worker": "npm run build:worker && wrangler versions upload",
-    "deploy:worker": "npm run build:worker && wrangler deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "preview:remote": "opennextjs-cloudflare build && opennextjs-cloudflare preview --remote",
+    "preview-remote:worker": "opennextjs-cloudflare build && wrangler versions upload",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "db:update-types": "kysely-codegen --out-file ./src/database/generatedDbTypes.d.ts --url $DATABASE_URL && eslint ./src/database/generatedDbTypes.d.ts --fix",
     "db:create-migration": "kysely migrate:make",
     "db:list-migrations": "kysely migrate:list",
-    "db:run-migrations": "kysely migrate:latest",
+    "db:run-migrations": "kysely migrate:latest && kysely seed:run",
     "db:run-seed": "kysely seed:run",
     "db:start": "docker compose up --detach database",
     "db:stop": "docker compose stop database",
     "docker:start": "docker compose up --detach",
     "docker:stop": "docker compose stop",
     "tsx": "tsx --tsconfig=tsconfig.tsx.json",
-    "tsxe": "tsx --tsconfig=tsconfig.tsx.json --env-file=.env"
+    "tsxe": "tsx --tsconfig=tsconfig.tsx.json --env-file=.env",
+    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
+    "build:html": "node src/scripts/markdowntohtml.js",
+    "dev:html": "npm run build:html && echo 'HTML files generated in public/html'"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",
@@ -48,6 +52,7 @@
     "lucide-react": "^0.460.0",
     "mark.js": "^8.11.1",
     "next": "^14.2.18",
+    "next-sitemap": "^4.2.3",
     "node-fetch": "^3.3.2",
     "postgres": "^3.4.5",
     "react": "^18.3.1",
@@ -61,7 +66,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
-    "@opennextjs/cloudflare": "^0.4.4",
+    "@opennextjs/cloudflare": "^1.8.2",
     "@tailwindcss/typography": "^0.5.15",
     "@types/hash-sum": "1.0.2",
     "@types/mark.js": "^8.11.12",
@@ -78,6 +83,7 @@
     "eslint-plugin-sql": "^3.2.1",
     "kysely-codegen": "^0.17.0",
     "kysely-ctl": "^0.10.1",
+    "marked": "^9.1.6",
     "nodemailer": "^6.10.0",
     "pg": "^8.13.2",
     "postcss": "^8",
@@ -87,6 +93,6 @@
     "tsx": "^4.19.3",
     "typescript": "^5",
     "typescript-eslint": "^8.18.0",
-    "wrangler": "^3.91.0"
+    "wrangler": "^4.37.1"
   }
 }

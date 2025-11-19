@@ -79,8 +79,7 @@ function getCleanCouncillorSlug(approximateName: string) {
   return toSlug(cleanName);
 }
 
-// Either leave here or place in @/logic/sanitize
-function normalizeTextCharsSymbols(text: string): string {
+export function normalizeTextCharsSymbols(text: string): string {
   const replacements: Record<string, string> = {
     '&': 'and',
     '@': 'at',
@@ -91,8 +90,8 @@ function normalizeTextCharsSymbols(text: string): string {
     '%': 'percent',
     '§': 'section',
     '#': 'number',
-    '-': ' ', // Not sure if this is desirable
-    _: ' ', // Not sure if this is desirable
+    '-': ' ',
+    _: ' ',
   };
 
   const regex = new RegExp(Object.keys(replacements).join('|'), 'g');
@@ -105,32 +104,12 @@ function normalizeTextCharsSymbols(text: string): string {
   return normalizedText.length > 0 ? normalizedText : text;
 }
 
-function extractBracketTerms(text: string): string[] {
-  // Match text wrapped in brackets:(), {}, []
-  const matches = [...text.matchAll(/[([{]([^)\]}]*)[)\]}]/g)];
-  // Remove bracketed terms, returns "" if only contains bracketed terms
-  const unbracketedTerms = text.replace(/[([{][^)\]}]*[)\]}]/g, '').trim();
-
-  // Get bracketed terms and trim spaces
-  const extractedTerms = matches
-    .map((match) => match[1].trim())
-    .filter((term) => term.length > 0);
-
-  // Remove brackets
-  const cleanedTerms =
-    unbracketedTerms.length > 0
-      ? [unbracketedTerms, ...extractedTerms]
-      : extractedTerms;
-
-  return cleanedTerms;
-}
-
-function explodeSubjectTerms(subjectTerms: string): string[] {
-  // Split on semicolons wrapped in brackets
-  return subjectTerms
-    .split(/[;,]/g)
-    .map((term) => term.trim())
-    .filter((term) => term.length > 0);
+export function explodeSubjectTerms(textInput: string): string[] {
+  // Split on semicolons and brackets
+  return textInput
+    .split(/[({[\]});,]+/g)
+    .map((text) => text.trim())
+    .filter(Boolean);
 }
 
 export function processSubjectTerms(
@@ -140,15 +119,10 @@ export function processSubjectTerms(
     throw new Error(`Can't process empty subject terms`);
 
   // Explode on semicolons and commas
-  const explodeTerms: string[] = explodeSubjectTerms(subjectTerms);
-
-  // Explode terms contain in brackets
-  const refinedTerms: string[] = explodeTerms.flatMap((term) =>
-    extractBracketTerms(term),
-  );
+  const explodeTerms = explodeSubjectTerms(subjectTerms);
 
   // Return both raw and normalized term
-  return refinedTerms.map((term) => ({
+  return explodeTerms.map((term) => ({
     raw: term,
     normalized: normalizeTextCharsSymbols(term),
   }));
