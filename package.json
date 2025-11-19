@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && tsc --noEmit",
+    "format": "next lint --fix",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "preview:remote": "opennextjs-cloudflare build && opennextjs-cloudflare preview --remote",
     "preview-remote:worker": "opennextjs-cloudflare build && wrangler versions upload",
