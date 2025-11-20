@@ -91,6 +91,12 @@ const fetchItemPage = async (
     body,
   });
 
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch agenda item page: ${response.status} ${response.statusText}\n`,
+    );
+  }
+
   return (await response.json()) as ApiResponse;
 };
 

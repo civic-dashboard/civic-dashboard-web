@@ -55,6 +55,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate HTML from Markdown
+        run: npm run build:html
+
       - name: Upload preview deployment
         id: publish
         env:

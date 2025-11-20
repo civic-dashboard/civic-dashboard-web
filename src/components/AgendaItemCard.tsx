@@ -25,6 +25,8 @@ import Link from 'next/link';
 import { logAnalytics } from '@/api/analytics';
 import { SubmitCommentModal } from '@/components/deputation-modals/SubmitCommentModal';
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
+import { allTags } from '@/constants/tags';
+import React from 'react';
 
 function itemDateIsAfterToday(dateNumber: number): boolean {
   const today = new Date();
@@ -34,6 +36,26 @@ function itemDateIsAfterToday(dateNumber: number): boolean {
   date.setHours(0, 0, 0, 0);
 
   return date >= today;
+}
+
+function DisplayTag({ tag, id }: { tag: string; id: number }) {
+  return (
+    <>
+      <Link
+        className="mr-1"
+        href={`/actions?tag=${tag.replaceAll(' ', '')}`}
+        key={'link' + id}
+      >
+        <Chip
+          className="hover:border-gray-400 hover:underline text-sm"
+          variant="outline"
+          key={'chip' + id}
+        >
+          {tag.toLowerCase()}
+        </Chip>
+      </Link>
+    </>
+  );
 }
 
 type AgendaItemCardProps = React.PropsWithChildren<{
@@ -102,6 +124,30 @@ export function FullPageAgendaItemCard({
   decisionBody,
 }: FullPageAgendaItemCardProps) {
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
+
+  const relatedTags: string[] = [];
+  Object.entries(allTags).forEach((tag) => {
+    const tagName = tag[1]['displayName'];
+    const tagSearch: string[] = tag[1]['searchQuery']
+      .replaceAll('"', '')
+      .split(' OR ');
+
+    const textToSearch = item.agendaItemRecommendation
+      ? (
+          item.agendaItemRecommendation +
+          item.agendaItemSummary +
+          item.agendaItemTitle
+        ).toLowerCase()
+      : (item.agendaItemSummary + item.agendaItemTitle).toLowerCase();
+
+    for (const keyword of tagSearch) {
+      if (textToSearch.search(keyword) !== -1) {
+        relatedTags.push(tagName);
+        break;
+      }
+    }
+  });
+
   return (
     <AgendaItemCard
       className="max-sm:rounded-none"
@@ -180,6 +226,14 @@ export function FullPageAgendaItemCard({
               </ChipLink>
             );
           })}
+        </>
+      )}
+      {relatedTags.length > 0 && (
+        <>
+          <h4 className="mt-4 mb-1 font-bold">Related tags</h4>
+          {relatedTags.map((tag, id) => (
+            <DisplayTag tag={tag} id={id} key={id} />
+          ))}
         </>
       )}
     </AgendaItemCard>

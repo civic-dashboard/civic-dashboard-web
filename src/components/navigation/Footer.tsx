@@ -32,14 +32,6 @@ export default function Footer() {
                   Labs
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/ward25faq"
-                  className="hover:text-blue-400 transition-colors duration-200 block"
-                >
-                  Ward 25 By-Election FAQ
-                </Link>
-              </li>
             </ul>
           </div>
 
