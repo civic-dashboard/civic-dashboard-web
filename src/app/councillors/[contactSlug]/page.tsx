@@ -4,7 +4,7 @@ import CouncillorBio from '@/app/councillors/[contactSlug]/components/Councillor
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
-import { AgendaItem } from '@/app/councillors/[contactSlug]/types/index';
+import { getCouncillorItemsPaginated } from '@/logic/councillorItems';
 
 type ParamsType = {
   contactSlug: string;
@@ -39,17 +39,16 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
     .executeTakeFirstOrThrow();
 }
 
-async function getAgendaItems(contactSlug: string) {
-  const url = `/api/councillor-items?contactSlug=${contactSlug}&page=1&pageSize=10`;
-  const response = await fetch(url, {
-    method: 'GET',
-  });
-  const itemCount = Number(response.headers.get('agenda-item-count'));
-  const agendaItems = (await response.json()) as AgendaItem[];
+export async function generateMetadata({
+  params,
+}: {
+  params: ParamsType;
+}): Promise<Metadata> {
+  const db = createDB();
+  const councillor = await getCouncillor(db, params.contactSlug);
 
   return {
-    agendaItems,
-    itemCount,
+    title: `Voting record for ${councillor.contactName} – Civic Dashboard`,
   };
 }
 
@@ -63,8 +62,11 @@ export default async function CouncillorVotePage(props: {
   const db = createDB();
   const councillor = await getCouncillor(db, contactSlug);
 
-  const { agendaItems, itemCount } = await getAgendaItems(contactSlug);
-
+  const [agendaItems, itemCount] = await getCouncillorItemsPaginated(
+    contactSlug,
+    1,
+    10,
+  );
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <CouncillorBio councillor={councillor} />
@@ -76,17 +78,4 @@ export default async function CouncillorVotePage(props: {
       />
     </main>
   );
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: ParamsType;
-}): Promise<Metadata> {
-  const db = createDB();
-  const councillor = await getCouncillor(db, params.contactSlug);
-
-  return {
-    title: `Voting record for ${councillor.contactName} – Civic Dashboard`,
-  };
 }
