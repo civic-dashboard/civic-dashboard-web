@@ -201,21 +201,20 @@ const Pagination: React.FC<PaginationProps> = ({
 };
 
 export default function AgendaItemResults({
-  agendaItems,
   contactSlug,
   currentPage,
-  itemCount,
   searchTerm = '',
 }: {
-  agendaItems: AgendaItem[];
   contactSlug: string;
   currentPage: number;
-  itemCount: number;
   searchTerm?: string;
 }) {
-  const [pageAgendaItems, setPageAgendaItems] =
-    useState<AgendaItem[]>(agendaItems);
-  const [agendaItemCount, setAgendaItemCount] = useState(itemCount);
+  if (currentPage <= 0) currentPage = 1;
+
+  const pageSize = 10; // make this dynamic based on user selection
+
+  const [pageAgendaItems, setPageAgendaItems] = useState<AgendaItem[]>([]);
+  const [agendaItemCount, setAgendaItemCount] = useState(0);
 
   const tidySearchQuery = searchTerm.toLocaleLowerCase().trim();
 
@@ -245,7 +244,7 @@ export default function AgendaItemResults({
     setPageAgendaItems([]);
     const res = async () => {
       const response = await fetch(
-        `/api/councillor-items?contactSlug=${contactSlug}&page=${currentPage}&pageSize=10`,
+        `/api/councillor-items?contactSlug=${contactSlug}&page=${currentPage}&pageSize=${pageSize}`,
         {
           method: 'GET',
         },
@@ -263,29 +262,43 @@ export default function AgendaItemResults({
 
   return (
     <div>
-      <div className="flex justify-between items-center mt-2 mb-8">
-        <div className="text-sm text-gray-600">
-          {totalItems > 0 ? (
-            <>
-              Showing {startIndex}-{endIndex} of {totalItems} results
-            </>
-          ) : (
-            'Loading results'
-          )}
-        </div>
-      </div>
-
-      <div>
-        {filteredItems.map((item) => (
-          <AgendaItemCard key={item.agendaItemNumber} item={item} />
-        ))}
-
-        {filteredItems.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            Loading agenda items.
+      {totalItems > 0 ? (
+        <>
+          <div className="flex justify-between items-center mt-2 mb-8">
+            <div className="text-sm text-gray-600">
+              {totalItems >= startIndex ? (
+                <>
+                  Showing {startIndex}-{endIndex} of {totalItems} results
+                </>
+              ) : (
+                <>Invalid page.</>
+              )}
+            </div>
           </div>
-        )}
-      </div>
+          <div>
+            {filteredItems && totalItems >= startIndex ? (
+              filteredItems.map((item) => (
+                <AgendaItemCard key={item.agendaItemNumber} item={item} />
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                No agenda items.
+              </div>
+            )}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="flex justify-between items-center mt-2 mb-8">
+            <div className="text-sm text-gray-600">Loading...</div>
+          </div>
+          <div>
+            <div className="text-center py-8 text-gray-500">
+              Loading agenda items
+            </div>
+          </div>
+        </>
+      )}
 
       <Pagination
         currentPage={currentPage}

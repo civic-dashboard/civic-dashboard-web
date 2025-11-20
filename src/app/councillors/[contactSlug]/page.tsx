@@ -4,7 +4,6 @@ import CouncillorBio from '@/app/councillors/[contactSlug]/components/Councillor
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
-import { getCouncillorItemsPaginated } from '@/logic/councillorItems';
 
 type ParamsType = {
   contactSlug: string;
@@ -62,18 +61,11 @@ export default async function CouncillorVotePage(props: {
   const db = createDB();
   const councillor = await getCouncillor(db, contactSlug);
 
-  const [agendaItems, itemCount] = await getCouncillorItemsPaginated(
-    contactSlug,
-    1,
-    10,
-  );
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <CouncillorBio councillor={councillor} />
       <CouncillorVoteContent
         currentPage={currentPage}
-        itemCount={itemCount}
-        agendaItems={agendaItems}
         contactSlug={contactSlug}
       />
     </main>
