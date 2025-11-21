@@ -82,7 +82,7 @@ export function UpcomingPastSwitch() {
     (selectedRange: TimeRangeType) => {
       setSearchOptions((opts) => ({
         ...opts,
-        minimumDate: selectedRange === "past" ? undefined : new Date(),
+        minimumDate: selectedRange === 'past' ? undefined : new Date(),
       }));
     },
     [setSearchOptions],
@@ -99,7 +99,7 @@ export function UpcomingPastSwitch() {
     <div className="w-full border-b border-gray-200">
       <div className="flex gap-6">
         <button
-          onClick={() => handleDateRange("upcoming")}
+          onClick={() => handleDateRange('upcoming')}
           className={`pb-2 text-lg font-semibold ${
             active === "upcoming"
               ? "text-gray-800 border-b-2 border-gray-700"
@@ -110,7 +110,7 @@ export function UpcomingPastSwitch() {
         </button>
 
         <button
-          onClick={() => handleDateRange("past")}
+          onClick={() => handleDateRange('past')}
           className={`pb-2 text-lg font-semibold ${
             active === "past"
               ? "text-gray-800 border-b-2 border-gray-700"
