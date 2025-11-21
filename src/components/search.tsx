@@ -1,11 +1,10 @@
 import { Check, Search } from 'lucide-react';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
 import { ChipButton } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
-import { Checkbox, type CheckedState } from '@/components/ui/checkbox';
 import { useSearch } from '@/contexts/SearchContext';
 import {
   Accordion,
@@ -74,6 +73,57 @@ export function SortDropdown() {
   );
 }
 
+export function UpcomingPastSwitch() {
+  type TimeRangeType = 'upcoming' | 'past';
+  
+  const { setSearchOptions } = useSearch();
+  
+  const updateItemsType = useCallback(
+    (selectedRange: TimeRangeType) => {
+      setSearchOptions((opts) => ({
+        ...opts,
+        minimumDate: selectedRange === "past" ? undefined : new Date(),
+      }));
+    },
+    [setSearchOptions],
+  );
+
+  const [active, setActive] = useState('upcoming');
+
+  const handleDateRange = (selectedRange: TimeRangeType) => {
+    updateItemsType(selectedRange);
+    setActive(selectedRange);
+  };
+
+  return (
+    <div className="w-full border-b border-gray-200">
+      <div className="flex gap-6">
+        <button
+          onClick={() => handleDateRange("upcoming")}
+          className={`pb-2 text-lg font-semibold ${
+            active === "upcoming"
+              ? "text-gray-800 border-b-2 border-gray-700"
+              : "text-gray-400"
+          }`}
+        >
+          Upcoming items
+        </button>
+
+        <button
+          onClick={() => handleDateRange("past")}
+          className={`pb-2 text-lg font-semibold ${
+            active === "past"
+              ? "text-gray-800 border-b-2 border-gray-700"
+              : "text-gray-400"
+          }`}
+        >
+          Past items
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function DecisionBodyFilter({
   decisionBodies,
 }: DecisionBodyFilterProps) {
@@ -125,7 +175,6 @@ export function AdvancedFilters({ decisionBodies }: AdvancedFiltersProps) {
         <AccordionContent>
           <div className="flex flex-wrap gap-y-6 gap-x-8">
             <DecisionBodyFilter decisionBodies={decisionBodies} />
-            <ShowPastItems />
           </div>
         </AccordionContent>
       </AccordionItem>
@@ -203,35 +252,6 @@ export function SearchBar() {
           Feel free to use AND, OR, NOT - learn more about search operators
         </span> */}
       </div>
-    </div>
-  );
-}
-
-export function ShowPastItems() {
-  const { searchOptions, setSearchOptions } = useSearch();
-  const onCheckedChange = useCallback(
-    (checked: CheckedState) => {
-      setSearchOptions((opts) => ({
-        ...opts,
-        minimumDate: checked === true ? undefined : new Date(),
-      }));
-    },
-    [setSearchOptions],
-  );
-
-  return (
-    <div className="flex items-center space-x-2">
-      <Checkbox
-        checked={searchOptions.minimumDate === undefined}
-        onCheckedChange={onCheckedChange}
-        id="full-history"
-      />
-      <label
-        htmlFor="full-history"
-        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-      >
-        Show past items
-      </label>
     </div>
   );
 }
