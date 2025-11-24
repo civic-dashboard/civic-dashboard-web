@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { createDB } from '@/database/kyselyDb';
 import CouncillorBio from '@/app/councillors/[contactSlug]/components/CouncillorBio';
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
@@ -35,7 +36,7 @@ async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
       'Wards.wardId',
     ])
     .where('Councillors.contactSlug', '=', contactSlug)
-    .executeTakeFirstOrThrow();
+    .executeTakeFirst();
 }
 
 export async function generateMetadata({
@@ -45,7 +46,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const db = createDB();
   const councillor = await getCouncillor(db, params.contactSlug);
-
+  if (!councillor) {
+    notFound();
+  }
   return {
     title: `Voting record for ${councillor.contactName} – Civic Dashboard`,
   };
@@ -60,7 +63,9 @@ export default async function CouncillorVotePage(props: {
 
   const db = createDB();
   const councillor = await getCouncillor(db, contactSlug);
-
+  if (!councillor) {
+    notFound();
+  }
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <CouncillorBio councillor={councillor} />
