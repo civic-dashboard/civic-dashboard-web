@@ -75,9 +75,7 @@ export function SortDropdown() {
 
 export function UpcomingPastSwitch() {
   type TimeRangeType = 'upcoming' | 'past';
-  
   const { setSearchOptions } = useSearch();
-  
   const updateItemsType = useCallback(
     (selectedRange: TimeRangeType) => {
       setSearchOptions((opts) => ({
@@ -101,9 +99,9 @@ export function UpcomingPastSwitch() {
         <button
           onClick={() => handleDateRange('upcoming')}
           className={`pb-2 text-lg font-semibold ${
-            active === "upcoming"
-              ? "text-gray-800 border-b-2 border-gray-700"
-              : "text-gray-400"
+            active === 'upcoming'
+              ? 'text-gray-800 border-b-2 border-gray-700'
+              : 'text-gray-400'
           }`}
         >
           Upcoming items
@@ -112,9 +110,9 @@ export function UpcomingPastSwitch() {
         <button
           onClick={() => handleDateRange('past')}
           className={`pb-2 text-lg font-semibold ${
-            active === "past"
-              ? "text-gray-800 border-b-2 border-gray-700"
-              : "text-gray-400"
+            active === 'past'
+              ? 'text-gray-800 border-b-2 border-gray-700'
+              : 'text-gray-400'
           }`}
         >
           Past items
