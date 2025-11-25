@@ -73,7 +73,7 @@ export function SortDropdown() {
   );
 }
 
-export function UpcomingPastSwitch() {
+export function UpcomingPastToggle() {
   type TimeRangeType = 'upcoming' | 'past';
   const { setSearchOptions } = useSearch();
   const updateItemsType = useCallback(
