@@ -110,7 +110,6 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
 
   return (
     <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
-      <UpcomingPastToggle />
       <div className="mt-4 mb-2">
         <h1 className="text-2xl font-bold">Actions</h1>
         <p>
@@ -130,8 +129,8 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
           <SortDropdown />
         </div>
       </div>
+      <UpcomingPastToggle />
       <Tags />
-      <hr />
       <AdvancedFilters decisionBodies={currentTermDecisionBodies} />
       <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
         <div className="flex grow justify-between items-end">

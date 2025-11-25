@@ -73,55 +73,6 @@ export function SortDropdown() {
   );
 }
 
-export function UpcomingPastToggle() {
-  type TimeRangeType = 'upcoming' | 'past';
-  const { setSearchOptions } = useSearch();
-  const updateItemsType = useCallback(
-    (selectedRange: TimeRangeType) => {
-      setSearchOptions((opts) => ({
-        ...opts,
-        minimumDate: selectedRange === 'past' ? undefined : new Date(),
-      }));
-    },
-    [setSearchOptions],
-  );
-
-  const [active, setActive] = useState('upcoming');
-
-  const handleDateRange = (selectedRange: TimeRangeType) => {
-    updateItemsType(selectedRange);
-    setActive(selectedRange);
-  };
-
-  return (
-    <div className="w-full border-b border-gray-200">
-      <div className="flex gap-6">
-        <button
-          onClick={() => handleDateRange('upcoming')}
-          className={`pb-2 text-lg font-semibold ${
-            active === 'upcoming'
-              ? 'text-gray-800 border-b-2 border-gray-700'
-              : 'text-gray-400'
-          }`}
-        >
-          Upcoming items
-        </button>
-
-        <button
-          onClick={() => handleDateRange('past')}
-          className={`pb-2 text-lg font-semibold ${
-            active === 'past'
-              ? 'text-gray-800 border-b-2 border-gray-700'
-              : 'text-gray-400'
-          }`}
-        >
-          Past items
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export function DecisionBodyFilter({
   decisionBodies,
 }: DecisionBodyFilterProps) {
@@ -177,6 +128,59 @@ export function AdvancedFilters({ decisionBodies }: AdvancedFiltersProps) {
         </AccordionContent>
       </AccordionItem>
     </Accordion>
+  );
+}
+
+export function UpcomingPastToggle() {
+  type TimeRangeType = 'upcoming' | 'past';
+  const { setSearchOptions } = useSearch();
+  const updateItemsType = useCallback(
+    (selectedRange: TimeRangeType) => {
+      setSearchOptions((opts) => ({
+        ...opts,
+        minimumDate: selectedRange === 'past' ? undefined : new Date(),
+      }));
+    },
+    [setSearchOptions],
+  );
+
+  const [active, setActive] = useState('upcoming');
+
+  const handleDateRange = (selectedRange: TimeRangeType) => {
+    updateItemsType(selectedRange);
+    setActive(selectedRange);
+  };
+
+  return (
+    <div className="w-full border-b border-gray-200">
+      <div className="flex gap-6">
+        <button
+          role="tab"
+          aria-selectd={active==='upcoming'}
+          onClick={() => handleDateRange('upcoming')}
+          className={`pb-2 text-lg font-semibold ${
+            active === 'upcoming'
+              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
+              : 'text-gray-400 dark:text-neutral-800'
+          }`}
+        >
+          Upcoming items
+        </button>
+
+        <button
+          role="tab"
+          aria-selected={active==='past'}
+          onClick={() => handleDateRange('past')}
+          className={`pb-2 text-lg font-semibold ${
+            active === 'past'
+              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
+              : 'text-gray-400 dark:text-neutral-800'
+          }`}
+        >
+          Past items
+        </button>
+      </div>
+    </div>
   );
 }
 
