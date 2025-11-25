@@ -156,7 +156,7 @@ export function UpcomingPastToggle() {
       <div className="flex gap-6">
         <button
           role="tab"
-          aria-selectd={active==='upcoming'}
+          aria-selectd={active === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
           className={`pb-2 text-lg font-semibold ${
             active === 'upcoming'
@@ -169,7 +169,7 @@ export function UpcomingPastToggle() {
 
         <button
           role="tab"
-          aria-selected={active==='past'}
+          aria-selected={active === 'past'}
           onClick={() => handleDateRange('past')}
           className={`pb-2 text-lg font-semibold ${
             active === 'past'
