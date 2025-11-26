@@ -40,17 +40,9 @@ async function getTotalAgendaItemsForContact(
 ): Promise<{ itemCount: number }[]> {
   const agendaItemCount = db
     .selectFrom('Votes')
-    .innerJoin('Motions', (eb) =>
-      eb
-        .onRef('Votes.agendaItemNumber', '=', 'Motions.agendaItemNumber')
-        .onRef('Votes.motionId', '=', 'Motions.motionId'),
-    )
-    .innerJoin('AgendaItems', (eb) =>
-      eb.onRef('Votes.agendaItemNumber', '=', 'AgendaItems.agendaItemNumber'),
-    )
     .select((eb) => [
       eb.fn
-        .count<number>('AgendaItems.agendaItemNumber')
+        .count<number>('Votes.agendaItemNumber')
         .filterWhere('Votes.contactSlug', '=', contactSlug)
         .distinct()
         .as('itemCount'),

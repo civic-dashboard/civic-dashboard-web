@@ -203,11 +203,11 @@ const Pagination: React.FC<PaginationProps> = ({
 export default function AgendaItemResults({
   contactSlug,
   currentPage,
-  searchTerm = '',
+  //searchTerm = '',
 }: {
   contactSlug: string;
   currentPage: number;
-  searchTerm?: string;
+  //searchTerm?: string;
 }) {
   if (currentPage <= 0) currentPage = 1;
 
@@ -216,8 +216,10 @@ export default function AgendaItemResults({
   const [pageAgendaItems, setPageAgendaItems] = useState<AgendaItem[]>([]);
   const [agendaItemCount, setAgendaItemCount] = useState(0);
 
+  /*
   const tidySearchQuery = searchTerm.toLocaleLowerCase().trim();
 
+  // if frontend search is re-enabled, use filteredItems in the JSX result instead of pageAgendaItems
   const filteredItems = useMemo(
     () =>
       tidySearchQuery
@@ -227,7 +229,7 @@ export default function AgendaItemResults({
         : pageAgendaItems,
     [pageAgendaItems, tidySearchQuery],
   );
-
+  */
   const {
     totalPages,
     totalItems,
@@ -276,8 +278,8 @@ export default function AgendaItemResults({
             </div>
           </div>
           <div>
-            {filteredItems && totalItems >= startIndex ? (
-              filteredItems.map((item) => (
+            {pageAgendaItems && totalItems >= startIndex ? (
+              pageAgendaItems.map((item) => (
                 <AgendaItemCard key={item.agendaItemNumber} item={item} />
               ))
             ) : (
