@@ -136,9 +136,13 @@ export function UpcomingPastToggle() {
   const { setSearchOptions } = useSearch();
   const updateItemsType = useCallback(
     (selectedRange: TimeRangeType) => {
+      const isPast = selectedRange === 'past';
+      const currentDate = new Date();
+
       setSearchOptions((opts) => ({
         ...opts,
-        minimumDate: selectedRange === 'past' ? undefined : new Date(),
+        minimumDate: isPast ? undefined : currentDate,
+        maximumDate: isPast ? currentDate : undefined,
       }));
     },
     [setSearchOptions],
@@ -156,7 +160,7 @@ export function UpcomingPastToggle() {
       <div className="flex gap-6">
         <button
           role="tab"
-          aria-selectd={active === 'upcoming'}
+          aria-selected={active === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
           className={`pb-2 text-lg font-semibold ${
             active === 'upcoming'
