@@ -120,7 +120,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
           conferencing.
         </p>
       </div>
-      <hr />
+      <UpcomingPastToggle />
       <div className="flex flex-row self-stretch items-center space-x-2">
         <div className="flex-grow">
           <SearchBar />
@@ -129,8 +129,8 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
           <SortDropdown />
         </div>
       </div>
-      <UpcomingPastToggle />
       <Tags />
+      <hr />
       <AdvancedFilters decisionBodies={currentTermDecisionBodies} />
       <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
         <div className="flex grow justify-between items-end">
