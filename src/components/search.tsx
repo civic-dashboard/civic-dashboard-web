@@ -1,11 +1,10 @@
 import { Check, Search } from 'lucide-react';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
 import { ChipButton } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
-import { Checkbox, type CheckedState } from '@/components/ui/checkbox';
 import { useSearch } from '@/contexts/SearchContext';
 import {
   Accordion,
@@ -125,11 +124,67 @@ export function AdvancedFilters({ decisionBodies }: AdvancedFiltersProps) {
         <AccordionContent>
           <div className="flex flex-wrap gap-y-6 gap-x-8">
             <DecisionBodyFilter decisionBodies={decisionBodies} />
-            <ShowPastItems />
           </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
+  );
+}
+
+export function UpcomingPastToggle() {
+  type TimeRangeType = 'upcoming' | 'past';
+  const { setSearchOptions } = useSearch();
+  const updateItemsType = useCallback(
+    (selectedRange: TimeRangeType) => {
+      const isPast = selectedRange === 'past';
+      const currentDate = new Date();
+
+      setSearchOptions((opts) => ({
+        ...opts,
+        minimumDate: isPast ? undefined : currentDate,
+        maximumDate: isPast ? currentDate : undefined,
+      }));
+    },
+    [setSearchOptions],
+  );
+
+  const [active, setActive] = useState('upcoming');
+
+  const handleDateRange = (selectedRange: TimeRangeType) => {
+    updateItemsType(selectedRange);
+    setActive(selectedRange);
+  };
+
+  return (
+    <div className="w-full border-b border-gray-200">
+      <div className="flex gap-6">
+        <button
+          role="tab"
+          aria-selected={active === 'upcoming'}
+          onClick={() => handleDateRange('upcoming')}
+          className={`pb-2 text-lg font-semibold ${
+            active === 'upcoming'
+              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
+              : 'text-gray-400 dark:text-neutral-800'
+          }`}
+        >
+          Upcoming items
+        </button>
+
+        <button
+          role="tab"
+          aria-selected={active === 'past'}
+          onClick={() => handleDateRange('past')}
+          className={`pb-2 text-lg font-semibold ${
+            active === 'past'
+              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
+              : 'text-gray-400 dark:text-neutral-800'
+          }`}
+        >
+          Past items
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -203,35 +258,6 @@ export function SearchBar() {
           Feel free to use AND, OR, NOT - learn more about search operators
         </span> */}
       </div>
-    </div>
-  );
-}
-
-export function ShowPastItems() {
-  const { searchOptions, setSearchOptions } = useSearch();
-  const onCheckedChange = useCallback(
-    (checked: CheckedState) => {
-      setSearchOptions((opts) => ({
-        ...opts,
-        minimumDate: checked === true ? undefined : new Date(),
-      }));
-    },
-    [setSearchOptions],
-  );
-
-  return (
-    <div className="flex items-center space-x-2">
-      <Checkbox
-        checked={searchOptions.minimumDate === undefined}
-        onCheckedChange={onCheckedChange}
-        id="full-history"
-      />
-      <label
-        htmlFor="full-history"
-        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-      >
-        Show past items
-      </label>
     </div>
   );
 }

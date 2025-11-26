@@ -2,6 +2,7 @@
 
 import { SearchResultAgendaItemCard } from '@/components/AgendaItemCard';
 import {
+  UpcomingPastToggle,
   AdvancedFilters,
   ResultCount,
   SearchBar,
@@ -119,7 +120,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
           conferencing.
         </p>
       </div>
-      <hr />
+      <UpcomingPastToggle />
       <div className="flex flex-row self-stretch items-center space-x-2">
         <div className="flex-grow">
           <SearchBar />
