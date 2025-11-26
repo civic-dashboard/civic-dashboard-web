@@ -17,7 +17,7 @@ export const Avatar: FC<AvatarProps> = ({ src, size, alt = '' }) => {
       className="relative rounded-full overflow-hidden inline-block"
       style={{ width: size, height: size }}
     >
-      <CircleUserRoundIcon size={size} className="bsolute inset-0" />
+      <CircleUserRoundIcon size={size} className="absolute inset-0" />
       {src && !hasError && (
         <Image
           src={src}

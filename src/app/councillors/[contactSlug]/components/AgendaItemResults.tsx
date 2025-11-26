@@ -1,3 +1,4 @@
+'use client';
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
 import { useMemo, memo, useState, useEffect } from 'react';
 import { Link2Icon } from 'lucide-react';
