@@ -6,19 +6,31 @@ This is (probably not, but hopefully!) all the information you need to contribut
 
 🚧 There obviously won't be room to do a comprehensive tutorial on Next, TypeScript, JavaScript, React, all of web dev, etc... but it'd be nice to have a brief explanation and some helpful links here. Please ask around if that would be useful until then! 🚧
 
+## Github Issues and Github Project
+
+We use [Github Issues](https://github.com/civic-dashboard/civic-dashboard-web/issues) and have a [Project Board](https://github.com/orgs/civic-dashboard/projects/3) to help us manage everything that needs to be done. You can pick an issue and assign yourself to it or even create new issues! 
+
+We've documented how we use Github for project management in this [Google Doc](https://docs.google.com/document/d/1xehRm-2yZvC_9VRm5CrhbzlIyVNDNh3cpTQPDdtLRso/edit?tab=t.46j0b7xt6q03)
+
+
 ## Pull request and commit workflow
 
 - Commits to `main` trigger a new production deployment (a bit scary!)
 - Commits to `main` _require_ a PR
-- PRs can only be merged if all the CI checks pass. that includes:
-  - a linter, to make sure our code style is consistent
-  - a preview deployment!
+- PRs can only be merged if all the CI checks pass and have at least one approval from a team member. CI checks include:
+  - a linter, to make sure our code style is consistent. you can try running `npm run format` if the lint check complains at you and if you're lucky it'll get fixed automatically!
+  - a preview deployment that executes and deploy successfully!
+
+### Code review
+
+- PRs currently require a review from 1 team member.
+  - If you're not sure who to request a review from, post on Slack within `#tech-civic-dashboard`
 
 ### Permissions
 
-- anyone can open a PR from a fork, but it will not automatically run CI workflows until an org member approves (and even then the CI workflows will not have access to org secrets).
 - any org member can create branches and open PRs which will run the CI workflows, but they will not be able to merge to `main`.
-- only members of the github org with "maintain" permissions can merge to main (most notably, members of the "eng" team).
+- members of the "eng" (engineering) team and "write" team are able to merge to `main`
+- If someone is not currently part of the org, they can open a PR from a fork. However it will not automatically run the preview deployment CI because the fork does not have access to org secrets. Someone from the "eng" or "write" team can manually trigger the `Upload preview deployment manual` Github Actions after reviewing what the PR does
 
 ### Preview deployments
 
@@ -26,16 +38,6 @@ This is (probably not, but hopefully!) all the information you need to contribut
 - this is a very handy way to be able to check that your changes are working as expected before merging.
 - any behavior you see in the preview deployment should (i say should because when does software _always_ do what you want it to) be identical once you merge to `main`
 - note that preview deployments run against the production database since we currently have no staging database!! see [Migrations](#migrations) for more info
-
-### Code review
-
-- PRs do _not_ currently require a review.
-  - because we're super async we don't want to hold up changes based on people's availability for a review
-  - please use your best judgement re: whether it would be good to have a second pair of eyes on your code
-  - some rules of thumb:
-    - if you're nervous about merging, request a review!
-    - if it's your first PR, request a review!
-    - if you're not sure the right way to write some code, request a review!
 
 ### Migrations
 
@@ -53,8 +55,6 @@ This is (probably not, but hopefully!) all the information you need to contribut
     - this allows us flexibility to adjust the API of the dependency, and makes it easy to swap it out or remove it if necessary
     - see [`toSlug.ts`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/src/logic/toSlug.ts) and [`.eslintrc.json`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/.eslintrc.json#L14) for an example of this.
 
-## Emails
-
-We use [maildev](https://github.com/maildev/maildev) to preview emails in development. Make sure you've started your docker containers with `npm run docker:start`, and navigate to `localhost:1080` in your browser. All emails that are sent from the app in development mode will show up in this inbox!
-
-Note that links in emails will by default link to `https://civicdashboard.ca`, rather than your local dev server. You can set `HOSTNAME_FOR_EMAIL_LINKS` in your `.env` to account for this.
+## Teams
+As soon as you have been onboarded and feel comfortable with submitting your first PR, you can ask to join the `write` Github team. This team has the Github Write access which will allow you to merge PRs, see the execution of our Github actions, etc. If you have been on the project for a few months, you can join the `eng` team which has the Github Maintain access. Read the official [Github docs on Repository Roles
+](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization) for more info
