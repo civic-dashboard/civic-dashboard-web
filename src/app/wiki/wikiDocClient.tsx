@@ -18,7 +18,17 @@ function extractTableOfContents(htmlContent: string): TocItem[] {
 
   while ((match = headingRegex.exec(htmlContent)) !== null) {
     const level = parseInt(match[1]);
-    const text = match[2].replace(/<[^>]*>/g, ''); // Strip HTML tags
+    const rawText = match[2].replace(/<[^>]*>/g, ''); // Strip HTML tags
+
+    // Decode HTML entities (e.g., &#39; → ', &amp; → &)
+    const text = rawText
+      .replace(/&#39;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&'); // Do &amp; last to avoid double-decoding
+
     const id = text
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
@@ -49,7 +59,34 @@ function addIdsToHeadings(htmlContent: string): string {
   );
 }
 
+function extractTitle(htmlContent: string): {
+  title: string | null;
+  contentWithoutTitle: string;
+} {
+  // Extract first h1 tag
+  const h1Match = htmlContent.match(/<h1[^>]*>(.*?)<\/h1>/i);
+  if (!h1Match) {
+    return { title: null, contentWithoutTitle: htmlContent };
+  }
+
+  const rawTitle = h1Match[1].replace(/<[^>]*>/g, ''); // Strip any nested tags
+  // Decode entities
+  const title = rawTitle
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+
+  // Remove the h1 from content
+  const contentWithoutTitle = htmlContent.replace(/<h1[^>]*>.*?<\/h1>/i, '');
+
+  return { title, contentWithoutTitle };
+}
+
 export default function WikiDocClient({ filename }: { filename: string }) {
+  const [title, setTitle] = useState<string | null>(null);
   const [bodyHtml, setBodyHtml] = useState<string | null>(null);
   const [toc, setToc] = useState<TocItem[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -60,6 +97,7 @@ export default function WikiDocClient({ filename }: { filename: string }) {
     (async () => {
       setLoading(true);
       setError(null);
+      setTitle(null);
       setBodyHtml(null);
       setToc([]);
       try {
@@ -70,6 +108,12 @@ export default function WikiDocClient({ filename }: { filename: string }) {
 
         const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
         let content = bodyMatch ? bodyMatch[1] : html;
+
+        // Extract title (first h1) and remove it from content
+        const { title: extractedTitle, contentWithoutTitle } =
+          extractTitle(content);
+        setTitle(extractedTitle);
+        content = contentWithoutTitle;
 
         // Extract table of contents
         const tocItems = extractTableOfContents(content);
@@ -108,12 +152,16 @@ export default function WikiDocClient({ filename }: { filename: string }) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Table of Contents at the top */}
+      {/* Page Title */}
+      {title && (
+        <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">
+          {title}
+        </h1>
+      )}
+
+      {/* Table of Contents */}
       {hasToc && (
         <nav className="mb-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-            Table of Contents
-          </h2>
           <ul className="space-y-2">
             {toc.map((item) => (
               <li key={item.id} className={item.level === 3 ? 'ml-6' : ''}>

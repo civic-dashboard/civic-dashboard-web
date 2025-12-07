@@ -18,7 +18,6 @@ export default function WikiDocPage({ params }: { params: { slug: string } }) {
     <div className="min-h-screen">
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
-          {/* pass the exact filename (with .html) */}
           <WikiDocClient filename={params.slug} />
         </div>
       </main>
