@@ -44,8 +44,18 @@ function addIdsToHeadings(htmlContent: string): string {
   return htmlContent.replace(
     /<h([23])([^>]*)>(.*?)<\/h\1>/gi,
     (match, level, attrs, text) => {
-      const cleanText = text.replace(/<[^>]*>/g, '');
-      const id = cleanText
+      const cleanText = text.replace(/<[^>]*>/g, ''); // Strip HTML tags
+
+      // Decode HTML entities before generating ID
+      const decodedText = cleanText
+        .replace(/&#39;/g, "'")
+        .replace(/&apos;/g, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&');
+
+      const id = decodedText
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
@@ -92,6 +102,7 @@ export default function WikiDocClient({ filename }: { filename: string }) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [buttonBottom, setButtonBottom] = useState('2rem'); // 32px = bottom-8
 
   useEffect(() => {
     (async () => {
@@ -131,14 +142,51 @@ export default function WikiDocClient({ filename }: { filename: string }) {
     })();
   }, [filename]);
 
-  // Show/hide scroll to top button
+  // Show/hide scroll to top button and stop at footer
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 400);
+      const scrollY = window.scrollY;
+
+      // Show button when scrolled down 400px
+      const shouldShow = scrollY > 400;
+
+      // Find footer element
+      const footer = document.querySelector('footer');
+      if (!footer) {
+        setShowScrollTop(shouldShow);
+        setButtonBottom('2rem');
+        return;
+      }
+
+      const footerRect = footer.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const buttonHeight = 56; // approximate button height + padding
+      const defaultBottom = 32; // 2rem = 32px
+      const buttonBottomEdge = viewportHeight - defaultBottom;
+
+      // Check if button would overlap footer
+      const wouldOverlapFooter =
+        footerRect.top < buttonBottomEdge + buttonHeight;
+
+      if (wouldOverlapFooter) {
+        // Hide button when it reaches footer
+        setShowScrollTop(false);
+      } else {
+        setShowScrollTop(shouldShow);
+      }
+
+      // Keep button at default position
+      setButtonBottom('2rem');
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    handleScroll(); // Initial check
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   const scrollToTop = () => {
@@ -195,7 +243,8 @@ export default function WikiDocClient({ filename }: { filename: string }) {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-50"
+          style={{ bottom: buttonBottom }}
+          className="fixed right-8 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-50"
           aria-label="Scroll to top"
         >
           <ArrowUp size={24} />
