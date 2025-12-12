@@ -41,6 +41,7 @@ const DEFAULT_TEMPLATE = `<!DOCTYPE html>
 marked.setOptions({
   breaks: false,
   gfm: true,
+  headerIds: true,
   mangle: false,
   sanitize: false,
 });
