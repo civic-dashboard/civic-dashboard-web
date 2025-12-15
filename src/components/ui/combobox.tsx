@@ -85,7 +85,7 @@ export const Combobox = <ID extends number | string>({
       return placeholder;
     }
     return optionMap[value].label;
-  }, [optionMap, placeholder, value]);
+  }, [defaultValue, optionMap, placeholder, value]);
 
   const isValueSelected = useCallback(
     (id: ID) => {
