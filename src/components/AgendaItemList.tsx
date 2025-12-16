@@ -9,8 +9,14 @@ import {
   Tags,
 } from '@/components/search';
 import { useEffect, useMemo, useState, useRef } from 'react';
-import { LngLatBounds, Map, Marker, NavigationControl, Popup } from '@vis.gl/react-maplibre';
-import type {MapRef} from '@vis.gl/react-maplibre';
+import {
+  LngLatBounds,
+  Map,
+  Marker,
+  NavigationControl,
+  Popup,
+} from '@vis.gl/react-maplibre';
+import type { MapRef } from '@vis.gl/react-maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Spinner } from '@/components/ui/spinner';
 import { decisionBodies } from '@/constants/decisionBodies';
@@ -22,7 +28,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { AgendaItem } from '@/database/queries/agendaItems';
 
-const latitudeCenter = 43.7320;
+const latitudeCenter = 43.732;
 const longitudeCenter = -79.4269;
 
 type MapPinInfo = {
@@ -51,74 +57,101 @@ function ResultList() {
   const [mapBounds, setMapBounds] = useState<LngLatBounds | null>(null);
 
   const filteredSearchResults = useMemo(
-    () => (searchResults) && (
-      (mapRef && mapRef.current && mapBounds &&
-        searchResults.results.filter((item) =>
-          (!item.geoLocation) || (
-            item.geoLocation.some(
-              (location) => mapBounds.contains([parseFloat(location.split(',')[1]), parseFloat(location.split(',')[0])])
-            )
-          )
-        )
-      ) || (searchResults.results)), [searchResults, mapBounds]);
+    () =>
+      searchResults &&
+      ((mapRef &&
+        mapRef.current &&
+        mapBounds &&
+        searchResults.results.filter(
+          (item) =>
+            !item.geoLocation ||
+            item.geoLocation.some((location) =>
+              mapBounds.contains([
+                parseFloat(location.split(',')[1]),
+                parseFloat(location.split(',')[0]),
+              ]),
+            ),
+        )) ||
+        searchResults.results),
+    [searchResults, mapBounds],
+  );
 
   const pins = useMemo(
-    () => filteredSearchResults && (
-      filteredSearchResults.map(
-        (item) => !item.geoLocation ? null : 
-          Object.entries(item.geoLocation).map( ([key, location]) => 
-            <Marker 
-              longitude={parseFloat(location.split(',')[1])} 
-              latitude={parseFloat(location.split(',')[0])} 
-              anchor='bottom' 
-              key={`${item.id}-${key}`}
-              onClick={e => {
-                e.originalEvent.stopPropagation();
-                setPopupInfo({agendaItem: item,
-                  longitude: parseFloat(location.split(',')[1]), 
-                  latitude: parseFloat(location.split(',')[0])
-                });
-              }}/>)).filter(x => !!x).flat()),
-    [searchResults, mapBounds]
+    () =>
+      filteredSearchResults &&
+      filteredSearchResults
+        .map((item) =>
+          !item.geoLocation
+            ? null
+            : Object.entries(item.geoLocation).map(([key, location]) => (
+                <Marker
+                  longitude={parseFloat(location.split(',')[1])}
+                  latitude={parseFloat(location.split(',')[0])}
+                  anchor="bottom"
+                  key={`${item.id}-${key}`}
+                  onClick={(e) => {
+                    e.originalEvent.stopPropagation();
+                    setPopupInfo({
+                      agendaItem: item,
+                      longitude: parseFloat(location.split(',')[1]),
+                      latitude: parseFloat(location.split(',')[0]),
+                    });
+                  }}
+                />
+              )),
+        )
+        .filter((x) => !!x)
+        .flat(),
+    [searchResults, mapBounds],
   );
 
   const onMapMove = () => {
-    if (mapRef && mapRef.current){
+    if (mapRef && mapRef.current) {
       setShowSearchCurrent(true);
     }
   };
 
   const onSearchCurrent = () => {
-    if (mapRef && mapRef.current){
+    if (mapRef && mapRef.current) {
       setMapBounds(mapRef.current?.getBounds());
     }
   };
 
   return (
     <>
-      <Map 
-      ref={mapRef}
-      initialViewState={{longitude: longitudeCenter, latitude: latitudeCenter, zoom: 9.0}} 
-      mapStyle='https://tiles.openfreemap.org/styles/bright' 
-      style={{width: '100%', height: '350px'}}
-      onMoveEnd={onMapMove}
-      onMoveStart={() => setShowSearchCurrent(false)}
-      onLoad={(event) => {setMapBounds(event.target.getBounds())}} >
+      <Map
+        ref={mapRef}
+        initialViewState={{
+          longitude: longitudeCenter,
+          latitude: latitudeCenter,
+          zoom: 9.0,
+        }}
+        mapStyle="https://tiles.openfreemap.org/styles/bright"
+        style={{ width: '100%', height: '350px' }}
+        onMoveEnd={onMapMove}
+        onMoveStart={() => setShowSearchCurrent(false)}
+        onLoad={(event) => {
+          setMapBounds(event.target.getBounds());
+        }}
+      >
         {pins}
         <NavigationControl />
         {showSearchCurrent && mapRef && mapRef.current && (
           <Popup
             latitude={mapRef.current.getBounds().getNorth()}
             longitude={mapRef.current.getBounds().getCenter().lng}
-            anchor='top'
+            anchor="top"
             closeButton={false}
             onClose={() => setShowSearchCurrent(false)}
-            className='search-current-map'
+            className="search-current-map"
           >
             <Button
               size="sm"
               variant="secondary-opposite"
-              onClick={() => {onSearchCurrent(); setShowSearchCurrent(false)}}
+              onClick={() => {
+                onSearchCurrent();
+                setShowSearchCurrent(false);
+              }}
             >
               Search This Area
             </Button>
@@ -126,7 +159,7 @@ function ResultList() {
         )}
         {popupInfo && (
           <Popup
-            anchor='top'
+            anchor="top"
             longitude={popupInfo.longitude}
             latitude={popupInfo.latitude}
             onClose={() => setPopupInfo(null)}
@@ -143,7 +176,10 @@ function ResultList() {
                 })
                 .replace(',', '')}
               <br />
-              <Link href={`/actions/item/${popupInfo.agendaItem.reference}`} target="_blank">
+              <Link
+                href={`/actions/item/${popupInfo.agendaItem.reference}`}
+                target="_blank"
+              >
                 <Button
                   size="lg"
                   variant="outline"
