@@ -21,7 +21,6 @@ import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
 
 const latitudeCenter = 43.7320;
 const longitudeCenter = -79.4269;
