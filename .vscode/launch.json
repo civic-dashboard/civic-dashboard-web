@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "civic-dashboard",
+            "request": "launch",
+            "url": "http://localhost:3000"
+        }
+    ]
+}

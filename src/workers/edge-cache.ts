@@ -68,33 +68,6 @@ const worker = {
             // so we don't forward cookies/authorization that would force Next to mark
             // the response as dynamic (`no-cache`).
             const originRes = await callOriginal(cacheKey, env, ctx);
-
-            // Diagnostic logging when ?_diag=1 is present
-            try {
-              const reqUrl = new URL(request.url);
-              if (reqUrl.searchParams.get('_diag') === '1') {
-                const reqHeadersStr = JSON.stringify(
-                  Object.fromEntries(request.headers.entries()),
-                );
-                const originHeadersStr = JSON.stringify(
-                  Object.fromEntries(originRes.headers.entries()),
-                );
-                console.log(
-                  '[edge-cache] diag: request headers:',
-                  reqHeadersStr,
-                );
-                console.log(
-                  '[edge-cache] diag: origin response status:',
-                  originRes.status,
-                );
-                console.log(
-                  '[edge-cache] diag: origin response headers:',
-                  originHeadersStr,
-                );
-              }
-            } catch (_err) {
-              /* ignore logging errors */
-            }
             if (originRes && originRes.ok && originRes.status === 200) {
               const toCache = originRes.clone();
               toCache.headers.set(
@@ -116,33 +89,6 @@ const worker = {
     // For cache miss, fetch origin using the normalized cache key to avoid
     // forwarding volatile headers that could force no-cache responses.
     const response = await callOriginal(cacheKey, env, ctx);
-
-    // Diagnostic logging for cache-miss origin responses when ?_diag=1
-    try {
-      const reqUrl2 = new URL(request.url);
-      if (reqUrl2.searchParams.get('_diag') === '1') {
-        const reqHeadersStr2 = JSON.stringify(
-          Object.fromEntries(request.headers.entries()),
-        );
-        const originHeadersStr2 = response
-          ? JSON.stringify(Object.fromEntries(response.headers.entries()))
-          : '{}';
-        console.log(
-          '[edge-cache] diag: request headers (miss):',
-          reqHeadersStr2,
-        );
-        console.log(
-          '[edge-cache] diag: origin response status (miss):',
-          response && response.status,
-        );
-        console.log(
-          '[edge-cache] diag: origin response headers (miss):',
-          originHeadersStr2,
-        );
-      }
-    } catch (_err2) {
-      /* ignore */
-    }
     if (!response || !response.ok || response.status !== 200) return response;
 
     const toCache = response.clone();
