@@ -4,8 +4,8 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only set edge caching for councillor pages
-  if (pathname.startsWith('/councillors/')) {
+  // Only set edge caching for the councillors root page and individual councillor pages
+  if (pathname === '/councillors' || pathname.startsWith('/councillors/')) {
     const res = NextResponse.next();
 
     // Instruct Cloudflare (and other CDNs) to cache the HTML response at the edge
