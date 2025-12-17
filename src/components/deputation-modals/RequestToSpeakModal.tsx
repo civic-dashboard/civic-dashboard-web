@@ -60,7 +60,7 @@ export function RequestToSpeakModal({
   const subject = `Request to appear before ${formattedDate} ${decisionBody.decisionBodyName} on item ${agendaItem.reference}`;
   const bodyStartParagraphs = [
     'To the City Clerk:',
-    `I would like to appear before the ${formattedDate} ${decisionBody.decisionBodyId} to speak on item ${agendaItem.reference}, ${agendaItem.agendaItemTitle}.`,
+    `I would like to appear before the ${formattedDate} ${decisionBody.decisionBodyName} to speak on item ${agendaItem.reference}, ${agendaItem.agendaItemTitle}.`,
   ];
   const getFullBodyText = () => {
     const fields = [`${nameLabel} ${name}`];

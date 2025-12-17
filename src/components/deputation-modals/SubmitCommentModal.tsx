@@ -49,7 +49,7 @@ export function SubmitCommentModal({
   const subject = `My comments for ${agendaItem.reference} on ${formattedDate} ${decisionBody.decisionBodyName}`;
   const bodyStartParagraphs = [
     'To the City Clerk:',
-    `Please add my comments to the agenda for the ${formattedDate} ${decisionBody.decisionBodyId} meeting on item ${agendaItem.reference}, ${agendaItem.agendaItemTitle}`,
+    `Please add my comments to the agenda for the ${formattedDate} ${decisionBody.decisionBodyName} meeting on item ${agendaItem.reference}, ${agendaItem.agendaItemTitle}`,
     'I understand that my comments and the personal information in this email will form part of the public record and that my name will be listed as a correspondent on agendas and minutes of City Council or its committees. Also, I understand that agendas and minutes are posted online and my name may be indexed by search engines like Google.',
   ];
   const commentsHeading = 'Comments:';
