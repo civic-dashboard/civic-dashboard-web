@@ -1,0 +1,1 @@
+The Faculty of Information is strongly committed to initiating, cultivating and sustaining an academic community that engages diverse intellectual and cultural perspectives, and that values inclusion, acceptance, shared responsibility, and mutual respect. Tell us how your experiences, perspectives, or actions would contribute to this goal.  
