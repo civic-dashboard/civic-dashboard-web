@@ -16,9 +16,10 @@ We've documented how we use Github for project management in this [Google Doc](h
 
 - Commits to `main` trigger a new production deployment (a bit scary!)
 - Commits to `main` _require_ a PR
-- PRs can only be merged if all the CI checks pass and have at least one approval from a team member. CI checks include:
+- PRs can only be merged if all the CI checks pass and have at least one approval from a team member. The CI checks are:
   - a [linter](#linting), to make sure our code style is consistent.
   - a [preview deployment](#preview-deployments) that ensures the build works and allows you to test your changes!
+  - a [database migration](#database-migrations) checker which ensures that migrations run successfully.
 
 ### Code review
 
@@ -50,12 +51,18 @@ We've documented how we use Github for project management in this [Google Doc](h
 - Any behavior you see in the preview deployment should (i say should because when does software _always_ do what you want it to) be identical once you merge to `main`.
 - Note that preview deployments run against the production database since we currently have no staging database!! see [Migrations](#migrations) for more info.
 
-### Migrations
+### Database migrations
 
-- There are currently no workflows which automatically run database migrations.
+- There is a CI check which ensures that the migrations run successfully against an empty database, and that source code which is generated from the contents of the database is up to date.
+- There are currently no workflows which automatically run database migrations against production.
 - If you're merging a pull request with a migration to `main` (which will deploy the web app to prod), you should manually run the migration and ensure it succeeds _before_ merging the PR.
 - You can run the migrations on your PR by dispatching [the `migrate_database` workflow](https://github.com/civic-dashboard/civic-dashboard-web/actions/workflows/migrate_database.yml) from your branch (or asking someone who has the appropriate permissions to do so).
 - Since preview deployments currently run against the production database, you can use that PR's preview deployment to validate changes before merging the code.
+- Since you will be migrating the production database _before_ deploying the code which accesses the new database, your DB changes should be compatible with the backend code which exists on the main branch as well as your PR.
+- If it would be onerous to meet this requirement (sometimes it means you'd have to do a bunch of extra work and split your change into multiple PRs), we're still at a stage of growth where it's acceptable to run the migrations knowing they will cause some breakage on production if:
+  - you are available to quickly merge your PR once you've validated that everything is working as expected.
+  - you are available to quickly roll back your migration if everything is not working as expected.
+  - you understand how to execute all of the above steps prior to running the migration against production.
 
 ## Dependencies
 
