@@ -67,6 +67,7 @@ export const SubscribeToSearchButton = () => {
               ref={emailInputRef}
               type="email"
               placeholder="Enter email..."
+              required
               onChange={onChange}
             />
             {sendState === 'loading' ? (
