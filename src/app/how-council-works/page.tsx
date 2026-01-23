@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
 import { tooltips } from '@/constants/tooltips';
 import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
-import { Page } from '@/components/ui/page';
+import { ArticlePage } from '@/components/ui/page';
 import { Section } from '@/components/ui/section';
 
 export const generateMetadata = async (): Promise<Metadata> => {
@@ -15,7 +15,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const ProcessImage = ({ src, alt }: { src: string; alt?: string }) => (
-  <div className="w-full mb-6 mx-auto max-w-[600px]">
+  <div className="w-full mb-6 mx-auto">
     <Image
       src={src}
       alt={alt || ''}
@@ -55,7 +55,7 @@ export default function HowCouncilWorks() {
 
   return (
     <TooltipProvider>
-      <Page>
+      <ArticlePage>
         <Section>
           <Heading1>What is Toronto City Council?</Heading1>
           <p>
@@ -293,7 +293,7 @@ export default function HowCouncilWorks() {
             </span>
           </p>
         </Section>
-      </Page>
+      </ArticlePage>
     </TooltipProvider>
   );
 }
