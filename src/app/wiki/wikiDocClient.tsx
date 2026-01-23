@@ -142,38 +142,13 @@ export default function WikiDocClient({ filename }: { filename: string }) {
     })();
   }, [filename]);
 
-  // Show/hide scroll to top button and stop at footer
+  // Show scroll to top button on entire page
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
 
       // Show button when scrolled down 400px
-      const shouldShow = scrollY > 400;
-
-      // Find footer element
-      const footer = document.querySelector('footer');
-      if (!footer) {
-        setShowScrollTop(shouldShow);
-        setButtonBottom('2rem');
-        return;
-      }
-
-      const footerRect = footer.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const buttonHeight = 56; // approximate button height + padding
-      const defaultBottom = 32; // 2rem = 32px
-      const buttonBottomEdge = viewportHeight - defaultBottom;
-
-      // Check if button would overlap footer
-      const wouldOverlapFooter =
-        footerRect.top < buttonBottomEdge + buttonHeight;
-
-      if (wouldOverlapFooter) {
-        // Hide button when it reaches footer
-        setShowScrollTop(false);
-      } else {
-        setShowScrollTop(shouldShow);
-      }
+      setShowScrollTop(scrollY > 400);
 
       // Keep button at default position
       setButtonBottom('2rem');
