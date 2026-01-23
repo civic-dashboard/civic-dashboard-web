@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
 import { tooltips } from '@/constants/tooltips';
-import { Heading1, Heading2 } from '@/components/ui/text-items';
+import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
 import { Page } from '@/components/ui/page';
 import { Section } from '@/components/ui/section';
 
@@ -225,25 +225,22 @@ export default function HowCouncilWorks() {
               Specific Actions - Can Be Done One Time or Many Times!
             </span>
           </p>
-          <p>
-            <span className="font-bold">Call or Email Your Councillor</span>
-          </p>
+
+          <Heading3>Call or Email Your Councillor</Heading3>
           <p>
             You can call or email your local councillor to discuss issues you
             care about. Councillors can advocate on your behalf and provide
             insights into ongoing city decisions.
           </p>
-          <p>
-            <span className="font-bold">Attend a Consultation</span>
-          </p>
+
+          <Heading3>Attend a Consultation</Heading3>
           <p>
             City staff often hold consultations, surveys, or community meetings
             to gather feedback on new policies and projects. These are great
             opportunities to share your thoughts early in the process.
           </p>
-          <p>
-            <span className="font-bold">Submit a Deputation</span>
-          </p>
+
+          <Heading3>Submit a Deputation</Heading3>
           <p>
             At the committee stage, you can make a deputation, which is a formal
             presentation where you share your views directly with council
@@ -251,9 +248,8 @@ export default function HowCouncilWorks() {
             the proposal under review before it reaches City Council, or be
             taken into consideration for future proposals.
           </p>
-          <p>
-            <span className="font-bold">Submit a Comment</span>
-          </p>
+
+          <Heading3>Submit a Comment</Heading3>
           <p>
             At the committee stage, you can also make a comment on each agenda
             item that is being considered. Your comments can influence the
