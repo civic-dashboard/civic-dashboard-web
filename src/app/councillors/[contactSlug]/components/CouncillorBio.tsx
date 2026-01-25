@@ -47,12 +47,12 @@ export default function CouncillorBio({
         <div>
           <h1 className="text-3xl font-bold mb-2">{councillor.contactName}</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            <ExternalLink href={councillorProfileURL}>
+            <ExternalLink href={councillorProfileURL} className='classic-link'>
               Councillor Profile
             </ExternalLink>
           </p>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            <ExternalLink href={wardURL}>
+            <ExternalLink href={wardURL} className='classic-link'>
               Ward {councillor.wardId}, {councillor.wardName}
             </ExternalLink>
           </p>
