@@ -22,8 +22,8 @@ export default function CouncillorBio({
     !councillor.photoUrl,
   );
 
-const wardURL = `https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-${councillor.wardId}-${councillor.wardName}`;
-const councillorProfileURL = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${councillor.wardId}`;
+  const wardURL = `https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-${councillor.wardId}-${councillor.wardName}`;
+  const councillorProfileURL = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${councillor.wardId}`;
 
   return (
     <section className="m-8">
@@ -53,7 +53,7 @@ const councillorProfileURL = `https://www.toronto.ca/city-government/council/mem
           </p>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
             <ExternalLink href={wardURL}>
-            Ward {councillor.wardId}, {councillor.wardName}
+              Ward {councillor.wardId}, {councillor.wardName}
             </ExternalLink>
           </p>
 
