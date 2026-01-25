@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { CircleUserRound } from 'lucide-react';
+import { ExternalLink } from '@/components/ExternalLink';
 
 type CouncillorBioInfo = {
   photoUrl: string | null;
@@ -20,6 +21,9 @@ export default function CouncillorBio({
   const [showFallbackAvatar, setShowFallbackAvatar] = useState(
     !councillor.photoUrl,
   );
+
+const wardURL = `https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-${councillor.wardId}-${councillor.wardName}`;
+const councillorProfileURL = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${councillor.wardId}`;
 
   return (
     <section className="m-8">
@@ -43,7 +47,14 @@ export default function CouncillorBio({
         <div>
           <h1 className="text-3xl font-bold mb-2">{councillor.contactName}</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <ExternalLink href={councillorProfileURL}>
+              Councillor Profile
+            </ExternalLink>
+          </p>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <ExternalLink href={wardURL}>
             Ward {councillor.wardId}, {councillor.wardName}
+            </ExternalLink>
           </p>
 
           <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
