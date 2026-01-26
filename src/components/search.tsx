@@ -6,12 +6,6 @@ import { ChipButton } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
 import { useSearch } from '@/contexts/SearchContext';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { logAnalytics } from '@/api/analytics';
 import { sortByFilterOptions } from '@/constants/sortByFilterOptions';
 
@@ -112,22 +106,6 @@ export function DecisionBodyFilter({
       onSelect={onSelect}
       placeholder="Select decision body..."
     />
-  );
-}
-
-type AdvancedFiltersProps = DecisionBodyFilterProps;
-export function AdvancedFilters({ decisionBodies }: AdvancedFiltersProps) {
-  return (
-    <Accordion type="multiple">
-      <AccordionItem value="advanced-filters">
-        <AccordionTrigger>Open Advanced Filter</AccordionTrigger>
-        <AccordionContent>
-          <div className="flex flex-wrap gap-y-6 gap-x-8">
-            <DecisionBodyFilter decisionBodies={decisionBodies} />
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
   );
 }
 
