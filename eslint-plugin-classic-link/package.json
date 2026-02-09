@@ -1,0 +1,13 @@
+{
+  "name": "eslint-plugin-classic-link",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "description": "Local ESLint plugin: require anchors with href to include class 'classic-link'",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "classic-link"
+  ],
+  "license": "MIT"
+}

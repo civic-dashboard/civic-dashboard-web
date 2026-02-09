@@ -8,12 +8,22 @@
     "next/typescript"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "sql"],
+  "plugins": [
+    "@typescript-eslint",
+    "sql",
+    "classic-link"
+  ],
   "rules": {
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "no-restricted-globals": [
       "error",
-      { "name": "umami", "message": "Use logAnalytics instead." }
+      {
+        "name": "umami",
+        "message": "Use logAnalytics instead."
+      }
     ],
     "react/no-unescaped-entities": [
       "error",
@@ -21,11 +31,15 @@
         "forbid": [
           {
             "char": ">",
-            "alternatives": ["&gt;"]
-          }, 
+            "alternatives": [
+              "&gt;"
+            ]
+          },
           {
             "char": "}",
-            "alternatives": ["&#125;"]
+            "alternatives": [
+              "&#125;"
+            ]
           }
         ]
       }
@@ -35,11 +49,15 @@
       {
         "patterns": [
           {
-            "group": [".*"],
+            "group": [
+              ".*"
+            ],
             "message": "Please use an absolute import with @/ instead of relative imports."
           },
           {
-            "group": ["@radix-ui/*"],
+            "group": [
+              "@radix-ui/*"
+            ],
             "message": "Please use our wrapper components in @/components/ui instead."
           }
         ],
@@ -100,6 +118,7 @@
       {
         "singleQuote": true
       }
-    ]
+    ],
+    "classic-link/require-classic-link": "warn"
   }
 }

@@ -94,6 +94,7 @@
     "tsx": "^4.19.3",
     "typescript": "^5",
     "typescript-eslint": "^8.18.0",
+    "eslint-plugin-classic-link": "file:./eslint-plugin-classic-link",
     "wrangler": "^4.37.1"
   }
 }
