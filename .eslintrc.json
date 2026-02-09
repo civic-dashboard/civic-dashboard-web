@@ -11,7 +11,7 @@
   "plugins": [
     "@typescript-eslint",
     "sql",
-    "classic-link"
+    "custom-rules"
   ],
   "rules": {
     "comma-dangle": [
@@ -119,6 +119,6 @@
         "singleQuote": true
       }
     ],
-    "classic-link/require-classic-link": "warn"
+    "custom-rules/require-classic-link": "warn"
   }
 }
