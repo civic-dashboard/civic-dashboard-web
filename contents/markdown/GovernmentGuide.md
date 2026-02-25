@@ -3,6 +3,8 @@
 
 Toronto City Council is the decision-making body for the City of Toronto. It's made up of elected officials who vote on policies, laws, and initiatives that impact the city. These decisions affect everything from local parks to public transit and housing. See "Division of Powers" for more information about what municipal governments do!
 
+![A cartoon raccoon teacher wearing glasses and a vest, standing next to a blackboard displaying the equation a+b=c](media/images/raccoonteacher.png)
+
 ## Legislative and Executive Body
 
 City Council is unique in the Canadian political landscape in that it is both a legislative and executive body. That means City Council does both executive work (hiring staff, directing staff to undertake certain work, overseeing the implementation of policy etc.) and legislative work (passing laws etc.) In the federal and provincial governments, these two functions of government are separate.
