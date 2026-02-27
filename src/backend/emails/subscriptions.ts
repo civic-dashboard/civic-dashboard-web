@@ -16,6 +16,7 @@ export async function subscribeToSearch({
   email,
   filters: { textQuery, tags, decisionBodyIds },
 }: SubscribeToSearchArgs) {
+  if (!email || !email.trim()) return;
   const filters = {
     textQuery,
     tags,
