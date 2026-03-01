@@ -95,7 +95,7 @@ export const allTags = {
   },
   youth: {
     displayName: 'youth',
-    searchQuery: 'youth OR "kids" OR "teenagers" OR "child"',
+    searchQuery: 'youth OR kids OR teenagers',
   },
 } as const satisfies Record<string, Tag>;
 
