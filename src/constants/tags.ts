@@ -93,6 +93,10 @@ export const allTags = {
     displayName: 'business',
     searchQuery: 'business',
   },
+  youth: {
+    displayName: 'youth',
+    searchQuery: 'youth OR "kids" OR "teenagers" OR "child"',
+  },
 } as const satisfies Record<string, Tag>;
 
 export const isTag = (str: string): str is TagEnum => str in allTags;
