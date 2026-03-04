@@ -392,6 +392,7 @@ export const getSubscribersToNotify = async (db: Kysely<DB>) => {
               ),
             ]),
           )
+          .where('Subscribers.email', '!=', '')
           .as('matchingSubscriptions'),
       (join) => join.onTrue(),
     )
