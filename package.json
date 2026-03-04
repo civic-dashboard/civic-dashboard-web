@@ -7,7 +7,7 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint && tsc --noEmit",
+    "lint": "next lint --max-warnings 0 && tsc --noEmit",
     "format": "next lint --fix",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "preview:remote": "opennextjs-cloudflare build && opennextjs-cloudflare preview --remote",

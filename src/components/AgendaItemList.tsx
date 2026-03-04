@@ -3,11 +3,11 @@
 import { SearchResultAgendaItemCard } from '@/components/AgendaItemCard';
 import {
   UpcomingPastToggle,
-  AdvancedFilters,
   ResultCount,
   SearchBar,
   SortDropdown,
   Tags,
+  DecisionBodyFilter,
 } from '@/components/search';
 import { useEffect, useMemo } from 'react';
 import { Spinner } from '@/components/ui/spinner';
@@ -131,7 +131,9 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
       </div>
       <Tags />
       <hr />
-      <AdvancedFilters decisionBodies={currentTermDecisionBodies} />
+      <DecisionBodyFilter
+        decisionBodies={currentTermDecisionBodies}
+      ></DecisionBodyFilter>
       <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
         <div className="flex grow justify-between items-end">
           <ResultCount />

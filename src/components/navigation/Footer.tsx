@@ -65,12 +65,12 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <ExternalLink
-                    href="https://eu.umami.is/share/6R9CNotgCUNEmDL5/civicdashboard.ca?host=civicdashboard.ca"
+                  <Link
+                    href="/analytics"
                     className="hover:text-blue-400 transition-colors duration-200"
                   >
                     Analytics
-                  </ExternalLink>
+                  </Link>
                 </li>
               </ul>
             </div>
