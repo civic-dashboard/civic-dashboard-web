@@ -61,7 +61,7 @@ marked.use({
         const titleAttr = title
           ? ` title="${title.replace(/"/g, '&quot;')}"`
           : '';
-        return `<img src="${href}" alt="${escapedText}"${titleAttr} loading="lazy">`;
+        return `<img src="/html/${href}" alt="${escapedText}"${titleAttr} loading="lazy">`;
       }
       return false; // use default renderer for external URLs
     },
