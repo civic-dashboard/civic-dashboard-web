@@ -14346,4 +14346,79 @@ export const decisionBodies: Record<number, DecisionBody> = {
       },
     ],
   },
+  2984: {
+    decisionBodyId: 2984,
+    committeeCodeId: 1401,
+    termId: 8,
+    decisionBodyName:
+      'Toronto Transit Commission - Strategic Planning Committee',
+    email: 'commissionservices@ttc.ca',
+    duties:
+      'The Strategic Planning Committee assists the TTC Board to guide long-term planning focused on service, fare, safety and customer experience initiatives in support of customer growth. The Strategic Planning Committee also provides advice and insights on emerging priorities, scenarios and critical issues for the TTC’s annual budget process, including evaluating new opportunities, assessing risks, and ensuring alignment between financial resources and opportunities to grow ridership in the immediate and long-term.',
+    dbdyStatusCd: 'ACTIVE',
+    phoneAreaCode: '416',
+    phoneNumber: '3933744',
+    webpostInd: 'Y',
+    contactFirstName: 'Chrisanne',
+    contactLastName: 'Finnerty',
+    generalAddress:
+      'Toronto Transit Commission – McBrien Building<br>\r\n1900 Yonge Street<br>\r\nToronto, ON M5H 2N2',
+    decisionBodyPublishLabelCd: 'CMMSSION',
+    committeeCode: { committeeCodeId: 1401, committeeCode: 'TTS' },
+    decisionBodyType: { tier: 3 },
+    term: {
+      termId: 8,
+      termType: '2022-2026',
+      trmStartDate: 1668488400000,
+      trmEndDate: 1794632400000,
+    },
+    members: [
+      {
+        apptEndDate: 1794632400000,
+        firstName: 'Alejandra',
+        lastName: 'Bravo',
+        salutationCd: 'Chair',
+        memberUrl:
+          'https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-9/',
+        apptStartDate: 1744776000000,
+        memberId: 81,
+      },
+      {
+        apptEndDate: 1794632400000,
+        firstName: 'Fenton',
+        lastName: 'Jagdeo',
+        salutationCd: 'Citizen',
+        apptStartDate: 1744776000000,
+        memberId: 4721,
+      },
+      {
+        apptEndDate: 1794632400000,
+        firstName: 'Joe',
+        lastName: 'Mihevc',
+        salutationCd: 'Citizen',
+        apptStartDate: 1744776000000,
+        memberId: 4821,
+      },
+      {
+        apptEndDate: 1794632400000,
+        firstName: 'Jamaal',
+        lastName: 'Myers',
+        salutationCd: 'Councillor',
+        memberUrl:
+          'https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-23/',
+        apptStartDate: 1744776000000,
+        memberId: 3826,
+      },
+      {
+        apptEndDate: 1794632400000,
+        firstName: 'Dianne',
+        lastName: 'Saxe',
+        salutationCd: 'Councillor',
+        memberUrl:
+          'https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-11/',
+        apptStartDate: 1744776000000,
+        memberId: 3821,
+      },
+    ],
+  },
 };
