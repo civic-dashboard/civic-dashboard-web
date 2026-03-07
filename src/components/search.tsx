@@ -1,22 +1,72 @@
 import { Check, Search } from 'lucide-react';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
 import { ChipButton } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
-import { Checkbox, type CheckedState } from '@/components/ui/checkbox';
 import { useSearch } from '@/contexts/SearchContext';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { logAnalytics } from '@/api/analytics';
+import { sortByFilterOptions } from '@/constants/sortByFilterOptions';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
 };
+
+export function SortDropdown() {
+  const {
+    searchOptions: { sortBy, sortDirection },
+    setSearchOptions,
+  } = useSearch();
+
+  // Use sortByFilterOptions instead of sortByOptions
+  const options = useMemo(
+    () =>
+      sortByFilterOptions.map((opt) => ({
+        id: opt.sortId as number,
+        label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant',
+      })),
+    [],
+  );
+
+  const onSelect = useCallback(
+    (selectedId: number) => {
+      const selectedOption = sortByFilterOptions.find(
+        (opt) => opt.sortId === selectedId,
+      );
+      setSearchOptions((opts) => ({
+        ...opts,
+        sortBy: selectedOption?.sortBy as 'date' | 'relevance',
+        sortDirection: selectedOption?.sortDirection as
+          | 'ascending'
+          | 'descending'
+          | undefined,
+      }));
+    },
+    [setSearchOptions],
+  );
+
+  // Find the selected option's id based on sortBy value
+  const selectedId = useMemo(() => {
+    const selectedOption = sortByFilterOptions.find(
+      (opt) => opt.sortBy === sortBy && opt.sortDirection === sortDirection,
+    );
+    return selectedOption?.sortId;
+  }, [sortBy, sortDirection]);
+  return (
+    <Combobox
+      options={options}
+      value={selectedId}
+      onSelect={onSelect}
+      defaultValue={options.find((opt) => opt.label === 'Most Relevant')?.id}
+      placeholder="Sort by..."
+      multiple={false}
+      searchable={false}
+      reorderSelected={false}
+    />
+  );
+}
+
 export function DecisionBodyFilter({
   decisionBodies,
 }: DecisionBodyFilterProps) {
@@ -59,20 +109,60 @@ export function DecisionBodyFilter({
   );
 }
 
-type AdvancedFiltersProps = DecisionBodyFilterProps;
-export function AdvancedFilters({ decisionBodies }: AdvancedFiltersProps) {
+export function UpcomingPastToggle() {
+  type TimeRangeType = 'upcoming' | 'past';
+  const { setSearchOptions } = useSearch();
+  const updateItemsType = useCallback(
+    (selectedRange: TimeRangeType) => {
+      const isPast = selectedRange === 'past';
+      const currentDate = new Date();
+
+      setSearchOptions((opts) => ({
+        ...opts,
+        minimumDate: isPast ? undefined : currentDate,
+        maximumDate: isPast ? currentDate : undefined,
+      }));
+    },
+    [setSearchOptions],
+  );
+
+  const [active, setActive] = useState('upcoming');
+
+  const handleDateRange = (selectedRange: TimeRangeType) => {
+    updateItemsType(selectedRange);
+    setActive(selectedRange);
+  };
+
   return (
-    <Accordion type="multiple">
-      <AccordionItem value="advanced-filters">
-        <AccordionTrigger>Open Advanced Filter</AccordionTrigger>
-        <AccordionContent>
-          <div className="flex flex-wrap gap-y-6 gap-x-8">
-            <DecisionBodyFilter decisionBodies={decisionBodies} />
-            <ShowPastItems />
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <div className="w-full border-b border-gray-200">
+      <div className="flex gap-6">
+        <button
+          role="tab"
+          aria-selected={active === 'upcoming'}
+          onClick={() => handleDateRange('upcoming')}
+          className={`pb-2 text-lg font-semibold ${
+            active === 'upcoming'
+              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
+              : 'text-gray-400 dark:text-neutral-800'
+          }`}
+        >
+          Upcoming items
+        </button>
+
+        <button
+          role="tab"
+          aria-selected={active === 'past'}
+          onClick={() => handleDateRange('past')}
+          className={`pb-2 text-lg font-semibold ${
+            active === 'past'
+              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
+              : 'text-gray-400 dark:text-neutral-800'
+          }`}
+        >
+          Past items
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -90,7 +180,7 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
         ? opts.tags.filter((t) => t !== tagKey)
         : [...opts.tags, tagKey];
 
-      umami.track(isSelected ? 'Tag unselect' : 'Tag select', { tag: tagKey });
+      logAnalytics(isSelected ? 'Tag unselect' : 'Tag select', { tag: tagKey });
 
       return { ...opts, tags: newTags };
     });
@@ -146,35 +236,6 @@ export function SearchBar() {
           Feel free to use AND, OR, NOT - learn more about search operators
         </span> */}
       </div>
-    </div>
-  );
-}
-
-export function ShowPastItems() {
-  const { searchOptions, setSearchOptions } = useSearch();
-  const onCheckedChange = useCallback(
-    (checked: CheckedState) => {
-      setSearchOptions((opts) => ({
-        ...opts,
-        minimumDate: checked === true ? undefined : new Date(),
-      }));
-    },
-    [setSearchOptions],
-  );
-
-  return (
-    <div className="flex items-center space-x-2">
-      <Checkbox
-        checked={searchOptions.minimumDate === undefined}
-        onCheckedChange={onCheckedChange}
-        id="full-history"
-      />
-      <label
-        htmlFor="full-history"
-        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-      >
-        Show past items
-      </label>
     </div>
   );
 }

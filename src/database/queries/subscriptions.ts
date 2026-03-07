@@ -93,6 +93,7 @@ export const validateToken = async (db: Kysely<DB>, token: string) => {
 };
 
 export const getOrCreateSubscriber = async (db: Kysely<DB>, email: string) => {
+  if (!email || !email.trim()) throw new Error('Email cannot be empty');
   return await db
     .with('new', (db) =>
       db

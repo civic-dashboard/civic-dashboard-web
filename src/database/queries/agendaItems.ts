@@ -1,9 +1,15 @@
-import { Address, TMMISAgendaItem } from '@/api/agendaItem';
+import {
+  Address,
+  TMMISAgendaItem,
+  AgendaItemSubjectTerm,
+} from '@/api/agendaItem';
 import { DB, JsonArray, JsonValue } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
 import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
 import { SearchOptions, SearchPagination } from '@/logic/search';
 import { Kysely, sql } from 'kysely';
+import { processSubjectTerms } from '@/database/pipelines/textParseUtils';
+import { toSlug } from '@/logic/toSlug';
 
 export interface AgendaItem {
   id: string;
@@ -34,6 +40,11 @@ export interface AgendaItem {
   planningApplicationNumber: string | null;
   neighbourhoodId: number[] | null;
 }
+
+type AgendaItemForSubjectTerm = Pick<
+  AgendaItem,
+  'agendaItemId' | 'subjectTerms'
+>;
 
 const cleanAgendaItem = <
   T extends { meetingDate: string; agendaItemAddress: JsonValue },
@@ -104,6 +115,106 @@ export const insertAgendaItems = async (
     )
     .values(asDBType)
     .execute();
+};
+
+export const insertAgendaItemSubjectTerms = async (
+  db: Kysely<DB>,
+  items: AgendaItemSubjectTerm[],
+): Promise<number> => {
+  const uniqueRows = [
+    ...new Map(
+      items.map((row) => [`${row.agendaItemId}::${row.subjectTermSlug}`, row]),
+    ).values(),
+  ];
+  return db.transaction().execute(async (trx) => {
+    const insertedRows = await trx
+      .insertInto('AgendaItemSubjectTerms')
+      .values(
+        uniqueRows.map(
+          ({
+            agendaItemId,
+            subjectTermRaw,
+            subjectTermNormalized,
+            subjectTermSlug,
+          }) => ({
+            agendaItemId,
+            subjectTermRaw,
+            subjectTermNormalized,
+            subjectTermSlug,
+          }),
+        ),
+      )
+      .onConflict((oc) =>
+        oc.columns(['agendaItemId', 'subjectTermSlug']).doUpdateSet((eb) => ({
+          subjectTermRaw: eb.ref('excluded.subjectTermRaw'),
+          subjectTermNormalized: eb.ref('excluded.subjectTermNormalized'),
+        })),
+      )
+      .returningAll()
+      .execute();
+    return insertedRows.length;
+  });
+};
+
+export function normalizeSubjectTerms(
+  agendaItems: TMMISAgendaItem[] | AgendaItemForSubjectTerm[],
+): AgendaItemSubjectTerm[] {
+  return agendaItems.flatMap((item) => {
+    if (!item.subjectTerms) {
+      console.log(
+        `Skipping agendaItemId ${item.agendaItemId} — empty or missing subjectTerms`,
+      );
+      return [];
+    }
+    return processSubjectTerms(item.subjectTerms).map((term) => ({
+      agendaItemId: item.agendaItemId,
+      subjectTermRaw: term.raw,
+      subjectTermNormalized: term.normalized,
+      subjectTermSlug: toSlug(term.normalized),
+    }));
+  });
+}
+
+export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
+  const deleteResult = await db
+    .deleteFrom('AgendaItemSubjectTerms')
+    .executeTakeFirst();
+  const deletedRows = deleteResult.numDeletedRows || 0;
+  console.log(`Deleted ${deletedRows} rows from AgendaItemSubjectTerms.`);
+
+  // Fetch agenda items and process by batchSize sequentially
+  let offset = 0;
+  // Setting medium batch size
+  const batchSize = 2_500;
+  let hasMore = true;
+  while (hasMore) {
+    const agendaItemRecords = await db
+      .selectFrom('RawAgendaItemConsiderations')
+      .select(['reference', 'meetingId', 'agendaItemId', 'subjectTerms'])
+      .limit(batchSize)
+      .offset(offset)
+      .orderBy('agendaItemId')
+      .execute();
+
+    hasMore = agendaItemRecords.length > 0;
+    if (!hasMore) break;
+
+    // Normalize subject terms
+    const normalizedSubjectTerms = normalizeSubjectTerms(agendaItemRecords);
+
+    if (normalizedSubjectTerms.length > 0) {
+      const rowsInserted = await insertAgendaItemSubjectTerms(
+        db,
+        normalizedSubjectTerms,
+      );
+      console.log(
+        `Processed and inserted ${rowsInserted} subject terms for agenda items.`,
+      );
+    } else {
+      console.log('No subject terms to process for agenda items.');
+    }
+    offset += batchSize;
+  }
 };
 
 export const getAgendaItemByReference = async (
@@ -281,6 +392,7 @@ export const getSubscribersToNotify = async (db: Kysely<DB>) => {
               ),
             ]),
           )
+          .where('Subscribers.email', '!=', '')
           .as('matchingSubscriptions'),
       (join) => join.onTrue(),
     )

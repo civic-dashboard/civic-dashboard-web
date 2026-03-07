@@ -18,6 +18,7 @@
   h1 {
     @apply text-4xl mb-2;
   }
+
   h2 {
     @apply text-2xl font-bold mb-2;
   }
@@ -25,6 +26,7 @@
   body {
     @apply bg-slate-200;
   }
+
   :root {
     --radius: 0.5rem;
   }
@@ -32,6 +34,15 @@
   .classic-link {
     @apply underline text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500;
   }
+}
+
+html {
+  /* When clicking anchor links (e.g. <a href="#some-section">),
+  the browser scrolls the linked section to the top of the page by default.
+  This causes the section content to be hidden behind our sticky header!
+  Adding this scroll padding that's slightly larger than the height of our
+  header causes the content to be scrolled just under the header instead. */
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -44,6 +55,7 @@ body {
   list-style-type: disc;
   margin-left: 2rem;
 }
+
 .rich-html-styles strong {
   font-weight: bold;
 }

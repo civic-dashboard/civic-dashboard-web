@@ -51,3 +51,6 @@ db-data
 
 
 data/
+
+public/sitemap*.xml
+public/html/*

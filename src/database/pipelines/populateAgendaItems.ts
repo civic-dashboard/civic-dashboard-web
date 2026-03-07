@@ -1,8 +1,11 @@
 import { fetchAgendaItems } from '@/api/agendaItem';
-import { insertAgendaItems } from '@/database/queries/agendaItems';
+import {
+  insertAgendaItems,
+  insertAgendaItemSubjectTerms,
+} from '@/database/queries/agendaItems';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
-
+import { normalizeSubjectTerms } from '@/database/queries/agendaItems';
 export const populateAgendaItems = async (
   db: Kysely<DB>,
   start: Date,
@@ -21,6 +24,11 @@ export const populateAgendaItems = async (
     if (agendaItems.length > 0) {
       const result = await insertAgendaItems(db, agendaItems);
       insertedCount += result[0].numInsertedOrUpdatedRows ?? BigInt(0);
+      const normalizedSubjectTerms = normalizeSubjectTerms(agendaItems);
+      console.log(
+        `${normalizedSubjectTerms.length} normalized subject terms found`,
+      );
+      await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
     }
     console.log('inserted:', insertedCount);
 

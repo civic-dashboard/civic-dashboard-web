@@ -61,6 +61,13 @@ export interface TMMISAgendaItem {
   neighbourhoodId?: number[];
 }
 
+export interface AgendaItemSubjectTerm {
+  agendaItemId: number; // Not unique
+  subjectTermRaw: string; // Term exploded/unbracketed from subjectTerms without special chars replaced (e.g. "&" -X-> "and")
+  subjectTermNormalized: string; // Term exploded/unbracketed from subjectTerms wit special chars replaced (e.g. "&" -> "and")
+  subjectTermSlug: string; // Slugged term of normalized subjectTerm for potentially index-friendly db queries
+}
+
 type AgendaItemFetchOptions = {
   start: Date;
   end: Date;
@@ -83,6 +90,12 @@ const fetchItemPage = async (
     url: `https://secure.toronto.ca/council/api/multiple/agenda-items.json?pageNumber=${page}&pageSize=200&sortOrder=meetingDate%20asc,referenceSort`,
     body,
   });
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch agenda item page: ${response.status} ${response.statusText}\n`,
+    );
+  }
 
   return (await response.json()) as ApiResponse;
 };

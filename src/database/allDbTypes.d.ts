@@ -65,6 +65,15 @@ export type Mayor = {
   term: string;
 };
 
+export type CouncilMember = {
+  contactSlug: string;
+  term: string;
+  role: 'Mayor' | 'Councillor';
+  wardSlug: string | null;
+  wardName: string | null;
+  wardId: number | null;
+};
+
 export type DB = generated.DB & {
   Councillors: Councillor;
   Contacts: Contact;
@@ -74,6 +83,7 @@ export type DB = generated.DB & {
   AgendaItems: AgendaItem;
   Committees: Committees;
   Mayors: Mayor;
+  CouncilMembers: CouncilMember;
 };
 
 export type InsertRawContact = Insertable<generated.RawContacts>;

@@ -7,10 +7,15 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <AgendaItemList />
+      <AgendaItemList initialSearchParams={params} />
     </div>
   );
 }

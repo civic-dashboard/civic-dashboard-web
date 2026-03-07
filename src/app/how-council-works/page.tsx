@@ -3,6 +3,10 @@ import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
+import { tooltips } from '@/constants/tooltips';
+import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
+import { ArticlePage } from '@/components/ui/page';
+import { Section } from '@/components/ui/section';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   return {
@@ -10,24 +14,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
   };
 };
 
-const SectionHeading = ({ children }: { children: React.ReactNode }) => (
-  <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-center">
-    {children}
-  </h2>
-);
-
-const Section = ({ children }: { children: React.ReactNode }) => (
-  <div className="mt-[78px] max-w-2xl mx-auto">{children}</div>
-);
-
-const SectionText = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-[14px] md:text-[16px] lg:text-[18px] leading-7 mt-8 max-w-2xl mx-auto">
-    {children}
-  </div>
-);
-
 const ProcessImage = ({ src, alt }: { src: string; alt?: string }) => (
-  <div className="w-full mt-14 mx-auto">
+  <div className="w-full mb-6 mx-auto">
     <Image
       src={src}
       alt={alt || ''}
@@ -42,76 +30,35 @@ const ProcessImage = ({ src, alt }: { src: string; alt?: string }) => (
 const WikiLink = () => (
   <span className="italic">
     For a more in-depth explanation, visit the{' '}
-    <a href="/coming-soon" className="classic-link">
-      City Council Wiki
-    </a>
+    <Link href="/wiki" className="classic-link">
+      Civic Dashboard Wiki
+    </Link>
     .
   </span>
 );
 
 export default function HowCouncilWorks() {
-  const tooltips = {
-    cityCouncil: {
-      trigger: 'City Council',
-      content:
-        "City Council refers to the group of Councillors, who are elected to represent each of Toronto's wards, and the Mayor, who is elected city-wide. There are 25 Councillors and one Mayor, making 26 total City Council members.",
-    },
-    ward: {
-      trigger: 'Ward',
-      content:
-        'Toronto is divided into 25 geographic areas, each represented by a City Councillor. These areas are called "wards.',
-    },
-    councillor: {
-      trigger: 'Councillor',
-      content:
-        "A Councillor is an elected official who represents a specific ward in Toronto. Councillors are responsible for voicing the concerns of their constituents, debating issues, and voting on decisions that shape the city's policies and laws.",
-    },
-    item: {
-      trigger: 'Item',
-      content:
-        'An item is any topic or issue listed on a City Council or committee agenda for discussion or decision. Items can include a wide range of matters, such as proposed bylaws, policy decisions, or requests for studies.',
-    },
-    reports: {
-      trigger: 'Reports',
-      content:
-        'Reports are detailed documents prepared by city staff to provide background information, analysis, and recommendations on specific issues.',
-    },
-    committees: {
-      trigger: 'Committees',
-      content:
-        'A Committee is a smaller group of council members that focus on specific areas like the environment, transportation, or housing. Committees review recommendations from city staff, ask questions, and suggest changes.',
-    },
-    deputations: {
-      trigger: 'Deputations',
-      content:
-        'Deputations are opportunities for citizens to speak directly to a committee about a specific issue or recommendation being discussed. Deputations allow citizens to share their opinions and influence the decisions being made.',
-    },
-  };
-
   const imageData = {
     toronto: {
-      src: '/toronto.png',
+      src: '/toronto.jpg',
     },
     staff: {
-      src: '/staff.png',
+      src: '/staff.jpg',
     },
     committee: {
-      src: '/committee.png',
+      src: '/committee.jpg',
     },
     council: {
-      src: '/council.png',
+      src: '/council.jpg',
     },
   };
 
   return (
     <TooltipProvider>
-      <main className="max-w-[876px] mx-auto px-4 md:px-0">
-        <h1 className="text-[32px] md:text-[48px] lg:text-[56px] font-bold mt-[104px] text-center">
-          What is Toronto City Council?
-        </h1>
-
+      <ArticlePage>
         <Section>
-          <SectionText>
+          <Heading1>What is Toronto City Council?</Heading1>
+          <p>
             Toronto{' '}
             <Tooltip
               tooltipContent={tooltips.cityCouncil.content}
@@ -119,14 +66,14 @@ export default function HowCouncilWorks() {
             >
               City Council
             </Tooltip>{' '}
-            is the decision-making body for the City of Toronto. It&apos;s made
-            up of elected officials who vote on policies, laws, and initiatives
-            that impact the city. These decisions affect everything from local
-            parks to public transit and housing. The process used to make these
+            is the decision-making body for the City of Toronto. It's made up of
+            elected officials who vote on policies, laws, and initiatives that
+            impact the city. These decisions affect everything from local parks
+            to public transit and housing. The process used to make these
             decisions follows three key steps.
-          </SectionText>
+          </p>
           <ProcessImage src={imageData.toronto.src} />
-          <SectionText>
+          <p>
             Toronto is divided into 25{' '}
             <Tooltip
               tooltipContent={tooltips.ward.content}
@@ -144,21 +91,19 @@ export default function HowCouncilWorks() {
             </Tooltip>
             , one per ward, and the Mayor, who is elected city-wide. Together,
             they shape policies and make decisions that impact the entire city.
-            <br />
-            <br />
+          </p>
+          <p>
             The Toronto Public Service (TPS) has 42K+ employees working across
             dozens of divisions and offices to implement city policies and
-            services. They are directed by City Council to deliver City programs
-            and services.
-          </SectionText>
+            services.
+          </p>
         </Section>
 
         {/* Three-Step City Council Process */}
-        <div className="mt-[78px]">
-          <SectionHeading>The Three-Step City Council Process</SectionHeading>
-
-          <SectionText>
-            Before we dive into the process, let&apos;s define what City Council
+        <Section>
+          <Heading2>The Three-Step City Council Process</Heading2>
+          <p>
+            Before we dive into the process, let's define what City Council
             works on. An{' '}
             <Tooltip
               tooltipContent={tooltips.item.content}
@@ -177,17 +122,18 @@ export default function HowCouncilWorks() {
             </Tooltip>{' '}
             prepared by city staff to provide detailed background and
             recommendations.
-            <br />
-            <br />
-            Now, let&apos;s follow how an item moves through City Council and
-            how you can engage with it along the way.
-          </SectionText>
-        </div>
+          </p>
+          <p>
+            Now, let's follow how an item moves through City Council and how you
+            can engage with it along the way.
+          </p>
+        </Section>
+
         {/* Staff Stage */}
         <Section>
-          <SectionHeading>First Step: Staff Stage</SectionHeading>
+          <Heading2>First Step: Staff Stage</Heading2>
           <ProcessImage src={imageData.staff.src} />
-          <SectionText>
+          <p>
             City staff, working at City Hall, take the first steps in acting on
             an item by researching and developing recommendations. They gather
             data, analyze what other cities are doing, and propose specific
@@ -202,17 +148,17 @@ export default function HowCouncilWorks() {
               committees
             </Tooltip>{' '}
             organized by city departments.
-            <br />
-            <br />
+          </p>
+          <p>
             <WikiLink />
-          </SectionText>
+          </p>
         </Section>
 
         {/* Committee Stage */}
         <Section>
-          <SectionHeading>Second Step: Committee Stage</SectionHeading>
+          <Heading2>Second Step: Committee Stage</Heading2>
           <ProcessImage src={imageData.committee.src} />
-          <SectionText>
+          <p>
             Next, the item moves to a{' '}
             <Tooltip
               tooltipContent={tooltips.committees.content}
@@ -220,13 +166,13 @@ export default function HowCouncilWorks() {
             >
               committee
             </Tooltip>
-            , a smaller group of council members. Committees review the
-            staff&apos;s recommendations, provide feedback, suggest changes, and
-            ask critical questions to ensure the proposals are well thought out.
-            While committees don&apos;t make final decisions, they refine the
-            item and send it to the full Council for voting.
-            <br />
-            <br />
+            , a smaller group of council members. Committees review the staff's
+            recommendations, provide feedback, suggest changes, and ask critical
+            questions to ensure the proposals are well thought out. While
+            committees don't make final decisions, they refine the item and send
+            it to the full Council for voting.
+          </p>
+          <p>
             This stage also provides an opportunity for public deputations,
             where citizens can speak directly to the committee about the item.{' '}
             <Tooltip
@@ -238,99 +184,91 @@ export default function HowCouncilWorks() {
             allow residents to share their opinions, highlight concerns, and
             advocate for their positions. Items typically move more quickly
             through this stage compared to the staff stage.
-            <br />
-            <br />
+          </p>
+          <p>
             <WikiLink />
-          </SectionText>
+          </p>
         </Section>
 
         {/* Council Stage */}
         <Section>
-          <SectionHeading>Third Step: Council Stage</SectionHeading>
+          <Heading2>Third Step: Council Stage</Heading2>
           <ProcessImage src={imageData.council.src} />
-          <SectionText>
+          <p>
             Finally, the item reaches the full City Council, which consists of
-            all elected council members. At this stage, councilors review the
+            all elected council members. At this stage, councillors review the
             item, debate its merits, and vote on whether to approve or reject
             it. Each councilor casts a vote—green for approval, red for
             rejection. If a majority votes in favor, the item becomes a new law,
             policy, or directive for the city.
-            <br />
-            <br />
+          </p>
+          <p>
             The Council Stage is the culmination of the process, where the item
             is finalized, and the decisions made here directly impact Toronto
             and its residents.
-            <br />
-            <br />
+          </p>
+          <p>
             <WikiLink />
-          </SectionText>
+          </p>
         </Section>
 
         {/* Get Involved */}
         <Section>
-          <SectionHeading>How Can I Get Involved?</SectionHeading>
-          <SectionText>
+          <Heading2>How Can I Get Involved?</Heading2>
+          <p>
             Getting involved with Toronto City Council is easier than you might
             think! There are several ways to share your opinions and influence
             decisions that matter to you.
-            <br />
-            <br />
+          </p>
+          <p>
             <span className="italic">
               Specific Actions - Can Be Done One Time or Many Times!
             </span>
-            <br />
-            <br />
-            <span className="font-bold">Call or Email Your Councillor</span>
-            <br />
+          </p>
+
+          <Heading3>Call or Email Your Councillor</Heading3>
+          <p>
             You can call or email your local councillor to discuss issues you
             care about. Councillors can advocate on your behalf and provide
             insights into ongoing city decisions.
-            <br />
-            <br />
-            <span className="font-bold">Attend a Consultation</span>
-            <br />
+          </p>
+
+          <Heading3>Attend a Consultation</Heading3>
+          <p>
             City staff often hold consultations, surveys, or community meetings
             to gather feedback on new policies and projects. These are great
             opportunities to share your thoughts early in the process.
-            <br />
-            <br />
-            <span className="font-bold">Submit a Deputation</span>
-            <br />
+          </p>
+
+          <Heading3>Submit a Deputation</Heading3>
+          <p>
             At the committee stage, you can make a deputation, which is a formal
             presentation where you share your views directly with council
             members during a public meeting. Your public comments can influence
             the proposal under review before it reaches City Council, or be
             taken into consideration for future proposals.
-            <br />
-            <br />
-            <span className="font-bold">Submit a Comment</span>
-            <br />
+          </p>
+
+          <Heading3>Submit a Comment</Heading3>
+          <p>
             At the committee stage, you can also make a comment on each agenda
             item that is being considered. Your comments can influence the
             members of the committee as they make their decisions.
-            <br />
-            <br />
-            <span className="italic">
-              Want more ways to get involved, or how to raise an unaddressed
-              issue? Visit the{' '}
-              <a href="/coming-soon" className="classic-link">
-                City Council Wiki
-              </a>
-              .
-            </span>
-          </SectionText>
+          </p>
         </Section>
+
+        {/* Stay Informed */}
         <Section>
-          <SectionHeading>Stay Informed, Take Action</SectionHeading>
-          <SectionText>
+          <Heading2>Stay Informed, Take Action</Heading2>
+          <p>
             Now that you know how City Council works, why not take the next
             step? Stay informed and make your voice heard! Check out our{' '}
             <Link href="/actions" className="classic-link">
               Actions Page
             </Link>{' '}
             to see upcoming Council items and take action in just one click.
-            <br />
-            <br />
+          </p>
+          <p>
             Or visit our{' '}
             <Link href="/councillors" className="classic-link">
               Councillors Page
@@ -338,10 +276,11 @@ export default function HowCouncilWorks() {
             to see how your Councillor has voted and whether they align with
             your priorities. Your engagement can help shape the decisions that
             impact Toronto—get involved today!
-          </SectionText>
+          </p>
         </Section>
+
         <Section>
-          <SectionText>
+          <p>
             <span className="italic">
               Illustrations by Luisa Castillo Henao. View more of her work on{' '}
               <ExternalLink
@@ -352,11 +291,9 @@ export default function HowCouncilWorks() {
               </ExternalLink>
               .
             </span>
-            <br />
-            <br />
-          </SectionText>
+          </p>
         </Section>
-      </main>
+      </ArticlePage>
     </TooltipProvider>
   );
 }
