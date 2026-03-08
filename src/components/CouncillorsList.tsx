@@ -32,7 +32,9 @@ export const CouncillorsList = ({
   return (
     <>
       <header className="flex justify-between flex-col md:flex-row gap-5 mb-3 md:items-center">
-        <h2 className="whitespace-nowrap mb-0">Current Toronto Councillors</h2>
+        <h2 className="whitespace-nowrap mb-0">
+          Current Toronto Councillors & Mayor
+        </h2>
         <SearchInput
           onChange={setQuery}
           placeholder="Search councillors"

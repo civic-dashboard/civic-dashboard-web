@@ -60,7 +60,10 @@ async function listCouncillors() {
       )
     `.as('searchTarget'),
     ])
-    .orderBy(['Contacts.contactName'])
+    .orderBy([
+      sql`CASE WHEN role = 'mayor' THEN 0 ELSE 1 END`,
+      'Contacts.contactName',
+    ])
     .execute();
 }
 
