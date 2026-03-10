@@ -115,6 +115,23 @@ export default function ContactBio({
           </dl>
         </div>
       </div>
+
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold mb-4">
+          {contact.role === 'mayor' ? 'Mayor' : 'Councillor'} Voting Record
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+          Here are all the past agenda items that the{' '}
+          {contact.role === 'mayor' ? 'mayor' : 'councillor'} has voted on
+          during the current city council session. For each item, you may find
+          the item date, a link to the item, an item description, the{' '}
+          {contact.role === 'mayor' ? "mayor's" : "councillor's"} vote on the
+          item, the decision body voting on the item, the result of the vote
+          (yes - no), and status of the item. Please note that there may be
+          multiple votes on one item, such as in the case of proposed
+          amendments.
+        </p>
+      </div>
     </section>
   );
 }
