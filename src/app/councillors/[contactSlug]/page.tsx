@@ -11,10 +11,16 @@ type ParamsType = {
 };
 
 export async function generateStaticParams(): Promise<ParamsType[]> {
-  return await createDB()
+  const db = createDB();
+  const councillors = await db
     .selectFrom('Councillors')
     .select(['contactSlug'])
     .execute();
+  const mayors = await db
+    .selectFrom('Mayors')
+    .select(['contactSlug'])
+    .execute();
+  return [...councillors, ...mayors];
 }
 
 async function getCouncillor(db: Kysely<DB>, contactSlug: string) {
