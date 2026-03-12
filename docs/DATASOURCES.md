@@ -60,7 +60,7 @@ To explore the data structure and run manual queries, you can connect directly t
 
 ### Local Connection Details
 
-When the database and docker is running, use these credentials in your database client:
+When the database and Docker are running, use these credentials in your database client:
 
 *   **Host:** `localhost`
 *   **Port:** `54320`
@@ -72,6 +72,6 @@ When the database and docker is running, use these credentials in your database 
 
 While you can use the command-line `psql` tool, most developers prefer a graphical interface to navigate tables and visualize relationships:
 
-1.  **[DBeaver](https://dbeaver.io/):** A free, and open-source universal database tool. 
+1.  **[DBeaver](https://dbeaver.io/):** Free and open-source universal database tool.
 2.  **[pgAdmin](https://www.pgadmin.org/):** The most popular "official" administration and management tool for PostgreSQL.
 3.  **VS Code Extensions:** If you prefer to stay in your editor, there is an official extension: **[PostgreSQL](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql)**
