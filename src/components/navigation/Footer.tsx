@@ -1,139 +1,171 @@
-import { menuItems } from '@/constants/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
+import { Github } from 'lucide-react';
 import { ExternalLink } from '@/components/ExternalLink';
+
+const civicLinks = [
+  { label: 'Council Activity', href: '/actions' },
+  { label: 'Councillor Watch', href: '/councillors' },
+  { label: 'How Council Works', href: '/how-council-works' },
+  { label: 'The Wiki', href: '/wiki' },
+] as const;
+
+const resourceLinks = [
+  {
+    label: 'Source code',
+    href: 'https://github.com/civic-dashboard/civic-dashboard-web',
+  },
+  {
+    label: 'Slack',
+    href: 'https://civictechto.slack.com/archives/C06KU3DHEKV',
+  },
+  {
+    label: 'Documentation',
+    href: 'https://github.com/civic-dashboard/civic-dashboard-web#readme',
+  },
+] as const;
+
+const companyLinks = [
+  { label: 'About us', href: '/about', external: false },
+  {
+    label: 'Contact',
+    href: 'mailto:teamcivicdashboard@gmail.com',
+    external: true,
+  },
+  { label: 'Join us', href: '/join', external: false },
+  {
+    label: 'Sign up for newsletter',
+    href: '/join-newsletter',
+    external: false,
+  },
+] as const;
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Navigation Links Column */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Navigation
-            </h3>
-            <ul className="space-y-3">
-              {menuItems.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="hover:text-blue-400 transition-colors duration-200 block"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+    <footer className="bg-[#0057b8] text-white">
+      <div className="mx-auto w-full max-w-[1240px] px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+        <div className="grid gap-10 border-b border-white/25 pb-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-16">
+          <div className="max-w-[460px] space-y-4">
+            <Image
+              src="/home/logo-footer.svg"
+              alt="Civic Dashboard"
+              width={36}
+              height={49}
+            />
+            <p className="font-black leading-tight tracking-[-0.02em] text-white sm:text-[1.9rem]">
+              Tools to help you follow and influence Toronto City Council.
+            </p>
+          </div>
 
-              <li>
+          <div className="grid grid-cols-1 gap-8 text-sm sm:grid-cols-3">
+            <div className="space-y-3">
+              <p className="text-base font-semibold">Civic Dashboard</p>
+              {civicLinks.map((link) => (
                 <Link
-                  href="/labs"
-                  className="hover:text-blue-400 transition-colors duration-200"
+                  key={link.href}
+                  href={link.href}
+                  className="block text-white/90 transition-colors hover:text-white"
                 >
-                  Labs
+                  {link.label}
                 </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            {/* Contact Column */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                Contact
-              </h3>
-              <ExternalLink
-                href="mailto:teamcivicdashboard@gmail.com"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                teamcivicdashboard@gmail.com
-              </ExternalLink>
+              ))}
             </div>
 
-            {/* Resources (currently just privacy) */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                Resources
-              </h3>
+            <div className="space-y-3">
+              <p className="text-base font-semibold">Resources</p>
+              {resourceLinks.map((link) => (
+                <ExternalLink
+                  key={link.href}
+                  href={link.href}
+                  className="block text-white/90 transition-colors hover:text-white"
+                >
+                  {link.label}
+                </ExternalLink>
+              ))}
+            </div>
 
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="hover:text-blue-400 transition-colors duration-200"
+            <div className="space-y-3">
+              <p className="text-base font-semibold">Company</p>
+              {companyLinks.map((link) =>
+                link.external ? (
+                  <ExternalLink
+                    key={link.href}
+                    href={link.href}
+                    className="block text-white/90 transition-colors hover:text-white"
                   >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
+                    {link.label}
+                  </ExternalLink>
+                ) : (
                   <Link
-                    href="/analytics"
-                    className="hover:text-blue-400 transition-colors duration-200"
+                    key={link.href}
+                    href={link.href}
+                    className="block text-white/90 transition-colors hover:text-white"
                   >
-                    Analytics
+                    {link.label}
                   </Link>
-                </li>
-              </ul>
+                ),
+              )}
             </div>
-          </div>
-
-          {/* Social & Newsletter Column */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Stay Connected
-            </h3>
-            <div className="flex space-x-6">
-              {/* <a
-                href="#"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                Twitter
-              </a> */}
-              <ExternalLink
-                href="https://civictechto.slack.com/archives/C06KU3DHEKV"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                Slack
-              </ExternalLink>
-              <ExternalLink
-                href="https://www.linkedin.com/company/civic-dashboard/about/"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                LinkedIn
-              </ExternalLink>
-              <ExternalLink
-                href="https://github.com/civic-dashboard"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                GitHub
-              </ExternalLink>
-              <ExternalLink
-                href="https://bsky.app/profile/civicdashboard.bsky.social"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                Bluesky
-              </ExternalLink>
-            </div>
-
-            <Link
-              href="/join-newsletter"
-              className="w-full block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg text-center"
-            >
-              Subscribe to Newsletter
-            </Link>
-
-            <ExternalLink
-              href="https://civictech.ca/"
-              className="block text-center py-2 px-4 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:scale-105"
-            >
-              Civic Tech Toronto
-            </ExternalLink>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-700/50 text-center">
-          <p className="text-gray-400">
-            &copy; {new Date().getFullYear()} Civic Dashboard. All rights
-            reserved.
+        <div className="mt-6 flex flex-col gap-4 text-sm md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3">
+            <ExternalLink
+              href="https://bsky.app/profile/civicdashboard.bsky.social"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/30 transition-colors hover:bg-white/10"
+            >
+              <Image
+                src="/bluesky.svg"
+                alt="Bluesky"
+                width={16}
+                height={16}
+                className="brightness-0 invert"
+              />
+            </ExternalLink>
+            <ExternalLink
+              href="https://www.linkedin.com/company/civic-dashboard/"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/30 transition-colors hover:bg-white/10"
+            >
+              <Image
+                src="/linkedin.svg"
+                alt="LinkedIn"
+                width={16}
+                height={16}
+                className="brightness-0 invert"
+              />
+            </ExternalLink>
+            <ExternalLink
+              href="https://github.com/civic-dashboard/civic-dashboard-web"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/30 transition-colors hover:bg-white/10"
+            >
+              <Github className="h-4 w-4" aria-hidden="true" />
+              <span className="sr-only">GitHub</span>
+            </ExternalLink>
+            <ExternalLink
+              href="https://civictechto.slack.com/archives/C06KU3DHEKV"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/30 transition-colors hover:bg-white/10"
+            >
+              <Image
+                src="/slack.svg"
+                alt="Slack"
+                width={16}
+                height={16}
+                className="brightness-0 invert"
+              />
+            </ExternalLink>
+          </div>
+
+          <p className="text-xs text-white/85 sm:text-sm">
+            This is an independent project powered by Toronto Open Data and
+            built by volunteers at{' '}
+            <ExternalLink
+              href="https://civictech.ca/"
+              className="underline decoration-dotted underline-offset-4"
+            >
+              Civic Tech Toronto
+            </ExternalLink>
+            .
           </p>
         </div>
       </div>
