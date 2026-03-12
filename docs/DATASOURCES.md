@@ -53,3 +53,25 @@ Contains the voting records for members of the Toronto City Council.
 
 * **Source Dataset & Data Schema:** [Members of Toronto City Council Voting Record](https://open.toronto.ca/dataset/members-of-toronto-city-council-voting-record/)
 * **Database Table:** `RawVotes`
+
+## How to Access and Visualize the Database
+
+To explore the data structure and run manual queries, you can connect directly to your local dev PostgreSQL database running in Docker. Ensure to follow instructions from the `README.md` file to set it up and to load a small amount of data.
+
+### Local Connection Details
+
+When the database and docker is running, use these credentials in your database client:
+
+*   **Host:** `localhost`
+*   **Port:** `54320`
+*   **User:** `postgres`
+*   **Password:** `postgres`
+*   **Database:** `civic_dashboard`
+
+### Recommended GUI Tools
+
+While you can use the command-line `psql` tool, most developers prefer a graphical interface to navigate tables and visualize relationships:
+
+1.  **[DBeaver](https://dbeaver.io/):** A free, and open-source universal database tool. 
+2.  **[pgAdmin](https://www.pgadmin.org/):** The most popular "official" administration and management tool for PostgreSQL.
+3.  **VS Code Extensions:** If you prefer to stay in your editor, there is an official extension: **[PostgreSQL](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql)**
