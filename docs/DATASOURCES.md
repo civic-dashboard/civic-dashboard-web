@@ -9,24 +9,24 @@ TMMIS is an unofficial API used by the City of Toronto on [their website](https:
 **Important Note:** Because this is not a public Open Data API, it is not officially supported or guaranteed to remain available by the City of Toronto. We use this unofficial API because the specific agenda item data we need is not available on the official Open Data portal.
 
 * **Base URL:** `https://secure.toronto.ca/council/api/`
-* **Core Logic:** Located in `src/api/cityCouncilRequest.ts`.
+* **Core Logic:** Located in [`src/api/cityCouncilRequest.ts`](../src/api/cityCouncilRequest.ts).
 * **Authentication:** Requires fetching a CSRF token before querying and using specific headers to mimic a browser request.
 
 ### Agenda Items
 
 We fetch Agenda items that are scheduled to appear in future committee and council meetings.
 
-* **Data Schema & Fetch Logic:** `src/api/agendaItem.ts`
-* **Automation:** Fetched every hour via GitHub Actions (`.github/workflows/update_database.yml`). See the `README.md` for instructions on how to fetch in your local environment.
+* **Data Schema & Fetch Logic:** [`src/api/agendaItem.ts`](../src/api/agendaItem.ts)
+* **Automation:** Fetched every hour via GitHub Actions ([`.github/workflows/update_database.yml`](../.github/workflows/update_database.yml)). See the [`README.md`](../README.md) for instructions on how to fetch in your local environment.
 * **Database Table:** `RawAgendaItemConsiderations`
 
 ### Decision Bodies (Committees)
 
 TMMIS also provides the list of decision bodies, which we use to filter agenda items on the Actions page.
 
-* **Data Schema:** `src/api/decisionBody.ts`
-* **Storage:** Saved statically in `src/constants/decisionBodies.ts` (not currently stored in the database).
-* **Updates:** Updates are manual. Run the `src/scripts/fetchDecisionBodies.ts` script to fetch a new JSON list for each council term and manually update the constant file.
+* **Data Schema:** [`src/api/decisionBody.ts`](../src/api/decisionBody.ts)
+* **Storage:** Saved statically in [`src/constants/decisionBodies.ts`](../src/constants/decisionBodies.ts) (not currently stored in the database).
+* **Updates:** Updates are manual. Run the [`src/scripts/fetchDecisionBodies.ts`](../src/scripts/fetchDecisionBodies.ts) script to fetch a new JSON list for each council term and manually update the constant file.
 
 ---
 
@@ -36,9 +36,9 @@ The official [City of Toronto Open Data](https://open.toronto.ca) portal populat
 
 **Note:** There is often a multi-week delay between when a vote occurs and when the results are published to Open Data.
 
-* **Core Logic:** `src/backend/open-data/OpenDataClient.ts`
-* **Catalog:** Package IDs for queried datasets are stored in `src/backend/open-data/openDataCatalog.json`.
-* **Automation:** Queried weekly via GitHub Actions (`.github/workflows/update_contacts_votes.yml`). See the `README.md` for instructions on how to fetch in your local environment.
+* **Core Logic:** [`src/backend/open-data/OpenDataClient.ts`](../src/backend/open-data/OpenDataClient.ts)
+* **Catalog:** Package IDs for queried datasets are stored in [`src/backend/open-data/openDataCatalog.json`](../src/backend/open-data/openDataCatalog.json).
+* **Automation:** Queried weekly via GitHub Actions ([`.github/workflows/update_contacts_votes.yml`](../.github/workflows/update_contacts_votes.yml)). See the [`README.md`](../README.md) for instructions on how to fetch in your local environment.
 
 ### Councillors
 
@@ -56,7 +56,7 @@ Contains the voting records for members of the Toronto City Council.
 
 ## How to Access and Visualize the Database
 
-To explore the data structure and run manual queries, you can connect directly to your local dev PostgreSQL database running in Docker. Ensure to follow instructions from the `README.md` file to set it up and to load a small amount of data.
+To explore the data structure and run manual queries, you can connect directly to your local dev PostgreSQL database running in Docker. Ensure to follow instructions from the [`README.md`](../README.md) file to set it up and to load a small amount of data.
 
 ### Local Connection Details
 
