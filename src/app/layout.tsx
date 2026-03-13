@@ -4,11 +4,20 @@ import '@/app/globals.css';
 import Header from '@/components/navigation/Header';
 import Footer from '@/components/navigation/Footer';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
+const headingFont = localFont({
+  src: './fonts/Epilogue-Variable.ttf',
+  variable: '--font-heading',
+  weight: '400 900',
+  display: 'swap',
 });
+
+const bodyFont = localFont({
+  src: './fonts/IBMPlexSans-Variable.ttf',
+  variable: '--font-body',
+  weight: '100 700',
+  display: 'swap',
+});
+
 const geistMono = localFont({
   src: './fonts/GeistMonoVF.woff',
   variable: '--font-geist-mono',
@@ -48,7 +57,7 @@ export default function RootLayout({
         ></script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${headingFont.variable} ${bodyFont.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
         {children}

@@ -3,8 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-surface: #ffffff;
+  --color-text: #0d1117;
+  --color-brand-blue: #0057b8;
+  --color-brand-navy: #081058;
+  --color-light-blue: #97D3FF;
+  --color-section-gray: #f7f8f9;
+
+  --background: var(--color-surface);
+  --foreground: var(--color-text);
+  --radius: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,6 +23,16 @@
 }
 
 @layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-heading {
+    font-family: var(--font-heading), sans-serif;
+  }
+
   h1 {
     @apply text-4xl mb-2;
   }
@@ -24,11 +42,9 @@
   }
 
   body {
-    @apply bg-slate-200;
-  }
-
-  :root {
-    --radius: 0.5rem;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body), sans-serif;
   }
 
   .classic-link {
@@ -39,16 +55,10 @@
 html {
   /* When clicking anchor links (e.g. <a href="#some-section">),
   the browser scrolls the linked section to the top of the page by default.
-  This causes the section content to be hidden behind our sticky header!
+  This causes the section content to be hidden behind our sticky header.
   Adding this scroll padding that's slightly larger than the height of our
   header causes the content to be scrolled just under the header instead. */
   scroll-padding-top: 80px;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .rich-html-styles ul {
