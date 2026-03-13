@@ -133,7 +133,7 @@ function FeatureSection({
           <h2 className="text-3xl font-black leading-none tracking-[-0.01em] text-[#0d1117]">
             {title}
           </h2>
-          <div className="grid gap-8 md:grid-cols-2 md:gap-12 md:px-8">
+          <div className="grid gap-8 md:grid-cols-2 md:gap-12 md:px-12">
             {cards.map((card) => (
               <FeatureCard key={card.title} card={card} />
             ))}
