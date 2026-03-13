@@ -69,7 +69,10 @@ const avatars = [
 function FeatureCard({ card }: { card: HomeCard }) {
   return (
     <article className="flex h-full flex-col gap-6">
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3 / 1' }}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ aspectRatio: '3 / 1' }}
+      >
         <Image
           src={card.imageSrc}
           alt={card.imageAlt}
@@ -77,7 +80,7 @@ function FeatureCard({ card }: { card: HomeCard }) {
           sizes="(max-width: 767px) 100vw, 50vw"
           className="object-cover"
         />
-        <h3 className="relative z-10 max-w-[90%] p-6 text-3xl font-extrabold leading-[1.05] tracking-[-0.02em] text-white sm:text-4xl" >
+        <h3 className="relative z-10 max-w-[90%] p-6 text-3xl font-extrabold leading-[1.05] tracking-[-0.02em] text-white sm:text-4xl">
           {card.title}
         </h3>
       </div>
