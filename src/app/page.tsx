@@ -77,23 +77,23 @@ function FeatureCard({ card }: { card: HomeCard }) {
           sizes="(max-width: 767px) 100vw, 50vw"
           className="object-cover"
         />
-        <h3 className="relative z-10 max-w-[90%] p-6 text-3xl font-extrabold leading-[1.05] tracking-[-0.02em] text-white sm:text-4xl">
+        <h3 className="relative z-10 max-w-[90%] p-6 text-3xl font-extrabold leading-[1.05] tracking-[-0.02em] text-white sm:text-4xl" >
           {card.title}
         </h3>
       </div>
 
       <div className="space-y-4">
-        <p className="border-b border-[#0d111724] pb-4 text-xl font-bold tracking-[-0.02em] text-[#0d1117]">
+        <p className="border-b border-[#0d111724] pb-4 text-xl font-bold tracking-[-0.02em] text-[var(--color-text)]">
           {card.question}
         </p>
         <ul className="space-y-2">
           {card.bullets.map((bullet) => (
             <li
               key={bullet}
-              className="flex items-start gap-2 text-base text-[#0d1117]"
+              className="flex items-start gap-2 text-base text-[var(--color-text)]"
             >
               <Check
-                className="mt-1 h-4 w-4 shrink-0 text-[#0057b8]"
+                className="mt-1 h-4 w-4 shrink-0 text-[(var(--color-brand-blue)]"
                 aria-hidden="true"
               />
               <span>{bullet}</span>
@@ -105,7 +105,7 @@ function FeatureCard({ card }: { card: HomeCard }) {
       <div className="pt-1">
         <Link
           href={card.href}
-          className="inline-flex min-h-10 items-center gap-2 border border-[#0057b8] px-3 py-2 text-sm font-semibold text-[#0057b8] transition-colors hover:bg-[#edf4ff]"
+          className="inline-flex min-h-10 items-center gap-2 border border-[var(--color-brand-blue)] px-3 py-2 text-sm font-semibold text-[var(--color-brand-blue)] transition-colors hover:bg-[var(--color-light-blue)]"
         >
           <span>{card.ctaLabel}</span>
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -130,7 +130,7 @@ function FeatureSection({
     >
       <div className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="space-y-12">
-          <h2 className="text-3xl font-black leading-none tracking-[-0.01em] text-[#0d1117]">
+          <h2 className="text-3xl font-black leading-none tracking-[-0.01em] text-[var(--color-text)]">
             {title}
           </h2>
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 md:px-12">
@@ -146,15 +146,15 @@ function FeatureSection({
 
 export default function Home() {
   return (
-    <main className="bg-white text-[#0d1117]">
+    <main className="bg-white text-[var(--color-text)]">
       <section className="bg-[var(--color-light-blue)] md:h-[470px]">
         <div className="mx-auto  max-w-5xl gap-8 px-4 pb-0 pt-0 sm:px-6 lg:px-8 relative">
           <div className="space-y-7 py-16 grid w-full gap-x-[100px] gap-y-0 lg:grid-cols-2">
-            <h1 className="text-4xl font-black leading-none tracking-[-0.02em] text-[#0d1117] sm:text-5xl">
+            <h1 className="text-4xl font-black leading-none tracking-[-0.02em] text-[var(--color-text)] sm:text-5xl">
               Let&apos;s get a Toronto we love.
             </h1>
             <div className="h-px w-full md:col-span-2 bg-white/95" />
-            <p className="text-lg leading-[1.5] text-[#0d1117]">
+            <p className="text-lg leading-[1.5] text-[var(--color-text)]">
               Civic Dashboard was built by volunteers to help Torontonians
               follow and influence{' '}
               <span className="underline decoration-dotted underline-offset-4">
@@ -186,7 +186,7 @@ export default function Home() {
       <section className="bg-[var(--color-light-blue)]">
         <div className="mx-auto w-full max-w-5xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-[940px] space-y-6">
-            <h2 className="text-3xl font-black leading-none tracking-[-0.01em] text-[#0d1117]">
+            <h2 className="text-3xl font-black leading-none tracking-[-0.01em] text-[var(--color-text)]">
               Help us make democracy more accessible.
             </h2>
 
@@ -194,7 +194,7 @@ export default function Home() {
               {avatars.map((avatar, index) => (
                 <div
                   key={avatar.src}
-                  className="relative -mr-3 h-8 w-8 overflow-hidden rounded-full border border-[#081058] bg-white"
+                  className="relative -mr-3 h-8 w-8 overflow-hidden rounded-full border border-[var(--color-text)] bg-white"
                   style={{ zIndex: avatars.length - index }}
                 >
                   <Image
@@ -206,12 +206,12 @@ export default function Home() {
                   />
                 </div>
               ))}
-              <div className="-mr-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#081058] bg-[#ebebeb] text-xs font-bold tracking-[-0.06em] text-[#0d1117]">
+              <div className="-mr-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-text)] bg-[var(--color-light-blue)] text-xs font-bold tracking-[-0.06em] text-[var(--color-text)]">
                 20+
               </div>
             </div>
 
-            <p className="text-base leading-[1.5] text-[#0d1117]">
+            <p className="text-base leading-[1.5] text-[var(--color-text)]">
               We&apos;re regular, passionate Torontonians building a better city
               together.
               <br />
@@ -219,7 +219,7 @@ export default function Home() {
               newsletter or give us feedback on how we can improve this product!
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-5 text-sm font-semibold text-[#081058] sm:flex-row sm:gap-10">
+            <div className="flex flex-col items-center justify-center gap-5 text-sm font-semibold text-[var(--color-text)] sm:flex-row sm:gap-10">
               <Link href="/feedback" className="hover:underline">
                 Give us feedback
               </Link>
@@ -228,7 +228,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/join"
-                className="inline-flex min-h-10 items-center gap-2 border border-[#081058] px-4 py-2 hover:bg-[#81c3f7]"
+                className="inline-flex min-h-10 items-center gap-2 border border-[var(--color-text)] px-4 py-2 hover:bg-[var(--color-light-blue)]"
               >
                 <span>Join the team</span>
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
