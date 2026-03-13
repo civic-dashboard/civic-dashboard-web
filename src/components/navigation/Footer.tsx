@@ -52,7 +52,7 @@ export default function Footer() {
               width={36}
               height={49}
             />
-            <p className="font-black leading-tight tracking-[-0.02em] text-white sm:text-[1.9rem]">
+            <p className="font-black font-heading leading-tight tracking-[-0.02em] text-white sm:text-[1.9rem]">
               Tools to help you follow and influence Toronto City Council.
             </p>
           </div>
