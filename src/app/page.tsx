@@ -14,7 +14,7 @@ type HomeCard = {
 
 const influenceCards: HomeCard[] = [
   {
-    imageSrc: '/home/card-council-activity.webp',
+    imageSrc: '/home/feature-image-4.jpg',
     imageAlt: 'Council Activity background',
     title: 'Council Activity',
     question: "What's City Council up to?",
@@ -26,7 +26,7 @@ const influenceCards: HomeCard[] = [
     href: '/actions',
   },
   {
-    imageSrc: '/home/card-councillor-watch.webp',
+    imageSrc: '/home/feature-image-3.jpg',
     imageAlt: 'Councillor Watch background',
     title: 'Councillor Watch',
     question: "What's my Councillor's stance?",
@@ -38,7 +38,7 @@ const influenceCards: HomeCard[] = [
 
 const understandCards: HomeCard[] = [
   {
-    imageSrc: '/home/card-how-council-works.webp',
+    imageSrc: '/home/feature-image-2.jpg',
     imageAlt: 'How Council Works background',
     title: 'How Council Works',
     question: 'How does City Council work?',
@@ -47,7 +47,7 @@ const understandCards: HomeCard[] = [
     href: '/how-council-works',
   },
   {
-    imageSrc: '/home/card-wiki.webp',
+    imageSrc: '/home/feature-image-1.jpg',
     imageAlt: 'Civic Dashboard Wiki background',
     title: 'Civic Dashboard Wiki',
     question: 'The Wiki',
@@ -69,7 +69,7 @@ const avatars = [
 function FeatureCard({ card }: { card: HomeCard }) {
   return (
     <article className="flex h-full flex-col gap-6">
-      <div className="relative h-40 overflow-hidden sm:h-44">
+      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3 / 1' }}>
         <Image
           src={card.imageSrc}
           alt={card.imageAlt}
