@@ -25,15 +25,16 @@ const SearchContext = createContext<SearchContext | null>(null);
 
 type Props = React.PropsWithChildren;
 export function SearchProvider({ children }: Props) {
-  const [searchOptions, setSearchOptions] = useState<SearchOptions>({
-    textQuery: '',
-    tags: [],
-    decisionBodyIds: [],
-    minimumDate: (() => {
-      const d = new Date();
-      d.setHours(0, 0, 0, 0);
-      return d;
-    })(),
+  const [searchOptions, setSearchOptions] = useState<SearchOptions>(() => {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    return {
+      textQuery: '',
+      tags: [],
+      decisionBodyIds: [],
+      minimumDate: startOfToday,
+    };
   });
 
   const [searchResults, setSearchResults] =
