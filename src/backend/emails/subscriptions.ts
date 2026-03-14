@@ -30,7 +30,11 @@ export async function subscribeToSearch({
   const currentResults = await searchAgendaItems(db, {
     options: {
       ...filters,
-      minimumDate: new Date(),
+      minimumDate: (() => {
+        const d = new Date();
+        d.setHours(0, 0, 0, 0);
+        return d;
+      })(),
       sortBy: 'relevance',
       sortDirection: 'descending',
     },

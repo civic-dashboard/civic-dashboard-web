@@ -29,7 +29,11 @@ export function SearchProvider({ children }: Props) {
     textQuery: '',
     tags: [],
     decisionBodyIds: [],
-    minimumDate: new Date(),
+    minimumDate: (() => {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      return d;
+    })(),
   });
 
   const [searchResults, setSearchResults] =
