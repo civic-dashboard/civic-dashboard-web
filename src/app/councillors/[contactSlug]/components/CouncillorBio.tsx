@@ -4,26 +4,39 @@ import Image from 'next/image';
 import { CircleUserRound } from 'lucide-react';
 import { ExternalLink } from '@/components/ExternalLink';
 
-type CouncillorBioInfo = {
+type SharedBioInfo = {
   photoUrl: string | null;
   contactName: string;
-  wardName: string;
-  wardId: string;
   email: string;
   phone: string | null;
 };
 
-export default function CouncillorBio({
-  councillor,
+type CouncillorBioInfo = SharedBioInfo & {
+  role: 'councillor';
+  wardName: string;
+  wardId: string;
+};
+
+type MayorBioInfo = SharedBioInfo & {
+  role: 'mayor';
+};
+
+export default function ContactBio({
+  contact,
 }: {
-  councillor: CouncillorBioInfo;
+  contact: CouncillorBioInfo | MayorBioInfo;
 }) {
   const [showFallbackAvatar, setShowFallbackAvatar] = useState(
-    !councillor.photoUrl,
+    !contact.photoUrl,
   );
 
-  const wardURL = `https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-${councillor.wardId}-${councillor.wardName}`;
-  const councillorProfileURL = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${councillor.wardId}`;
+  let wardURL = '';
+  let councillorProfileURL = '';
+
+  if (contact.role === 'councillor') {
+    wardURL = `https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-${contact.wardId}-${contact.wardName}`;
+    councillorProfileURL = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${contact.wardId}`;
+  }
 
   return (
     <section className="m-8">
@@ -35,8 +48,8 @@ export default function CouncillorBio({
         ) : (
           <div className="min-w-48 max-w-48 h-48 relative rounded-full overflow-hidden">
             <Image
-              src={councillor.photoUrl!}
-              alt={councillor.contactName}
+              src={contact.photoUrl!}
+              alt={contact.contactName}
               fill
               className="object-cover object-top"
               onError={() => setShowFallbackAvatar(true)}
@@ -45,44 +58,79 @@ export default function CouncillorBio({
         )}
 
         <div>
-          <h1 className="text-3xl font-bold mb-2">{councillor.contactName}</h1>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
-            <ExternalLink href={councillorProfileURL} className="classic-link">
-              Councillor Profile
-            </ExternalLink>
-          </p>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
-            <ExternalLink href={wardURL} className="classic-link">
-              Ward {councillor.wardId}, {councillor.wardName}
-            </ExternalLink>
-          </p>
+          <h1 className="text-3xl font-bold mb-2">{contact.contactName}</h1>
+          {contact.role === 'councillor' && (
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <ExternalLink
+                href={councillorProfileURL}
+                className="classic-link"
+              >
+                Councillor Profile
+              </ExternalLink>
+            </p>
+          )}
+          {contact.role === 'councillor' && (
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <ExternalLink href={wardURL} className="classic-link">
+                Ward {contact.wardId}, {contact.wardName}
+              </ExternalLink>
+            </p>
+          )}
+          {contact.role === 'mayor' && (
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <ExternalLink
+                href="https://www.toronto.ca/city-government/council/office-of-the-mayor/"
+                className="classic-link"
+              >
+                Office of the Mayor
+              </ExternalLink>
+            </p>
+          )}
+          {contact.role === 'mayor' && <p>Mayor of Toronto</p>}
 
           <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
             <dt className="font-bold">Email</dt>
             <dd>
               <a
                 className="text-blue-500 underline"
-                href={`mailto:${councillor.email}`}
+                href={`mailto:${contact.email}`}
               >
-                {councillor.email}
+                {contact.email}
               </a>
             </dd>
 
-            {councillor.phone && (
+            {contact.phone && (
               <>
                 <dt className="font-bold">Phone</dt>
                 <dd>
                   <a
                     className="text-blue-500 underline"
-                    href={`tel:${councillor.phone}`}
+                    href={`tel:${contact.phone}`}
                   >
-                    {councillor.phone}
+                    {contact.phone}
                   </a>
                 </dd>
               </>
             )}
           </dl>
         </div>
+      </div>
+
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold mb-4">
+          {contact.role === 'mayor' ? 'Mayor' : 'Councillor'} Voting Record
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+          Here are all the past agenda items that the{' '}
+          {contact.role === 'mayor' ? 'mayor' : 'councillor'} has voted on
+          during the current city council session. For each item, you may find
+          the item date, a link to the item, an item description, the{' '}
+          {contact.role === 'mayor' ? "mayor's" : "councillor's"} vote on the
+          item, the decision body voting on the item, the result of the vote
+          (yes - no), and status of the item. Please note that there may be
+          multiple votes on one item, such as in the case of proposed
+          amendments.
+        </p>
       </div>
     </section>
   );
