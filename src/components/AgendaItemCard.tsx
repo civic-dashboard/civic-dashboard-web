@@ -38,27 +38,16 @@ function itemDateIsAfterToday(dateNumber: number): boolean {
   return date >= today;
 }
 
-function DisplayTag({
-  tagKey,
-  tagName,
-  id,
-}: {
-  tagKey: string;
-  tagName: string;
-  id: number;
-}) {
+function DisplayTag({ tagKey, tagName }: { tagKey: string; tagName: string }) {
   return (
-    <>
-      <Link className="mr-1" href={`/actions?tag=${tagKey}`} key={'link' + id}>
-        <Chip
-          className="hover:border-gray-400 hover:underline text-sm"
-          variant="outline"
-          key={'chip' + id}
-        >
-          {tagName.toLowerCase()}
-        </Chip>
-      </Link>
-    </>
+    <Link className="mr-1" href={`/actions?tag=${tagKey}`}>
+      <Chip
+        className="hover:border-gray-400 hover:underline text-sm"
+        variant="outline"
+      >
+        {tagName.toLowerCase()}
+      </Chip>
+    </Link>
   );
 }
 
@@ -129,23 +118,19 @@ export function FullPageAgendaItemCard({
 }: FullPageAgendaItemCardProps) {
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
+  const textToSearch = (
+    (item.agendaItemRecommendation ?? '') +
+    item.agendaItemSummary +
+    item.agendaItemTitle
+  ).toLowerCase();
+
   const relatedTags: { key: string; displayName: string }[] = [];
   Object.entries(allTags).forEach(([key, tag]) => {
     const tagName = tag['displayName'];
-    const tagSearch: string[] = tag['searchQuery']
-      .replaceAll('"', '')
-      .split(' OR ');
-
-    const textToSearch = item.agendaItemRecommendation
-      ? (
-          item.agendaItemRecommendation +
-          item.agendaItemSummary +
-          item.agendaItemTitle
-        ).toLowerCase()
-      : (item.agendaItemSummary + item.agendaItemTitle).toLowerCase();
+    const tagSearch = tag['searchQuery'].replaceAll('"', '').split(' OR ');
 
     for (const keyword of tagSearch) {
-      if (textToSearch.search(keyword) !== -1) {
+      if (textToSearch.includes(keyword)) {
         relatedTags.push({ key, displayName: tagName });
         break;
       }
@@ -235,12 +220,11 @@ export function FullPageAgendaItemCard({
       {relatedTags.length > 0 && (
         <>
           <h4 className="mt-4 mb-1 font-bold">Related tags</h4>
-          {relatedTags.map((tag, id) => (
+          {relatedTags.map((tag) => (
             <DisplayTag
               tagKey={tag.key}
               tagName={tag.displayName}
-              id={id}
-              key={id}
+              key={tag.key}
             />
           ))}
         </>
