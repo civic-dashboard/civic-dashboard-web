@@ -38,20 +38,24 @@ function itemDateIsAfterToday(dateNumber: number): boolean {
   return date >= today;
 }
 
-function DisplayTag({ tag, id }: { tag: string; id: number }) {
+function DisplayTag({
+  tagKey,
+  tagName,
+  id,
+}: {
+  tagKey: string;
+  tagName: string;
+  id: number;
+}) {
   return (
     <>
-      <Link
-        className="mr-1"
-        href={`/actions?tag=${tag.replaceAll(' ', '')}`}
-        key={'link' + id}
-      >
+      <Link className="mr-1" href={`/actions?tag=${tagKey}`} key={'link' + id}>
         <Chip
           className="hover:border-gray-400 hover:underline text-sm"
           variant="outline"
           key={'chip' + id}
         >
-          {tag.toLowerCase()}
+          {tagName.toLowerCase()}
         </Chip>
       </Link>
     </>
@@ -125,10 +129,10 @@ export function FullPageAgendaItemCard({
 }: FullPageAgendaItemCardProps) {
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
-  const relatedTags: string[] = [];
-  Object.entries(allTags).forEach((tag) => {
-    const tagName = tag[1]['displayName'];
-    const tagSearch: string[] = tag[1]['searchQuery']
+  const relatedTags: { key: string; displayName: string }[] = [];
+  Object.entries(allTags).forEach(([key, tag]) => {
+    const tagName = tag['displayName'];
+    const tagSearch: string[] = tag['searchQuery']
       .replaceAll('"', '')
       .split(' OR ');
 
@@ -142,7 +146,7 @@ export function FullPageAgendaItemCard({
 
     for (const keyword of tagSearch) {
       if (textToSearch.search(keyword) !== -1) {
-        relatedTags.push(tagName);
+        relatedTags.push({ key, displayName: tagName });
         break;
       }
     }
@@ -232,7 +236,12 @@ export function FullPageAgendaItemCard({
         <>
           <h4 className="mt-4 mb-1 font-bold">Related tags</h4>
           {relatedTags.map((tag, id) => (
-            <DisplayTag tag={tag} id={id} key={id} />
+            <DisplayTag
+              tagKey={tag.key}
+              tagName={tag.displayName}
+              id={id}
+              key={id}
+            />
           ))}
         </>
       )}
