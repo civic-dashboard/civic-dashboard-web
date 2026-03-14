@@ -25,16 +25,16 @@ We've documented how we use Github for project management in this [Google Doc](h
 
 Assign yourself any unassigned issue you feel comfortable working on! Prioritize:
 
-- features for current milestone (`issues labelled with `milestone`)
+- features for current milestone (issues labelled with `milestone`)
 - bug fixes (issues labelled with `bug`)
 
-Periodically, the team decides on the milestones we are working towards via team/group discussion. You can learn more about these milestones in this [Google Doc](https://docs.google.com/document/d/1xehRm-2yZvC_9VRm5CrhbzlIyVNDNh3cpTQPDdtLRso/edit?tab=t.46j0b7xt6q03). Items tagged with the `milestone` label are generally items which should definitely be merged into the main version of the application as soon as they're approved. 
+Periodically, the team decides on the `milestone` items via team/group discussion. You can learn more about these milestones in this [Google Doc](https://docs.google.com/document/d/1xehRm-2yZvC_9VRm5CrhbzlIyVNDNh3cpTQPDdtLRso/edit?tab=t.46j0b7xt6q03). 
 
-We want to keep a low barrier to entry - anyone should be able to join the team and pick up a ticket or submit an idea from day one! In the interest of enouraging anyone to work on an idea, experiment with new features, or try something out and get real users on it, contributions are not limited to only milestone items. There are many good ideas which have not yet been discussed by the team as a whole, and we want to make sure that those can still be worked on. New features or improvements can be merged with an approval from another team member.
+We want to keep a low barrier to entry - anyone should be able to join the team and pick up a ticket or submit an idea from day one! In the interest of encouraging anyone to work on an idea, experiment with new features, or try something out and get real users on it, contributions are not limited to only milestone items. There are many good ideas which have not yet been discussed by the team as a whole, and we want to make sure that those can still be worked on. New features or improvements can be merged with an approval from another team member.
 
 If you have a large experimental feature/improvement, we welcome you to add it to `labs/`. If user research proves it to be valuable, we'll promote it to a main feature.
 
-Several features are currently living in the `labs` space. To add a labs feature, you may create a new route in `app/labs/[feature-name]/page.tsx`, implement the feature, and then add a lab card linking to the respective feature under `app/labs/page.tsx`. Labs features are accessible at `https://civicdashboard.ca/labs`.
+Several features are currently living in the `labs` space. To add a labs feature, you may create a new route in `app/labs/[feature-name]/page.tsx`, implement the feature, and then add a lab card linking to the respective feature under `app/labs/page.tsx`. Labs features are accessible at [civicdashboard.ca/labs](https://civicdashboard.ca/labs).
 
 ### Code review
 
