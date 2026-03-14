@@ -10,6 +10,7 @@ Take a look at the following documentation files to get a better lay of the land
 - [CODEBASE.md](./docs/CODEBASE.md) lays out the file structure of the repository.
 - [CONTRIBUTING.md](./docs/CONTRIBUTING.md) contains guidelines on making changes to the codebase.
 - [DEPENDENCIES.md](./docs/DEPENDENCIES.md) explains what dependencies we use and why.
+- [DATASOURCES.md](./docs/DATASOURCES.md) details which data sources we query from.
 
 ## Getting started
 

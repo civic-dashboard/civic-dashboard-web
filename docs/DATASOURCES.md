@@ -18,6 +18,7 @@ We fetch Agenda items that are scheduled to appear in future committee and counc
 
 * **Data Schema & Fetch Logic:** [`src/api/agendaItem.ts`](../src/api/agendaItem.ts)
 * **Automation:** Fetched every hour via GitHub Actions ([`.github/workflows/update_database.yml`](../.github/workflows/update_database.yml)). See the [`README.md`](../README.md) for instructions on how to fetch in your local environment.
+* **Manual Query Tool:** The [`src/scripts/query_TMMIS.sh`](../src/scripts/query_TMMIS.sh) script is useful if you want to manually call the TMMIS API to inspect raw agenda item data.
 * **Database Table:** `RawAgendaItemConsiderations`
 
 ### Decision Bodies (Committees)
