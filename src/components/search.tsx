@@ -115,12 +115,13 @@ export function UpcomingPastToggle() {
   const updateItemsType = useCallback(
     (selectedRange: TimeRangeType) => {
       const isPast = selectedRange === 'past';
-      const currentDate = new Date();
+      const startOfToday = new Date();
+      startOfToday.setHours(0, 0, 0, 0);
 
       setSearchOptions((opts) => ({
         ...opts,
-        minimumDate: isPast ? undefined : currentDate,
-        maximumDate: isPast ? currentDate : undefined,
+        minimumDate: isPast ? undefined : startOfToday,
+        maximumDate: isPast ? new Date(startOfToday.getTime() - 1) : undefined,
       }));
     },
     [setSearchOptions],

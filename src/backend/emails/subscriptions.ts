@@ -27,10 +27,13 @@ export async function subscribeToSearch({
     email,
     ...filters,
   });
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
   const currentResults = await searchAgendaItems(db, {
     options: {
       ...filters,
-      minimumDate: new Date(),
+      minimumDate: startOfToday,
       sortBy: 'relevance',
       sortDirection: 'descending',
     },
