@@ -86,7 +86,8 @@ echo "Calling API: $API_URL..."
 
 # Execute the API call
 # We use the XSRF-TOKEN in the X-XSRF-TOKEN header and the full cookies in the Cookie header
-RESPONSE=$(curl -s --compressed "$API_URL" \
+BODY_FILE=$(mktemp)
+HTTP_STATUS=$(curl -s -o "$BODY_FILE" -w "%{http_code}" --compressed "$API_URL" \
   -X POST \
   -H "Accept: application/json, text/plain, */*" \
   -H "Accept-Language: en-US,en;q=0.5" \
@@ -102,10 +103,30 @@ RESPONSE=$(curl -s --compressed "$API_URL" \
   -H "X-XSRF-TOKEN: $XSRF_TOKEN" \
   -d "$BODY")
 
+RESPONSE=$(cat "$BODY_FILE")
+rm "$BODY_FILE"
+
+echo "HTTP Status Code: $HTTP_STATUS"
+
 # Check if response is empty or contains an error
 if [ -z "$RESPONSE" ]; then
   echo "Error: Received empty response from API."
   exit 1
+fi
+
+if [ "$HTTP_STATUS" != "200" ]; then
+  echo "Error: API call failed with status code $HTTP_STATUS"
+  echo "Full Response:"
+  echo "$RESPONSE"
+  exit 1
+fi
+
+# Check if jq is available
+if ! command -v jq >/dev/null 2>&1; then
+  echo ""
+  echo "Warning: 'jq' not found. Returning raw response."
+  echo "$RESPONSE"
+  exit 0
 fi
 
 # Basic validation: check if the response looks like JSON and contains Records
