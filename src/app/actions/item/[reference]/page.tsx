@@ -4,6 +4,7 @@ import { FullPageAgendaItemCard } from '@/components/AgendaItemCard';
 import { decisionBodies } from '@/constants/decisionBodies';
 import { createDB } from '@/database/kyselyDb';
 import { getAgendaItemByReference } from '@/database/queries/agendaItems';
+import { stripHtmlAndGetFirstParagraph } from '@/logic/sanitize';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const db = createDB();
@@ -14,8 +15,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
+  const fullDescription = stripHtmlAndGetFirstParagraph(
+    agendaItem.agendaItemSummary,
+  );
+  const description =
+    fullDescription.length > 200
+      ? fullDescription
+          .slice(0, 197)
+          .trim()
+          .replace(/\s+\S+$/, '') + '...'
+      : fullDescription;
+
   return {
     title: `${agendaItem.reference} - ${agendaItem.agendaItemTitle} – Civic Dashboard`,
+    ...(description && {
+      description,
+      openGraph: {
+        description,
+      },
+    }),
   };
 }
 
