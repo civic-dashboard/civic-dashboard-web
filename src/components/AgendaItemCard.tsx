@@ -108,13 +108,14 @@ function AgendaItemCard({
   );
 }
 
-type FullPageAgendaItemCardProps = {
+type FullPageAgendaItemCardProps = React.PropsWithChildren<{
   item: AgendaItem;
   decisionBody: DecisionBody;
-};
+}>;
 export function FullPageAgendaItemCard({
   item,
   decisionBody,
+  children,
 }: FullPageAgendaItemCardProps) {
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
@@ -229,6 +230,7 @@ export function FullPageAgendaItemCard({
           ))}
         </>
       )}
+      {children}
     </AgendaItemCard>
   );
 }
