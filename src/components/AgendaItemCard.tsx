@@ -182,12 +182,14 @@ export function FullPageAgendaItemCard({
       )}
     >
       <CardTitle className="text-lg">{item.agendaItemTitle}</CardTitle>
-      {item.itemStatus && item.itemStatus !== 'NO_ACTN' && (
-        <div className="mt-2">
-          <span className="font-bold">Status:</span>{' '}
-          {sentenceCase(item.itemStatus)}
-        </div>
-      )}
+      {item.itemStatus &&
+        item.itemStatus !== 'NO_ACTN' &&
+        item.itemStatus !== 'WO_RECS' && (
+          <div className="mt-2">
+            <span className="font-bold">Status:</span>{' '}
+            {sentenceCase(item.itemStatus)}
+          </div>
+        )}
 
       {item.decisionRecommendations && (
         <>
@@ -356,6 +358,7 @@ export function SearchResultAgendaItemCard({
               <CardTitle>{item.agendaItemTitle}</CardTitle>
               {item.itemStatus &&
                 item.itemStatus !== 'NO_ACTN' &&
+                item.itemStatus !== 'WO_RECS' &&
                 !isMeetingUpcomingOrToday && (
                   <div className="mt-2">
                     <span className="font-bold">Status:</span>{' '}
