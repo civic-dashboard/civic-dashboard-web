@@ -180,7 +180,9 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
           className="w-full justify-between hover:bg-gray-100 dark:hover:bg-neutral-700 text-neutral-600 dark:text-neutral-400 font-normal"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? 'Hide detailed votes' : 'Show detailed councillor votes'}
+          {isExpanded
+            ? 'Hide detailed votes'
+            : 'Show detailed councillor votes'}
           {isExpanded ? (
             <ChevronUpIcon className="w-4 h-4" />
           ) : (
