@@ -211,9 +211,9 @@ export function FullPageAgendaItemCard({
         </>
       )}
 
-      {item.agendaItemRecommendation && (
-        <h4 className="mt-4 font-bold">Summary</h4>
-      )}
+      {(item.agendaItemRecommendation ||
+        item.decisionRecommendations ||
+        item.decisionAdvice) && <h4 className="mt-4 font-bold">Summary</h4>}
       <div
         className="mt-2"
         dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
