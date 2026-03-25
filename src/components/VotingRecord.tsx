@@ -27,20 +27,30 @@ const VoteIcon = ({
   switch (value?.toLowerCase()) {
     case 'yes':
       return (
-        <ThumbsUpIcon className={cn('w-4 h-4 text-green-600', className)} />
+        <ThumbsUpIcon
+          className={cn('w-4 h-4 text-green-600', className)}
+          aria-label="Yes"
+        />
       );
     case 'no':
       return (
-        <ThumbsDownIcon className={cn('w-4 h-4 text-red-600', className)} />
+        <ThumbsDownIcon
+          className={cn('w-4 h-4 text-red-600', className)}
+          aria-label="No"
+        />
       );
     case 'absent':
       return (
-        <CircleMinusIcon className={cn('w-4 h-4 text-gray-400', className)} />
+        <CircleMinusIcon
+          className={cn('w-4 h-4 text-gray-400', className)}
+          aria-label="Absent"
+        />
       );
     default:
       return (
         <CircleDotDashedIcon
           className={cn('w-4 h-4 text-gray-400', className)}
+          aria-label="Unknown"
         />
       );
   }
@@ -83,7 +93,7 @@ export const VotingRecord = ({ motions }: VotingRecordProps) => {
         {groups.map((group, groupIdx) => (
           <div key={`${group.committeeName}-${groupIdx}`}>
             <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-bold mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-700">
-              <MapPinIcon className="w-4 h-4" />
+              <MapPinIcon className="w-4 h-4" aria-hidden="true" />
               <span>{group.committeeName}</span>
             </div>
             <div className="space-y-4">
@@ -128,7 +138,7 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-1.5 text-neutral-500 text-xs mb-1.5">
-              <CalendarIcon className="w-3.5 h-3.5" />
+              <CalendarIcon className="w-3.5 h-3.5" aria-hidden="true" />
               <span>{motion.dateTime}</span>
             </div>
             <div className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">
@@ -161,15 +171,18 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
       <div className="p-4">
         <div className="flex flex-wrap gap-x-8 gap-y-4 text-sm mb-4">
           <div className="flex items-center gap-2">
-            <ThumbsUpIcon className="w-4 h-4 text-green-600" />
+            <ThumbsUpIcon className="w-4 h-4 text-green-600" aria-hidden="true" />
             <span className="font-semibold">{yesVotes.length} Yes</span>
           </div>
           <div className="flex items-center gap-2">
-            <ThumbsDownIcon className="w-4 h-4 text-red-600" />
+            <ThumbsDownIcon className="w-4 h-4 text-red-600" aria-hidden="true" />
             <span className="font-semibold">{noVotes.length} No</span>
           </div>
           <div className="flex items-center gap-2">
-            <CircleMinusIcon className="w-4 h-4 text-gray-400" />
+            <CircleMinusIcon
+              className="w-4 h-4 text-gray-400"
+              aria-hidden="true"
+            />
             <span className="font-semibold">{absentVotes.length} Absent</span>
           </div>
         </div>
@@ -184,9 +197,9 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
             ? 'Hide detailed votes'
             : 'Show detailed councillor votes'}
           {isExpanded ? (
-            <ChevronUpIcon className="w-4 h-4" />
+            <ChevronUpIcon className="w-4 h-4" aria-hidden="true" />
           ) : (
-            <ChevronDownIcon className="w-4 h-4" />
+            <ChevronDownIcon className="w-4 h-4" aria-hidden="true" />
           )}
         </Button>
 
