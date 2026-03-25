@@ -215,7 +215,14 @@ export function FullPageAgendaItemCard({
 
       {(item.agendaItemRecommendation ||
         item.decisionRecommendations ||
-        item.decisionAdvice) && <h4 className="mt-4 font-bold">Summary</h4>}
+        item.decisionAdvice) && (
+        <>
+          {(item.decisionRecommendations || item.decisionAdvice) && (
+            <hr className="my-8 border-t border-neutral-100 dark:border-neutral-600" />
+          )}
+          <h4 className="mt-4 font-bold">Summary</h4>
+        </>
+      )}
       <div
         className="mt-2"
         dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
