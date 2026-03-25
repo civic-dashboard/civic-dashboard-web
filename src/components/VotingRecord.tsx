@@ -171,11 +171,17 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
       <div className="p-4">
         <div className="flex flex-wrap gap-x-8 gap-y-4 text-sm mb-4">
           <div className="flex items-center gap-2">
-            <ThumbsUpIcon className="w-4 h-4 text-green-600" aria-hidden="true" />
+            <ThumbsUpIcon
+              className="w-4 h-4 text-green-600"
+              aria-hidden="true"
+            />
             <span className="font-semibold">{yesVotes.length} Yes</span>
           </div>
           <div className="flex items-center gap-2">
-            <ThumbsDownIcon className="w-4 h-4 text-red-600" aria-hidden="true" />
+            <ThumbsDownIcon
+              className="w-4 h-4 text-red-600"
+              aria-hidden="true"
+            />
             <span className="font-semibold">{noVotes.length} No</span>
           </div>
           <div className="flex items-center gap-2">
