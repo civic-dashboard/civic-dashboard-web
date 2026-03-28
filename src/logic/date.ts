@@ -5,17 +5,30 @@
  * This is important because the TMMIS database stores meeting dates as
  * timestamps corresponding to midnight in Toronto.
  */
+
+const torontoDateFormatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'America/Toronto',
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+});
+
+const torontoDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'America/Toronto',
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  hour12: false,
+});
+
 export const getStartOfToday = () => {
   const now = new Date();
 
   // Get the current calendar date in Toronto
-  const formatter = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Toronto',
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  });
-  const parts = formatter.formatToParts(now);
+  const parts = torontoDateFormatter.formatToParts(now);
   const y = Number(parts.find((p) => p.type === 'year')!.value);
   const m = Number(parts.find((p) => p.type === 'month')!.value);
   const d = Number(parts.find((p) => p.type === 'day')!.value);
@@ -23,16 +36,7 @@ export const getStartOfToday = () => {
   // We want to find the UTC timestamp that corresponds to 00:00:00 on this day in Toronto.
   // We do this by calculating the offset between UTC and Toronto at UTC midnight of that day.
   const utcMidnight = new Date(Date.UTC(y, m - 1, d));
-  const torontoParts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Toronto',
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    hour12: false,
-  }).formatToParts(utcMidnight);
+  const torontoParts = torontoDateTimeFormatter.formatToParts(utcMidnight);
 
   const ty = Number(torontoParts.find((p) => p.type === 'year')!.value);
   const tm = Number(torontoParts.find((p) => p.type === 'month')!.value);

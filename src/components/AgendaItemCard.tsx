@@ -30,6 +30,13 @@ import React from 'react';
 
 import { getStartOfToday } from '@/logic/date';
 
+const cardDateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  year: 'numeric',
+  day: 'numeric',
+  timeZone: 'America/Toronto',
+});
+
 function itemDateIsAfterToday(dateNumber: number): boolean {
   const today = getStartOfToday();
 
@@ -49,6 +56,7 @@ function DisplayTag({ tag, id }: { tag: string; id: number }) {
         <Chip
           className="hover:border-gray-400 hover:underline text-sm"
           variant="outline"
+          key={'chip' + id}
         >
           {tag.toLowerCase()}
         </Chip>
@@ -72,13 +80,8 @@ function AgendaItemCard({
   externalLink,
   children,
 }: AgendaItemCardProps) {
-  const formattedDate = new Date(item.meetingDate)
-    .toLocaleString('en-US', {
-      month: 'short',
-      year: 'numeric',
-      day: 'numeric',
-      timeZone: 'America/Toronto',
-    })
+  const formattedDate = cardDateFormatter
+    .format(new Date(item.meetingDate))
     .replace(',', '');
 
   return (
