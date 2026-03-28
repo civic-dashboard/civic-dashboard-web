@@ -21,7 +21,7 @@ const torontoDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric',
-  hour12: false,
+  hourCycle: 'h23',
 });
 
 export const getStartOfToday = () => {
@@ -44,11 +44,8 @@ export const getStartOfToday = () => {
   const th = Number(torontoParts.find((p) => p.type === 'hour')!.value);
   const tmin = Number(torontoParts.find((p) => p.type === 'minute')!.value);
 
-  // Normalize hour (some environments return 24 instead of 0)
-  const hour = th === 24 ? 0 : th;
-
   // Calculate the offset in minutes
-  let diffMinutes = hour * 60 + tmin;
+  let diffMinutes = th * 60 + tmin;
   if (ty !== y || tm !== m || td !== d) {
     // If Toronto is on the previous day relative to UTC midnight, it's behind
     diffMinutes -= 24 * 60;
