@@ -28,12 +28,19 @@ import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpe
 import { allTags } from '@/constants/tags';
 import React from 'react';
 
+import { getStartOfToday } from '@/logic/date';
+
+const cardDateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  year: 'numeric',
+  day: 'numeric',
+  timeZone: 'America/Toronto',
+});
+
 function itemDateIsAfterToday(dateNumber: number): boolean {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Reset to midnight
+  const today = getStartOfToday();
 
   const date = new Date(dateNumber);
-  date.setHours(0, 0, 0, 0);
 
   return date >= today;
 }
@@ -66,12 +73,8 @@ function AgendaItemCard({
   externalLink,
   children,
 }: AgendaItemCardProps) {
-  const formattedDate = new Date(item.meetingDate)
-    .toLocaleString('default', {
-      month: 'short',
-      year: 'numeric',
-      day: 'numeric',
-    })
+  const formattedDate = cardDateFormatter
+    .format(new Date(item.meetingDate))
     .replace(',', '');
 
   return (
