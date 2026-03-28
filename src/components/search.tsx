@@ -109,14 +109,15 @@ export function DecisionBodyFilter({
   );
 }
 
+import { getStartOfToday } from '@/logic/date';
+
 export function UpcomingPastToggle() {
   type TimeRangeType = 'upcoming' | 'past';
   const { setSearchOptions } = useSearch();
   const updateItemsType = useCallback(
     (selectedRange: TimeRangeType) => {
       const isPast = selectedRange === 'past';
-      const startOfToday = new Date();
-      startOfToday.setHours(0, 0, 0, 0);
+      const startOfToday = getStartOfToday();
 
       setSearchOptions((opts) => ({
         ...opts,
