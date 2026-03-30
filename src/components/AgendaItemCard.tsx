@@ -27,6 +27,7 @@ import { SubmitCommentModal } from '@/components/deputation-modals/SubmitComment
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 import { allTags } from '@/constants/tags';
 import React from 'react';
+import { sentenceCase } from '@/logic/strings';
 
 function itemDateIsAfterToday(dateNumber: number): boolean {
   const today = new Date();
@@ -181,15 +182,53 @@ export function FullPageAgendaItemCard({
       )}
     >
       <CardTitle className="text-lg">{item.agendaItemTitle}</CardTitle>
-      {item.agendaItemRecommendation && (
-        <h4 className="mt-4 font-bold">Summary</h4>
+      {item.itemStatus &&
+        item.itemStatus !== 'NO_ACTN' &&
+        item.itemStatus !== 'WO_RECS' && (
+          <div className="mt-2">
+            <span className="font-bold">Status:</span>{' '}
+            {sentenceCase(item.itemStatus)}
+          </div>
+        )}
+
+      {item.decisionRecommendations && (
+        <>
+          <h4 className="mt-4 font-bold">Decision</h4>
+          <div
+            className="mt-2"
+            dangerouslySetInnerHTML={{ __html: item.decisionRecommendations }}
+          />
+        </>
+      )}
+
+      {item.decisionAdvice && (
+        <>
+          <h4 className="mt-4 font-bold">
+            Decision Advice and Other Information
+          </h4>
+          <div
+            className="mt-2"
+            dangerouslySetInnerHTML={{ __html: item.decisionAdvice }}
+          />
+        </>
+      )}
+
+      {(item.agendaItemRecommendation ||
+        item.decisionRecommendations ||
+        item.decisionAdvice) && (
+        <>
+          {(item.decisionRecommendations || item.decisionAdvice) && (
+            <hr className="my-8 border-t border-neutral-100 dark:border-neutral-600" />
+          )}
+          <h4 className="mt-4 font-bold">Summary</h4>
+        </>
       )}
       <div
         className="mt-2"
         dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
       />
 
-      {item.agendaItemRecommendation && (
+      {item.agendaItemRecommendation && !item.decisionRecommendations && (
         <>
           <h4 className="mt-4 font-bold">Recommendations</h4>
           <div
@@ -326,6 +365,15 @@ export function SearchResultAgendaItemCard({
           <div className="overflow-y-auto max-h-full">
             <HighlightChildren terms={textQuery}>
               <CardTitle>{item.agendaItemTitle}</CardTitle>
+              {item.itemStatus &&
+                item.itemStatus !== 'NO_ACTN' &&
+                item.itemStatus !== 'WO_RECS' &&
+                !isMeetingUpcomingOrToday && (
+                  <div className="mt-2">
+                    <span className="font-bold">Status:</span>{' '}
+                    {sentenceCase(item.itemStatus)}
+                  </div>
+                )}
               <div
                 className="mt-2"
                 dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
