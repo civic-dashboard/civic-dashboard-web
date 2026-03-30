@@ -156,6 +156,35 @@ export const insertAgendaItemSubjectTerms = async (
   });
 };
 
+export const updateAgendaItemCategories = async (
+  db: Kysely<DB>,
+  agendaItemIds?: number[],
+): Promise<number> => {
+  if (agendaItemIds && agendaItemIds.length === 0) {
+    return 0;
+  }
+
+  const result = await db
+    .insertInto('AgendaItemCategories')
+    .expression((eb) => {
+      let query = eb
+        .selectFrom('AgendaItemSubjectTerms as atst')
+        .innerJoin('TagCategories as tc', 'atst.subjectTermSlug', 'tc.tagSlug')
+        .select(['atst.agendaItemId', 'tc.category'])
+        .distinct();
+
+      if (agendaItemIds) {
+        query = query.where('atst.agendaItemId', 'in', agendaItemIds);
+      }
+
+      return query;
+    })
+    .onConflict((oc) => oc.columns(['agendaItemId', 'category']).doNothing())
+    .executeTakeFirst();
+
+  return Number(result?.numInsertedOrUpdatedRows ?? 0);
+};
+
 export function normalizeSubjectTerms(
   agendaItems: TMMISAgendaItem[] | AgendaItemForSubjectTerm[],
 ): AgendaItemSubjectTerm[] {
@@ -176,11 +205,9 @@ export function normalizeSubjectTerms(
 }
 
 export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
-  const deleteResult = await db
-    .deleteFrom('AgendaItemSubjectTerms')
-    .executeTakeFirst();
-  const deletedRows = deleteResult.numDeletedRows || 0;
-  console.log(`Deleted ${deletedRows} rows from AgendaItemSubjectTerms.`);
+  await sql`truncate table "AgendaItemCategories"`.execute(db);
+  await sql`truncate table "AgendaItemSubjectTerms"`.execute(db);
+  console.log('Truncated AgendaItemCategories and AgendaItemSubjectTerms.');
 
   // Fetch agenda items and process by batchSize sequentially
   let offset = 0;
@@ -207,8 +234,12 @@ export const processAgendaItemSubjectTerms = async (db: Kysely<DB>) => {
         db,
         normalizedSubjectTerms,
       );
+      const categoriesCount = await updateAgendaItemCategories(
+        db,
+        agendaItemRecords.map((r) => r.agendaItemId),
+      );
       console.log(
-        `Processed and inserted ${rowsInserted} subject terms for agenda items.`,
+        `Processed and inserted ${rowsInserted} subject terms and mapped ${categoriesCount} categories for agenda items.`,
       );
     } else {
       console.log('No subject terms to process for agenda items.');

@@ -2,6 +2,7 @@ import { fetchAgendaItems } from '@/api/agendaItem';
 import {
   insertAgendaItems,
   insertAgendaItemSubjectTerms,
+  updateAgendaItemCategories,
 } from '@/database/queries/agendaItems';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
@@ -28,7 +29,15 @@ export const populateAgendaItems = async (
       console.log(
         `${normalizedSubjectTerms.length} normalized subject terms found`,
       );
-      await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
+      if (normalizedSubjectTerms.length > 0) {
+        await insertAgendaItemSubjectTerms(db, normalizedSubjectTerms);
+        //It only updates the categories for the specific agendaItemIds that were just fetched and inserted in that batch
+        const categoriesCount = await updateAgendaItemCategories(
+          db,
+          agendaItems.map((item) => item.agendaItemId),
+        );
+        console.log(`Updated ${categoriesCount} categories`);
+      }
     }
     console.log('inserted:', insertedCount);
 
