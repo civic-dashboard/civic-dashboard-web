@@ -9,6 +9,8 @@ const CONFIG = {
   inputDir: './contents/markdown',
   outputDir: './public/html',
   templatePath: './src/scripts/template.html',
+  mediaInputDir: './contents/media',
+  mediaOutputDir: './public/html/media',
 };
 
 // HTML template (used if no template file exists)
@@ -30,6 +32,10 @@ const DEFAULT_TEMPLATE = `<!DOCTYPE html>
         pre { background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; }
         code { background: #f0f0f0; padding: 0.2rem 0.4rem; border-radius: 3px; }
         blockquote { border-left: 4px solid #ddd; margin: 0; padding-left: 1rem; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        video { max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0; }
+        a[href$=".pdf"]::after { content: " 📄"; }
+        a[href$=".mp4"]::after, a[href$=".webm"]::after { content: " 🎥"; }
     </style>
 </head>
 <body>
@@ -46,11 +52,54 @@ marked.setOptions({
   sanitize: false,
 });
 
+// Custom image renderer: add loading="lazy" for local media/ paths
+marked.use({
+  renderer: {
+    image(href, title, text) {
+      if (href.startsWith('media/')) {
+        const escapedText = text ? text.replace(/"/g, '&quot;') : '';
+        const titleAttr = title
+          ? ` title="${title.replace(/"/g, '&quot;')}"`
+          : '';
+        return `<img src="/html/${href}" alt="${escapedText}"${titleAttr} loading="lazy">`;
+      }
+      return false; // use default renderer for external URLs
+    },
+  },
+});
+
 function ensureDirectoryExists(dirPath) {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });
     console.log(`Created directory: ${dirPath}`);
   }
+}
+
+function copyMediaFiles() {
+  if (!fs.existsSync(CONFIG.mediaInputDir)) {
+    console.log('⚠️  No media directory found, skipping media copy');
+    return;
+  }
+
+  ensureDirectoryExists(CONFIG.mediaOutputDir);
+
+  function copyDirectory(src, dest) {
+    ensureDirectoryExists(dest);
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+      const srcPath = path.join(src, entry.name);
+      const destPath = path.join(dest, entry.name);
+      if (entry.isDirectory()) {
+        copyDirectory(srcPath, destPath);
+      } else {
+        fs.copyFileSync(srcPath, destPath);
+        console.log(`📎 Copied media: ${entry.name}`);
+      }
+    }
+  }
+
+  copyDirectory(CONFIG.mediaInputDir, CONFIG.mediaOutputDir);
+  console.log('✅ Media files copied successfully');
 }
 
 function extractTitle(content) {
@@ -168,6 +217,9 @@ function main() {
 
   // Ensure output directory exists
   ensureDirectoryExists(CONFIG.outputDir);
+
+  // Copy media files (images, videos, documents) to output
+  copyMediaFiles();
 
   // Load template
   const template = loadTemplate();
