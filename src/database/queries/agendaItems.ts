@@ -231,6 +231,76 @@ export const getAgendaItemByReference = async (
   return agendaItem ? cleanAgendaItem(agendaItem) : undefined;
 };
 
+export type VoteWithContact = {
+  contactName: string;
+  contactSlug: string;
+  photoUrl: string | null;
+  value: string;
+};
+
+export type MotionWithVotes = {
+  motionId: string;
+  motionType: string;
+  voteDescription: string;
+  dateTime: string;
+  result: string;
+  resultKind: string;
+  yesVotes: number;
+  noVotes: number;
+  committeeName: string;
+  votes: VoteWithContact[];
+};
+
+export const getMotionsWithVotesByReference = async (
+  db: Kysely<DB>,
+  reference: string,
+): Promise<MotionWithVotes[]> => {
+  const motions = await db
+    .selectFrom('Motions')
+    .innerJoin(
+      'Committees',
+      'Committees.committeeSlug',
+      'Motions.committeeSlug',
+    )
+    .select([
+      'Motions.motionId',
+      'Motions.motionType',
+      'Motions.voteDescription',
+      'Motions.dateTime',
+      'Motions.result',
+      'Motions.resultKind',
+      'Motions.yesVotes',
+      'Motions.noVotes',
+      'Committees.committeeName',
+    ])
+    .where('Motions.agendaItemNumber', '=', reference)
+    .orderBy('Motions.dateTime', 'desc')
+    .execute();
+
+  if (motions.length === 0) {
+    return [];
+  }
+
+  const allVotes = await db
+    .selectFrom('Votes')
+    .innerJoin('Contacts', 'Contacts.contactSlug', 'Votes.contactSlug')
+    .select([
+      'Votes.motionId',
+      'Contacts.contactName',
+      'Contacts.contactSlug',
+      'Contacts.photoUrl',
+      'Votes.value',
+    ])
+    .where('Votes.agendaItemNumber', '=', reference)
+    .orderBy('Contacts.contactName', 'asc')
+    .execute();
+
+  return motions.map((motion) => ({
+    ...motion,
+    votes: allVotes.filter((vote) => vote.motionId === motion.motionId),
+  }));
+};
+
 type SearchAgendaItemArgs = {
   options: SearchOptions;
   pagination: SearchPagination;
