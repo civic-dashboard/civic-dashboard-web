@@ -8,6 +8,7 @@ import { allTags, Tag, TagEnum } from '@/constants/tags';
 import { useSearch } from '@/contexts/SearchContext';
 import { logAnalytics } from '@/api/analytics';
 import { sortByFilterOptions } from '@/constants/sortByFilterOptions';
+import { getStartOfToday } from '@/logic/date';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
@@ -115,8 +116,7 @@ export function UpcomingPastToggle() {
   const updateItemsType = useCallback(
     (selectedRange: TimeRangeType) => {
       const isPast = selectedRange === 'past';
-      const startOfToday = new Date();
-      startOfToday.setHours(0, 0, 0, 0);
+      const startOfToday = getStartOfToday();
 
       setSearchOptions((opts) => ({
         ...opts,
