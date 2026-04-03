@@ -12,13 +12,13 @@ type SharedBioInfo = {
 };
 
 type CouncillorBioInfo = SharedBioInfo & {
-  role: 'councillor';
+  role: 'Councillor';
   wardName: string;
   wardId: string;
 };
 
 type MayorBioInfo = SharedBioInfo & {
-  role: 'mayor';
+  role: 'Mayor';
 };
 
 export default function ContactBio({
@@ -33,7 +33,7 @@ export default function ContactBio({
   let wardURL = '';
   let councillorProfileURL = '';
 
-  if (contact.role === 'councillor') {
+  if (contact.role === 'Councillor') {
     wardURL = `https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/ward-profiles/ward-${contact.wardId}-${contact.wardName}`;
     councillorProfileURL = `https://www.toronto.ca/city-government/council/members-of-council/councillor-ward-${contact.wardId}`;
   }
@@ -59,7 +59,7 @@ export default function ContactBio({
 
         <div>
           <h1 className="text-3xl font-bold mb-2">{contact.contactName}</h1>
-          {contact.role === 'councillor' && (
+          {contact.role === 'Councillor' && (
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               <ExternalLink
                 href={councillorProfileURL}
@@ -69,14 +69,14 @@ export default function ContactBio({
               </ExternalLink>
             </p>
           )}
-          {contact.role === 'councillor' && (
+          {contact.role === 'Councillor' && (
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               <ExternalLink href={wardURL} className="classic-link">
                 Ward {contact.wardId}, {contact.wardName}
               </ExternalLink>
             </p>
           )}
-          {contact.role === 'mayor' && (
+          {contact.role === 'Mayor' && (
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               <ExternalLink
                 href="https://www.toronto.ca/city-government/council/office-of-the-mayor/"
@@ -86,7 +86,7 @@ export default function ContactBio({
               </ExternalLink>
             </p>
           )}
-          {contact.role === 'mayor' && <p>Mayor of Toronto</p>}
+          {contact.role === 'Mayor' && <p>Mayor of Toronto</p>}
 
           <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
             <dt className="font-bold">Email</dt>
@@ -118,14 +118,14 @@ export default function ContactBio({
 
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-4">
-          {contact.role === 'mayor' ? 'Mayor' : 'Councillor'} Voting Record
+          {contact.role === 'Mayor' ? 'Mayor' : 'Councillor'} Voting Record
         </h2>
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
           Here are all the past agenda items that the{' '}
-          {contact.role === 'mayor' ? 'mayor' : 'councillor'} has voted on
+          {contact.role === 'Mayor' ? 'mayor' : 'councillor'} has voted on
           during the current city council session. For each item, you may find
           the item date, a link to the item, an item description, the{' '}
-          {contact.role === 'mayor' ? "mayor's" : "councillor's"} vote on the
+          {contact.role === 'Mayor' ? "mayor's" : "councillor's"} vote on the
           item, the decision body voting on the item, the result of the vote
           (yes - no), and status of the item. Please note that there may be
           multiple votes on one item, such as in the case of proposed

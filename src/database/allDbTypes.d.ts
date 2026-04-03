@@ -71,7 +71,7 @@ export type CouncilMember = {
   role: 'Mayor' | 'Councillor';
   wardSlug: string | null;
   wardName: string | null;
-  wardId: number | null;
+  wardId: string | null;
 };
 
 export type DB = generated.DB & {
