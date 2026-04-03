@@ -66,7 +66,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
           <span className="font-bold">{firstMotion.committeeName}</span>
         </CardContent>
 
-        <CardContent className="flex-grow">
+        <CardContent className="flex-grow pb-0">
           <div className="relative max-h-[250px] overflow-hidden">
             <div
               className="absolute inset-0 h-[100px] top-[150px] bg-gradient-to-t from-white dark:from-neutral-800 from-1% via-transparent to-transparent pointer-events-none"

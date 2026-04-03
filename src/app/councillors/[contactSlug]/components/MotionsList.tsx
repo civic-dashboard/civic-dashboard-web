@@ -76,7 +76,7 @@ export const MotionsList = ({ motions }: MotionsListProps) => {
         </div>
       ))}
       {needsPreviewToggle && (
-        <div className="border-t p-2 flex items-center justify-center">
+        <div className="border-t pt-1 pb-0 flex items-center justify-center">
           <Button variant="link" onClick={() => setShowAll(!showAll)}>
             {showAll
               ? 'Show less'
