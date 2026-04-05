@@ -864,10 +864,10 @@
     "tagSlug": "airports"
   },
   {
-    "tagRaw": "airs",
+    "tagRaw": "airs rinks",
     "category": "arts",
-    "tagNormalized": "airs",
-    "tagSlug": "airs"
+    "tagNormalized": "airs rinks",
+    "tagSlug": "airs-rinks"
   },
   {
     "tagRaw": "alcohol abuse",
@@ -1194,10 +1194,10 @@
     "tagSlug": "appearing-before-council"
   },
   {
-    "tagRaw": "appliances",
+    "tagRaw": "appliances waste",
     "category": "noise",
-    "tagNormalized": "appliances",
-    "tagSlug": "appliances"
+    "tagNormalized": "appliances waste",
+    "tagSlug": "appliances-waste"
   },
   {
     "tagRaw": "application process",
@@ -1314,6 +1314,18 @@
     "tagSlug": "archives"
   },
   {
+    "tagRaw": "archives facilities",
+    "category": "infrastructure",
+    "tagNormalized": "archives facilities",
+    "tagSlug": "archives-facilities"
+  },
+  {
+    "tagRaw": "archives records",
+    "category": "cost of living",
+    "tagNormalized": "archives records",
+    "tagSlug": "archives-records"
+  },
+  {
     "tagRaw": "arenas",
     "category": "cost of living",
     "tagNormalized": "arenas",
@@ -1326,10 +1338,10 @@
     "tagSlug": "arrears"
   },
   {
-    "tagRaw": "arrows",
+    "tagRaw": "arrows markings",
     "category": "arts",
-    "tagNormalized": "arrows",
-    "tagSlug": "arrows"
+    "tagNormalized": "arrows markings",
+    "tagSlug": "arrows-markings"
   },
   {
     "tagRaw": "art centres",
@@ -1362,10 +1374,10 @@
     "tagSlug": "art-facilities"
   },
   {
-    "tagRaw": "art galleries",
+    "tagRaw": "art galleries facilities",
     "category": "arts",
-    "tagNormalized": "art galleries",
-    "tagSlug": "art-galleries"
+    "tagNormalized": "art galleries facilities",
+    "tagSlug": "art-galleries-facilities"
   },
   {
     "tagRaw": "art organizations",
@@ -1806,10 +1818,10 @@
     "tagSlug": "bacteria"
   },
   {
-    "tagRaw": "bacteria levels",
+    "tagRaw": "bacteria levels beach water",
     "category": "safety",
-    "tagNormalized": "bacteria levels",
-    "tagSlug": "bacteria-levels"
+    "tagNormalized": "bacteria levels beach water",
+    "tagSlug": "bacteria-levels-beach-water"
   },
   {
     "tagRaw": "bad smell",
@@ -1878,16 +1890,22 @@
     "tagSlug": "bankruptcy-sales"
   },
   {
-    "tagRaw": "banners",
+    "tagRaw": "banners vertical",
     "category": "business",
-    "tagNormalized": "banners",
-    "tagSlug": "banners"
+    "tagNormalized": "banners vertical",
+    "tagSlug": "banners-vertical"
   },
   {
     "tagRaw": "barbecues",
     "category": "energy",
     "tagNormalized": "barbecues",
     "tagSlug": "barbecues"
+  },
+  {
+    "tagRaw": "barbecues waste",
+    "category": "noise",
+    "tagNormalized": "barbecues waste",
+    "tagSlug": "barbecues-waste"
   },
   {
     "tagRaw": "barbeque pits",
@@ -1902,6 +1920,12 @@
     "tagSlug": "barbeques"
   },
   {
+    "tagRaw": "barbeques waste",
+    "category": "noise",
+    "tagNormalized": "barbeques waste",
+    "tagSlug": "barbeques-waste"
+  },
+  {
     "tagRaw": "Barnes dance",
     "category": "arts",
     "tagNormalized": "Barnes dance",
@@ -1914,9 +1938,9 @@
     "tagSlug": "barrier-free-design"
   },
   {
-    "tagRaw": "barriers (roads",
+    "tagRaw": "barriers roads",
     "category": "infrastructure",
-    "tagNormalized": "barriers (roads",
+    "tagNormalized": "barriers roads",
     "tagSlug": "barriers-roads"
   },
   {
@@ -2004,10 +2028,10 @@
     "tagSlug": "bats"
   },
   {
-    "tagRaw": "batteries",
+    "tagRaw": "batteries used",
     "category": "energy",
-    "tagNormalized": "batteries",
-    "tagSlug": "batteries"
+    "tagNormalized": "batteries used",
+    "tagSlug": "batteries-used"
   },
   {
     "tagRaw": "bazaars",
@@ -2142,10 +2166,10 @@
     "tagSlug": "bench-advertising"
   },
   {
-    "tagRaw": "benches",
+    "tagRaw": "benches street furniture",
     "category": "safety",
-    "tagNormalized": "benches",
-    "tagSlug": "benches"
+    "tagNormalized": "benches street furniture",
+    "tagSlug": "benches-street-furniture"
   },
   {
     "tagRaw": "benefits",
@@ -2302,6 +2326,12 @@
     "category": "bikes",
     "tagNormalized": "bicycles",
     "tagSlug": "bicycles"
+  },
+  {
+    "tagRaw": "bicycles abandoned",
+    "category": "bikes",
+    "tagNormalized": "bicycles abandoned",
+    "tagSlug": "bicycles-abandoned"
   },
   {
     "tagRaw": "bicycling",
@@ -2946,10 +2976,10 @@
     "tagSlug": "boulevard-parking"
   },
   {
-    "tagRaw": "boulevard patios",
+    "tagRaw": "boulevard patios restaurants",
     "category": "business",
-    "tagNormalized": "boulevard patios",
-    "tagSlug": "boulevard-patios"
+    "tagNormalized": "boulevard patios restaurants",
+    "tagSlug": "boulevard-patios-restaurants"
   },
   {
     "tagRaw": "boulevard permits",
@@ -3282,16 +3312,16 @@
     "tagSlug": "buildings-by-height"
   },
   {
-    "tagRaw": "bulky items",
+    "tagRaw": "bulky items waste",
     "category": "bikes",
-    "tagNormalized": "bulky items",
-    "tagSlug": "bulky-items"
+    "tagNormalized": "bulky items waste",
+    "tagSlug": "bulky-items-waste"
   },
   {
-    "tagRaw": "bulky plastics",
+    "tagRaw": "bulky plastics waste",
     "category": "transit",
-    "tagNormalized": "bulky plastics",
-    "tagSlug": "bulky-plastics"
+    "tagNormalized": "bulky plastics waste",
+    "tagSlug": "bulky-plastics-waste"
   },
   {
     "tagRaw": "burger shops",
@@ -3396,10 +3426,16 @@
     "tagSlug": "buses"
   },
   {
-    "tagRaw": "business & industry",
+    "tagRaw": "buses motorcoaches",
+    "category": "transit",
+    "tagNormalized": "buses motorcoaches",
+    "tagSlug": "buses-motorcoaches"
+  },
+  {
+    "tagRaw": "business & industry sc",
     "category": "business",
-    "tagNormalized": "business & industry",
-    "tagSlug": "business-industry"
+    "tagNormalized": "business & industry sc",
+    "tagSlug": "business-and-industry-sc"
   },
   {
     "tagRaw": "business associations",
@@ -3504,10 +3540,10 @@
     "tagSlug": "business-start-up"
   },
   {
-    "tagRaw": "business travel",
+    "tagRaw": "business travel municipal",
     "category": "business",
-    "tagNormalized": "business travel",
-    "tagSlug": "business-travel"
+    "tagNormalized": "business travel municipal",
+    "tagSlug": "business-travel-municipal"
   },
   {
     "tagRaw": "businesses",
@@ -3858,9 +3894,9 @@
     "tagSlug": "carparks"
   },
   {
-    "tagRaw": "carpeting (waste",
+    "tagRaw": "carpeting waste",
     "category": "transit",
-    "tagNormalized": "carpeting (waste",
+    "tagNormalized": "carpeting waste",
     "tagSlug": "carpeting-waste"
   },
   {
@@ -3882,16 +3918,22 @@
     "tagSlug": "carrier-enforcement"
   },
   {
-    "tagRaw": "carriers",
+    "tagRaw": "carriers transportation",
     "category": "transit",
-    "tagNormalized": "carriers",
-    "tagSlug": "carriers"
+    "tagNormalized": "carriers transportation",
+    "tagSlug": "carriers-transportation"
   },
   {
     "tagRaw": "cars",
     "category": "traffic",
     "tagNormalized": "cars",
     "tagSlug": "cars"
+  },
+  {
+    "tagRaw": "cars discarded",
+    "category": "transit",
+    "tagNormalized": "cars discarded",
+    "tagSlug": "cars-discarded"
   },
   {
     "tagRaw": "case law",
@@ -3990,9 +4032,9 @@
     "tagSlug": "cats"
   },
   {
-    "tagRaw": "cats (feral",
+    "tagRaw": "cats feral",
     "category": "transit",
-    "tagNormalized": "cats (feral",
+    "tagNormalized": "cats feral",
     "tagSlug": "cats-feral"
   },
   {
@@ -4006,6 +4048,12 @@
     "category": "noise",
     "tagNormalized": "cell phones",
     "tagSlug": "cell-phones"
+  },
+  {
+    "tagRaw": "cell phones used",
+    "category": "noise",
+    "tagNormalized": "cell phones used",
+    "tagSlug": "cell-phones-used"
   },
   {
     "tagRaw": "cell towers",
@@ -4050,10 +4098,10 @@
     "tagSlug": "census-metropolitan-areas"
   },
   {
-    "tagRaw": "centre lines",
+    "tagRaw": "centre lines pavement markings",
     "category": "infrastructure",
-    "tagNormalized": "centre lines",
-    "tagSlug": "centre-lines"
+    "tagNormalized": "centre lines pavement markings",
+    "tagSlug": "centre-lines-pavement-markings"
   },
   {
     "tagRaw": "Centres",
@@ -4206,10 +4254,10 @@
     "tagSlug": "chess-leagues"
   },
   {
-    "tagRaw": "chicanes",
+    "tagRaw": "chicanes traffic calming",
     "category": "traffic",
-    "tagNormalized": "chicanes",
-    "tagSlug": "chicanes"
+    "tagNormalized": "chicanes traffic calming",
+    "tagSlug": "chicanes-traffic-calming"
   },
   {
     "tagRaw": "chickens",
@@ -4350,16 +4398,16 @@
     "tagSlug": "chlorine"
   },
   {
-    "tagRaw": "chokers",
+    "tagRaw": "chokers traffic calming",
     "category": "safety",
-    "tagNormalized": "chokers",
-    "tagSlug": "chokers"
+    "tagNormalized": "chokers traffic calming",
+    "tagSlug": "chokers-traffic-calming"
   },
   {
-    "tagRaw": "Christmas trees",
+    "tagRaw": "Christmas trees waste",
     "category": "transit",
-    "tagNormalized": "Christmas trees",
-    "tagSlug": "christmas-trees"
+    "tagNormalized": "Christmas trees waste",
+    "tagSlug": "christmas-trees-waste"
   },
   {
     "tagRaw": "churches",
@@ -4380,22 +4428,22 @@
     "tagSlug": "cinema-industry"
   },
   {
-    "tagRaw": "cinemas",
+    "tagRaw": "cinemas location",
     "category": "business",
-    "tagNormalized": "cinemas",
-    "tagSlug": "cinemas"
+    "tagNormalized": "cinemas location",
+    "tagSlug": "cinemas-location"
   },
   {
-    "tagRaw": "circles",
+    "tagRaw": "circles roads",
     "category": "infrastructure",
-    "tagNormalized": "circles",
-    "tagSlug": "circles"
+    "tagNormalized": "circles roads",
+    "tagSlug": "circles-roads"
   },
   {
-    "tagRaw": "circuits",
+    "tagRaw": "circuits roads",
     "category": "infrastructure",
-    "tagNormalized": "circuits",
-    "tagSlug": "circuits"
+    "tagNormalized": "circuits roads",
+    "tagSlug": "circuits-roads"
   },
   {
     "tagRaw": "circular intersections",
@@ -4707,7 +4755,7 @@
     "tagRaw": "clean & beautiful city",
     "category": "safety",
     "tagNormalized": "clean & beautiful city",
-    "tagSlug": "clean-beautiful-city"
+    "tagSlug": "clean-and-beautiful-city"
   },
   {
     "tagRaw": "clean and beautiful city",
@@ -4776,16 +4824,16 @@
     "tagSlug": "clothes-donation-boxes"
   },
   {
-    "tagRaw": "clothing",
-    "category": "transit",
-    "tagNormalized": "clothing",
-    "tagSlug": "clothing"
-  },
-  {
     "tagRaw": "clothing bins",
     "category": "childcare",
     "tagNormalized": "clothing bins",
     "tagSlug": "clothing-bins"
+  },
+  {
+    "tagRaw": "clothing discarded",
+    "category": "transit",
+    "tagNormalized": "clothing discarded",
+    "tagSlug": "clothing-discarded"
   },
   {
     "tagRaw": "clothing drop boxes",
@@ -4866,10 +4914,16 @@
     "tagSlug": "coach-terminals"
   },
   {
-    "tagRaw": "coaches",
+    "tagRaw": "coaches buses",
     "category": "transit",
-    "tagNormalized": "coaches",
-    "tagSlug": "coaches"
+    "tagNormalized": "coaches buses",
+    "tagSlug": "coaches-buses"
+  },
+  {
+    "tagRaw": "coaches vehicles",
+    "category": "transit",
+    "tagNormalized": "coaches vehicles",
+    "tagSlug": "coaches-vehicles"
   },
   {
     "tagRaw": "coats of arms",
@@ -4926,15 +4980,9 @@
     "tagSlug": "colds"
   },
   {
-    "tagRaw": "collection",
+    "tagRaw": "collection activity",
     "category": "bikes",
-    "tagNormalized": "collection",
-    "tagSlug": "collection"
-  },
-  {
-    "tagRaw": "collection (activity",
-    "category": "bikes",
-    "tagNormalized": "collection (activity",
+    "tagNormalized": "collection activity",
     "tagSlug": "collection-activity"
   },
   {
@@ -5268,10 +5316,10 @@
     "tagSlug": "communications"
   },
   {
-    "tagRaw": "community & life",
+    "tagRaw": "community & life sc",
     "category": "safety",
-    "tagNormalized": "community & life",
-    "tagSlug": "community-life"
+    "tagNormalized": "community & life sc",
+    "tagSlug": "community-and-life-sc"
   },
   {
     "tagRaw": "community advisory councils",
@@ -5604,10 +5652,10 @@
     "tagSlug": "computer-related-equipment"
   },
   {
-    "tagRaw": "computers",
+    "tagRaw": "computers waste",
     "category": "noise",
-    "tagNormalized": "computers",
-    "tagSlug": "computers"
+    "tagNormalized": "computers waste",
+    "tagSlug": "computers-waste"
   },
   {
     "tagRaw": "conception",
@@ -5712,6 +5760,12 @@
     "tagSlug": "conservation"
   },
   {
+    "tagRaw": "conservation archival",
+    "category": "parks",
+    "tagNormalized": "conservation archival",
+    "tagSlug": "conservation-archival"
+  },
+  {
     "tagRaw": "conservation areas",
     "category": "parks",
     "tagNormalized": "conservation areas",
@@ -5730,10 +5784,10 @@
     "tagSlug": "conservation-organizations"
   },
   {
-    "tagRaw": "conservatories",
+    "tagRaw": "conservatories greenhouses",
     "category": "climate",
-    "tagNormalized": "conservatories",
-    "tagSlug": "conservatories"
+    "tagNormalized": "conservatories greenhouses",
+    "tagSlug": "conservatories-greenhouses"
   },
   {
     "tagRaw": "conservators",
@@ -5766,10 +5820,10 @@
     "tagSlug": "construction-noise"
   },
   {
-    "tagRaw": "construction permits",
+    "tagRaw": "construction permits right of way",
     "category": "construction",
-    "tagNormalized": "construction permits",
-    "tagSlug": "construction-permits"
+    "tagNormalized": "construction permits right of way",
+    "tagSlug": "construction-permits-right-of-way"
   },
   {
     "tagRaw": "construction waste",
@@ -5928,10 +5982,10 @@
     "tagSlug": "controlled-intersections"
   },
   {
-    "tagRaw": "controller cabinets",
+    "tagRaw": "controller cabinets traffic",
     "category": "traffic",
-    "tagNormalized": "controller cabinets",
-    "tagSlug": "controller-cabinets"
+    "tagNormalized": "controller cabinets traffic",
+    "tagSlug": "controller-cabinets-traffic"
   },
   {
     "tagRaw": "controller unit",
@@ -5955,13 +6009,13 @@
     "tagRaw": "convention & visitors associations",
     "category": "traffic",
     "tagNormalized": "convention & visitors associations",
-    "tagSlug": "convention-visitors-associations"
+    "tagSlug": "convention-and-visitors-associations"
   },
   {
     "tagRaw": "convention & visitors bureaus",
     "category": "business",
     "tagNormalized": "convention & visitors bureaus",
-    "tagSlug": "convention-visitors-bureaus"
+    "tagSlug": "convention-and-visitors-bureaus"
   },
   {
     "tagRaw": "convention centers",
@@ -6258,6 +6312,12 @@
     "tagSlug": "courts"
   },
   {
+    "tagRaw": "courts roads",
+    "category": "infrastructure",
+    "tagNormalized": "courts roads",
+    "tagSlug": "courts-roads"
+  },
+  {
     "tagRaw": "coyotes",
     "category": "safety",
     "tagNormalized": "coyotes",
@@ -6330,10 +6390,10 @@
     "tagSlug": "creeks"
   },
   {
-    "tagRaw": "crescents",
+    "tagRaw": "crescents roads",
     "category": "construction",
-    "tagNormalized": "crescents",
-    "tagSlug": "crescents"
+    "tagNormalized": "crescents roads",
+    "tagSlug": "crescents-roads"
   },
   {
     "tagRaw": "cricket",
@@ -6492,10 +6552,10 @@
     "tagSlug": "cultural-organizations"
   },
   {
-    "tagRaw": "culture",
+    "tagRaw": "culture sc",
     "category": "arts",
-    "tagNormalized": "culture",
-    "tagSlug": "culture"
+    "tagNormalized": "culture sc",
+    "tagSlug": "culture-sc"
   },
   {
     "tagRaw": "culverts",
@@ -6580,6 +6640,12 @@
     "category": "equity",
     "tagNormalized": "curling clubs",
     "tagSlug": "curling-clubs"
+  },
+  {
+    "tagRaw": "curling clubs facilities",
+    "category": "infrastructure",
+    "tagNormalized": "curling clubs facilities",
+    "tagSlug": "curling-clubs-facilities"
   },
   {
     "tagRaw": "curling rinks",
@@ -6816,10 +6882,10 @@
     "tagSlug": "decision-making"
   },
   {
-    "tagRaw": "decisions",
+    "tagRaw": "decisions council",
     "category": "business",
-    "tagNormalized": "decisions",
-    "tagSlug": "decisions"
+    "tagNormalized": "decisions council",
+    "tagSlug": "decisions-council"
   },
   {
     "tagRaw": "deep lake water cooling system",
@@ -7008,6 +7074,12 @@
     "tagSlug": "designers"
   },
   {
+    "tagRaw": "designers buildings",
+    "category": "construction",
+    "tagNormalized": "designers buildings",
+    "tagSlug": "designers-buildings"
+  },
+  {
     "tagRaw": "destination marketing",
     "category": "business",
     "tagNormalized": "destination marketing",
@@ -7084,6 +7156,12 @@
     "category": "construction",
     "tagNormalized": "development controlled land",
     "tagSlug": "development-controlled-land"
+  },
+  {
+    "tagRaw": "development land",
+    "category": "construction",
+    "tagNormalized": "development land",
+    "tagSlug": "development-land"
   },
   {
     "tagRaw": "development review process",
@@ -7656,10 +7734,10 @@
     "tagSlug": "drivers"
   },
   {
-    "tagRaw": "drives",
+    "tagRaw": "drives roads",
     "category": "traffic",
-    "tagNormalized": "drives",
-    "tagSlug": "drives"
+    "tagNormalized": "drives roads",
+    "tagSlug": "drives-roads"
   },
   {
     "tagRaw": "driveway paving permits",
@@ -7770,10 +7848,10 @@
     "tagSlug": "due-dates"
   },
   {
-    "tagRaw": "dump trucks",
+    "tagRaw": "dump trucks fleet",
     "category": "business",
-    "tagNormalized": "dump trucks",
-    "tagSlug": "dump-trucks"
+    "tagNormalized": "dump trucks fleet",
+    "tagSlug": "dump-trucks-fleet"
   },
   {
     "tagRaw": "dumping",
@@ -7974,10 +8052,10 @@
     "tagSlug": "edge-lines"
   },
   {
-    "tagRaw": "education",
+    "tagRaw": "education sc",
     "category": "equity",
-    "tagNormalized": "education",
-    "tagSlug": "education"
+    "tagNormalized": "education sc",
+    "tagSlug": "education-sc"
   },
   {
     "tagRaw": "education taxes",
@@ -8184,10 +8262,10 @@
     "tagSlug": "electronic-signs"
   },
   {
-    "tagRaw": "electronics",
+    "tagRaw": "electronics waste",
     "category": "noise",
-    "tagNormalized": "electronics",
-    "tagSlug": "electronics"
+    "tagNormalized": "electronics waste",
+    "tagSlug": "electronics-waste"
   },
   {
     "tagRaw": "elevated reservoirs",
@@ -8418,10 +8496,10 @@
     "tagSlug": "employment"
   },
   {
-    "tagRaw": "employment & labour",
+    "tagRaw": "employment & labour sc",
     "category": "business",
-    "tagNormalized": "employment & labour",
-    "tagSlug": "employment-labour"
+    "tagNormalized": "employment & labour sc",
+    "tagSlug": "employment-and-labour-sc"
   },
   {
     "tagRaw": "employment affiliation",
@@ -8646,10 +8724,10 @@
     "tagSlug": "entrepreneurship-support"
   },
   {
-    "tagRaw": "entry prohibitions",
+    "tagRaw": "entry prohibitions traffic",
     "category": "traffic",
-    "tagNormalized": "entry prohibitions",
-    "tagSlug": "entry-prohibitions"
+    "tagNormalized": "entry prohibitions traffic",
+    "tagSlug": "entry-prohibitions-traffic"
   },
   {
     "tagRaw": "environment",
@@ -8668,6 +8746,12 @@
     "category": "climate",
     "tagNormalized": "environment plans",
     "tagSlug": "environment-plans"
+  },
+  {
+    "tagRaw": "environment sc",
+    "category": "climate",
+    "tagNormalized": "environment sc",
+    "tagSlug": "environment-sc"
   },
   {
     "tagRaw": "environmental assessment",
@@ -9666,10 +9750,10 @@
     "tagSlug": "filtration-plants"
   },
   {
-    "tagRaw": "finance",
+    "tagRaw": "finance sc",
     "category": "business",
-    "tagNormalized": "finance",
-    "tagSlug": "finance"
+    "tagNormalized": "finance sc",
+    "tagSlug": "finance-sc"
   },
   {
     "tagRaw": "financial assistance",
@@ -9972,6 +10056,12 @@
     "tagSlug": "fishing"
   },
   {
+    "tagRaw": "fishing sport",
+    "category": "equity",
+    "tagNormalized": "fishing sport",
+    "tagSlug": "fishing-sport"
+  },
+  {
     "tagRaw": "fitness centres",
     "category": "business",
     "tagNormalized": "fitness centres",
@@ -10098,10 +10188,10 @@
     "tagSlug": "flora"
   },
   {
-    "tagRaw": "flow management",
+    "tagRaw": "flow management air traffic control",
     "category": "traffic",
-    "tagNormalized": "flow management",
-    "tagSlug": "flow-management"
+    "tagNormalized": "flow management air traffic control",
+    "tagSlug": "flow-management-air-traffic-control"
   },
   {
     "tagRaw": "flowers",
@@ -10212,10 +10302,10 @@
     "tagSlug": "food-carts"
   },
   {
-    "tagRaw": "food containers",
+    "tagRaw": "food containers waste",
     "category": "transit",
-    "tagNormalized": "food containers",
-    "tagSlug": "food-containers"
+    "tagNormalized": "food containers waste",
+    "tagSlug": "food-containers-waste"
   },
   {
     "tagRaw": "food festivals",
@@ -10446,10 +10536,10 @@
     "tagSlug": "fuels"
   },
   {
-    "tagRaw": "full closures",
+    "tagRaw": "full closures traffic calming",
     "category": "safety",
-    "tagNormalized": "full closures",
-    "tagSlug": "full-closures"
+    "tagNormalized": "full closures traffic calming",
+    "tagSlug": "full-closures-traffic-calming"
   },
   {
     "tagRaw": "fumes",
@@ -10482,10 +10572,10 @@
     "tagSlug": "furnaces"
   },
   {
-    "tagRaw": "furniture",
+    "tagRaw": "furniture waste",
     "category": "housing",
-    "tagNormalized": "furniture",
-    "tagSlug": "furniture"
+    "tagNormalized": "furniture waste",
+    "tagSlug": "furniture-waste"
   },
   {
     "tagRaw": "gambling",
@@ -10644,6 +10734,12 @@
     "tagSlug": "gardens"
   },
   {
+    "tagRaw": "gardens roads",
+    "category": "infrastructure",
+    "tagNormalized": "gardens roads",
+    "tagSlug": "gardens-roads"
+  },
+  {
     "tagRaw": "gas installer",
     "category": "business",
     "tagNormalized": "gas installer",
@@ -10680,10 +10776,10 @@
     "tagSlug": "gasoline-tax"
   },
   {
-    "tagRaw": "gates",
+    "tagRaw": "gates roads",
     "category": "infrastructure",
-    "tagNormalized": "gates",
-    "tagSlug": "gates"
+    "tagNormalized": "gates roads",
+    "tagSlug": "gates-roads"
   },
   {
     "tagRaw": "gateways",
@@ -10704,10 +10800,16 @@
     "tagSlug": "gay-community"
   },
   {
-    "tagRaw": "geese",
+    "tagRaw": "geese domestic",
     "category": "housing",
-    "tagNormalized": "geese",
-    "tagSlug": "geese"
+    "tagNormalized": "geese domestic",
+    "tagSlug": "geese-domestic"
+  },
+  {
+    "tagRaw": "geese wild",
+    "category": "transit",
+    "tagNormalized": "geese wild",
+    "tagSlug": "geese-wild"
   },
   {
     "tagRaw": "gender discrimination",
@@ -10854,16 +10956,16 @@
     "tagSlug": "governance-structure"
   },
   {
-    "tagRaw": "government",
-    "category": "democracy",
-    "tagNormalized": "government",
-    "tagSlug": "government"
-  },
-  {
     "tagRaw": "government officials",
     "category": "safety",
     "tagNormalized": "government officials",
     "tagSlug": "government-officials"
+  },
+  {
+    "tagRaw": "government sc",
+    "category": "democracy",
+    "tagNormalized": "government sc",
+    "tagSlug": "government-sc"
   },
   {
     "tagRaw": "government services",
@@ -11214,10 +11316,10 @@
     "tagSlug": "group-homes"
   },
   {
-    "tagRaw": "groves",
+    "tagRaw": "groves roads",
     "category": "infrastructure",
-    "tagNormalized": "groves",
-    "tagSlug": "groves"
+    "tagNormalized": "groves roads",
+    "tagSlug": "groves-roads"
   },
   {
     "tagRaw": "grow ops",
@@ -11268,10 +11370,10 @@
     "tagSlug": "guiderail"
   },
   {
-    "tagRaw": "guides",
+    "tagRaw": "guides publications",
     "category": "safety",
-    "tagNormalized": "guides",
-    "tagSlug": "guides"
+    "tagNormalized": "guides publications",
+    "tagSlug": "guides-publications"
   },
   {
     "tagRaw": "gulls",
@@ -11508,6 +11610,12 @@
     "tagSlug": "health-promotion"
   },
   {
+    "tagRaw": "health sc",
+    "category": "healthcare",
+    "tagNormalized": "health sc",
+    "tagSlug": "health-sc"
+  },
+  {
     "tagRaw": "health treatments",
     "category": "healthcare",
     "tagNormalized": "health treatments",
@@ -11616,10 +11724,10 @@
     "tagSlug": "height-restrictions"
   },
   {
-    "tagRaw": "heights",
+    "tagRaw": "heights roads",
     "category": "infrastructure",
-    "tagNormalized": "heights",
-    "tagSlug": "heights"
+    "tagNormalized": "heights roads",
+    "tagSlug": "heights-roads"
   },
   {
     "tagRaw": "helicopters",
@@ -11778,10 +11886,10 @@
     "tagSlug": "hiking"
   },
   {
-    "tagRaw": "hired equipment",
+    "tagRaw": "hired equipment vehicles",
     "category": "business",
-    "tagNormalized": "hired equipment",
-    "tagSlug": "hired-equipment"
+    "tagNormalized": "hired equipment vehicles",
+    "tagSlug": "hired-equipment-vehicles"
   },
   {
     "tagRaw": "hiring",
@@ -11932,6 +12040,12 @@
     "category": "childcare",
     "tagNormalized": "holidays",
     "tagSlug": "holidays"
+  },
+  {
+    "tagRaw": "holidays public",
+    "category": "parks",
+    "tagNormalized": "holidays public",
+    "tagSlug": "holidays-public"
   },
   {
     "tagRaw": "holistic centres",
@@ -12108,10 +12222,10 @@
     "tagSlug": "hospitals"
   },
   {
-    "tagRaw": "hostels",
+    "tagRaw": "hostels homeless",
     "category": "homelessness",
-    "tagNormalized": "hostels",
-    "tagSlug": "hostels"
+    "tagNormalized": "hostels homeless",
+    "tagSlug": "hostels-homeless"
   },
   {
     "tagRaw": "hot dog carts",
@@ -12414,10 +12528,10 @@
     "tagSlug": "hygiene"
   },
   {
-    "tagRaw": "hypodermic needles",
+    "tagRaw": "hypodermic needles waste",
     "category": "healthcare",
-    "tagNormalized": "hypodermic needles",
-    "tagSlug": "hypodermic-needles"
+    "tagNormalized": "hypodermic needles waste",
+    "tagSlug": "hypodermic-needles-waste"
   },
   {
     "tagRaw": "ice allocation policy",
@@ -12648,10 +12762,10 @@
     "tagSlug": "independent-contractor"
   },
   {
-    "tagRaw": "Indians",
+    "tagRaw": "Indians native",
     "category": "transit",
-    "tagNormalized": "Indians",
-    "tagSlug": "indians"
+    "tagNormalized": "Indians native",
+    "tagSlug": "indians-native"
   },
   {
     "tagRaw": "indigenous peoples",
@@ -12918,10 +13032,10 @@
     "tagSlug": "information"
   },
   {
-    "tagRaw": "information & communication",
+    "tagRaw": "information & communication sc",
     "category": "transit",
-    "tagNormalized": "information & communication",
-    "tagSlug": "information-communication"
+    "tagNormalized": "information & communication sc",
+    "tagSlug": "information-and-communication-sc"
   },
   {
     "tagRaw": "information and communication systems",
@@ -13458,16 +13572,16 @@
     "tagSlug": "it-acquisitions"
   },
   {
-    "tagRaw": "items",
-    "category": "business",
-    "tagNormalized": "items",
-    "tagSlug": "items"
-  },
-  {
     "tagRaw": "items before council",
     "category": "business",
     "tagNormalized": "items before council",
     "tagSlug": "items-before-council"
+  },
+  {
+    "tagRaw": "items council",
+    "category": "business",
+    "tagNormalized": "items council",
+    "tagSlug": "items-council"
   },
   {
     "tagRaw": "ivr",
@@ -13860,10 +13974,10 @@
     "tagSlug": "landscaping"
   },
   {
-    "tagRaw": "landscaping permits",
+    "tagRaw": "landscaping permits right if way",
     "category": "parks",
-    "tagNormalized": "landscaping permits",
-    "tagSlug": "landscaping-permits"
+    "tagNormalized": "landscaping permits right if way",
+    "tagSlug": "landscaping-permits-right-if-way"
   },
   {
     "tagRaw": "lane lines",
@@ -13992,10 +14106,10 @@
     "tagSlug": "layoff"
   },
   {
-    "tagRaw": "lead",
+    "tagRaw": "lead contaminant",
     "category": "housing",
-    "tagNormalized": "lead",
-    "tagSlug": "lead"
+    "tagNormalized": "lead contaminant",
+    "tagSlug": "lead-contaminant"
   },
   {
     "tagRaw": "lead in drinking water",
@@ -14196,10 +14310,10 @@
     "tagSlug": "legislation"
   },
   {
-    "tagRaw": "legislative process",
+    "tagRaw": "legislative process municipal",
     "category": "democracy",
-    "tagNormalized": "legislative process",
-    "tagSlug": "legislative-process"
+    "tagNormalized": "legislative process municipal",
+    "tagSlug": "legislative-process-municipal"
   },
   {
     "tagRaw": "leisure skate programs",
@@ -14544,10 +14658,10 @@
     "tagSlug": "litter-collection"
   },
   {
-    "tagRaw": "litter receptacles",
+    "tagRaw": "litter receptacles street furniture",
     "category": "safety",
-    "tagNormalized": "litter receptacles",
-    "tagSlug": "litter-receptacles"
+    "tagNormalized": "litter receptacles street furniture",
+    "tagSlug": "litter-receptacles-street-furniture"
   },
   {
     "tagRaw": "littering",
@@ -14712,12 +14826,6 @@
     "tagSlug": "lockouts"
   },
   {
-    "tagRaw": "lodging",
-    "category": "housing",
-    "tagNormalized": "lodging",
-    "tagSlug": "lodging"
-  },
-  {
     "tagRaw": "lodging homes",
     "category": "housing",
     "tagNormalized": "lodging homes",
@@ -14730,10 +14838,16 @@
     "tagSlug": "lodging-houses"
   },
   {
-    "tagRaw": "lollipops",
+    "tagRaw": "lodging short term",
+    "category": "housing",
+    "tagNormalized": "lodging short term",
+    "tagSlug": "lodging-short-term"
+  },
+  {
+    "tagRaw": "lollipops bicycle parking",
     "category": "bikes",
-    "tagNormalized": "lollipops",
-    "tagSlug": "lollipops"
+    "tagNormalized": "lollipops bicycle parking",
+    "tagSlug": "lollipops-bicycle-parking"
   },
   {
     "tagRaw": "long grass",
@@ -14766,16 +14880,16 @@
     "tagSlug": "long-term-care-homes"
   },
   {
-    "tagRaw": "lost and found",
-    "category": "business",
-    "tagNormalized": "lost and found",
-    "tagSlug": "lost-and-found"
-  },
-  {
     "tagRaw": "lost and found items",
     "category": "safety",
     "tagNormalized": "lost and found items",
     "tagSlug": "lost-and-found-items"
+  },
+  {
+    "tagRaw": "lost and found service",
+    "category": "business",
+    "tagNormalized": "lost and found service",
+    "tagSlug": "lost-and-found-service"
   },
   {
     "tagRaw": "lost or found item",
@@ -15012,10 +15126,16 @@
     "tagSlug": "man-holes"
   },
   {
-    "tagRaw": "management",
+    "tagRaw": "management activity",
     "category": "business",
-    "tagNormalized": "management",
-    "tagSlug": "management"
+    "tagNormalized": "management activity",
+    "tagSlug": "management-activity"
+  },
+  {
+    "tagRaw": "management sc",
+    "category": "business",
+    "tagNormalized": "management sc",
+    "tagSlug": "management-sc"
   },
   {
     "tagRaw": "managers",
@@ -15042,10 +15162,10 @@
     "tagSlug": "manhole-covers"
   },
   {
-    "tagRaw": "manual unloading",
+    "tagRaw": "manual unloading waste",
     "category": "transit",
-    "tagNormalized": "manual unloading",
-    "tagSlug": "manual-unloading"
+    "tagNormalized": "manual unloading waste",
+    "tagSlug": "manual-unloading-waste"
   },
   {
     "tagRaw": "manufactured articles",
@@ -15240,10 +15360,10 @@
     "tagSlug": "maternity-leav"
   },
   {
-    "tagRaw": "mattresses",
+    "tagRaw": "mattresses waste",
     "category": "transit",
-    "tagNormalized": "mattresses",
-    "tagSlug": "mattresses"
+    "tagNormalized": "mattresses waste",
+    "tagSlug": "mattresses-waste"
   },
   {
     "tagRaw": "maximum acceptable concentration",
@@ -15288,10 +15408,10 @@
     "tagSlug": "mechanical-leaf-pickup"
   },
   {
-    "tagRaw": "mechanical sidewalk clearing",
+    "tagRaw": "mechanical sidewalk clearing snow",
     "category": "infrastructure",
-    "tagNormalized": "mechanical sidewalk clearing",
-    "tagSlug": "mechanical-sidewalk-clearing"
+    "tagNormalized": "mechanical sidewalk clearing snow",
+    "tagSlug": "mechanical-sidewalk-clearing-snow"
   },
   {
     "tagRaw": "media contacts",
@@ -15324,10 +15444,10 @@
     "tagSlug": "median-strips"
   },
   {
-    "tagRaw": "medians",
+    "tagRaw": "medians roads",
     "category": "infrastructure",
-    "tagNormalized": "medians",
-    "tagSlug": "medians"
+    "tagNormalized": "medians roads",
+    "tagSlug": "medians-roads"
   },
   {
     "tagRaw": "medical cannabis",
@@ -15573,7 +15693,7 @@
     "tagRaw": "métis",
     "category": "transit",
     "tagNormalized": "métis",
-    "tagSlug": "mtis"
+    "tagSlug": "metis"
   },
   {
     "tagRaw": "metrolinx",
@@ -16284,10 +16404,10 @@
     "tagSlug": "murders"
   },
   {
-    "tagRaw": "museums",
+    "tagRaw": "museums facilities",
     "category": "infrastructure",
-    "tagNormalized": "museums",
-    "tagSlug": "museums"
+    "tagNormalized": "museums facilities",
+    "tagSlug": "museums-facilities"
   },
   {
     "tagRaw": "music",
@@ -16452,10 +16572,10 @@
     "tagSlug": "needle-exchanges"
   },
   {
-    "tagRaw": "needles",
+    "tagRaw": "needles waste",
     "category": "transit",
-    "tagNormalized": "needles",
-    "tagSlug": "needles"
+    "tagNormalized": "needles waste",
+    "tagSlug": "needles-waste"
   },
   {
     "tagRaw": "neighborhoods",
@@ -16488,6 +16608,12 @@
     "tagSlug": "neighbourhoods"
   },
   {
+    "tagRaw": "neighbourhoods planning",
+    "category": "housing",
+    "tagNormalized": "neighbourhoods planning",
+    "tagSlug": "neighbourhoods-planning"
+  },
+  {
     "tagRaw": "neuterin",
     "category": "safety",
     "tagNormalized": "neuterin",
@@ -16518,10 +16644,10 @@
     "tagSlug": "newsletters"
   },
   {
-    "tagRaw": "newspapers",
+    "tagRaw": "newspapers waste",
     "category": "noise",
-    "tagNormalized": "newspapers",
-    "tagSlug": "newspapers"
+    "tagNormalized": "newspapers waste",
+    "tagSlug": "newspapers-waste"
   },
   {
     "tagRaw": "ngos",
@@ -16548,10 +16674,10 @@
     "tagSlug": "night-clubs"
   },
   {
-    "tagRaw": "night school",
+    "tagRaw": "night school adult education",
     "category": "noise",
-    "tagNormalized": "night school",
-    "tagSlug": "night-school"
+    "tagNormalized": "night school adult education",
+    "tagSlug": "night-school-adult-education"
   },
   {
     "tagRaw": "nightclubs",
@@ -16854,16 +16980,16 @@
     "tagSlug": "off-leash-parks"
   },
   {
-    "tagRaw": "off ramps",
+    "tagRaw": "off ramps highways",
     "category": "infrastructure",
-    "tagNormalized": "off ramps",
-    "tagSlug": "off-ramps"
+    "tagNormalized": "off ramps highways",
+    "tagSlug": "off-ramps-highways"
   },
   {
-    "tagRaw": "off road paths",
+    "tagRaw": "off road paths cycling",
     "category": "bikes",
-    "tagNormalized": "off road paths",
-    "tagSlug": "off-road-paths"
+    "tagNormalized": "off road paths cycling",
+    "tagSlug": "off-road-paths-cycling"
   },
   {
     "tagRaw": "off street parking",
@@ -16992,10 +17118,10 @@
     "tagSlug": "ombudspersons"
   },
   {
-    "tagRaw": "on ramps",
+    "tagRaw": "on ramps highways",
     "category": "infrastructure",
-    "tagNormalized": "on ramps",
-    "tagSlug": "on-ramps"
+    "tagNormalized": "on ramps highways",
+    "tagSlug": "on-ramps-highways"
   },
   {
     "tagRaw": "on street bike lanes",
@@ -17190,12 +17316,6 @@
     "tagSlug": "organic-waste"
   },
   {
-    "tagRaw": "organics",
-    "category": "noise",
-    "tagNormalized": "organics",
-    "tagSlug": "organics"
-  },
-  {
     "tagRaw": "organics collection",
     "category": "infrastructure",
     "tagNormalized": "organics collection",
@@ -17206,6 +17326,12 @@
     "category": "business",
     "tagNormalized": "organics processing facilities",
     "tagSlug": "organics-processing-facilities"
+  },
+  {
+    "tagRaw": "organics waste",
+    "category": "noise",
+    "tagNormalized": "organics waste",
+    "tagSlug": "organics-waste"
   },
   {
     "tagRaw": "organizational communication",
@@ -18342,6 +18468,12 @@
     "tagSlug": "permit-parking"
   },
   {
+    "tagRaw": "permit parking disabled",
+    "category": "parks",
+    "tagNormalized": "permit parking disabled",
+    "tagSlug": "permit-parking-disabled"
+  },
+  {
     "tagRaw": "permit renewal",
     "category": "business",
     "tagNormalized": "permit renewal",
@@ -18696,10 +18828,10 @@
     "tagSlug": "pickup-of-recyclables"
   },
   {
-    "tagRaw": "pickup trucks",
+    "tagRaw": "pickup trucks fleet",
     "category": "business",
-    "tagNormalized": "pickup trucks",
-    "tagSlug": "pickup-trucks"
+    "tagNormalized": "pickup trucks fleet",
+    "tagSlug": "pickup-trucks-fleet"
   },
   {
     "tagRaw": "picnic tables",
@@ -18726,9 +18858,9 @@
     "tagSlug": "pilot-projects"
   },
   {
-    "tagRaw": "pinch points (traffic calming",
+    "tagRaw": "pinch points traffic calming",
     "category": "safety",
-    "tagNormalized": "pinch points (traffic calming",
+    "tagNormalized": "pinch points traffic calming",
     "tagSlug": "pinch-points-traffic-calming"
   },
   {
@@ -18774,10 +18906,10 @@
     "tagSlug": "planning"
   },
   {
-    "tagRaw": "planning & development",
+    "tagRaw": "planning & development sc",
     "category": "business",
-    "tagNormalized": "planning & development",
-    "tagSlug": "planning-development"
+    "tagNormalized": "planning & development sc",
+    "tagSlug": "planning-and-development-sc"
   },
   {
     "tagRaw": "planning application fees",
@@ -18822,10 +18954,10 @@
     "tagSlug": "planning-tribunals"
   },
   {
-    "tagRaw": "plans",
+    "tagRaw": "plans drawings",
     "category": "arts",
-    "tagNormalized": "plans",
-    "tagSlug": "plans"
+    "tagNormalized": "plans drawings",
+    "tagSlug": "plans-drawings"
   },
   {
     "tagRaw": "plans of subdivision",
@@ -18868,6 +19000,12 @@
     "category": "transit",
     "tagNormalized": "plastic bags",
     "tagSlug": "plastic-bags"
+  },
+  {
+    "tagRaw": "plastic bags waste",
+    "category": "transit",
+    "tagNormalized": "plastic bags waste",
+    "tagSlug": "plastic-bags-waste"
   },
   {
     "tagRaw": "plastic grocery bags",
@@ -19110,10 +19248,16 @@
     "tagSlug": "polling-stations"
   },
   {
-    "tagRaw": "polls",
+    "tagRaw": "polls elections",
     "category": "democracy",
-    "tagNormalized": "polls",
-    "tagSlug": "polls"
+    "tagNormalized": "polls elections",
+    "tagSlug": "polls-elections"
+  },
+  {
+    "tagRaw": "polls public opinion",
+    "category": "safety",
+    "tagNormalized": "polls public opinion",
+    "tagSlug": "polls-public-opinion"
   },
   {
     "tagRaw": "pollutant release data",
@@ -19158,10 +19302,10 @@
     "tagSlug": "pollution-prevention-planning"
   },
   {
-    "tagRaw": "polystyrene",
+    "tagRaw": "polystyrene waste",
     "category": "transit",
-    "tagNormalized": "polystyrene",
-    "tagSlug": "polystyrene"
+    "tagNormalized": "polystyrene waste",
+    "tagSlug": "polystyrene-waste"
   },
   {
     "tagRaw": "ponds",
@@ -19740,10 +19884,16 @@
     "tagSlug": "projects"
   },
   {
-    "tagRaw": "promotion",
+    "tagRaw": "promotion communication",
     "category": "business",
-    "tagNormalized": "promotion",
-    "tagSlug": "promotion"
+    "tagNormalized": "promotion communication",
+    "tagSlug": "promotion-communication"
+  },
+  {
+    "tagRaw": "promotion employment",
+    "category": "business",
+    "tagNormalized": "promotion employment",
+    "tagSlug": "promotion-employment"
   },
   {
     "tagRaw": "promotional space booking",
@@ -19758,10 +19908,10 @@
     "tagSlug": "proof-of-residency"
   },
   {
-    "tagRaw": "properties",
+    "tagRaw": "properties real estate",
     "category": "equity",
-    "tagNormalized": "properties",
-    "tagSlug": "properties"
+    "tagNormalized": "properties real estate",
+    "tagSlug": "properties-real-estate"
   },
   {
     "tagRaw": "property",
@@ -19770,10 +19920,10 @@
     "tagSlug": "property"
   },
   {
-    "tagRaw": "property access",
+    "tagRaw": "property access roads",
     "category": "infrastructure",
-    "tagNormalized": "property access",
-    "tagSlug": "property-access"
+    "tagNormalized": "property access roads",
+    "tagSlug": "property-access-roads"
   },
   {
     "tagRaw": "property acquisition",
@@ -19864,6 +20014,12 @@
     "category": "business",
     "tagNormalized": "property sales",
     "tagSlug": "property-sales"
+  },
+  {
+    "tagRaw": "property sc",
+    "category": "safety",
+    "tagNormalized": "property sc",
+    "tagSlug": "property-sc"
   },
   {
     "tagRaw": "property setback",
@@ -20268,10 +20424,10 @@
     "tagSlug": "public-safety"
   },
   {
-    "tagRaw": "public safety & protection",
+    "tagRaw": "public safety & protection sc",
     "category": "safety",
-    "tagNormalized": "public safety & protection",
-    "tagSlug": "public-safety-protection"
+    "tagNormalized": "public safety & protection sc",
+    "tagSlug": "public-safety-and-protection-sc"
   },
   {
     "tagRaw": "public schools",
@@ -20640,10 +20796,10 @@
     "tagSlug": "raised-medians"
   },
   {
-    "tagRaw": "ramps",
+    "tagRaw": "ramps highways",
     "category": "infrastructure",
-    "tagNormalized": "ramps",
-    "tagSlug": "ramps"
+    "tagNormalized": "ramps highways",
+    "tagSlug": "ramps-highways"
   },
   {
     "tagRaw": "rat",
@@ -20778,10 +20934,10 @@
     "tagSlug": "records"
   },
   {
-    "tagRaw": "recreation & tourism",
+    "tagRaw": "recreation & tourism sc",
     "category": "parks",
-    "tagNormalized": "recreation & tourism",
-    "tagSlug": "recreation-tourism"
+    "tagNormalized": "recreation & tourism sc",
+    "tagSlug": "recreation-and-tourism-sc"
   },
   {
     "tagRaw": "recreation centers",
@@ -21156,10 +21312,16 @@
     "tagSlug": "regulations"
   },
   {
-    "tagRaw": "rehabilitation",
+    "tagRaw": "rehabilitation people",
     "category": "healthcare",
-    "tagNormalized": "rehabilitation",
-    "tagSlug": "rehabilitation"
+    "tagNormalized": "rehabilitation people",
+    "tagSlug": "rehabilitation-people"
+  },
+  {
+    "tagRaw": "rehabilitation property",
+    "category": "housing",
+    "tagNormalized": "rehabilitation property",
+    "tagSlug": "rehabilitation-property"
   },
   {
     "tagRaw": "reimbursement",
@@ -21408,9 +21570,9 @@
     "tagSlug": "request-for-quotation"
   },
   {
-    "tagRaw": "request for reconsideration (assessment",
+    "tagRaw": "request for reconsideration assessment",
     "category": "business",
-    "tagNormalized": "request for reconsideration (assessment",
+    "tagNormalized": "request for reconsideration assessment",
     "tagSlug": "request-for-reconsideration-assessment"
   },
   {
@@ -21586,6 +21748,12 @@
     "category": "business",
     "tagNormalized": "restaurants",
     "tagSlug": "restaurants"
+  },
+  {
+    "tagRaw": "restaurants businesses",
+    "category": "business",
+    "tagNormalized": "restaurants businesses",
+    "tagSlug": "restaurants-businesses"
   },
   {
     "tagRaw": "restoration",
@@ -22218,10 +22386,10 @@
     "tagSlug": "salary"
   },
   {
-    "tagRaw": "sale",
+    "tagRaw": "sale action",
     "category": "business",
-    "tagNormalized": "sale",
-    "tagSlug": "sale"
+    "tagNormalized": "sale action",
+    "tagSlug": "sale-action"
   },
   {
     "tagRaw": "sale of surplus equipment",
@@ -22236,10 +22404,10 @@
     "tagSlug": "sale-of-surplus-materials"
   },
   {
-    "tagRaw": "sales",
+    "tagRaw": "sales events",
     "category": "business",
-    "tagNormalized": "sales",
-    "tagSlug": "sales"
+    "tagNormalized": "sales events",
+    "tagSlug": "sales-events"
   },
   {
     "tagRaw": "sales of land",
@@ -22404,10 +22572,10 @@
     "tagSlug": "schools"
   },
   {
-    "tagRaw": "science & technology",
+    "tagRaw": "science & technology sc",
     "category": "energy",
-    "tagNormalized": "science & technology",
-    "tagSlug": "science-technology"
+    "tagNormalized": "science & technology sc",
+    "tagSlug": "science-and-technology-sc"
   },
   {
     "tagRaw": "scooters",
@@ -22608,10 +22776,10 @@
     "tagSlug": "seniors-housing"
   },
   {
-    "tagRaw": "separating",
+    "tagRaw": "separating recyclables",
     "category": "bikes",
-    "tagNormalized": "separating",
-    "tagSlug": "separating"
+    "tagNormalized": "separating recyclables",
+    "tagSlug": "separating-recyclables"
   },
   {
     "tagRaw": "service awards",
@@ -22686,10 +22854,10 @@
     "tagSlug": "settling"
   },
   {
-    "tagRaw": "severance",
+    "tagRaw": "severance land",
     "category": "parks",
-    "tagNormalized": "severance",
-    "tagSlug": "severance"
+    "tagNormalized": "severance land",
+    "tagSlug": "severance-land"
   },
   {
     "tagRaw": "severance pay",
@@ -23052,10 +23220,10 @@
     "tagSlug": "sidewalk-maintenance"
   },
   {
-    "tagRaw": "sidewalk patios",
+    "tagRaw": "sidewalk patios restaurants",
     "category": "business",
-    "tagNormalized": "sidewalk patios",
-    "tagSlug": "sidewalk-patios"
+    "tagNormalized": "sidewalk patios restaurants",
+    "tagSlug": "sidewalk-patios-restaurants"
   },
   {
     "tagRaw": "sidewalk permits",
@@ -24102,6 +24270,12 @@
     "tagSlug": "squares"
   },
   {
+    "tagRaw": "squares roads",
+    "category": "infrastructure",
+    "tagNormalized": "squares roads",
+    "tagSlug": "squares-roads"
+  },
+  {
     "tagRaw": "squirrels",
     "category": "transit",
     "tagNormalized": "squirrels",
@@ -24246,10 +24420,10 @@
     "tagSlug": "statistical-information"
   },
   {
-    "tagRaw": "statistics",
+    "tagRaw": "statistics information",
     "category": "cost of living",
-    "tagNormalized": "statistics",
-    "tagSlug": "statistics"
+    "tagNormalized": "statistics information",
+    "tagSlug": "statistics-information"
   },
   {
     "tagRaw": "STDs",
@@ -24288,15 +24462,9 @@
     "tagSlug": "stopping-prohibitions"
   },
   {
-    "tagRaw": "stops",
+    "tagRaw": "stops public transportation",
     "category": "transit",
-    "tagNormalized": "stops",
-    "tagSlug": "stops"
-  },
-  {
-    "tagRaw": "stops (public transportation",
-    "category": "transit",
-    "tagNormalized": "stops (public transportation",
+    "tagNormalized": "stops public transportation",
     "tagSlug": "stops-public-transportation"
   },
   {
@@ -24738,10 +24906,10 @@
     "tagSlug": "streetscapes"
   },
   {
-    "tagRaw": "stress",
+    "tagRaw": "stress psychology",
     "category": "housing",
-    "tagNormalized": "stress",
-    "tagSlug": "stress"
+    "tagNormalized": "stress psychology",
+    "tagSlug": "stress-psychology"
   },
   {
     "tagRaw": "strikes",
@@ -24804,10 +24972,10 @@
     "tagSlug": "stutters"
   },
   {
-    "tagRaw": "styrofoam",
+    "tagRaw": "styrofoam waste",
     "category": "transit",
-    "tagNormalized": "styrofoam",
-    "tagSlug": "styrofoam"
+    "tagNormalized": "styrofoam waste",
+    "tagSlug": "styrofoam-waste"
   },
   {
     "tagRaw": "sub committees",
@@ -24822,16 +24990,22 @@
     "tagSlug": "subcommittees"
   },
   {
-    "tagRaw": "subdivision",
+    "tagRaw": "subdivision land",
     "category": "housing",
-    "tagNormalized": "subdivision",
-    "tagSlug": "subdivision"
+    "tagNormalized": "subdivision land",
+    "tagSlug": "subdivision-land"
   },
   {
     "tagRaw": "subdivision of land",
     "category": "housing",
     "tagNormalized": "subdivision of land",
     "tagSlug": "subdivision-of-land"
+  },
+  {
+    "tagRaw": "subdivision wards",
+    "category": "housing",
+    "tagNormalized": "subdivision wards",
+    "tagSlug": "subdivision-wards"
   },
   {
     "tagRaw": "submissions to committee",
@@ -25080,10 +25254,16 @@
     "tagSlug": "surveillance-alerts"
   },
   {
-    "tagRaw": "surveys",
+    "tagRaw": "surveys maps",
     "category": "cost of living",
-    "tagNormalized": "surveys",
-    "tagSlug": "surveys"
+    "tagNormalized": "surveys maps",
+    "tagSlug": "surveys-maps"
+  },
+  {
+    "tagRaw": "surveys research",
+    "category": "cost of living",
+    "tagNormalized": "surveys research",
+    "tagSlug": "surveys-research"
   },
   {
     "tagRaw": "survival kits",
@@ -25206,10 +25386,10 @@
     "tagSlug": "swm"
   },
   {
-    "tagRaw": "syringes",
+    "tagRaw": "syringes waste",
     "category": "noise",
-    "tagNormalized": "syringes",
-    "tagSlug": "syringes"
+    "tagNormalized": "syringes waste",
+    "tagSlug": "syringes-waste"
   },
   {
     "tagRaw": "system software",
@@ -25500,10 +25680,10 @@
     "tagSlug": "television-pickup"
   },
   {
-    "tagRaw": "televisions",
+    "tagRaw": "televisions waste",
     "category": "noise",
-    "tagNormalized": "televisions",
-    "tagSlug": "televisions"
+    "tagNormalized": "televisions waste",
+    "tagSlug": "televisions-waste"
   },
   {
     "tagRaw": "telework",
@@ -25668,10 +25848,10 @@
     "tagSlug": "terminuses"
   },
   {
-    "tagRaw": "terraces",
+    "tagRaw": "terraces roads",
     "category": "infrastructure",
-    "tagNormalized": "terraces",
-    "tagSlug": "terraces"
+    "tagNormalized": "terraces roads",
+    "tagSlug": "terraces-roads"
   },
   {
     "tagRaw": "testing",
@@ -25710,10 +25890,10 @@
     "tagSlug": "the-physically-disabled"
   },
   {
-    "tagRaw": "theatres",
+    "tagRaw": "theatres facilities",
     "category": "infrastructure",
-    "tagNormalized": "theatres",
-    "tagSlug": "theatres"
+    "tagNormalized": "theatres facilities",
+    "tagSlug": "theatres-facilities"
   },
   {
     "tagRaw": "theatrical performances",
@@ -25788,10 +25968,10 @@
     "tagSlug": "tipping"
   },
   {
-    "tagRaw": "tires",
+    "tagRaw": "tires waste",
     "category": "transit",
-    "tagNormalized": "tires",
-    "tagSlug": "tires"
+    "tagNormalized": "tires waste",
+    "tagSlug": "tires-waste"
   },
   {
     "tagRaw": "tobacco",
@@ -26352,6 +26532,12 @@
     "tagSlug": "trails"
   },
   {
+    "tagRaw": "trails roads",
+    "category": "infrastructure",
+    "tagNormalized": "trails roads",
+    "tagSlug": "trails-roads"
+  },
+  {
     "tagRaw": "train stations",
     "category": "transit",
     "tagNormalized": "train stations",
@@ -26640,6 +26826,12 @@
     "tagSlug": "transportation-research"
   },
   {
+    "tagRaw": "transportation sc",
+    "category": "transit",
+    "tagNormalized": "transportation sc",
+    "tagSlug": "transportation-sc"
+  },
+  {
     "tagRaw": "transportation schedules",
     "category": "transit",
     "tagNormalized": "transportation schedules",
@@ -26712,10 +26904,10 @@
     "tagSlug": "travellers"
   },
   {
-    "tagRaw": "treatment",
+    "tagRaw": "treatment health",
     "category": "healthcare",
-    "tagNormalized": "treatment",
-    "tagSlug": "treatment"
+    "tagNormalized": "treatment health",
+    "tagSlug": "treatment-health"
   },
   {
     "tagRaw": "treatment plants",
@@ -26928,10 +27120,10 @@
     "tagSlug": "turn-lanes"
   },
   {
-    "tagRaw": "turn prohibitions",
+    "tagRaw": "turn prohibitions traffic",
     "category": "traffic",
-    "tagNormalized": "turn prohibitions",
-    "tagSlug": "turn-prohibitions"
+    "tagNormalized": "turn prohibitions traffic",
+    "tagSlug": "turn-prohibitions-traffic"
   },
   {
     "tagRaw": "turning lanes",
@@ -27336,10 +27528,16 @@
     "tagSlug": "utility-wires"
   },
   {
-    "tagRaw": "vacancies",
+    "tagRaw": "vacancies jobs",
     "category": "business",
-    "tagNormalized": "vacancies",
-    "tagSlug": "vacancies"
+    "tagNormalized": "vacancies jobs",
+    "tagSlug": "vacancies-jobs"
+  },
+  {
+    "tagRaw": "vacancies real estate",
+    "category": "housing",
+    "tagNormalized": "vacancies real estate",
+    "tagSlug": "vacancies-real-estate"
   },
   {
     "tagRaw": "vacancy levels",
@@ -27426,10 +27624,10 @@
     "tagSlug": "vandalism"
   },
   {
-    "tagRaw": "vans",
+    "tagRaw": "vans fleet",
     "category": "transit",
-    "tagNormalized": "vans",
-    "tagSlug": "vans"
+    "tagNormalized": "vans fleet",
+    "tagSlug": "vans-fleet"
   },
   {
     "tagRaw": "variance",
@@ -28032,6 +28230,12 @@
     "tagSlug": "waste-diversion"
   },
   {
+    "tagRaw": "waste fraud",
+    "category": "transit",
+    "tagNormalized": "waste fraud",
+    "tagSlug": "waste-fraud"
+  },
+  {
     "tagRaw": "waste management",
     "category": "business",
     "tagNormalized": "waste management",
@@ -28623,7 +28827,7 @@
     "tagRaw": "web 2.0",
     "category": "safety",
     "tagNormalized": "web 2.0",
-    "tagSlug": "web-20"
+    "tagSlug": "web-2.0"
   },
   {
     "tagRaw": "web 20",
@@ -28860,10 +29064,10 @@
     "tagSlug": "wind-turbines"
   },
   {
-    "tagRaw": "windrow clearing",
+    "tagRaw": "windrow clearing snow",
     "category": "climate",
-    "tagNormalized": "windrow clearing",
-    "tagSlug": "windrow-clearing"
+    "tagNormalized": "windrow clearing snow",
+    "tagSlug": "windrow-clearing-snow"
   },
   {
     "tagRaw": "windrows",
@@ -29028,10 +29232,10 @@
     "tagSlug": "yacht-races"
   },
   {
-    "tagRaw": "yard",
+    "tagRaw": "yard facility",
     "category": "infrastructure",
-    "tagNormalized": "yard",
-    "tagSlug": "yard"
+    "tagNormalized": "yard facility",
+    "tagSlug": "yard-facility"
   },
   {
     "tagRaw": "yard rubbish",

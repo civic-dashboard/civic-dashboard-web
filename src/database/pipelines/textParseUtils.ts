@@ -92,9 +92,16 @@ export function normalizeTextCharsSymbols(text: string): string {
     '#': 'number',
     '-': ' ',
     _: ' ',
+    '(': ' ',
+    ')': ' ',
   };
 
-  const regex = new RegExp(Object.keys(replacements).join('|'), 'g');
+  const regex = new RegExp(
+    Object.keys(replacements)
+      .map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      .join('|'),
+    'g',
+  );
 
   const normalizedText = text
     .replace(regex, (match) => replacements[match] || match)
@@ -105,9 +112,9 @@ export function normalizeTextCharsSymbols(text: string): string {
 }
 
 export function explodeSubjectTerms(textInput: string): string[] {
-  // Split on semicolons and brackets
+  // Split on semicolons, brackets, and commas
   return textInput
-    .split(/[({[\]});,]+/g)
+    .split(/[{[\]};,]+/g)
     .map((text) => text.trim())
     .filter(Boolean);
 }

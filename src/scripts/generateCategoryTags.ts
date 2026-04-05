@@ -1,18 +1,6 @@
-/* eslint-disable no-useless-escape */
 import fs from 'fs';
 import path from 'path';
-
-function slugify(text: string): string {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-    .replace(/\-\-+/g, '-') // Replace multiple - with single -
-    .replace(/^-+/, '') // Trim - from start of text
-    .replace(/-+$/, ''); // Trim - from end of text
-}
+import { toSlug } from '@/logic/toSlug';
 
 async function main() {
   const csvPath = path.join(process.cwd(), 'seeds', 'all_terms.csv');
@@ -54,27 +42,31 @@ async function main() {
     let rawTerm = columns[subjectTermIdx];
     if (!rawTerm) continue;
 
-    // Remove brackets, parentheses (and content), and replace dashes with spaces
-    rawTerm = rawTerm
-      .replace(/[\[\]]/g, '') // Remove brackets
-      .replace(/\([^)]*\)/g, '') // Remove anything in parentheses
-      .replace(/-/g, ' ') // Replace dashes with spaces
-      .replace(/\s+/g, ' ') // Normalize multiple spaces
-      .trim();
+    // Replace parentheses with space so they are kept as part of the term
+    // Then split on semicolons, brackets, and commas to match explodeSubjectTerms logic
+    const explodedTerms = rawTerm
+      .replace(/[()]/g, ' ')
+      .split(/[{[\]};,]+/g)
+      .map((t) => t.trim())
+      .filter(Boolean);
 
-    const normalizedRaw = rawTerm.toLowerCase();
+    for (let term of explodedTerms) {
+      // Replace dashes with spaces and normalize whitespace
+      term = term.replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
+      const normalizedTerm = term.toLowerCase();
 
-    if (seenRaw.has(normalizedRaw)) continue;
-    seenRaw.add(normalizedRaw);
+      if (seenRaw.has(normalizedTerm)) continue;
+      seenRaw.add(normalizedTerm);
 
-    const category = columns[maxCatIdx];
+      const category = columns[maxCatIdx];
 
-    result.push({
-      tagRaw: rawTerm,
-      category: category,
-      tagNormalized: rawTerm,
-      tagSlug: slugify(rawTerm),
-    });
+      result.push({
+        tagRaw: term,
+        category: category,
+        tagNormalized: term,
+        tagSlug: toSlug(term),
+      });
+    }
   }
 
   // Sort by tagRaw for consistency with the original file
