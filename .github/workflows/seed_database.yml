@@ -32,4 +32,5 @@ jobs:
         run: npm ci
 
       - name: Run seed
+        # Because we do not use seed tracking, all scripts in /seeds are re-executed everytime we manually run this action
         run: npm run db:run-seed
