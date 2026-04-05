@@ -192,7 +192,7 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
       className="text-nowrap sm:text-wrap"
       variant={isSelected ? 'sky' : 'secondary'}
       onClick={onClick}
-      title={tag.searchQuery}
+      title={tag.displayName}
     >
       {isSelected && <Check size={16} />}
       {tag.displayName}

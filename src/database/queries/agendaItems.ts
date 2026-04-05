@@ -5,7 +5,8 @@ import {
 } from '@/api/agendaItem';
 import { DB, JsonArray, JsonValue } from '@/database/allDbTypes';
 import { agendaItemConflictColumns } from '@/database/columns';
-import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
+import { textQueryToPostgresTextSearchQuery } from '@/logic/parseQuery';
+import { allTags } from '@/constants/tags';
 import { SearchOptions, SearchPagination } from '@/logic/search';
 import { Kysely, sql } from 'kysely';
 import { processSubjectTerms } from '@/database/pipelines/textParseUtils';
@@ -352,10 +353,7 @@ export const searchAgendaItems = async (
     pagination: { page, pageSize },
   }: SearchAgendaItemArgs,
 ) => {
-  const postgresQuery = queryAndTagsToPostgresTextSearchQuery({
-    textQuery,
-    tags,
-  });
+  const postgresQuery = textQueryToPostgresTextSearchQuery(textQuery);
 
   const commonTables = db
     .with('mostRecentConsiderations', (db) =>
@@ -380,6 +378,22 @@ export const searchAgendaItems = async (
       if (decisionBodyIds.length > 0) {
         query = query.where((eb) =>
           eb('decisionBodyId', '=', sql<number>`ANY(${decisionBodyIds})`),
+        );
+      }
+
+      if (tags.length > 0) {
+        const tagDisplayNames = tags.map((t) => allTags[t].displayName);
+        query = query.where(({ exists, selectFrom }) =>
+          exists(
+            selectFrom('AgendaItemCategories')
+              .select('AgendaItemCategories.agendaItemId')
+              .whereRef(
+                'AgendaItemCategories.agendaItemId',
+                '=',
+                'mostRecentConsiderations.agendaItemId',
+              )
+              .where('AgendaItemCategories.category', 'in', tagDisplayNames),
+          ),
         );
       }
 
@@ -483,6 +497,41 @@ export const getSubscribersToNotify = async (db: Kysely<DB>) => {
               ),
             ]),
           )
+          .where((eb) => {
+            const tagMap = JSON.stringify(
+              Object.fromEntries(
+                Object.entries(allTags).map(([k, v]) => [k, v.displayName]),
+              ),
+            );
+            return eb.or([
+              eb(
+                sql<number | null>`array_length("Subscriptions"."tags", 1)`,
+                'is',
+                null,
+              ),
+              eb(sql<number>`array_length("Subscriptions"."tags", 1)`, '=', 0),
+              eb(
+                sql<boolean>`
+  EXISTS (
+    SELECT
+      1
+    FROM
+      "AgendaItemCategories"
+    WHERE
+      "AgendaItemCategories"."agendaItemId" = "newConsiderations"."agendaItemId"
+      AND "AgendaItemCategories"."category" IN (
+        SELECT
+          (${tagMap}::JSONB ->> tag)
+        FROM
+          unnest(CAST("Subscriptions"."tags" AS TEXT[])) AS tag
+      )
+  )
+`,
+                '=',
+                true,
+              ),
+            ]);
+          })
           .where((eb) =>
             eb.or([
               eb('Subscriptions.tsQuery', 'is', null),

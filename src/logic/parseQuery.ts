@@ -9,9 +9,6 @@
  * of when modifying these definitions.
  */
 
-import { allTags, TagEnum } from '@/constants/tags';
-// Import objects ‘allTags’ and ‘TagEnum’ from tags.ts under file constants
-
 type Query =
   | {
       type: 'token';
@@ -230,41 +227,9 @@ const parseQuery = (query: string) => parseTokens(tokenize(query));
 // query(raw input) -> tokenize -> parse
 // Returns the resulting AST (abstract syntax tree
 
-export const queryAndTagsToPostgresTextSearchQuery = ({
-  textQuery,
-  tags,
-}: {
-  textQuery: string;
-  tags: TagEnum[];
-}) => {
+export const textQueryToPostgresTextSearchQuery = (textQuery: string) => {
   const parsedTextQuery = parseQuery(textQuery);
-  const parsedTagQueries = tags
-    .map((tag) => parseQuery(allTags[tag].searchQuery))
-    .filter((q) => q !== null); // removes any items that are null.
-  // maps each tag to its corresponding structured search query.
-
-  const tagPart: Query | null =
-    parsedTagQueries.length === 0
-      ? null // If the length is 0, the tagPart is set to null
-      : { type: 'or', queries: parsedTagQueries }; // else query object is created with type ‘or’
-
-  const allParts = [parsedTextQuery, tagPart].filter((q) => q !== null);
-  // combine the parsed user text query and the combined tag query into a single array
-  // remove any parts that are invalid or empty.
-
-  const fullQuery: Query | null =
-    allParts.length === 0
-      ? null // If allParts no text and no valid tags, fullQuery is set to null
-      : allParts.length === 1 // either the text query iss valid OR the tag query is valid
-        ? allParts[0]
-        : { type: 'and', queries: allParts }; // both the text query and the tag query are valid
-
-  // fullQuery takes value null, single AST or top-level Query AST
-
-  return fullQuery === null ? null : queryToPostgresTextSearchQuery(fullQuery);
+  return parsedTextQuery === null
+    ? null
+    : queryToPostgresTextSearchQuery(parsedTextQuery);
 };
-
-/* fullQuery holds the text query AND tags
- * If fullQuery is null, the function immediately returns null
- * If fullQuery is not null, the function calls queryToPostgresTextSearchQuery
- */

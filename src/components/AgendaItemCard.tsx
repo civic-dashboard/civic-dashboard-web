@@ -128,14 +128,10 @@ export function FullPageAgendaItemCard({
 
   const relatedTags: { key: string; displayName: string }[] = [];
   Object.entries(allTags).forEach(([key, tag]) => {
-    const tagName = tag['displayName'];
-    const tagSearch = tag['searchQuery'].replaceAll('"', '').split(' OR ');
+    const tagName = tag.displayName;
 
-    for (const keyword of tagSearch) {
-      if (textToSearch.includes(keyword)) {
-        relatedTags.push({ key, displayName: tagName });
-        break;
-      }
+    if (textToSearch.includes(tagName.toLowerCase())) {
+      relatedTags.push({ key, displayName: tagName });
     }
   });
 

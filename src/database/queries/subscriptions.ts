@@ -1,7 +1,7 @@
 import { TagEnum } from '@/constants/tags';
 import { Kysely, sql } from 'kysely';
 import { DB } from '@/database/allDbTypes';
-import { queryAndTagsToPostgresTextSearchQuery } from '@/logic/parseQuery';
+import { textQueryToPostgresTextSearchQuery } from '@/logic/parseQuery';
 import { sortedDeduplicatedArray } from '@/logic/search';
 
 type Args = {
@@ -22,12 +22,7 @@ export const subscribeToSearch = async (
       textQuery,
       tags: sortedDeduplicatedArray(tags),
       decisionBodyIds: sortedDeduplicatedArray(decisionBodyIds),
-      tsQuery: sql<string>`to_tsquery('english', ${queryAndTagsToPostgresTextSearchQuery(
-        {
-          textQuery: textQuery,
-          tags: tags as TagEnum[],
-        },
-      )})`,
+      tsQuery: sql<string>`to_tsquery('english', ${textQueryToPostgresTextSearchQuery(textQuery)})`,
     })
     .onConflict((oc) => oc.doNothing())
     .execute();
@@ -125,12 +120,7 @@ export const refreshAllSubscriptionQueries = async (db: Kysely<DB>) => {
 
     const insertValues = subscriptionData.map((values) => ({
       ...values,
-      tsQuery: sql<string>`to_tsquery('english', ${queryAndTagsToPostgresTextSearchQuery(
-        {
-          textQuery: values.textQuery,
-          tags: values.tags as TagEnum[],
-        },
-      )})`,
+      tsQuery: sql<string>`to_tsquery('english', ${textQueryToPostgresTextSearchQuery(values.textQuery)})`,
     }));
 
     // this felt like the easiest way to do a bulk update, but it is weird
