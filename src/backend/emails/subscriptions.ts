@@ -8,6 +8,8 @@ import { searchAgendaItems } from '@/database/queries/agendaItems';
 import { allTags } from '@/constants/tags';
 import { decisionBodies } from '@/constants/decisionBodies';
 
+import { getStartOfToday } from '@/logic/date';
+
 type SubscribeToSearchArgs = {
   email: string;
   filters: SubscribableSearchFilters;
@@ -27,8 +29,7 @@ export async function subscribeToSearch({
     email,
     ...filters,
   });
-  const startOfToday = new Date();
-  startOfToday.setHours(0, 0, 0, 0);
+  const startOfToday = getStartOfToday();
 
   const currentResults = await searchAgendaItems(db, {
     options: {

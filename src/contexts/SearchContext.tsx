@@ -12,6 +12,8 @@ import { fetchSearchResults, SearchOptions } from '@/logic/search';
 import type { AgendaItemSearchResponse } from '@/app/api/agenda-item/search/route';
 import { PAGE_LIMIT, SEARCH_DEBOUNCE_DELAY_MS } from '@/constants/search';
 
+import { getStartOfToday } from '@/logic/date';
+
 type SearchContext = {
   searchOptions: SearchOptions;
   setSearchOptions: Dispatch<SetStateAction<SearchOptions>>;
@@ -26,8 +28,7 @@ const SearchContext = createContext<SearchContext | null>(null);
 type Props = React.PropsWithChildren;
 export function SearchProvider({ children }: Props) {
   const [searchOptions, setSearchOptions] = useState<SearchOptions>(() => {
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
+    const startOfToday = getStartOfToday();
 
     return {
       textQuery: '',
