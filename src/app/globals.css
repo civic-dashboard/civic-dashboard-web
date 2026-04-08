@@ -5,6 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #0057B8;
+  --primary-90: #E3F1FF;
   --font-body: var(--font-ibm-plex-sans);
   --font-heading: var(--font-epilogue);
 }
@@ -19,12 +21,12 @@
 @layer base {
   .text-display {
     font-family: var(--font-heading), sans-serif;
-    @apply text-[2.5rem] md:text-[3rem] lg:text-[3.75rem] font-medium leading-[1.1] tracking-[-0.02em];
+    @apply text-[1.875rem] md:text-[2.25rem] lg:text-[3rem] font-medium leading-[1.1] tracking-[-0.02em];
   }
   
   h1, .text-h1 {
     font-family: var(--font-heading), sans-serif;
-    @apply text-[1.875rem] md:text-[2.25rem] lg:text-[3rem] font-bold leading-[1.1] tracking-[-0.02em];
+    @apply text-[1.375rem] md:text-[1.875rem] font-bold leading-[1.2] tracking-[-0.02em];
   }
   
   h2, .text-h2 {
@@ -64,6 +66,34 @@
 
   .classic-link {
     @apply underline text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500;
+  }
+
+  .button {
+    @apply 
+    inline-flex items-center justify-center
+    px-4 py-3 whitespace-nowrap
+    text-button border
+    transition-all duration-200;
+  }
+  
+  .button-outline {
+    @apply text-[var(--primary)] bg-transparent border-[var(--primary)] hover:bg-[var(--primary-90)];
+  }
+
+  .button-outline-white {
+    @apply text-white bg-transparent border-white;
+  }
+
+  .button-outline-neutral {
+    @apply bg-transparent border-gray-400;
+  }
+  
+  .button-solid {
+    @apply  text-button text-white bg-[var(--primary)] border-[var(--primary)];
+}
+  
+  .button-solid-white {
+    @apply  text-button text-[var(--primary)] bg-white border-white hover:bg-[var(--primary-90)];
   }
 }
 

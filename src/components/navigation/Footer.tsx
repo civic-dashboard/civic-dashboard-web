@@ -113,20 +113,21 @@ export default function Footer() {
                 Bluesky
               </ExternalLink>
             </div>
+            <div className="flex flex-col space-y-3">
+              <Link
+                href="/join-newsletter"
+                className="button button-solid  w-full"
+              >
+                Subscribe to Newsletter
+              </Link>
 
-            <Link
-              href="/join-newsletter"
-              className="text-button w-full block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg text-center"
-            >
-              Subscribe to Newsletter
-            </Link>
-
-            <ExternalLink
-              href="https://civictech.ca/"
-              className="text-button block text-center py-2 px-4 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:scale-105"
-            >
-              Civic Tech Toronto
-            </ExternalLink>
+              <ExternalLink
+                href="https://civictech.ca/"
+                className="button button-outline-white w-full"
+              >
+                Civic Tech Toronto
+              </ExternalLink>
+            </div>
           </div>
         </div>
 

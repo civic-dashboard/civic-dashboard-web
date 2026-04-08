@@ -34,14 +34,14 @@ export default function Home() {
               <div className="flex flex-wrap gap-4 pt-4">
                 <Link
                   href="/actions"
-                  className="text-button inline-flex items-center justify-center px-6 py-[20px] whitespace-nowrap bg-white border-white text-gray-900 rounded-xl hover:bg-gray-100 transition-all transform hover:scale-105"
+                  className="button button-solid-white"
                 >
                   <span>Take Action on City Issues</span>
                 </Link>
 
                 <Link
                   href="/how-council-works"
-                  className="text-button inline-flex items-center justify-center px-6 py-[20px] whitespace-nowrap bg-transparent border-2 border-white text-white rounded-xl hover:bg-white/10 transition-all transform hover:scale-105"
+                  className="button button-outline-white"
                 >
                   <span>Learn How Council Works</span>
                 </Link>
@@ -86,7 +86,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/how-council-works"
-                  className="text-button inline-flex items-center justify-center px-6 py-[20px] w-full bg-[#6035C4] text-white rounded-xl"
+                  className="button button-outline"
                 >
                   <span>Learn the basics</span>
                 </Link>
@@ -105,7 +105,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/actions"
-                  className="text-button inline-flex items-center justify-center px-6 py-[20px] w-full bg-[#6035C4] text-white rounded-xl"
+                  className="button button-outline"
                 >
                   <span>Find an issue to act on</span>
                 </Link>
@@ -130,7 +130,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/councillors"
-                  className="text-button inline-flex items-center justify-center px-6 py-[20px] w-full bg-[#6035C4] text-white rounded-xl"
+                  className="button button-outline"
                 >
                   <span>Find your councillor</span>
                 </Link>
@@ -156,13 +156,13 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-[35px] justify-center">
                 <Link
                   href="/join"
-                  className="text-button inline-flex items-center justify-center px-6 py-[20px] bg-white text-gray-900 rounded-xl"
+                  className="button button-solid-white"
                 >
                   <span>Get Involved</span>
                 </Link>
                 <Link
                   href="/join-newsletter"
-                  className="text-button inline-flex items-center justify-center px-6 py-[20px] bg-transparent border-2 border-white text-white rounded-xl"
+                  className="button button-outline-white"
                 >
                   <span>Sign Up for Updates</span>
                 </Link>
