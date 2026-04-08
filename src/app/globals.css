@@ -6,7 +6,7 @@
   --background: #ffffff;
   --foreground: #171717;
   --font-body: var(--font-ibm-plex-sans);
-  --font-heading: var(--font-ibm-plex-sans);
+  --font-heading: var(--font-epilogue);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Sans } from 'next/font/google';
+import { Epilogue, IBM_Plex_Sans } from 'next/font/google';
 import '@/app/globals.css';
 import Header from '@/components/navigation/Header';
 import Footer from '@/components/navigation/Footer';
@@ -9,6 +9,12 @@ const ibmPlexSans = IBM_Plex_Sans({
   weight: ['400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-ibm-plex-sans',
+});
+const epilogue = Epilogue({
+  subsets: ['latin'],
+  weight: ['700', '800'],
+  display: 'swap',
+  variable: '--font-epilogue',
 });
 
 export const metadata: Metadata = {
@@ -32,10 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${ibmPlexSans.variable}`}
-    >
+    <html lang="en" className={`${ibmPlexSans.variable} ${epilogue.variable}`}>
       <head>
         <script
           defer
