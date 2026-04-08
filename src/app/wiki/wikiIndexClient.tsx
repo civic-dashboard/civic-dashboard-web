@@ -59,10 +59,8 @@ export default function WikiIndexClient() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-semibold mb-6 text-center">
-        Civic Dashboard Wiki
-      </h1>
-      <ul className="space-y-3 text-lg text-center">
+      <h1 className="mb-6 text-center">Civic Dashboard Wiki</h1>
+      <ul className="text-body space-y-3 text-center">
         {docs.map((doc) => (
           <li key={doc.filename}>
             <Link

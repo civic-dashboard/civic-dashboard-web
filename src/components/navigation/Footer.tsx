@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Navigation Links Column */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            <h3 className="text-h3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
               Navigation
             </h3>
             <ul className="space-y-3">
@@ -17,7 +17,7 @@ export default function Footer() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="hover:text-blue-400 transition-colors duration-200 block"
+                    className="text-body hover:text-blue-400 transition-colors duration-200 block"
                   >
                     {item.label}
                   </Link>
@@ -27,7 +27,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/labs"
-                  className="hover:text-blue-400 transition-colors duration-200"
+                  className="text-body hover:text-blue-400 transition-colors duration-200"
                 >
                   Labs
                 </Link>
@@ -38,12 +38,12 @@ export default function Footer() {
           <div className="space-y-4">
             {/* Contact Column */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+              <h3 className="text-h3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                 Contact
               </h3>
               <ExternalLink
                 href="mailto:teamcivicdashboard@gmail.com"
-                className="hover:text-blue-400 transition-colors duration-200"
+                className="text-body hover:text-blue-400 transition-colors duration-200"
               >
                 teamcivicdashboard@gmail.com
               </ExternalLink>
@@ -51,7 +51,7 @@ export default function Footer() {
 
             {/* Resources (currently just privacy) */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+              <h3 className="text-h3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                 Resources
               </h3>
 
@@ -59,7 +59,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/privacy"
-                    className="hover:text-blue-400 transition-colors duration-200"
+                    className="text-body hover:text-blue-400 transition-colors duration-200"
                   >
                     Privacy Policy
                   </Link>
@@ -67,7 +67,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/analytics"
-                    className="hover:text-blue-400 transition-colors duration-200"
+                    className="text-body hover:text-blue-400 transition-colors duration-200"
                   >
                     Analytics
                   </Link>
@@ -78,7 +78,7 @@ export default function Footer() {
 
           {/* Social & Newsletter Column */}
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            <h3 className="text-h3 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
               Stay Connected
             </h3>
             <div className="flex space-x-6">
@@ -90,25 +90,25 @@ export default function Footer() {
               </a> */}
               <ExternalLink
                 href="https://civictechto.slack.com/archives/C06KU3DHEKV"
-                className="hover:text-blue-400 transition-colors duration-200"
+                className="text-body hover:text-blue-400 transition-colors duration-200"
               >
                 Slack
               </ExternalLink>
               <ExternalLink
                 href="https://www.linkedin.com/company/civic-dashboard/about/"
-                className="hover:text-blue-400 transition-colors duration-200"
+                className="text-body hover:text-blue-400 transition-colors duration-200"
               >
                 LinkedIn
               </ExternalLink>
               <ExternalLink
                 href="https://github.com/civic-dashboard"
-                className="hover:text-blue-400 transition-colors duration-200"
+                className="text-body hover:text-blue-400 transition-colors duration-200"
               >
                 GitHub
               </ExternalLink>
               <ExternalLink
                 href="https://bsky.app/profile/civicdashboard.bsky.social"
-                className="hover:text-blue-400 transition-colors duration-200"
+                className="text-body hover:text-blue-400 transition-colors duration-200"
               >
                 Bluesky
               </ExternalLink>
@@ -116,14 +116,14 @@ export default function Footer() {
 
             <Link
               href="/join-newsletter"
-              className="w-full block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg text-center"
+              className="text-button w-full block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg text-center"
             >
               Subscribe to Newsletter
             </Link>
 
             <ExternalLink
               href="https://civictech.ca/"
-              className="block text-center py-2 px-4 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:scale-105"
+              className="text-button block text-center py-2 px-4 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:scale-105"
             >
               Civic Tech Toronto
             </ExternalLink>

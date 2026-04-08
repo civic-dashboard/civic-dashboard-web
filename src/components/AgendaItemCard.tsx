@@ -185,11 +185,11 @@ export function FullPageAgendaItemCard({
         </>
       )}
     >
-      <CardTitle className="text-lg">{item.agendaItemTitle}</CardTitle>
+      <CardTitle>{item.agendaItemTitle}</CardTitle>
       {item.itemStatus &&
         item.itemStatus !== 'NO_ACTN' &&
         item.itemStatus !== 'WO_RECS' && (
-          <div className="mt-2">
+          <div className="text-body mt-2">
             <span className="font-bold">Status:</span>{' '}
             {sentenceCase(item.itemStatus)}
           </div>
@@ -197,7 +197,7 @@ export function FullPageAgendaItemCard({
 
       {item.decisionRecommendations && (
         <>
-          <h4 className="mt-4 font-bold">Decision</h4>
+          <h4 className="mt-4">Decision</h4>
           <div
             className="mt-2"
             dangerouslySetInnerHTML={{ __html: item.decisionRecommendations }}
@@ -207,7 +207,7 @@ export function FullPageAgendaItemCard({
 
       {item.decisionAdvice && (
         <>
-          <h4 className="mt-4 font-bold">
+          <h4 className="mt-4">
             Decision Advice and Other Information
           </h4>
           <div
@@ -224,7 +224,7 @@ export function FullPageAgendaItemCard({
           {(item.decisionRecommendations || item.decisionAdvice) && (
             <hr className="my-8 border-t border-neutral-100 dark:border-neutral-600" />
           )}
-          <h4 className="mt-4 font-bold">Summary</h4>
+          <h4 className="mt-4">Summary</h4>
         </>
       )}
       <div
@@ -234,7 +234,7 @@ export function FullPageAgendaItemCard({
 
       {item.agendaItemRecommendation && !item.decisionRecommendations && (
         <>
-          <h4 className="mt-4 font-bold">Recommendations</h4>
+          <h4 className="mt-4">Recommendations</h4>
           <div
             className="mt-2"
             dangerouslySetInnerHTML={{ __html: item.agendaItemRecommendation }}
@@ -243,7 +243,7 @@ export function FullPageAgendaItemCard({
       )}
       {item.backgroundAttachmentId && (
         <>
-          <h4 className="mt-8 mb-1 font-bold">Background Information</h4>
+          <h4 className="mt-8 mb-1">Background Information</h4>
           {item.backgroundAttachmentId.map((id, i) => {
             return (
               <ChipLink
@@ -262,7 +262,7 @@ export function FullPageAgendaItemCard({
       )}
       {relatedTags.length > 0 && (
         <>
-          <h4 className="mt-4 mb-1 font-bold">Related tags</h4>
+          <h4 className="mt-4 mb-1">Related tags</h4>
           {relatedTags.map((tag) => (
             <DisplayTag
               tagKey={tag.key}
@@ -374,7 +374,7 @@ export function SearchResultAgendaItemCard({
                 item.itemStatus !== 'NO_ACTN' &&
                 item.itemStatus !== 'WO_RECS' &&
                 !isMeetingUpcomingOrToday && (
-                  <div className="mt-2">
+                  <div className="text-body mt-2">
                     <span className="font-bold">Status:</span>{' '}
                     {sentenceCase(item.itemStatus)}
                   </div>

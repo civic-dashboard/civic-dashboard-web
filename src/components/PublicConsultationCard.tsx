@@ -38,11 +38,14 @@ export function PublicConsultationCard({ event }: { event: EventData }) {
       /> */}
       <h2 dangerouslySetInnerHTML={{ __html: eventName }} />
       {cta && <EngagementButtonParent content={cta} />}
-      <p className="mt-2" dangerouslySetInnerHTML={{ __html: description }} />
+      <p
+        className="text-body mt-2"
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
 
       <div className="mt-4">
-        <h3 className="text-lg  font-semibold">Date & Time</h3>
-        <p className="">
+        <h3 className="text-h3">Date & Time</h3>
+        <p className="text-body">
           {new Date(startDateTime).toLocaleString()} -{' '}
           {new Date(endDateTime).toLocaleString()}
         </p>
@@ -50,13 +53,13 @@ export function PublicConsultationCard({ event }: { event: EventData }) {
 
       {locations[0].locationName !== 'Online' && (
         <div className="mt-4">
-          <h3 className="text-lg   font-semibold">Location</h3>
+          <h3 className="text-h3">Location</h3>
           {locations.map(
             (location, index) =>
               location.locationName !== 'Online' && (
                 <div key={index}>
-                  <p>
-                    <span className="font-semibold">
+                  <p className="text-body">
+                    <span className="text-bold">
                       {location.locationName}:{' '}
                     </span>
                     <span>{location.displayAddress}</span>
@@ -68,15 +71,15 @@ export function PublicConsultationCard({ event }: { event: EventData }) {
       )}
 
       <div className="mt-4">
-        <h3 className="text-lg   font-semibold">Organizer</h3>
-        <p className="">{orgName}</p>
-        <p className="">Email: {orgEmail}</p>
-        <p className="">Phone: {orgPhone}</p>
+        <h3 className="text-h3">Organizer</h3>
+        <p className="text-body">{orgName}</p>
+        <p className="text-body">Email: {orgEmail}</p>
+        <p className="text-body">Phone: {orgPhone}</p>
       </div>
 
       <div className="mt-4">
-        <h3 className="text-lg font-semibold">More Information</h3>
-        <p className="">
+        <h3 className="text-h3">More Information</h3>
+        <p className="text-body">
           <a href={eventWebsite} className="text-blue-500 hover:underline">
             Event Website
           </a>

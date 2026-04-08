@@ -35,11 +35,7 @@ export const SummaryPanel: FC<SummaryPanelProps> = ({
           </div>
           <footer className="flex justify-between mt-2">
             <AiIndicator />
-            <Button
-              variant="ghost"
-              className="font-bold"
-              onClick={() => setTab('original')}
-            >
+            <Button variant="ghost" onClick={() => setTab('original')}>
               Show original
             </Button>
           </footer>
@@ -49,11 +45,7 @@ export const SummaryPanel: FC<SummaryPanelProps> = ({
           <SafeSummary summaryHtml={originalSummary} />
           <footer className="flex h-10 mt-2">
             {aiSummary && (
-              <Button
-                variant="ghost"
-                className="font-bold"
-                onClick={() => setTab('ai')}
-              >
+              <Button variant="ghost" onClick={() => setTab('ai')}>
                 <SparklesIcon />
                 Show AI Summary
               </Button>
@@ -106,7 +98,7 @@ const ExpandableText: FC<{ children: React.ReactNode }> = ({ children }) => {
           <Button
             onClick={() => setIsExpanded(!isExpanded)}
             variant="ghost"
-            className="font-bold ml-auto"
+            className="ml-auto"
           >
             {isExpanded ? 'Show less' : 'Show more'}
           </Button>

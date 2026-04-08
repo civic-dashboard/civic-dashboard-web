@@ -57,10 +57,10 @@ export function Tooltip({
             >
               <X />
             </button>
-            <div className="font-bold italic text-[20px] mb-[10px]">
+            <div className="text-h3 mb-[10px]">
               {tooltipTitle}:
             </div>
-            <div className="text-[18px]">{tooltipContent}</div>
+            <div className="text-body">{tooltipContent}</div>
           </div>
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Portal>

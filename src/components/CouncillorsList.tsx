@@ -32,7 +32,7 @@ export const CouncillorsList = ({
   return (
     <>
       <header className="flex justify-between flex-col md:flex-row gap-5 mb-3 md:items-center">
-        <h2 className="whitespace-nowrap mb-0">
+        <h2 className="text-h2 whitespace-nowrap mb-0">
           Current Toronto Councillors & Mayor
         </h2>
         <SearchInput
@@ -58,8 +58,8 @@ export const CouncillorsList = ({
             >
               <Avatar src={councillor.photoUrl} size={52} />
               <div>
-                <h3 className="text-lg">{councillor.contactName}</h3>
-                <p>
+                <h3 className="text-h3">{councillor.contactName}</h3>
+                <p className="text-body">
                   {councillor.role === 'councillor' && councillor.wardName}
                   {councillor.role === 'mayor' && 'Mayor of Toronto'}
                 </p>
@@ -72,7 +72,7 @@ export const CouncillorsList = ({
         ))}
       </ul>
       {filteredCouncillors.length === 0 && (
-        <p>No councillors found for {`"${query}"`}</p>
+        <p className="text-body">No councillors found for {`"${query}"`}</p>
       )}
     </>
   );

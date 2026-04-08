@@ -7,10 +7,10 @@ export const metadata: Metadata = {
 
 export default function ShareThoughtsPage() {
   return (
-    <main className="min-h-screen max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-lg">
+    <main className="text-body min-h-screen max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Hero Section */}
       <section className="mb-16">
-        <h1 className="text-4xl font-bold">Share Your Thoughts</h1>
+        <h1 className="text-h2">Share Your Thoughts</h1>
         <p className="mt-4">
           We’d love to hear any thoughts you're willing to share! Know that we
           read every piece of feedback, and that it is this project's guiding
@@ -27,8 +27,8 @@ export default function ShareThoughtsPage() {
 
       {/* Ways to Share Section */}
       <section>
-        <h2 className="text-2xl font-bold">Ways to Share</h2>
-        <ul className="mt-6 list-disc pl-6 space-y-4">
+        <h2 className="text-h3">Ways to Share</h2>
+        <ul className="text-body mt-6 list-disc pl-6 space-y-4">
           <li>
             <strong>Google Form</strong> - After checking out our products
             above, fill out this{' '}

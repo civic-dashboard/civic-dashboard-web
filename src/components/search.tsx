@@ -141,7 +141,7 @@ export function UpcomingPastToggle() {
           role="tab"
           aria-selected={active === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
-          className={`pb-2 text-lg font-semibold ${
+          className={`text-button pb-2 ${
             active === 'upcoming'
               ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
               : 'text-gray-400 dark:text-neutral-800'
@@ -154,7 +154,7 @@ export function UpcomingPastToggle() {
           role="tab"
           aria-selected={active === 'past'}
           onClick={() => handleDateRange('past')}
-          className={`pb-2 text-lg font-semibold ${
+          className={`text-button pb-2 ${
             active === 'past'
               ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
               : 'text-gray-400 dark:text-neutral-800'
@@ -243,5 +243,7 @@ export function SearchBar() {
 
 export function ResultCount() {
   const totalCount = useSearch().searchResults?.totalCount;
-  return <span>{totalCount && <>{totalCount} results</>}</span>;
+  return (
+    <span className="text-body">{totalCount && <>{totalCount} results</>}</span>
+  );
 }

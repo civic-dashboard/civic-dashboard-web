@@ -78,18 +78,18 @@ export function SubmitCommentModal({
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="flex flex-col w-full md:max-w-4xl max-h-screen md:h-[calc(100vh-4rem)] overflow-y-scroll">
-        <h1 className="text-2xl leading-snug">
+        <h1 className="text-h2">
           Submit a comment for
           <br />
-          <span className="inline-block font-semibold pt-1">
+          <span className="font-bold inline-block pt-1">
             {agendaItem.agendaItemTitle}
           </span>
         </h1>
         <div className="mb-4 border rounded p-4 bg-blue-900/50">
-          <h2 className="text-lg flex items-center">
+          <h2 className="text-h3 flex items-center">
             <InfoIcon className="mr-2" /> How to use this page
           </h2>
-          <p>
+          <p className="text-body">
             Submitting a comment involves sending an email to the relevant
             decision body! This form helps you put together this email.
           </p>
@@ -123,14 +123,14 @@ export function SubmitCommentModal({
         <div className="">
           {/* email subject */}
           <div className="mb-6">
-            <h2 className="text-sm font-semibold mb-2">Email subject</h2>
-            <div className="text-base">{subject}</div>
+            <h2 className="text-h4 mb-2">Email subject</h2>
+            <div className="text-body">{subject}</div>
           </div>
           {/* email body */}
           <div className="mb-6">
-            <h2 className="text-sm font-semibold mb-2">Email body</h2>
+            <h2 className="text-h4 mb-2">Email body</h2>
             {bodyStartParagraphs.map((s, i) => (
-              <p key={i} className="mb-3">
+              <p key={i} className="text-body mb-3">
                 {s}
               </p>
             ))}
@@ -179,7 +179,7 @@ export function SubmitCommentModal({
           </div>
           {/* copy/send buttons */}
           <div className="">
-            <p className="text-base text-sm mb-2">
+            <p className="mb-2">
               All done? Use these buttons to copy the text into an email, and
               send that email to: <b>{decisionBody.email}</b>
             </p>
@@ -200,7 +200,7 @@ export function SubmitCommentModal({
                 Copy email body
               </Button>
             </div>
-            <p className="text-base text-sm mt-2 mb-2">
+            <p className="text-sm mt-2 mb-2">
               Or, use this button, which will start a new email in your email
               client with all the text prefilled for you:
             </p>
@@ -221,10 +221,7 @@ export function SubmitCommentModal({
 
 function CommentHelpContent() {
   return (
-    <div
-      className="text-base text-sm space-y-2"
-      id="comment-detailed-description"
-    >
+    <div className="text-sm space-y-2" id="comment-detailed-description">
       <p>Describe:</p>
       <ul className="list-disc">
         <li className="ml-4">
@@ -241,7 +238,7 @@ function CommentHelpContent() {
           amend/change it in some way?
         </li>
       </ul>
-      <h3 className="font-semibold">Example:</h3>
+      <h3 className="text-h3">Example:</h3>
       <p>
         My name is Lisa Michaels, I&rsquo;m a 20 year resident of the High Park
         neighbourhood, and I&rsquo;m a lifelong birder and animal lover.

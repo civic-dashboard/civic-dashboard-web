@@ -19,7 +19,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
     <div className="flex flex-row mb-8">
       <div className="border rounded-xl w-full">
         <div className="flex justify-between border-b px-4 py-3">
-          <div className="border rounded-lg px-4 py-[10px] text-xs text-black font-semibold bg-[#a5f2d4]">
+          <div className="text-bold text-sm border rounded-lg px-4 py-[10px] text-black bg-[#a5f2d4]">
             {formatDateString(item.motions[0].dateTime)}
           </div>
           <AgendaItemLink
@@ -31,7 +31,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
           </AgendaItemLink>
         </div>
         <div className="px-4 pt-3">
-          <h3 className="font-semibold text-sm">{item.agendaItemTitle}</h3>
+          <h3 className="text-h4">{item.agendaItemTitle}</h3>
           {item.agendaItemSummary && (
             <SummaryPanel
               originalSummary={item.agendaItemSummary}
