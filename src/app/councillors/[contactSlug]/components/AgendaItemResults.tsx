@@ -205,7 +205,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <Button
         onClick={onPreviousPage}
         disabled={!hasPreviousPage}
-        variant="secondary-outline"
+        variant="outline-neutral"
       >
         Previous
       </Button>
@@ -250,7 +250,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <Button
         onClick={onNextPage}
         disabled={!hasNextPage}
-        variant="secondary-outline"
+        variant="outline-neutral"
       >
         Next
       </Button>

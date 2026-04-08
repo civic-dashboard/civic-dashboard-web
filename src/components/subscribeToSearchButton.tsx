@@ -50,7 +50,7 @@ export const SubscribeToSearchButton = () => {
       }}
     >
       <PopoverTrigger asChild>
-        <Button variant="secondary-outline">Get Email Alerts</Button>
+        <Button variant="outline-neutral">Get Email Alerts</Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-90 min-w-72">
         <div className="flex flex-col space-y-2">
