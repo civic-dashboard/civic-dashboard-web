@@ -9,7 +9,7 @@ export async function fetchWardsForPostalCode(
     return [];
   }
 
-  const apiUrl = `https://map.toronto.ca/geoservices/rest/search/rankedsearch?searchArea=1&matchType=1&projectionType=1&retRowLimit=10&areaTypeCode1=CITW&areaTypeCode2=WD03&searchString=${encodeURIComponent(cleaned)}`;
+  const apiUrl = `https://map.toronto.ca/geoservices/rest/search/rankedsearch?searchArea=1&matchType=1&projectionType=1&retRowLimit=50&areaTypeCode1=CITW&areaTypeCode2=WD03&searchString=${encodeURIComponent(cleaned)}`;
 
   const response = await fetch(apiUrl);
   if (!response.ok) {
