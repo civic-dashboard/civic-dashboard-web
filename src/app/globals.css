@@ -5,9 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --font-body: var(--font-geist-sans);
-  --font-heading: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-body: var(--font-ibm-plex-sans);
+  --font-heading: var(--font-ibm-plex-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,17 +19,17 @@
 @layer base {
   .text-display {
     font-family: var(--font-heading), sans-serif;
-    @apply text-[2.5rem] md:text-[3rem] lg:text-[3.75rem] font-bold leading-[1.1] tracking-[0em];
+    @apply text-[2.5rem] md:text-[3rem] lg:text-[3.75rem] font-medium leading-[1.1] tracking-[-0.02em];
   }
   
   h1, .text-h1 {
     font-family: var(--font-heading), sans-serif;
-    @apply text-[1.875rem] md:text-[2.25rem] lg:text-[3rem] font-bold leading-[1.1] tracking-[0em];
+    @apply text-[1.875rem] md:text-[2.25rem] lg:text-[3rem] font-bold leading-[1.1] tracking-[-0.02em];
   }
   
   h2, .text-h2 {
     font-family: var(--font-heading), sans-serif;
-    @apply text-[1.375rem] md:text-[1.875rem] font-bold leading-[1.2] tracking-[0em];
+    @apply text-[1.375rem] md:text-[1.875rem] font-bold leading-[1.2] tracking-[-0.02em];
   }
   
   h3, .text-h3 {

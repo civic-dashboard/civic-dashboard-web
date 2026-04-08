@@ -23,7 +23,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-purple-900/60 animate-[gradient_8s_ease_infinite]"></div>
           </div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-            <div className="text-white space-y-6">
+            <div className="text-white space-y-6 max-w-5xl">
               <DisplayText className="text-display mb-4 animate-fade-in">
                 Take action on what's happening at Toronto City Council
               </DisplayText>
