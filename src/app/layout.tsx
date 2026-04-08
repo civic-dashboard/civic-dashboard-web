@@ -1,18 +1,14 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { IBM_Plex_Sans } from 'next/font/google';
 import '@/app/globals.css';
 import Header from '@/components/navigation/Header';
 import Footer from '@/components/navigation/Footer';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-ibm-plex-sans',
 });
 
 export const metadata: Metadata = {
@@ -36,7 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="en"
+      className={`${ibmPlexSans.variable}`}
+    >
       <head>
         <script
           defer
@@ -47,9 +46,7 @@ export default function RootLayout({
           data-exclude-hash="true"
         ></script>
       </head>
-      <body
-        className={`antialiased`}
-      >
+      <body className={`antialiased`}>
         <Header />
         {children}
         <Footer />
