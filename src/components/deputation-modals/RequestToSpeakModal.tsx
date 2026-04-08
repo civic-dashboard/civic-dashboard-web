@@ -26,7 +26,10 @@ function InlineInputField({
 }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <fieldset className="flex flex-col md:flex-row items-center mb-4 md:mb-1">
-      <label className="w-full md:w-1/4 mb-1 md:mb-0" htmlFor={inputProps.id}>
+      <label
+        className="text-bold w-full md:w-1/4 mb-1 md:mb-0"
+        htmlFor={inputProps.id}
+      >
         {label}
       </label>
       <Input className="w-full md:w-3/4" {...inputProps} />
@@ -88,15 +91,15 @@ export function RequestToSpeakModal({
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="flex flex-col w-full md:max-w-4xl max-h-screen md:h-[calc(100vh-4rem)] overflow-y-scroll">
-        <h1 className="text-2xl leading-snug">
+        <h1 className="text-h2">
           Request to speak on
           <br />
-          <span className="inline-block font-semibold pt-1">
+          <span className="font-bold inline-block pt-1">
             {agendaItem.agendaItemTitle}
           </span>
         </h1>
         <div className="mb-4 border rounded p-4 bg-blue-900/50">
-          <h2 className="text-lg flex items-center">
+          <h2 className="text-h3 flex items-center">
             <InfoIcon className="mr-2" /> How to use this page
           </h2>
           <ol className="list-decimal mt-2 pl-4">
@@ -110,7 +113,7 @@ export function RequestToSpeakModal({
           </ol>
         </div>
         <div className="mb-4 border rounded p-4 bg-blue-900/50">
-          <h2 className="text-lg flex items-center">
+          <h2 className="text-h3 flex items-center">
             <HelpCircle className="mr-2" /> What does requesting to speak mean?
           </h2>
           <p className="mt-2">
@@ -158,14 +161,14 @@ export function RequestToSpeakModal({
         <div className="">
           {/* email subject */}
           <div className="mb-6">
-            <h2 className="text-sm font-semibold mb-2">Email subject</h2>
-            <div className="text-base">{subject}</div>
+            <h2 className="text-h4 mb-2">Email subject</h2>
+            <div className="text-body">{subject}</div>
           </div>
           {/* email body */}
           <div className="mb-6">
-            <h2 className="text-sm font-semibold mb-2">Email body</h2>
+            <h2 className="text-h4 mb-2">Email body</h2>
             {bodyStartParagraphs.map((s, i) => (
-              <p key={i} className="mb-3">
+              <p key={i} className="text-body mb-3">
                 {s}
               </p>
             ))}
@@ -205,7 +208,7 @@ export function RequestToSpeakModal({
           </div>
           {/* copy/send buttons */}
           <div className="">
-            <p className="text-base text-sm mb-2">
+            <p className="mb-2">
               All done? Use these buttons to copy the text into an email, and
               send that email to: <b>{decisionBody.email}</b>
             </p>
@@ -226,7 +229,7 @@ export function RequestToSpeakModal({
                 Copy email body
               </Button>
             </div>
-            <p className="text-base text-sm mt-2 mb-2">
+            <p className="mt-2 mb-2">
               Or, use this button, which will start a new email in your email
               client with all the text prefilled for you:
             </p>

@@ -14,7 +14,7 @@ export const AiIndicator: FC = () => {
           className="absolute top-0 right-0 bg-white dark:bg-black"
         />
       </span>
-      <strong className="text-md">AI Generated</strong>
+      <strong className="text-body">AI Generated</strong>
     </div>
   );
 };

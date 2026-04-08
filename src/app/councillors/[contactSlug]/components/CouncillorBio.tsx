@@ -101,7 +101,7 @@ export default function ContactBio({
 
             {contact.phone && (
               <>
-                <dt className="font-bold">Phone</dt>
+                <dt className="text-h4">Phone</dt>
                 <dd>
                   <a className="classic-link" href={`tel:${contact.phone}`}>
                     {contact.phone}

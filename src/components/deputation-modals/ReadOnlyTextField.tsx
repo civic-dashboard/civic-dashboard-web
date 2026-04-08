@@ -11,11 +11,11 @@ export function ReadonlyTextField({
 }) {
   return (
     <fieldset className="flex flex-col md:flex-row mb-2">
-      <label className="block w-1/2 text-sm" htmlFor={id}>
+      <label className="font-bold block w-1/2" htmlFor={id}>
         {label}
       </label>
       <Input
-        className="border-none h-auto p-0 text-sm font-semibold"
+        className="border-none h-auto p-0"
         id={id}
         value={value}
         type="text"

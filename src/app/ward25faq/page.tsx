@@ -14,7 +14,7 @@ function JumpToTopLink() {
     <div className="mt-8">
       <Link
         href="#top"
-        className="inline-flex items-center gap-x-1 text-xs font-semibold hover:underline"
+        className="text-button inline-flex items-center gap-x-1 hover:underline"
       >
         <ArrowUpIcon className="w-4 h-4" /> Jump to top
       </Link>
@@ -28,7 +28,7 @@ export default function Ward25FAQ() {
       <div className="min-h-screen">
         <main className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold mb-12" id="top">
+            <h1 className="text-h2 mb-12" id="top">
               FAQs - Ward 25 By-Election
             </h1>
 
@@ -79,7 +79,7 @@ export default function Ward25FAQ() {
             </ol>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4" id="why">
+              <h2 className="text-h3 mb-4" id="why">
                 Why is there an election?
               </h2>
               <div className="space-y-4">
@@ -123,7 +123,7 @@ export default function Ward25FAQ() {
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4" id="voters">
+              <h2 className="text-h3 mb-4" id="voters">
                 Who can vote?
               </h2>
               <div className="space-y-4">
@@ -221,7 +221,7 @@ export default function Ward25FAQ() {
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4" id="candidates">
+              <h2 className="text-h3 mb-4" id="candidates">
                 Who can I vote for?
               </h2>
               <p>
@@ -241,7 +241,7 @@ export default function Ward25FAQ() {
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4" id="when-where">
+              <h2 className="text-h3 mb-4" id="when-where">
                 When/where can I vote?
               </h2>
               <div className="space-y-4">
@@ -699,10 +699,7 @@ export default function Ward25FAQ() {
             </section>
 
             <section className="mb-12">
-              <h2
-                className="text-2xl font-semibold mb-4"
-                id="do-i-need-to-register"
-              >
+              <h2 className="text-h3 mb-4" id="do-i-need-to-register">
                 Do I need to register to vote in this election?
               </h2>
               <div className="space-y-4">
@@ -719,7 +716,7 @@ export default function Ward25FAQ() {
                   on the Voters' List can be beneficial.
                 </p>
 
-                <h3 className="text-xl font-bold mb-3">
+                <h3 className="text-h3 mb-3">
                   Registering in Advance for the Voters' List
                 </h3>
                 <p>
@@ -751,7 +748,7 @@ export default function Ward25FAQ() {
                   by-election.
                 </p>
 
-                <h3 className="text-xl font-bold mb-3">
+                <h3 className="text-h3 mb-3">
                   Registering for the Voters' List When You Arrive to Vote
                 </h3>
                 <p>
@@ -777,7 +774,7 @@ export default function Ward25FAQ() {
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4" id="what-to-bring">
+              <h2 className="text-h3 mb-4" id="what-to-bring">
                 What do I bring on the day?
               </h2>
               <div className="space-y-4">
@@ -810,7 +807,7 @@ export default function Ward25FAQ() {
 
             <section className="mb-12">
               <h2
-                className="text-2xl font-semibold mb-4"
+                className="text-h3 mb-4"
                 id="alternative-voting-methods"
               >
                 What should I do if I am unable to vote in person?
@@ -823,7 +820,7 @@ export default function Ward25FAQ() {
                   <strong>vote by proxy</strong>.
                 </p>
 
-                <h3 className="text-xl font-bold mb-3">Mail-in Voting:</h3>
+                <h3 className="text-h3 mb-3">Mail-in Voting:</h3>
                 <p>
                   To mail in your vote, you must{' '}
                   <ExternalLink
@@ -874,7 +871,7 @@ export default function Ward25FAQ() {
                   .
                 </p>
 
-                <h3 className="text-xl font-bold mb-3">Proxy Voting:</h3>
+                <h3 className="text-h3 mb-3">Proxy Voting:</h3>
                 <p>
                   Eligible voters can also elect to have someone vote on their
                   behalf, known as proxy voting. You can appoint anyone that is
@@ -937,10 +934,7 @@ export default function Ward25FAQ() {
             </section>
 
             <section className="mb-12">
-              <h2
-                className="text-2xl font-semibold mb-4"
-                id="how-to-stay-engaged"
-              >
+              <h2 className="text-h3 mb-4" id="how-to-stay-engaged">
                 How do I stay engaged after the election?
               </h2>
               <div className="space-y-4">
@@ -958,7 +952,7 @@ export default function Ward25FAQ() {
                   City Council once the by-election is over:
                 </p>
 
-                <h3 className="text-xl font-bold mb-3">
+                <h3 className="text-h3 mb-3">
                   1. Follow up with your new Councillor
                 </h3>
                 <p>
@@ -974,9 +968,7 @@ export default function Ward25FAQ() {
                   insights into ongoing city decisions.
                 </p>
 
-                <h3 className="text-xl font-bold mb-3">
-                  2. Attend a Consultation
-                </h3>
+                <h3 className="text-h3 mb-3">2. Attend a Consultation</h3>
                 <p>
                   City staff often hold consultations, surveys, or community
                   meetings to gather feedback on new policies and projects.
@@ -992,7 +984,7 @@ export default function Ward25FAQ() {
                   - see if you can find one you are interested in attending!
                 </p>
 
-                <h3 className="text-xl font-bold mb-3">
+                <h3 className="text-h3 mb-3">
                   3. Submit a Comment or make a Deputation
                 </h3>
                 <p>

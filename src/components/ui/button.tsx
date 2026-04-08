@@ -8,7 +8,7 @@ import { cn } from '@/components/ui/utils';
 const buttonVariants = cva(
   cn(
     'inline-flex items-center justify-center gap-2',
-    'whitespace-nowrap rounded-md text-sm font-semibold',
+    'text-button whitespace-nowrap rounded-md',
     'transition-colors',
     'ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2',
     'dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300',
@@ -32,7 +32,7 @@ const buttonVariants = cva(
       },
       size: {
         default: 'h-10 rounded-[17px] px-4 py-2',
-        sm: 'h-8 rounded-[13px] px-3 text-xs',
+        sm: 'h-8 rounded-[13px] px-3 text-sm',
         lg: 'h-11 rounded-[20px] px-8',
         icon: 'h-10 w-10',
       },
