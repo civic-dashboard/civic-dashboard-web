@@ -5,7 +5,7 @@ export async function fetchWardsForPostalCode(
   postalCode: string,
 ): Promise<string[]> {
   const cleaned = postalCode.trim().replace(/\s+/g, '').toLowerCase();
-  if (cleaned.length < 3) {
+  if (cleaned.length < 5) {
     return [];
   }
 

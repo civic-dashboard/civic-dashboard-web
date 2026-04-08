@@ -19,7 +19,7 @@ export function PostalCodeSearch({
   const fetchWards = useCallback(
     async (pc: string) => {
       const cleaned = pc.trim().replace(/\s+/g, '').toLowerCase();
-      if (cleaned.length < 3) {
+      if (cleaned.length < 5) {
         onWardsFound([]);
         return;
       }
@@ -37,7 +37,7 @@ export function PostalCodeSearch({
         const wardIds = data.wardIds || [];
         onWardsFound(wardIds);
 
-        if (wardIds.length === 0 && cleaned.length >= 3) {
+        if (wardIds.length === 0 && cleaned.length >= 5) {
           setError('No Toronto wards found for this postal code.');
         }
       } catch (err) {
@@ -58,7 +58,7 @@ export function PostalCodeSearch({
 
   useEffect(() => {
     const cleaned = postalCode.trim().replace(/\s+/g, '');
-    if (cleaned.length >= 3) {
+    if (cleaned.length >= 5) {
       debouncedFetchWards.debounced(cleaned);
     } else {
       debouncedFetchWards.cancel();
@@ -72,7 +72,7 @@ export function PostalCodeSearch({
     <div className="bg-muted/50 p-4 rounded-lg border border-border">
       <h3 className="text-lg font-semibold mb-2">Find Your Councillor</h3>
       <p className="text-sm text-muted-foreground mb-4">
-        Enter your postal code (at least 3 characters) to filter councillors by
+        Enter your postal code (at least 5 characters) to filter councillors by
         ward.
       </p>
       <div className="flex flex-col gap-2">
