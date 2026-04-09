@@ -168,10 +168,8 @@ export default function WikiDocClient({ filename }: { filename: string }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (loading)
-    return <p className="text-center text-gray-600">Loading…</p>;
-  if (error)
-    return <p className="text-center text-red-600">Error: {error}</p>;
+  if (loading) return <p className="text-center text-gray-600">Loading…</p>;
+  if (error) return <p className="text-center text-red-600">Error: {error}</p>;
 
   const hasToc = toc.length > 0;
 
@@ -179,9 +177,7 @@ export default function WikiDocClient({ filename }: { filename: string }) {
     <div className="max-w-4xl mx-auto">
       {/* Page Title */}
       {title && (
-        <h1 className="mb-8 text-gray-900 dark:text-gray-100">
-          {title}
-        </h1>
+        <h1 className="mb-8 text-gray-900 dark:text-gray-100">{title}</h1>
       )}
 
       {/* Table of Contents */}

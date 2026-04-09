@@ -6,7 +6,7 @@ type TextItemProps = {
   className?: string;
 };
 
-// DisplayText is intended for stylistic purposes, not semantic meaning. 
+// DisplayText is intended for stylistic purposes, not semantic meaning.
 // Therefore we use a <p> instead of h*
 export function DisplayText({ children, className }: TextItemProps) {
   return <p className={cn('text-display mb-12', className)}>{children}</p>;

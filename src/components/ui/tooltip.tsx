@@ -57,9 +57,7 @@ export function Tooltip({
             >
               <X />
             </button>
-            <div className="text-h3 mb-[10px]">
-              {tooltipTitle}:
-            </div>
+            <div className="text-h3 mb-[10px]">{tooltipTitle}:</div>
             <div className="text-body">{tooltipContent}</div>
           </div>
         </TooltipPrimitive.Content>
