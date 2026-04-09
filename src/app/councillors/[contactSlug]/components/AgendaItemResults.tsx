@@ -8,13 +8,7 @@ import { MotionsList } from '@/app/councillors/[contactSlug]/components/MotionsL
 import { Button, buttonVariants } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Chip } from '@/components/ui/chip';
 import Link from 'next/link';
 import { cn } from '@/components/ui/utils';
@@ -69,7 +63,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
         <CardContent className="flex-grow pb-0">
           <div className="relative max-h-[250px] overflow-hidden">
             <div
-              className="absolute inset-0 h-[100px] top-[150px] bg-gradient-to-t from-white dark:from-neutral-800 from-1% via-transparent to-transparent pointer-events-none"
+              className="absolute inset-0 h-[100px] top-[150px] bg-gradient-to-t from-white dark:from-neutral-800 from-1% via-transparent to-transparent pointer-events-none z-10"
               data-overflow-gradient
             />
             <div className="overflow-y-auto max-h-full">
@@ -92,21 +86,20 @@ const AgendaItemCard = memo(function AgendaItemCard({
               )}
             </div>
           </div>
+          <div className="flex justify-center mt-4 mb-4">
+            <Link
+              href={`/actions/item/${item.agendaItemNumber}`}
+              target="_blank"
+              className={cn(
+                buttonVariants({ variant: 'outline', size: 'sm' }),
+                'shadow-md hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors bg-white dark:bg-neutral-800',
+              )}
+            >
+              Learn more
+            </Link>
+          </div>
           <MotionsList motions={item.motions} />
         </CardContent>
-
-        <CardFooter>
-          <Link
-            href={`/actions/item/${item.agendaItemNumber}`}
-            target="_blank"
-            className={cn(
-              buttonVariants({ variant: 'outline', size: 'lg' }),
-              'grow sm:flex-initial hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors',
-            )}
-          >
-            Learn more
-          </Link>
-        </CardFooter>
       </Card>
     </div>
   );
