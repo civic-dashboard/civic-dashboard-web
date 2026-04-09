@@ -59,9 +59,7 @@ export function PublicConsultationCard({ event }: { event: EventData }) {
               location.locationName !== 'Online' && (
                 <div key={index}>
                   <p className="text-body">
-                    <span className="text-bold">
-                      {location.locationName}:{' '}
-                    </span>
+                    <span className="text-bold">{location.locationName}: </span>
                     <span>{location.displayAddress}</span>
                   </p>
                 </div>

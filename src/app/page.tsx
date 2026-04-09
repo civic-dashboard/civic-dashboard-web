@@ -32,10 +32,7 @@ export default function Home() {
                 decisions.
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
-                <Link
-                  href="/actions"
-                  className="button button-solid-white"
-                >
+                <Link href="/actions" className="button button-solid-white">
                   <span>Take Action on City Issues</span>
                 </Link>
 
@@ -54,9 +51,7 @@ export default function Home() {
         <section className="flex-grow py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <Heading2>
-                  How to Use Civic Dashboard
-              </Heading2>
+              <Heading2>How to Use Civic Dashboard</Heading2>
               <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 It shouldn't take 3 hours and a political science degree to
                 understand{' '}
@@ -103,10 +98,7 @@ export default function Home() {
                   one click. Use this page to subscribe to issues you care about
                   and speak up when they come up.
                 </p>
-                <Link
-                  href="/actions"
-                  className="button button-outline"
-                >
+                <Link href="/actions" className="button button-outline">
                   <span>Find an issue to act on</span>
                 </Link>
               </div>
@@ -128,10 +120,7 @@ export default function Home() {
                   votes and whether they represent your values. Use this page
                   when you're deciding how to advocate, follow up, or vote.
                 </p>
-                <Link
-                  href="/councillors"
-                  className="button button-outline"
-                >
+                <Link href="/councillors" className="button button-outline">
                   <span>Find your councillor</span>
                 </Link>
               </div>
@@ -154,10 +143,7 @@ export default function Home() {
                 newsletter.
               </p>
               <div className="flex flex-col sm:flex-row gap-[35px] justify-center">
-                <Link
-                  href="/join"
-                  className="button button-solid-white"
-                >
+                <Link href="/join" className="button button-solid-white">
                   <span>Get Involved</span>
                 </Link>
                 <Link

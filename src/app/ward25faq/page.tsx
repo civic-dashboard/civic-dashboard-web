@@ -806,10 +806,7 @@ export default function Ward25FAQ() {
             </section>
 
             <section className="mb-12">
-              <h2
-                className="text-h3 mb-4"
-                id="alternative-voting-methods"
-              >
+              <h2 className="text-h3 mb-4" id="alternative-voting-methods">
                 What should I do if I am unable to vote in person?
               </h2>
               <div className="space-y-4">

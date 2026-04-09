@@ -114,7 +114,7 @@ export const Combobox = <ID extends number | string>({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            'max-w-[300px] justify-between border-neutral-200 rounded-md'
+            'max-w-[300px] justify-between border-neutral-200 rounded-md',
           )}
         >
           <span className="overflow-ellipsis overflow-hidden whitespace-nowrap">

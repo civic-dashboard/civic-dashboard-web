@@ -207,9 +207,7 @@ export function FullPageAgendaItemCard({
 
       {item.decisionAdvice && (
         <>
-          <h4 className="mt-4">
-            Decision Advice and Other Information
-          </h4>
+          <h4 className="mt-4">Decision Advice and Other Information</h4>
           <div
             className="mt-2"
             dangerouslySetInnerHTML={{ __html: item.decisionAdvice }}
