@@ -21,7 +21,7 @@
 @layer base {
   .text-display {
     font-family: var(--font-heading), sans-serif;
-    @apply text-[1.875rem] md:text-[2.25rem] lg:text-[3rem] font-medium leading-[1.1] tracking-[-0.02em];
+    @apply text-[1.875rem] md:text-[2.25rem] lg:text-[3rem] font-extrabold leading-[1.1] tracking-[-0.02em];
   }
   
   h1, .text-h1 {
