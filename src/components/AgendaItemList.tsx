@@ -130,7 +130,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
         </div>
       </div>
       <Tags />
-      <hr />
+      <hr className=' border-gray-200 dark:border-neutral-700' />
       <DecisionBodyFilter
         decisionBodies={currentTermDecisionBodies}
       ></DecisionBodyFilter>

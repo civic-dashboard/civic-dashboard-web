@@ -77,7 +77,8 @@
   }
   
   .button-outline {
-    @apply text-[var(--primary)] bg-transparent border-[var(--primary)] hover:bg-[var(--primary-90)];
+    @apply text-[var(--primary)] bg-transparent border-[var(--primary)] hover:bg-[var(--primary-90)]
+    dark:text-white dark:border-white dark:hover:bg-white/10;
   }
 
   .button-outline-white {
@@ -85,7 +86,8 @@
   }
 
   .button-outline-neutral {
-    @apply bg-transparent border-gray-400;
+    @apply bg-transparent border-gray-400
+    dark:text-neutral-50 dark:border-neutral-600;
   }
   
   .button-solid {
