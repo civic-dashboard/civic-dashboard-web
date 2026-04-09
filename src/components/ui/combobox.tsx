@@ -63,11 +63,6 @@ export const Combobox = <ID extends number | string>({
     [options],
   );
 
-  const isEmpty = useMemo(
-    () => (Array.isArray(value) && value.length === 0) || value === undefined,
-    [value],
-  );
-
   const displayedValue = useMemo(() => {
     if (Array.isArray(value)) {
       if (value.length === 0) return placeholder;
