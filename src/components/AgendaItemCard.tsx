@@ -56,7 +56,7 @@ type AgendaItemCardProps = React.PropsWithChildren<{
   item: AgendaItem;
   decisionBody: DecisionBody;
   externalLink?: string;
-  Footer?: () => React.ReactNode;
+  Footer: () => React.ReactNode;
   className?: string;
 }>;
 
@@ -74,8 +74,6 @@ function AgendaItemCard({
       day: 'numeric',
     })
     .replace(',', '');
-
-  const footerContent = Footer?.();
 
   return (
     <Card className={className}>
@@ -104,7 +102,9 @@ function AgendaItemCard({
       <CardContent className="[&_ul]:ml-8 [&_ul]:list-disc [&_td]:dark:!border-white">
         {children}
       </CardContent>
-      {footerContent && <CardFooter>{footerContent}</CardFooter>}
+      <CardFooter>
+        <Footer />
+      </CardFooter>
     </Card>
   );
 }
@@ -145,10 +145,9 @@ export function FullPageAgendaItemCard({
       item={item}
       decisionBody={decisionBody}
       externalLink={`https://secure.toronto.ca/council/agenda-item.do?item=${item.reference}`}
-      Footer={() => {
-        if (!isMeetingUpcomingOrToday) return null;
-        return (
-          <>
+      Footer={() => (
+        <>
+          {isMeetingUpcomingOrToday && (
             <SubmitCommentModal
               agendaItem={item}
               decisionBody={decisionBody}
@@ -163,6 +162,8 @@ export function FullPageAgendaItemCard({
                 </Button>
               }
             />
+          )}
+          {isMeetingUpcomingOrToday && (
             <RequestToSpeakModal
               agendaItem={item}
               decisionBody={decisionBody}
@@ -177,9 +178,9 @@ export function FullPageAgendaItemCard({
                 </Button>
               }
             />
-          </>
-        );
-      }}
+          )}
+        </>
+      )}
     >
       <CardTitle className="text-lg">{item.agendaItemTitle}</CardTitle>
       {item.itemStatus &&
@@ -340,16 +341,27 @@ export function SearchResultAgendaItemCard({
         item={item}
         decisionBody={decisionBody}
         className="transition-shadow sm:hover:shadow-xl dark:hover:bg-neutral-700 group"
-        Footer={() => {
-          if (!isMeetingUpcomingOrToday) return null;
-          return (
-            <TakeActionDropdown agendaItem={item} decisionBody={decisionBody} />
-          );
-        }}
+        Footer={() => (
+          <>
+            <Button
+              size="lg"
+              variant="outline"
+              className="grow sm:flex-initial"
+            >
+              Learn more
+            </Button>
+            {isMeetingUpcomingOrToday && (
+              <TakeActionDropdown
+                agendaItem={item}
+                decisionBody={decisionBody}
+              />
+            )}
+          </>
+        )}
       >
         <div className="relative max-h-[200px] overflow-hidden">
           <div
-            className="absolute inset-0 h-[100px] top-[100px] bg-gradient-to-t from-white dark:from-neutral-800 dark:group-hover:from-neutral-700 from-1% via-transparent to-transparent pointer-events-none z-10"
+            className="absolute inset-0 h-[100px] top-[100px] bg-gradient-to-t from-white dark:from-neutral-800 dark:group-hover:from-neutral-700 from-1% via-transparent to-transparent pointer-events-none"
             data-overflow-gradient
           />
           <div className="overflow-y-auto max-h-full">
@@ -370,15 +382,6 @@ export function SearchResultAgendaItemCard({
               />
             </HighlightChildren>
           </div>
-        </div>
-        <div className="flex justify-center mt-4 mb-4">
-          <Button
-            size="sm"
-            variant="outline"
-            className="shadow-sm bg-white dark:bg-neutral-800 group-hover:bg-neutral-100 dark:group-hover:bg-neutral-700"
-          >
-            Learn more
-          </Button>
         </div>
       </AgendaItemCard>
     </Link>
