@@ -2,45 +2,105 @@
 
 import { AgendaItem } from '@/app/councillors/[contactSlug]/types';
 import { useMemo, memo, useState, useEffect } from 'react';
-import { Link2Icon } from 'lucide-react';
+import { Link2 } from 'lucide-react';
 import { SummaryPanel } from '@/app/councillors/[contactSlug]/components/SummaryPanel';
 import { MotionsList } from '@/app/councillors/[contactSlug]/components/MotionsList';
-import { AgendaItemLink } from '@/components/AgendaItemLink';
-import { buttonVariants, Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Chip } from '@/components/ui/chip';
+import Link from 'next/link';
+import { cn } from '@/components/ui/utils';
+import { sentenceCase } from '@/logic/strings';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
 }: {
   item: AgendaItem;
 }) {
+  const firstMotion = item.motions[0];
+  const dateString = firstMotion.dateTime?.substring(0, 10);
+  const date = dateString ? new Date(dateString) : new Date(NaN);
+  let formattedDate = 'Unknown date';
+
+  if (!isNaN(date.getTime())) {
+    date.setMinutes(date.getTimezoneOffset());
+    formattedDate = date
+      .toLocaleString('default', {
+        month: 'short',
+        year: 'numeric',
+        day: 'numeric',
+      })
+      .replace(/,/g, '');
+  }
+
   return (
-    <div className="flex flex-row mb-8">
-      <div className="border rounded-xl w-full">
-        <div className="flex justify-between border-b px-4 py-3">
-          <div className="border rounded-lg px-4 py-[10px] text-xs text-black font-semibold bg-[#a5f2d4]">
-            {formatDateString(item.motions[0].dateTime)}
+    <div className="mb-8 last:mb-0">
+      <Card className="transition-shadow h-full flex flex-col">
+        <CardHeader>
+          <div className="flex gap-x-2 items-center">
+            <Chip variant="green">{formattedDate}</Chip>
+            <span className="hidden sm:inline font-bold">
+              {firstMotion.committeeName}
+            </span>
           </div>
-          <AgendaItemLink
-            className={buttonVariants({ variant: 'default' })}
-            agendaItemNumber={item.agendaItemNumber}
-          >
-            <Link2Icon className="w-[14px] h-[14px] mr-2" />
-            {item.agendaItemNumber}
-          </AgendaItemLink>
-        </div>
-        <div className="px-4 pt-3">
-          <h3 className="font-semibold text-sm">{item.agendaItemTitle}</h3>
-          {item.agendaItemSummary && (
-            <SummaryPanel
-              originalSummary={item.agendaItemSummary}
-              aiSummary={item.aiSummary}
+          <Link href={`/actions/item/${item.agendaItemNumber}`} target="_blank">
+            <Chip
+              variant="outline"
+              className="hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+            >
+              <Link2 size={14} />
+              {item.agendaItemNumber}
+            </Chip>
+          </Link>
+        </CardHeader>
+
+        <CardContent className="sm:hidden border-b border-neutral-100 dark:border-neutral-600 flex justify-center p-2">
+          <span className="font-bold">{firstMotion.committeeName}</span>
+        </CardContent>
+
+        <CardContent className="flex-grow pb-0">
+          <div className="relative max-h-[250px] overflow-hidden">
+            <div
+              className="absolute inset-0 h-[100px] top-[150px] bg-gradient-to-t from-white dark:from-neutral-800 from-1% via-transparent to-transparent pointer-events-none z-10"
+              data-overflow-gradient
             />
-          )}
-        </div>
-        <MotionsList motions={item.motions} />
-      </div>
+            <div className="overflow-y-auto max-h-full">
+              <CardTitle className="text-lg mb-2">
+                {item.agendaItemTitle}
+              </CardTitle>
+              {item.itemStatus &&
+                item.itemStatus !== 'NO_ACTN' &&
+                item.itemStatus !== 'WO_RECS' && (
+                  <div className="mt-2 mb-2">
+                    <span className="font-bold">Status:</span>{' '}
+                    {sentenceCase(item.itemStatus)}
+                  </div>
+                )}
+              {item.agendaItemSummary && (
+                <SummaryPanel
+                  originalSummary={item.agendaItemSummary}
+                  aiSummary={item.aiSummary}
+                />
+              )}
+            </div>
+          </div>
+          <div className="flex justify-center mt-4 mb-4">
+            <Link
+              href={`/actions/item/${item.agendaItemNumber}`}
+              target="_blank"
+              className={cn(
+                buttonVariants({ variant: 'outline', size: 'sm' }),
+                'shadow-md hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors bg-white dark:bg-neutral-800',
+              )}
+            >
+              Learn more
+            </Link>
+          </div>
+          <MotionsList motions={item.motions} />
+        </CardContent>
+      </Card>
     </div>
   );
 });
@@ -314,17 +374,3 @@ export default function AgendaItemResults({
     </div>
   );
 }
-
-const formatDateString = (dateString: string) => {
-  if (!dateString) return dateString;
-  const date = new Date(dateString.substring(0, 10));
-  if (!date.getTime()) return dateString;
-  date.setMinutes(date.getTimezoneOffset());
-  return dateFormatter.format(date);
-};
-
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric',
-});

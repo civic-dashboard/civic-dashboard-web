@@ -40,6 +40,14 @@ async function getTotalAgendaItemsForContact(
 ): Promise<{ itemCount: number }[]> {
   const agendaItemCount = db
     .selectFrom('Votes')
+    // Ensure we only count items that have TMMIS data (summaries)
+    .innerJoin('RawAgendaItemConsiderations', (eb) =>
+      eb.onRef(
+        'Votes.agendaItemNumber',
+        '=',
+        'RawAgendaItemConsiderations.reference',
+      ),
+    )
     .select((eb) => [
       eb.fn
         .count<number>('Votes.agendaItemNumber')
@@ -73,6 +81,14 @@ async function getVotesByAgendaItemsForContact(
             'AgendaItems.agendaItemNumber',
           ),
         )
+        // Ensure we only count items that have TMMIS data (summaries)
+        .innerJoin('RawAgendaItemConsiderations', (eb) =>
+          eb.onRef(
+            'Votes.agendaItemNumber',
+            '=',
+            'RawAgendaItemConsiderations.reference',
+          ),
+        )
         .select(['Votes.agendaItemNumber', 'Motions.dateTime'])
         .where('Votes.contactSlug', '=', contactSlug)
         .distinctOn('AgendaItems.agendaItemNumber')
@@ -88,7 +104,7 @@ async function getVotesByAgendaItemsForContact(
     .with('OriginalSummaries', (eb) =>
       eb
         .selectFrom('RawAgendaItemConsiderations')
-        .select(['reference', 'agendaItemSummary'])
+        .select(['reference', 'agendaItemSummary', 'itemStatus'])
         .distinct(),
     )
     .with('AutoSummaries', (eb) =>
@@ -118,7 +134,7 @@ async function getVotesByAgendaItemsForContact(
     .innerJoin('Committees', (eb) =>
       eb.onRef('Committees.committeeSlug', '=', 'Motions.committeeSlug'),
     )
-    .leftJoin('OriginalSummaries', (eb) =>
+    .innerJoin('OriginalSummaries', (eb) =>
       eb.onRef(
         'AgendaItems.agendaItemNumber',
         '=',
@@ -152,6 +168,7 @@ async function getVotesByAgendaItemsForContact(
       'Motions.result',
       'Motions.resultKind',
       'OriginalSummaries.agendaItemSummary',
+      'OriginalSummaries.itemStatus',
       sql<string>`CONCAT("Motions"."yesVotes", '-', "Motions"."noVotes")`.as(
         'tally',
       ),
@@ -164,6 +181,7 @@ async function getVotesByAgendaItemsForContact(
     agendaItemTitle,
     agendaItemSummary,
     aiSummary,
+    itemStatus,
     ...motion
   } of rows) {
     const agendaItem: AgendaItem = agendaItemByNumber.get(agendaItemNumber) ?? {
@@ -171,6 +189,7 @@ async function getVotesByAgendaItemsForContact(
       agendaItemTitle,
       agendaItemSummary,
       aiSummary,
+      itemStatus,
       motions: [],
     };
     agendaItem.motions.push(motion);

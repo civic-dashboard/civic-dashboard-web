@@ -3,6 +3,7 @@ export interface AgendaItem {
   agendaItemTitle: string;
   agendaItemSummary: string | null;
   aiSummary: string | null;
+  itemStatus: string | null;
   motions: Array<Motion>;
 }
 
