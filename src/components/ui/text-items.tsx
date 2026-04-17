@@ -24,10 +24,6 @@ export function Heading3({ children, className }: TextItemProps) {
   return <h3 className={cn('text-h3 mb-6', className)}>{children}</h3>;
 }
 
-export function Subheading({ children, className }: TextItemProps) {
-  return <h3 className={cn('text-subheading mb-6', className)}>{children}</h3>;
-}
-
 /**
  * Renders a `<ul>` styled as a bulleted list. `children` should be `<li>`
  * elements. You do not need to add margin/padding for `<li>` -- this component

@@ -27,7 +27,7 @@ export default function Home() {
               <DisplayText className="text-display mb-4 animate-fade-in">
                 Take action on what's happening at Toronto City Council
               </DisplayText>
-              <p className="text-subheading">
+              <p className="text-body">
                 Tools to help you follow, understand, and influence city
                 decisions.
               </p>
