@@ -1,7 +1,6 @@
 import {
   Heading1,
   Heading2,
-  Subheading,
   BulletedList,
 } from '@/components/ui/text-items';
 import { Section } from '@/components/ui/section';
@@ -13,11 +12,11 @@ export default function JoinPage() {
       {/* Hero Section */}
       <Section>
         <Heading1>Join The Team!</Heading1>
-        <Subheading>
+        <p>
           We're a completely volunteer-run team - meaning that all of us were
           once where you are, just hearing about this project for the first
           time! No matter who you are, you can contribute to this project.
-        </Subheading>
+        </p>
       </Section>
 
       {/* Who We Need Section */}
