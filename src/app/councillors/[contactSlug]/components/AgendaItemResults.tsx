@@ -19,7 +19,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
     <div className="flex flex-row mb-8">
       <div className="border rounded-xl w-full">
         <div className="flex justify-between border-b px-4 py-3">
-          <div className="text-bold text-sm border rounded-lg px-4 py-[10px] text-black bg-[#a5f2d4]">
+          <div className="text-bold text-small border rounded-lg px-4 py-[10px] text-black bg-[#a5f2d4]">
             {formatDateString(item.motions[0].dateTime)}
           </div>
           <AgendaItemLink
@@ -159,7 +159,7 @@ const Pagination: React.FC<PaginationProps> = ({
               1
             </Button>
             {visiblePages[0] > 2 && (
-              <span className="px-3 py-2 text-sm text-gray-500">...</span>
+              <span className="px-3 py-2 text-small text-gray-500">...</span>
             )}
           </>
         )}
@@ -177,7 +177,7 @@ const Pagination: React.FC<PaginationProps> = ({
         {visiblePages[visiblePages.length - 1] < totalPages && (
           <>
             {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
-              <span className="px-3 py-2 text-sm text-gray-500">...</span>
+              <span className="px-3 py-2 text-small text-gray-500">...</span>
             )}
             <Button
               onClick={() => onPageChange(totalPages)}
@@ -267,7 +267,7 @@ export default function AgendaItemResults({
       {totalItems > 0 ? (
         <>
           <div className="flex justify-between items-center mt-2 mb-8">
-            <div className="text-sm text-gray-600">
+            <div className="text-small text-gray-600">
               {totalItems >= startIndex ? (
                 <>
                   Showing {startIndex}-{endIndex} of {totalItems} results
@@ -292,7 +292,7 @@ export default function AgendaItemResults({
       ) : (
         <>
           <div className="flex justify-between items-center mt-2 mb-8">
-            <div className="text-sm text-gray-600">Loading...</div>
+            <div className="text-small text-gray-600">Loading...</div>
           </div>
           <div>
             <div className="text-center py-8 text-gray-500">

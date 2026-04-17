@@ -40,14 +40,14 @@ export const MotionsList = ({ motions }: MotionsListProps) => {
     <div className="mt-2">
       {motionsToShow.map((motion) => (
         <div key={motion.motionId} className="border-t p-4">
-          <dl className="text-sm flex mb-2 gap-1">
+          <dl className="text-small flex mb-2 gap-1">
             <dt>Date</dt>
             <dd className="text-gray-500">{motion.dateTime}</dd>
             <dt className="ml-auto">Motion</dt>
             <dd className="text-gray-500">{motion.motionType}</dd>
           </dl>
 
-          <dl className="text-sm flex flex-row gap-4 justify-between items-center">
+          <dl className="text-small flex flex-row gap-4 justify-between items-center">
             <div className="flex items-center">
               <dt className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#1870F8] text-white">
                 <VoteIcon value={motion.value} />

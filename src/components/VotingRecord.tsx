@@ -141,17 +141,17 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
               <CalendarIcon className="w-3.5 h-3.5" aria-hidden="true" />
               <span>{motion.dateTime}</span>
             </div>
-            <div className="text-sm font-bold text-neutral-400 mb-1">
+            <div className="text-small font-bold text-neutral-400 mb-1">
               {motion.motionType}
             </div>
             <h4 className="text-h4">{motion.voteDescription}</h4>
           </div>
           <div className="flex items-center gap-6 shrink-0">
             <div className="text-center">
-              <div className="text-sm font-bold text-neutral-400">Result</div>
+              <div className="text-small font-bold text-neutral-400">Result</div>
               <div
                 className={cn(
-                  'font-bold px-2 py-0.5 rounded text-sm min-w-[80px]',
+                  'font-bold px-2 py-0.5 rounded text-small min-w-[80px]',
                   motion.resultKind.toLowerCase() === 'carried'
                     ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                     : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
@@ -165,7 +165,7 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
       </div>
 
       <div className="p-4">
-        <div className="flex flex-wrap gap-x-8 gap-y-4 text-sm mb-4">
+        <div className="flex flex-wrap gap-x-8 gap-y-4 text-small mb-4">
           <div className="flex items-center gap-2">
             <ThumbsUpIcon
               className="w-4 h-4 text-green-600"
@@ -215,7 +215,7 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
               >
                 <Avatar size={32} src={vote.photoUrl} alt={vote.contactName} />
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm truncate text-neutral-900 dark:text-neutral-100">
+                  <div className="text-small truncate text-neutral-900 dark:text-neutral-100">
                     {vote.contactName}
                   </div>
                 </div>

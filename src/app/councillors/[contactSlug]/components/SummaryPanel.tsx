@@ -29,7 +29,7 @@ export const SummaryPanel: FC<SummaryPanelProps> = ({
     <div>
       {tab === 'ai' ? (
         <>
-          <div className="text-sm">
+          <div className="text-small">
             {/* Todo: Determine if we can omit this header from the prompt */}
             <Markdown>{aiSummary.replace('**Context**', '')}</Markdown>
           </div>
@@ -64,7 +64,7 @@ const SafeSummary = memo(function SafeSummary({
 }) {
   return (
     <div
-      className="text-sm rich-html-styles"
+      className="text-small rich-html-styles"
       dangerouslySetInnerHTML={{
         __html: sanitize(summaryHtml),
       }}

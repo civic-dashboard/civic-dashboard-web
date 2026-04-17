@@ -200,7 +200,7 @@ export function SubmitCommentModal({
                 Copy email body
               </Button>
             </div>
-            <p className="text-sm mt-2 mb-2">
+            <p className="text-small mt-2 mb-2">
               Or, use this button, which will start a new email in your email
               client with all the text prefilled for you:
             </p>
@@ -221,7 +221,7 @@ export function SubmitCommentModal({
 
 function CommentHelpContent() {
   return (
-    <div className="text-sm space-y-2" id="comment-detailed-description">
+    <div className="text-small space-y-2" id="comment-detailed-description">
       <p>Describe:</p>
       <ul className="list-disc">
         <li className="ml-4">

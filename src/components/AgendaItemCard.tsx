@@ -50,7 +50,7 @@ function DisplayTag({ tagKey, tagName }: { tagKey: string; tagName: string }) {
   return (
     <Link className="mr-1" href={`/actions?tag=${tagKey}`}>
       <Chip
-        className="hover:border-gray-400 hover:underline text-sm"
+        className="hover:border-gray-400 hover:underline text-small"
         variant="outline"
       >
         {tagName.toLowerCase()}
