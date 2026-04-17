@@ -47,7 +47,7 @@ export const MotionsList = ({ motions }: MotionsListProps) => {
             <dd className="text-gray-500">{motion.motionType}</dd>
           </dl>
 
-          <dl className="text-sm flex flex-row gap-4 justify-between items-center">
+          <dl className="text-small flex flex-row gap-4 justify-between items-center">
             <div className="flex items-center">
               <dt className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#1870F8] text-white">
                 <VoteIcon value={motion.value} />

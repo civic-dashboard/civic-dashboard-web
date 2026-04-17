@@ -217,7 +217,7 @@ const Pagination: React.FC<PaginationProps> = ({
               1
             </Button>
             {visiblePages[0] > 2 && (
-              <span className="px-3 py-2 text-sm text-gray-500">...</span>
+              <span className="px-3 py-2 text-small text-gray-500">...</span>
             )}
           </>
         )}
@@ -235,7 +235,7 @@ const Pagination: React.FC<PaginationProps> = ({
         {visiblePages[visiblePages.length - 1] < totalPages && (
           <>
             {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
-              <span className="px-3 py-2 text-sm text-gray-500">...</span>
+              <span className="px-3 py-2 text-small text-gray-500">...</span>
             )}
             <Button
               onClick={() => onPageChange(totalPages)}
