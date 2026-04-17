@@ -3,18 +3,32 @@
 @tailwind base;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #0057B8;
-  --primary-90: #E3F1FF;
+  /* Color tokens */
+  --white: #ffffff;
+  --black: #0d1117; /* Graphite */
+  --grey-dark: #495668; /* Slate */
+  --grey-light: #d8dde6; /* Steel */
+  --grey-lightest: #f7f8f9; /* Frost */
+  
+  --primary: #0057B8; /* Civic Blue */
+  --primary-light: #97D3FF; /* Skydome Blue */
+  --primary-lightest: #E0F2FF; /* Ice */
+
+  --success: #008046; /*High Park Green */
+  --warning: #F39113; /* Subway Line Yellow */
+  --danger: #D32522; /* TTC Red */
+
+  --background: var(--white);
+  --foreground: var(--black);
+
   --font-body: var(--font-ibm-plex-sans);
   --font-heading: var(--font-epilogue);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background:  var(--black);
+    --foreground: var(--white);
   }
 }
 
@@ -72,7 +86,7 @@
   }
   
   .button-outline {
-    @apply text-[var(--primary)] bg-transparent border-[var(--primary)] hover:bg-[var(--primary-90)]
+    @apply text-[var(--primary)] bg-transparent border-[var(--primary)] hover:bg-[var(--primary-lightest)]
     dark:text-white dark:border-white dark:hover:bg-white/10;
   }
 
@@ -90,7 +104,7 @@
 }
   
   .button-solid-white {
-    @apply  text-button text-[var(--primary)] bg-white border-white hover:bg-[var(--primary-90)];
+    @apply  text-button text-[var(--primary)] bg-white border-white hover:bg-[var(--primary-lightest)];
   }
 }
 
