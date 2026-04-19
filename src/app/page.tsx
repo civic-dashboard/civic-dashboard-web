@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import { tooltips } from '@/constants/tooltips';
 import { ExternalLink } from '@/components/ExternalLink';
+import { DisplayText, Heading2 } from '@/components/ui/text-items';
 
 export default function Home() {
   return (
@@ -22,32 +23,24 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-purple-900/60 animate-[gradient_8s_ease_infinite]"></div>
           </div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-            <div className="text-white space-y-6">
-              <h1 className="text-4xl md:text-6xl font-normal tracking-tight mb-4 animate-fade-in">
-                Take Action on what's happening at <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-semibold">
-                  Toronto City Council
-                </span>
-              </h1>
-              <p className="text-xl sm:text-2xl md:text-3xl font-light max-w-4xl leading-relaxed">
+            <div className="text-white space-y-6 max-w-5xl">
+              <DisplayText className="text-display mb-4 animate-fade-in">
+                Take action on what's happening at Toronto City Council
+              </DisplayText>
+              <p className="text-body">
                 Tools to help you follow, understand, and influence city
                 decisions.
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
-                <Link
-                  href="/actions"
-                  className="inline-flex items-center justify-center px-6 py-[20px] whitespace-nowrap bg-white border-white text-xl text-gray-900 rounded-xl font-medium hover:bg-gray-100 transition-all transform hover:scale-105"
-                >
-                  <span className="leading-none">
-                    Take Action on City Issues
-                  </span>
+                <Link href="/actions" className="button button-solid-white">
+                  <span>Take Action on City Issues</span>
                 </Link>
 
                 <Link
                   href="/how-council-works"
-                  className="inline-flex items-center justify-center px-6 py-[20px] whitespace-nowrap bg-transparent border-2 border-white text-white text-xl rounded-xl font-medium hover:bg-white/10 transition-all transform hover:scale-105"
+                  className="button button-outline-white"
                 >
-                  <span className="leading-none">Learn How Council Works</span>
+                  <span>Learn How Council Works</span>
                 </Link>
               </div>
             </div>
@@ -58,10 +51,8 @@ export default function Home() {
         <section className="flex-grow py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-normal mb-10 text-gray-900 dark:text-white">
-                How to Use Civic Dashboard
-              </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              <Heading2>How to Use Civic Dashboard</Heading2>
+              <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 It shouldn't take 3 hours and a political science degree to
                 understand{' '}
                 <Tooltip
@@ -80,7 +71,7 @@ export default function Home() {
               {/* How Council Works Card */}
               <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
                 <div className="text-4xl mb-4">📚</div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                <h3 className="text-h3 mb-2 text-gray-900 dark:text-white">
                   How Council Works
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
@@ -90,16 +81,16 @@ export default function Home() {
                 </p>
                 <Link
                   href="/how-council-works"
-                  className="inline-flex items-center justify-center px-6 py-[20px] w-full bg-[#6035C4] text-white text-xl rounded-xl font-medium"
+                  className="button button-outline"
                 >
-                  <span className="leading-none">Learn the basics</span>
+                  <span>Learn the basics</span>
                 </Link>
               </div>
 
               {/* Actions Card */}
               <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
                 <div className="text-4xl mb-4">✨</div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                <h3 className="text-h3 mb-2 text-gray-900 dark:text-white">
                   Actions
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
@@ -107,18 +98,15 @@ export default function Home() {
                   one click. Use this page to subscribe to issues you care about
                   and speak up when they come up.
                 </p>
-                <Link
-                  href="/actions"
-                  className="inline-flex items-center justify-center px-6 py-[20px] w-full bg-[#6035C4] text-white text-xl rounded-xl font-medium"
-                >
-                  <span className="leading-none">Find an issue to act on</span>
+                <Link href="/actions" className="button button-outline">
+                  <span>Find an issue to act on</span>
                 </Link>
               </div>
 
               {/* Councillors Card */}
               <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
                 <div className="text-4xl mb-4">👥</div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                <h3 className="text-h3 mb-2 text-gray-900 dark:text-white">
                   Councillors
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
@@ -132,11 +120,8 @@ export default function Home() {
                   votes and whether they represent your values. Use this page
                   when you're deciding how to advocate, follow up, or vote.
                 </p>
-                <Link
-                  href="/councillors"
-                  className="inline-flex items-center justify-center px-6 py-[20px] w-full bg-[#6035C4] text-white text-xl rounded-xl font-medium"
-                >
-                  <span className="leading-none">Find your councillor</span>
+                <Link href="/councillors" className="button button-outline">
+                  <span>Find your councillor</span>
                 </Link>
               </div>
             </div>
@@ -147,10 +132,10 @@ export default function Home() {
         <section className="">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 shadow-xl">
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="text-h2 text-white mb-4">
                 Join us in making democracy more accessible
               </h2>
-              <p className="text-white/90 text-lg mb-8">
+              <p className="text-white/90 mb-8">
                 We're regular, passionate Torontonians building a better city
                 together.
                 <br />
@@ -158,17 +143,14 @@ export default function Home() {
                 newsletter.
               </p>
               <div className="flex flex-col sm:flex-row gap-[35px] justify-center">
-                <Link
-                  href="/join"
-                  className="inline-flex items-center justify-center px-6 py-[20px] bg-white text-gray-900 text-xl rounded-xl font-medium"
-                >
-                  <span className="leading-none">Get Involved</span>
+                <Link href="/join" className="button button-solid-white">
+                  <span>Get Involved</span>
                 </Link>
                 <Link
                   href="/join-newsletter"
-                  className="inline-flex items-center justify-center px-6 py-[20px] bg-transparent border-2 border-white text-white text-xl rounded-xl font-medium"
+                  className="button button-outline-white"
                 >
-                  <span className="leading-none">Sign Up for Updates</span>
+                  <span>Sign Up for Updates</span>
                 </Link>
               </div>
             </div>
@@ -179,7 +161,7 @@ export default function Home() {
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h3 className="text-xl font-normal text-gray-900 dark:text-white mb-6">
+              <h3 className="text-h3 text-gray-900 dark:text-white mb-6">
                 Check us out on these platforms!
               </h3>
               <div className="flex justify-center gap-6">

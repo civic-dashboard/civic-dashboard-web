@@ -8,7 +8,7 @@ export default function JoinPage() {
       {/* Hero Section */}
       <Section>
         <Heading1>Join The Team!</Heading1>
-        <p className="mt-4 text-xl">
+        <p>
           We're a completely volunteer-run team - meaning that all of us were
           once where you are, just hearing about this project for the first
           time! No matter who you are, you can contribute to this project.

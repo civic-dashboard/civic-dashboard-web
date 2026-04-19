@@ -50,7 +50,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 font-medium"
+                  className="text-button text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
                 >
                   {item.label}
                 </Link>
@@ -104,7 +104,7 @@ export default function Header() {
                   key={item.label}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-4 py-3 text-lg font-bold text-gray-700 dark:text-gray-300 hover:text-blue-600 hover:bg-blue-50 dark:hover:text-blue-400 dark:hover:bg-gray-700 transition-all duration-200 text-right"
+                  className="text-button block px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-blue-600 hover:bg-blue-50 dark:hover:text-blue-400 dark:hover:bg-gray-700 transition-all duration-200 text-right"
                 >
                   {item.label}
                 </Link>

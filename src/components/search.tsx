@@ -135,16 +135,16 @@ export function UpcomingPastToggle() {
   };
 
   return (
-    <div className="w-full border-b border-gray-200">
+    <div className="w-full border-b border-gray-200 dark:border-neutral-700">
       <div className="flex gap-6">
         <button
           role="tab"
           aria-selected={active === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
-          className={`pb-2 text-lg font-semibold ${
+          className={`text-button pb-2 border-b-2 ${
             active === 'upcoming'
-              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
-              : 'text-gray-400 dark:text-neutral-800'
+              ? 'text-[var(--primary)] border-[var(--primary)] dark:text-white dark:border-white'
+              : 'text-gray border-transparent dark:text-neutral-500 '
           }`}
         >
           Upcoming items
@@ -154,10 +154,10 @@ export function UpcomingPastToggle() {
           role="tab"
           aria-selected={active === 'past'}
           onClick={() => handleDateRange('past')}
-          className={`pb-2 text-lg font-semibold ${
+          className={`text-button pb-2 border-b-2 ${
             active === 'past'
-              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
-              : 'text-gray-400 dark:text-neutral-800'
+              ? 'text-[var(--primary)] border-[var(--primary)] dark:text-white dark:border-white'
+              : 'text-gray border-transparent dark:text-neutral-500 '
           }`}
         >
           Past items
@@ -243,5 +243,7 @@ export function SearchBar() {
 
 export function ResultCount() {
   const totalCount = useSearch().searchResults?.totalCount;
-  return <span>{totalCount && <>{totalCount} results</>}</span>;
+  return (
+    <span className="text-body">{totalCount && <>{totalCount} results</>}</span>
+  );
 }

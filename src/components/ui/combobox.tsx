@@ -63,11 +63,6 @@ export const Combobox = <ID extends number | string>({
     [options],
   );
 
-  const isEmpty = useMemo(
-    () => (Array.isArray(value) && value.length === 0) || value === undefined,
-    [value],
-  );
-
   const displayedValue = useMemo(() => {
     if (Array.isArray(value)) {
       if (value.length === 0) return placeholder;
@@ -110,18 +105,17 @@ export const Combobox = <ID extends number | string>({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="outline-neutral"
           role="combobox"
           aria-expanded={open}
           className={cn(
             'max-w-[300px] justify-between border-neutral-200 rounded-md',
-            isEmpty && 'text-gray-500',
           )}
         >
           <span className="overflow-ellipsis overflow-hidden whitespace-nowrap">
             {displayedValue}
           </span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-[500px] p-0">

@@ -18,7 +18,7 @@ export const PrototypeNotice = ({ children }: React.PropsWithChildren) => {
             Prototype Notice
           </AccordionTrigger>
           <AccordionContent>
-            <div className="text-sm text-muted-foreground text-orange-500">
+            <div className="text-small text-muted-foreground text-orange-500">
               {children}
             </div>
           </AccordionContent>

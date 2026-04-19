@@ -39,8 +39,8 @@ export const CouncillorsList = ({
             >
               <Avatar src={councillor.photoUrl} size={52} />
               <div>
-                <h3 className="text-lg">{councillor.contactName}</h3>
-                <p>
+                <h3 className="text-h3">{councillor.contactName}</h3>
+                <p className="text-body">
                   {councillor.role === 'Councillor' && councillor.wardName}
                   {councillor.role === 'Mayor' && 'Mayor of Toronto'}
                 </p>

@@ -88,7 +88,7 @@ export const VotingRecord = ({ motions }: VotingRecordProps) => {
 
   return (
     <div className="mt-8">
-      <h3 className="text-xl font-bold mb-6">Voting Record</h3>
+      <h3 className="text-h3 mb-6">Voting Record</h3>
       <div className="space-y-10">
         {groups.map((group, groupIdx) => (
           <div key={`${group.committeeName}-${groupIdx}`}>
@@ -137,25 +137,23 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
       <div className="p-4 border-b bg-gray-50/50 dark:bg-neutral-900/50">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex-1">
-            <div className="flex items-center gap-1.5 text-neutral-500 text-xs mb-1.5">
+            <div className="text-body flex items-center gap-1.5 text-neutral-500 mb-1.5">
               <CalendarIcon className="w-3.5 h-3.5" aria-hidden="true" />
               <span>{motion.dateTime}</span>
             </div>
-            <div className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1">
+            <div className="text-small font-bold text-neutral-400 mb-1">
               {motion.motionType}
             </div>
-            <h4 className="font-medium text-base leading-snug">
-              {motion.voteDescription}
-            </h4>
+            <h4 className="text-h4">{motion.voteDescription}</h4>
           </div>
           <div className="flex items-center gap-6 shrink-0">
             <div className="text-center">
-              <div className="text-[10px] text-neutral-400 uppercase font-bold tracking-tighter">
+              <div className="text-small font-bold text-neutral-400">
                 Result
               </div>
               <div
                 className={cn(
-                  'font-bold px-2 py-0.5 rounded text-sm min-w-[80px]',
+                  'font-bold px-2 py-0.5 rounded text-small min-w-[80px]',
                   motion.resultKind.toLowerCase() === 'carried'
                     ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                     : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
@@ -169,34 +167,34 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
       </div>
 
       <div className="p-4">
-        <div className="flex flex-wrap gap-x-8 gap-y-4 text-sm mb-4">
+        <div className="flex flex-wrap gap-x-8 gap-y-4 text-small mb-4">
           <div className="flex items-center gap-2">
             <ThumbsUpIcon
               className="w-4 h-4 text-green-600"
               aria-hidden="true"
             />
-            <span className="font-semibold">{yesVotes.length} Yes</span>
+            <span className="font-bold">{yesVotes.length} Yes</span>
           </div>
           <div className="flex items-center gap-2">
             <ThumbsDownIcon
               className="w-4 h-4 text-red-600"
               aria-hidden="true"
             />
-            <span className="font-semibold">{noVotes.length} No</span>
+            <span className="font-bold">{noVotes.length} No</span>
           </div>
           <div className="flex items-center gap-2">
             <CircleMinusIcon
               className="w-4 h-4 text-gray-400"
               aria-hidden="true"
             />
-            <span className="font-semibold">{absentVotes.length} Absent</span>
+            <span className="font-bold">{absentVotes.length} Absent</span>
           </div>
         </div>
 
         <Button
           variant="ghost"
           size="sm"
-          className="w-full justify-between hover:bg-gray-100 dark:hover:bg-neutral-700 text-neutral-600 dark:text-neutral-400 font-normal"
+          className="w-full justify-between hover:bg-gray-100 dark:hover:bg-neutral-700 text-neutral-600 dark:text-neutral-400"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded
@@ -219,7 +217,7 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
               >
                 <Avatar size={32} src={vote.photoUrl} alt={vote.contactName} />
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium truncate text-neutral-900 dark:text-neutral-100">
+                  <div className="text-small truncate text-neutral-900 dark:text-neutral-100">
                     {vote.contactName}
                   </div>
                 </div>

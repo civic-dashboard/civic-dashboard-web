@@ -111,8 +111,8 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
   return (
     <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
       <div className="mt-4 mb-2">
-        <h1 className="text-2xl font-bold">Actions</h1>
-        <p>
+        <h1 className="mb-6">Actions</h1>
+        <p className="text-body">
           Here are agenda items that the City of Toronto will discuss at
           upcoming meetings. You can provide feedback on these items by
           submitting comments by email, which will be read at the meeting, or
@@ -130,7 +130,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
         </div>
       </div>
       <Tags />
-      <hr />
+      <hr className=" border-gray-200 dark:border-neutral-700" />
       <DecisionBodyFilter
         decisionBodies={currentTermDecisionBodies}
       ></DecisionBodyFilter>

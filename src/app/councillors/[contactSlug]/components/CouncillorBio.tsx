@@ -58,7 +58,7 @@ export default function ContactBio({
         )}
 
         <div>
-          <h1 className="text-3xl font-bold mb-2">{contact.contactName}</h1>
+          <h1 className="text-h2 mb-2">{contact.contactName}</h1>
           {contact.role === 'Councillor' && (
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               <ExternalLink
@@ -88,8 +88,8 @@ export default function ContactBio({
           )}
           {contact.role === 'Mayor' && <p>Mayor of Toronto</p>}
 
-          <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
-            <dt className="font-bold">Email</dt>
+          <dl className="text-body mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+            <dt className="text-h4">Email</dt>
             <dd>
               <a
                 className="text-blue-500 underline"
@@ -101,7 +101,7 @@ export default function ContactBio({
 
             {contact.phone && (
               <>
-                <dt className="font-bold">Phone</dt>
+                <dt className="text-h4">Phone</dt>
                 <dd>
                   <a
                     className="text-blue-500 underline"
@@ -117,10 +117,10 @@ export default function ContactBio({
       </div>
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-h3 mb-4">
           {contact.role === 'Mayor' ? 'Mayor' : 'Councillor'} Voting Record
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+        <p className="text-gray-600 dark:text-gray-300">
           Here are all the past agenda items that the{' '}
           {contact.role === 'Mayor' ? 'mayor' : 'councillor'} has voted on
           during the current city council session. For each item, you may find

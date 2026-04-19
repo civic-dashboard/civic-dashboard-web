@@ -1,38 +1,100 @@
-@tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind base;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Color tokens */
+  --white: #ffffff;
+  --black: #0d1117; /* Graphite */
+  --grey-dark: #495668; /* Slate */
+  --grey-light: #d8dde6; /* Steel */
+  --grey-lightest: #f7f8f9; /* Frost */
+  
+  --primary: #0057B8; /* Civic Blue */
+  --primary-light: #97D3FF; /* Skydome Blue */
+  --primary-lightest: #E0F2FF; /* Ice */
+
+  --success: #008046; /*High Park Green */
+  --warning: #F39113; /* Subway Line Yellow */
+  --danger: #D32522; /* TTC Red */
+
+  --background: var(--white);
+  --foreground: var(--black);
+
+  --font-body: var(--font-ibm-plex-sans);
+  --font-heading: var(--font-epilogue);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background:  var(--black);
+    --foreground: var(--white);
   }
 }
 
 @layer base {
-  h1 {
-    @apply text-4xl mb-2;
+  h1, .text-h1, .text-display {
+    font-family: var(--font-heading), sans-serif;
+    @apply text-[1.875rem] md:text-[2.25rem] lg:text-[3rem] font-extrabold leading-[1.1] tracking-[-0.02em];
+  }
+  
+  h2, .text-h2 {
+    font-family: var(--font-heading), sans-serif;
+    @apply text-[1.375rem] md:text-[1.875rem] font-bold leading-[1.2];
   }
 
-  h2 {
-    @apply text-2xl font-bold mb-2;
+  h3, .text-h3 {
+    font-family: var(--font-heading), sans-serif;
+    @apply text-[1.125rem] md:text-[1.25rem] font-bold leading-[1.2];
+  }
+  
+  p, .text-body {
+    font-family: var(--font-body), sans-serif;
+    @apply text-[1rem] font-normal leading-[1.5];
   }
 
-  body {
-    @apply bg-slate-200;
+  .text-small {
+    font-family: var(--font-body), sans-serif;
+    @apply text-[0.875rem] font-normal leading-[1.5];
   }
-
-  :root {
-    --radius: 0.5rem;
+  
+  .text-button {
+    font-family: var(--font-body), sans-serif;
+    @apply text-[1rem] font-semibold leading-[1.4];
   }
 
   .classic-link {
     @apply underline text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500;
+  }
+
+  .button {
+    @apply 
+    inline-flex items-center justify-center
+    px-4 py-3 whitespace-nowrap
+    text-button border
+    transition-all duration-200;
+  }
+  
+  .button-outline {
+    @apply text-[var(--primary)] bg-transparent border-[var(--primary)] hover:bg-[var(--primary-lightest)]
+    dark:text-white dark:border-white dark:hover:bg-white/10;
+  }
+
+  .button-outline-white {
+    @apply text-white bg-transparent border-white;
+  }
+
+  .button-outline-neutral {
+    @apply bg-transparent border-gray-400
+    dark:text-neutral-50 dark:border-neutral-600;
+  }
+  
+  .button-solid {
+    @apply  text-button text-white bg-[var(--primary)] border-[var(--primary)];
+}
+  
+  .button-solid-white {
+    @apply  text-button text-[var(--primary)] bg-white border-white hover:bg-[var(--primary-lightest)];
   }
 }
 
@@ -48,7 +110,11 @@ html {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
 }
 
 .rich-html-styles ul {
