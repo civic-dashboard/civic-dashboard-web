@@ -63,9 +63,9 @@ async function getMayor(db: Kysely<DB>, contactSlug: string) {
 }
 async function getCouncillorOrMayor(db: Kysely<DB>, contactSlug: string) {
   const councillor = await getCouncillor(db, contactSlug);
-  if (councillor) return { role: 'councillor' as const, ...councillor };
+  if (councillor) return { role: 'Councillor' as const, ...councillor };
   const mayor = await getMayor(db, contactSlug);
-  if (mayor) return { role: 'mayor' as const, ...mayor };
+  if (mayor) return { role: 'Mayor' as const, ...mayor };
 
   throw new Error(`Unable to find councillor or mayor ${contactSlug}`);
 }

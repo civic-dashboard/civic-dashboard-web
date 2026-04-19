@@ -2,48 +2,29 @@
 
 import { Role } from '@/app/councillors/page';
 import { Avatar } from '@/components/Avatar';
-import { SearchInput } from '@/components/SearchInput';
 import { cn } from '@/components/ui/utils';
 import { ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
 
-import { useMemo, useState } from 'react';
-
 export const CouncillorsList = ({
   councillors,
+  query = '',
 }: {
   councillors: Array<{
     contactSlug: string;
     photoUrl: string | null;
     contactName: string;
     wardName: string | null;
+    wardId: string | null;
     role: Role;
     searchTarget: string;
   }>;
+  query?: string;
 }) => {
-  const [query, setQuery] = useState('');
-  const filteredCouncillors = useMemo(() => {
-    const cleanedQuery = query.trim().toLocaleLowerCase();
-    if (!cleanedQuery) return councillors;
-    return councillors.filter((councillor) =>
-      councillor.searchTarget.includes(cleanedQuery),
-    );
-  }, [councillors, query]);
   return (
     <>
-      <header className="flex justify-between flex-col md:flex-row gap-5 mb-3 md:items-center">
-        <h2 className="text-h2 whitespace-nowrap mb-0">
-          Current Toronto Councillors & Mayor
-        </h2>
-        <SearchInput
-          onChange={setQuery}
-          placeholder="Search councillors"
-          aria-label="Filter the list of councillors by name and ward"
-          searchDelay={500}
-        />
-      </header>
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        {filteredCouncillors.map((councillor) => (
+        {councillors.map((councillor) => (
           <li
             key={councillor.contactSlug}
             className={cn(
@@ -60,8 +41,8 @@ export const CouncillorsList = ({
               <div>
                 <h3 className="text-h3">{councillor.contactName}</h3>
                 <p className="text-body">
-                  {councillor.role === 'councillor' && councillor.wardName}
-                  {councillor.role === 'mayor' && 'Mayor of Toronto'}
+                  {councillor.role === 'Councillor' && councillor.wardName}
+                  {councillor.role === 'Mayor' && 'Mayor of Toronto'}
                 </p>
               </div>
               <div className="ml-auto">
@@ -71,8 +52,8 @@ export const CouncillorsList = ({
           </li>
         ))}
       </ul>
-      {filteredCouncillors.length === 0 && (
-        <p className="text-body">No councillors found for {`"${query}"`}</p>
+      {councillors.length === 0 && (
+        <p>No councillors found {query ? `for "${query}"` : ''}</p>
       )}
     </>
   );
