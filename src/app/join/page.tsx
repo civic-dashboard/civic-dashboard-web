@@ -1,8 +1,4 @@
-import {
-  Heading1,
-  Heading2,
-  BulletedList,
-} from '@/components/ui/text-items';
+import { Heading1, Heading2, BulletedList } from '@/components/ui/text-items';
 import { Section } from '@/components/ui/section';
 import { Page } from '@/components/ui/page';
 

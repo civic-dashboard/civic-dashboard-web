@@ -148,7 +148,9 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
           </div>
           <div className="flex items-center gap-6 shrink-0">
             <div className="text-center">
-              <div className="text-small font-bold text-neutral-400">Result</div>
+              <div className="text-small font-bold text-neutral-400">
+                Result
+              </div>
               <div
                 className={cn(
                   'font-bold px-2 py-0.5 rounded text-small min-w-[80px]',
