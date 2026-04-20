@@ -1,211 +1,243 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
-import { tooltips } from '@/constants/tooltips';
-import { ExternalLink } from '@/components/ExternalLink';
-import { DisplayText, Heading2 } from '@/components/ui/text-items';
+import {
+  DisplayText,
+  Heading1,
+  Heading2,
+  Heading3,
+} from '@/components/ui/text-items';
+import { ArrowRight, Check } from 'lucide-react';
+
+type HomeCard = {
+  imageSrc: string;
+  imageAlt: string;
+  title: string;
+  question: string;
+  bullets: [string, string];
+  ctaLabel: string;
+  href: string;
+};
+
+const influenceCards: HomeCard[] = [
+  {
+    imageSrc: '/home/feature-image-activity.png',
+    imageAlt: 'Council activity',
+    title: 'Council Activity',
+    question: 'What\u2019s City Council up to?',
+    bullets: [
+      'Track current issues and meetings.',
+      'Register to attend or speak on issues you care about.',
+    ],
+    ctaLabel: 'Explore Council Activity',
+    href: '/actions',
+  },
+  {
+    imageSrc: '/home/feature-image-watch.png',
+    imageAlt: 'Councillor watch',
+    title: 'Councillor Watch',
+    question: 'What\u2019s my Councillor\u2019s stance?',
+    bullets: ['Find your councillor.', 'See their voting history.'],
+    ctaLabel: 'Explore Councillor Watch',
+    href: '/councillors',
+  },
+];
+
+const understandCards: HomeCard[] = [
+  {
+    imageSrc: '/home/feature-image-get-started.png',
+    imageAlt: 'How city council works',
+    title: 'Get started',
+    question: 'How does City Council work?',
+    bullets: [
+      'Understand the basics of council processes.',
+      'Learn how you can participate.',
+    ],
+    ctaLabel: 'Learn about City Council',
+    href: '/how-council-works',
+  },
+  {
+    imageSrc: '/home/feature-image-wiki.png',
+    imageAlt: 'Civic dashboard wiki',
+    title: 'Expand your knowledge',
+    question: 'Civic Dashboard Wiki',
+    bullets: [
+      'Detailed guides, explanations, & resources.',
+      'A community wiki built volunteers, continuously evolving.',
+    ],
+    ctaLabel: 'Browse the wiki',
+    href: '/wiki',
+  },
+];
+
+function HomeCard({ card }: { card: HomeCard }) {
+  return (
+    <article className="flex h-full flex-col gap-8">
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ aspectRatio: '3 / 1' }}
+      >
+        <Image
+          src={card.imageSrc}
+          alt={card.imageAlt}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover"
+        />
+        <DisplayText className="relative z-10 mb-0 max-w-[90%] p-4 text-[var(--white)] md:p-6">
+          {card.title}
+        </DisplayText>
+      </div>
+
+      <div className="flex flex-col gap-4">
+        <Heading3 className="mb-0 border-b border-[rgba(13,17,23,0.14)] pb-[15px] text-[var(--black)]">
+          {card.question}
+        </Heading3>
+        <ul className="flex flex-col gap-2">
+          {card.bullets.map((bullet) => (
+            <li key={bullet} className="flex items-start gap-2">
+              <Check
+                aria-hidden="true"
+                color="var(--grey-dark)"
+                size={16}
+                className="mt-1"
+              />
+              <p className="text-body text-[var(--black)]">{bullet}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <Link href={card.href} className="button button-outline w-fit gap-6">
+        <span>{card.ctaLabel}</span>
+        <ArrowRight className="h-6 w-6" aria-hidden="true" />
+      </Link>
+    </article>
+  );
+}
+
+function HomeCardSection({
+  title,
+  cards,
+}: {
+  title: [string, string];
+  cards: HomeCard[];
+}) {
+  return (
+    <section className="bg-[var(--white)]">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 md:px-16 py-16 sm:px-16">
+        <div className="flex flex-col gap-2">
+          <Heading2 className="mb-0 text-[var(--black)]">
+            {title[0]} <span className="font-normal">{title[1]}</span>
+          </Heading2>
+        </div>
+        <div className="grid gap-12 lg:px-12 sm:grid-cols-2 lg:gap-16">
+          {cards.map((card) => (
+            <HomeCard key={card.title} card={card} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function Home() {
   return (
-    <TooltipProvider>
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        {/* Hero Section - with animation and gradient */}
-        <section className="relative h-[650px] bg-gradient-to-br from-blue-900 to-purple-900">
-          <div className="absolute inset-0">
-            <Image
-              src="/hero.jpg"
-              alt="Toronto Skyline"
-              fill
-              className="object-cover mix-blend-overlay"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-purple-900/60 animate-[gradient_8s_ease_infinite]"></div>
-          </div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-            <div className="text-white space-y-6 max-w-5xl">
-              <DisplayText className="text-display mb-4 animate-fade-in">
-                Take action on what's happening at Toronto City Council
-              </DisplayText>
-              <p className="text-body">
-                Tools to help you follow, understand, and influence city
-                decisions.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-4">
-                <Link href="/actions" className="button button-solid-white">
-                  <span>Take Action on City Issues</span>
-                </Link>
-
-                <Link
-                  href="/how-council-works"
-                  className="button button-outline-white"
-                >
-                  <span>Learn How Council Works</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Main Content */}
-        <section className="flex-grow py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <Heading2>How to Use Civic Dashboard</Heading2>
-              <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                It shouldn't take 3 hours and a political science degree to
-                understand{' '}
-                <Tooltip
-                  tooltipTitle={tooltips.cityCouncil.trigger}
-                  tooltipContent={tooltips.cityCouncil.content}
-                >
-                  City Council
-                </Tooltip>{' '}
-                and how to meaningfully engage with it. We make it take a few
-                minutes.
-              </p>
-            </div>
-
-            {/* Feature Cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-20">
-              {/* How Council Works Card */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-                <div className="text-4xl mb-4">📚</div>
-                <h3 className="text-h3 mb-2 text-gray-900 dark:text-white">
-                  How Council Works
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Understand how city decisions are made. Use this page to learn
-                  key terms and concepts to navigate City Council with
-                  confidence.
-                </p>
-                <Link
-                  href="/how-council-works"
-                  className="button button-outline"
-                >
-                  <span>Learn the basics</span>
-                </Link>
-              </div>
-
-              {/* Actions Card */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-                <div className="text-4xl mb-4">✨</div>
-                <h3 className="text-h3 mb-2 text-gray-900 dark:text-white">
-                  Actions
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  See what decisions are coming up at Council and act on them in
-                  one click. Use this page to subscribe to issues you care about
-                  and speak up when they come up.
-                </p>
-                <Link href="/actions" className="button button-outline">
-                  <span>Find an issue to act on</span>
-                </Link>
-              </div>
-
-              {/* Councillors Card */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-                <div className="text-4xl mb-4">👥</div>
-                <h3 className="text-h3 mb-2 text-gray-900 dark:text-white">
-                  Councillors
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Check how your{' '}
-                  <Tooltip
-                    tooltipTitle={tooltips.councillor.trigger}
-                    tooltipContent={tooltips.councillor.content}
-                  >
-                    Councillor
-                  </Tooltip>{' '}
-                  votes and whether they represent your values. Use this page
-                  when you're deciding how to advocate, follow up, or vote.
-                </p>
-                <Link href="/councillors" className="button button-outline">
-                  <span>Find your councillor</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Call to Action */}
-        <section className="">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 shadow-xl">
-              <h2 className="text-h2 text-white mb-4">
-                Join us in making democracy more accessible
-              </h2>
-              <p className="text-white/90 mb-8">
-                We're regular, passionate Torontonians building a better city
-                together.
+    <main className="bg-[var(--white)] text-[var(--black)]">
+      <section className="bg-[var(--primary-light)]">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-16 px-4 py-0 sm:px-16 md:flex-row xl:items-stretch xl:gap-16">
+          <div className="flex flex-1 flex-col md:gap-6 justify-center py-16">
+            <div className="inline-block md:w-[410px] flex-col gap-0">
+              <Heading1 className="relative inline-block mb-0 pb-[39px] text-display text-[var(--black)]">
+                Let’s get a
                 <br />
-                Join our volunteer team, or stay informed by subscribing to our
-                newsletter.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-[35px] justify-center">
-                <Link href="/join" className="button button-solid-white">
-                  <span>Get Involved</span>
-                </Link>
-                <Link
-                  href="/join-newsletter"
-                  className="button button-outline-white"
-                >
-                  <span>Sign Up for Updates</span>
-                </Link>
-              </div>
+                Toronto
+                <span className="relative">
+                  {' '}
+                  we love.
+                  <Image
+                    src="/squiggle.svg"
+                    alt=""
+                    width={222}
+                    height={39}
+                    aria-hidden="true"
+                    className="absolute -bottom-[39px] right-0 h-6 w-auto"
+                  />
+                </span>
+              </Heading1>
             </div>
+            <p className="text-body max-w-[604px] text-[var(--black)]">
+              Civic Dashboard was built by volunteers to help Torontonians
+              follow and influence Toronto City Council.
+            </p>
           </div>
-        </section>
 
-        {/* Social Media Links */}
-        <section className="py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h3 className="text-h3 text-gray-900 dark:text-white mb-6">
-                Check us out on these platforms!
-              </h3>
-              <div className="flex justify-center gap-6">
-                <ExternalLink
-                  href="https://www.linkedin.com/company/civic-dashboard/"
-                  className="w-[26px] h-[26px] flex items-center justify-center"
-                >
-                  <Image
-                    src="/linkedin.svg"
-                    alt="LinkedIn"
-                    width={26}
-                    height={26}
-                    className="w-full h-full object-contain"
-                  />
-                </ExternalLink>
-                <ExternalLink
-                  href="https://bsky.app/profile/civicdashboard.bsky.social"
-                  className="w-[26px] h-[26px] flex items-center justify-center"
-                >
-                  <Image
-                    src="/bluesky.svg"
-                    alt="Bluesky"
-                    width={26}
-                    height={26}
-                    className="w-full h-full object-contain"
-                  />
-                </ExternalLink>
-                <ExternalLink
-                  href="https://civictechto.slack.com/archives/C06KU3DHEKV"
-                  className="w-[26px] h-[26px] flex items-center justify-center"
-                >
-                  <Image
-                    src="/slack.svg"
-                    alt="Slack"
-                    width={26}
-                    height={26}
-                    className="w-full h-full object-contain"
-                  />
-                </ExternalLink>
-              </div>
+          <Image
+            src="/home/hero-graphic.png"
+            alt="Toronto city hall"
+            width={554}
+            height={430}
+            sizes="(max-width: 1279px) 100vw, 554px"
+            priority
+            className="w-full max-w-[554px] object-contain"
+          />
+        </div>
+      </section>
+
+      <HomeCardSection
+        title={['Help me influence', 'city council']}
+        cards={influenceCards}
+      />
+
+      <HomeCardSection
+        title={['Help me understand', 'city council']}
+        cards={understandCards}
+      />
+
+      <section className="flex justify-center bg-[var(--grey-lightest)]">
+        <div className="flex w-full max-w-7xl flex-col items-center gap-8 px-4 md:px-16 py-16 md:py-24 md:flex-row">
+          <Image
+            src="/home/civ-dash.png"
+            alt="Civic Dashboard team"
+            width={428}
+            height={372}
+            sizes="(max-width: 1279px) 100vw, 428px"
+            className="w-full max-w-[428px] object-contain"
+          />
+
+          <div className="flex w-full h-full flex-1 flex-col gap-8">
+            <Heading2 className="mb-0 max-w-[441px] text-[var(--black)]">
+              Help us make democracy more accessible.
+            </Heading2>
+            <p className="text-body max-w-[940px] text-[var(--black)]">
+              We&apos;re regular, passionate Torontonians building a better city
+              together.
+              <br />
+              Join our volunteer team, stay informed by subscribing to our
+              newsletter or give us feedback on how we can improve this product!
+            </p>
+
+            <div className="flex flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+              <Link
+                href="/feedback"
+                className="button button-ghost text-[var(--black)]"
+              >
+                Give feedback
+              </Link>
+              <Link
+                href="/join-newsletter"
+                className="button button-ghost text-[var(--black)]"
+              >
+                Sign up for newsletter
+              </Link>
+              <Link href="/join" className="button button-outline">
+                <span>Join the team</span>
+                <ArrowRight className="h-6 w-6" aria-hidden="true" />
+              </Link>
             </div>
           </div>
-        </section>
-      </div>
-    </TooltipProvider>
+        </div>
+      </section>
+    </main>
   );
 }
