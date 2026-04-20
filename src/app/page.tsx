@@ -23,7 +23,7 @@ const influenceCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-activity.png',
     imageAlt: 'Council activity',
-    title: 'Council Activity',
+    title: 'Council \n Activity',
     question: 'What\u2019s City Council up to?',
     bullets: [
       'Track current issues and meetings.',
@@ -35,7 +35,7 @@ const influenceCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-watch.png',
     imageAlt: 'Councillor watch',
-    title: 'Councillor Watch',
+    title: 'Councillor \n Watch',
     question: 'What\u2019s my Councillor\u2019s stance?',
     bullets: ['Find your councillor.', 'See their voting history.'],
     ctaLabel: 'Explore Councillor Watch',
@@ -47,25 +47,25 @@ const understandCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-get-started.png',
     imageAlt: 'How city council works',
-    title: 'Get started',
+    title: 'Get \n started',
     question: 'How does City Council work?',
     bullets: [
       'Understand the basics of council processes.',
       'Learn how you can participate.',
     ],
-    ctaLabel: 'Learn about City Council',
+    ctaLabel: 'Learn about \n City Council',
     href: '/how-council-works',
   },
   {
     imageSrc: '/home/feature-image-wiki.png',
     imageAlt: 'Civic dashboard wiki',
-    title: 'Expand your knowledge',
+    title: 'Expand your \n knowledge',
     question: 'Civic Dashboard Wiki',
     bullets: [
       'Detailed guides, explanations, & resources.',
       'A community wiki built volunteers, continuously evolving.',
     ],
-    ctaLabel: 'Browse the wiki',
+    ctaLabel: 'Browse \n the wiki',
     href: '/wiki',
   },
 ];
@@ -75,7 +75,6 @@ function HomeCard({ card }: { card: HomeCard }) {
     <article className="flex h-full flex-col gap-8">
       <div
         className="relative w-full overflow-hidden"
-        style={{ aspectRatio: '3 / 1' }}
       >
         <Image
           src={card.imageSrc}
@@ -84,13 +83,13 @@ function HomeCard({ card }: { card: HomeCard }) {
           sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-cover"
         />
-        <DisplayText className="relative z-10 mb-0 max-w-[90%] p-4 text-[var(--white)] md:p-6">
+        <p className="text-h1 text-white relative z-10 mb-0 p-4 md:p-6 whitespace-pre-line">
           {card.title}
-        </DisplayText>
+        </p>
       </div>
 
       <div className="flex flex-col gap-4">
-        <Heading3 className="mb-0 border-b border-[rgba(13,17,23,0.14)] pb-[15px] text-[var(--black)]">
+        <Heading3 className="mb-0 border-b border-[rgba(13,17,23,0.14)] pb-4">
           {card.question}
         </Heading3>
         <ul className="flex flex-col gap-2">
@@ -125,13 +124,13 @@ function HomeCardSection({
 }) {
   return (
     <section className="bg-[var(--white)]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 md:px-16 py-16 sm:px-16">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 sm:px-16 py-12 md:py-20">
         <div className="flex flex-col gap-2">
           <Heading2 className="mb-0 text-[var(--black)]">
             {title[0]} <span className="font-normal">{title[1]}</span>
           </Heading2>
         </div>
-        <div className="grid gap-12 lg:px-12 sm:grid-cols-2 lg:gap-16">
+        <div className="mx-auto w-full grid gap-12 max-w-5xl sm:grid-cols-2 lg:gap-16">
           {cards.map((card) => (
             <HomeCard key={card.title} card={card} />
           ))}
