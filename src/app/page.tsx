@@ -1,12 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  DisplayText,
-  Heading1,
-  Heading2,
-  Heading3,
-} from '@/components/ui/text-items';
+import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
 import { ArrowRight, Check } from 'lucide-react';
 
 type HomeCard = {
@@ -73,9 +68,7 @@ const understandCards: HomeCard[] = [
 function HomeCard({ card }: { card: HomeCard }) {
   return (
     <article className="flex h-full flex-col gap-8">
-      <div
-        className="relative w-full overflow-hidden"
-      >
+      <div className="relative w-full overflow-hidden">
         <Image
           src={card.imageSrc}
           alt={card.imageAlt}
