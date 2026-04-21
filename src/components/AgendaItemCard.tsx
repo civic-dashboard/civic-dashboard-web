@@ -27,7 +27,7 @@ import { SubmitCommentModal } from '@/components/deputation-modals/SubmitComment
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 import { allTags } from '@/constants/tags';
 import React from 'react';
-import { sentenceCase } from '@/logic/strings';
+import { formatAgendaItemStatus } from '@/logic/strings';
 
 import { getStartOfToday } from '@/logic/date';
 
@@ -186,14 +186,12 @@ export function FullPageAgendaItemCard({
       )}
     >
       <CardTitle className="text-lg">{item.agendaItemTitle}</CardTitle>
-      {item.itemStatus &&
-        item.itemStatus !== 'NO_ACTN' &&
-        item.itemStatus !== 'WO_RECS' && (
-          <div className="mt-2">
-            <span className="font-bold">Status:</span>{' '}
-            {sentenceCase(item.itemStatus)}
-          </div>
-        )}
+      {item.itemStatus && (
+        <div className="mt-2">
+          <span className="font-bold">Status:</span>{' '}
+          {formatAgendaItemStatus(item.itemStatus)}
+        </div>
+      )}
 
       {item.decisionRecommendations && (
         <>
@@ -370,15 +368,12 @@ export function SearchResultAgendaItemCard({
           <div className="overflow-y-auto max-h-full">
             <HighlightChildren terms={textQuery}>
               <CardTitle>{item.agendaItemTitle}</CardTitle>
-              {item.itemStatus &&
-                item.itemStatus !== 'NO_ACTN' &&
-                item.itemStatus !== 'WO_RECS' &&
-                !isMeetingUpcomingOrToday && (
-                  <div className="mt-2">
-                    <span className="font-bold">Status:</span>{' '}
-                    {sentenceCase(item.itemStatus)}
-                  </div>
-                )}
+              {item.itemStatus && !isMeetingUpcomingOrToday && (
+                <div className="mt-2">
+                  <span className="font-bold">Status:</span>{' '}
+                  {formatAgendaItemStatus(item.itemStatus)}
+                </div>
+              )}
               <div
                 className="mt-2"
                 dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
