@@ -6,6 +6,7 @@
   /* Color tokens */
   --white: #ffffff;
   --black: #0d1117; /* Graphite */
+  --grey-darkest: #232A33; /* Asphalt */
   --grey-dark: #495668; /* Slate */
   --grey-light: #d8dde6; /* Steel */
   --grey-lightest: #f7f8f9; /* Frost */
@@ -19,7 +20,9 @@
   --danger: #D32522; /* TTC Red */
 
   --background: var(--white);
+  --background-shaded: var(--grey-lightest);
   --foreground: var(--black);
+  --foreground-muted: var(--grey-dark);
 
   --font-body: var(--font-ibm-plex-sans);
   --font-heading: var(--font-epilogue);
@@ -27,8 +30,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background:  var(--black);
+    --background: var(--black);
+    --background-shaded: var(--grey-darkest);
     --foreground: var(--white);
+    --foreground-muted: var(--grey-light);
   }
 }
 
@@ -80,7 +85,6 @@
     inline-flex items-center justify-center
     px-4 py-3 whitespace-nowrap
     text-button border
-    transition-all duration-200
     text-white bg-[var(--primary)] border-[var(--primary)]; 
   }
   
