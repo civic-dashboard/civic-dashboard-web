@@ -90,11 +90,11 @@ function HomeCard({ card }: { card: HomeCard }) {
             <li key={bullet} className="flex items-start gap-2">
               <Check
                 aria-hidden="true"
-                color="var(--grey-dark)"
+                color="var(--foreground-muted)"
                 size={16}
                 className="mt-1"
               />
-              <p className="text-body text-[var(--black)]">{bullet}</p>
+              <p className="text-body text-[var(--foreground)]">{bullet}</p>
             </li>
           ))}
         </ul>
@@ -116,10 +116,10 @@ function HomeCardSection({
   cards: HomeCard[];
 }) {
   return (
-    <section className="bg-[var(--white)]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 sm:px-16 py-12 md:py-20">
+    <section className="bg-[var(--background)]">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 ">
         <div className="flex flex-col gap-2">
-          <Heading2 className="mb-0 text-[var(--black)]">
+          <Heading2 className="mb-0 text-[var(--foreground)]">
             {title[0]} <span className="font-normal">{title[1]}</span>
           </Heading2>
         </div>
@@ -135,7 +135,7 @@ function HomeCardSection({
 
 export default function Home() {
   return (
-    <main className="bg-[var(--white)] text-[var(--black)]">
+    <main className="bg-[var(--background)] text-[var(--foreground)]">
       <section className="bg-[var(--primary-light)]">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-16 px-4 py-0 sm:px-16 md:flex-row xl:items-stretch xl:gap-16">
           <div className="flex flex-1 flex-col md:gap-6 justify-center py-16">
@@ -176,32 +176,35 @@ export default function Home() {
         </div>
       </section>
 
-      <HomeCardSection
-        title={['Help me influence', 'city council']}
-        cards={influenceCards}
-      />
+      <div className="flex flex-col w-full max-w-7xl mx-auto gap-24 px-4 sm:px-16 py-12 md:py-20">
+        <HomeCardSection
+          title={['Help me influence', 'city council']}
+          cards={influenceCards}
+        />
 
-      <HomeCardSection
-        title={['Help me understand', 'city council']}
-        cards={understandCards}
-      />
+        <HomeCardSection
+          title={['Help me understand', 'city council']}
+          cards={understandCards}
+        />
+      </div>
 
-      <section className="flex justify-center bg-[var(--grey-lightest)]">
-        <div className="flex w-full max-w-7xl flex-col items-center gap-8 px-4 md:px-16 py-16 md:py-24 md:flex-row">
-          <Image
-            src="/home/civ-dash.png"
-            alt="Civic Dashboard team"
-            width={428}
-            height={372}
-            sizes="(max-width: 1279px) 100vw, 428px"
-            className="w-full max-w-[428px] object-contain"
-          />
+      <section className="flex justify-center bg-[var(--background-shaded)]">
+        <div className="w-full max-w-7xl flex flex-col gap-8 px-4 md:px-16 py-16 md:py-24 md:flex-row lg:gap-16">
+          <div className="grow-1 max-w-[220px] md:max-w-none lg:max-w-[480px]">
+            <Image
+              src="/home/civ-dash.png"
+              alt="Civic Dashboard team"
+              width={428}
+              height={372}
+              className="object-contain"
+            />
+          </div>
 
-          <div className="flex w-full h-full flex-1 flex-col gap-8">
-            <Heading2 className="mb-0 max-w-[441px] text-[var(--black)]">
+          <div className="flex h-full flex-col gap-8 grow-1 lg:max-w-[660px]">
+            <Heading2 className="mb-0 max-w-[440px]">
               Help us make democracy more accessible.
             </Heading2>
-            <p className="text-body max-w-[940px] text-[var(--black)]">
+            <p className="text-body">
               We&apos;re regular, passionate Torontonians building a better city
               together.
               <br />
@@ -209,7 +212,7 @@ export default function Home() {
               newsletter or give us feedback on how we can improve this product!
             </p>
 
-            <div className="flex flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="flex flex-col items-start gap-2 md:flex-row md:flex-wrap">
               <Link
                 href="/feedback"
                 className="button button-ghost text-[var(--black)]"
