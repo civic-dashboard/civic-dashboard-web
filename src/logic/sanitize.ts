@@ -10,7 +10,6 @@ const config: DOMPurifyConfig = {
     'ul',
     'ol',
     'li',
-    'span',
     'em',
     'sup',
     // 'a', // Todo: tricky since we ought to add rel, target, and class
