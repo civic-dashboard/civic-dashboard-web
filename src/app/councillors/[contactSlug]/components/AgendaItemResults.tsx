@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Chip } from '@/components/ui/chip';
 import Link from 'next/link';
 import { cn } from '@/components/ui/utils';
-import { sentenceCase } from '@/logic/strings';
+import { formatAgendaItemStatus } from '@/logic/strings';
 
 const AgendaItemCard = memo(function AgendaItemCard({
   item,
@@ -70,14 +70,12 @@ const AgendaItemCard = memo(function AgendaItemCard({
               <CardTitle className="text-lg mb-2">
                 {item.agendaItemTitle}
               </CardTitle>
-              {item.itemStatus &&
-                item.itemStatus !== 'NO_ACTN' &&
-                item.itemStatus !== 'WO_RECS' && (
-                  <div className="mt-2 mb-2">
-                    <span className="font-bold">Status:</span>{' '}
-                    {sentenceCase(item.itemStatus)}
-                  </div>
-                )}
+              {item.itemStatus && (
+                <div className="mt-2 mb-2">
+                  <span className="font-bold">Status:</span>{' '}
+                  {formatAgendaItemStatus(item.itemStatus)}
+                </div>
+              )}
               {item.agendaItemSummary && (
                 <SummaryPanel
                   originalSummary={item.agendaItemSummary}
