@@ -202,7 +202,7 @@ export function FullPageAgendaItemCard({
           <div
             className="mt-2"
             dangerouslySetInnerHTML={{
-              __html: sanitize(item.decisionRecommendations ?? ''),
+              __html: sanitize(item.decisionRecommendations),
             }}
           />
         </>

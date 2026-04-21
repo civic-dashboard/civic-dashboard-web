@@ -19,9 +19,7 @@ const config: DOMPurifyConfig = {
 
 export const sanitize = (text: string) => {
   if (!text) return '';
-  const safeSummary = DOMPurify.sanitize(text, config);
-  if (!safeSummary) throw new Error(`No content after sanitizing`);
-  return safeSummary;
+  return DOMPurify.sanitize(text, config);
 };
 
 export const stripHtmlAndGetFirstParagraph = (html: string) => {
