@@ -117,7 +117,7 @@ function HomeCardSection({
 }) {
   return (
     <section className="bg-[var(--background)]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 ">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12">
         <div className="flex flex-col gap-2">
           <Heading2 className="mb-0 text-[var(--foreground)]">
             {title[0]} <span className="font-normal">{title[1]}</span>
