@@ -1,15 +1,14 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
+import { Heading1, Heading2 } from '@/components/ui/text-items';
 import { ArrowRight, Check } from 'lucide-react';
 
 type HomeCard = {
   imageSrc: string;
   imageAlt: string;
   title: string;
-  question: string;
-  bullets: [string, string];
+  bullets: string[];
   ctaLabel: string;
   href: string;
 };
@@ -19,10 +18,10 @@ const influenceCards: HomeCard[] = [
     imageSrc: '/home/feature-image-activity.png',
     imageAlt: 'Council activity',
     title: 'Council \n Activity',
-    question: 'What\u2019s City Council up to?',
     bullets: [
-      'Track current issues and meetings.',
-      'Register to attend or speak on issues you care about.',
+      'See what council is discussing and deciding',
+      'Track important issues',
+      'Register to attend or speak on issues you care about',
     ],
     ctaLabel: 'Explore Council Activity',
     href: '/actions',
@@ -31,8 +30,11 @@ const influenceCards: HomeCard[] = [
     imageSrc: '/home/feature-image-watch.png',
     imageAlt: 'Councillor watch',
     title: 'Councillor \n Watch',
-    question: 'What\u2019s my Councillor\u2019s stance?',
-    bullets: ['Find your councillor.', 'See their voting history.'],
+    bullets: [
+      'Find your councillor',
+      'Follow how your councillor is voting',
+      'See voting and attendance history',
+    ],
     ctaLabel: 'Explore Councillor Watch',
     href: '/councillors',
   },
@@ -41,26 +43,24 @@ const influenceCards: HomeCard[] = [
 const understandCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-get-started.png',
-    imageAlt: 'How city council works',
-    title: 'Get \n started',
-    question: 'How does City Council work?',
+    imageAlt: 'How council works',
+    title: 'How council \n works',
     bullets: [
-      'Understand the basics of council processes.',
-      'Learn how you can participate.',
+      'Understand the basics of council processes',
+      'Learn how you can participate',
     ],
-    ctaLabel: 'Learn about \n City Council',
+    ctaLabel: 'Learn About City Council',
     href: '/how-council-works',
   },
   {
     imageSrc: '/home/feature-image-wiki.png',
     imageAlt: 'Civic dashboard wiki',
-    title: 'Expand your \n knowledge',
-    question: 'Civic Dashboard Wiki',
+    title: 'Civic dashboard wiki',
     bullets: [
-      'Detailed guides, explanations, & resources.',
-      'A community wiki built volunteers, continuously evolving.',
+      'Detailed guides, explanations, and resources',
+      'A community wiki built by volunteers, continuously evolving',
     ],
-    ctaLabel: 'Browse \n the wiki',
+    ctaLabel: 'Browse the wiki',
     href: '/wiki',
   },
 ];
@@ -68,7 +68,7 @@ const understandCards: HomeCard[] = [
 function HomeCard({ card }: { card: HomeCard }) {
   return (
     <article className="flex h-full flex-col gap-8">
-      <div className="relative w-full overflow-hidden">
+      <div className="relative w-full ">
         <Image
           src={card.imageSrc}
           alt={card.imageAlt}
@@ -80,11 +80,7 @@ function HomeCard({ card }: { card: HomeCard }) {
           {card.title}
         </p>
       </div>
-
-      <div className="flex flex-col gap-4">
-        <Heading3 className="mb-0 border-b border-[rgba(13,17,23,0.14)] pb-4">
-          {card.question}
-        </Heading3>
+      <div className="flex flex-col gap-8 justify-between h-full">
         <ul className="flex flex-col gap-2">
           {card.bullets.map((bullet) => (
             <li key={bullet} className="flex items-start gap-2">
@@ -98,12 +94,15 @@ function HomeCard({ card }: { card: HomeCard }) {
             </li>
           ))}
         </ul>
+        <Link href={card.href} className="button button-outline w-fit">
+          <span>{card.ctaLabel}</span>
+          <ArrowRight
+            strokeWidth={1.5}
+            className="h-6 w-6"
+            aria-hidden="true"
+          />
+        </Link>
       </div>
-
-      <Link href={card.href} className="button button-outline w-fit gap-6">
-        <span>{card.ctaLabel}</span>
-        <ArrowRight className="h-6 w-6" aria-hidden="true" />
-      </Link>
     </article>
   );
 }
@@ -117,13 +116,13 @@ function HomeCardSection({
 }) {
   return (
     <section className="bg-[var(--background)]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 md:gap-12">
         <div className="flex flex-col gap-2">
-          <Heading2 className="mb-0 text-[var(--foreground)]">
+          <Heading2 className="mb-0 text-[var(--foreground)] pb-4 border-b border-[var(--muted-border)]">
             {title[0]} <span className="font-normal">{title[1]}</span>
           </Heading2>
         </div>
-        <div className="mx-auto w-full grid gap-12 max-w-5xl sm:grid-cols-2 lg:gap-16">
+        <div className="mx-auto w-full grid gap-16 md:gap-16 max-w-5xl md:grid-cols-2">
           {cards.map((card) => (
             <HomeCard key={card.title} card={card} />
           ))}
@@ -176,7 +175,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="flex flex-col w-full max-w-7xl mx-auto gap-24 px-4 sm:px-16 py-12 md:py-20">
+      <div className="flex flex-col w-full max-w-7xl mx-auto gap-16 md:gap-24 px-4 sm:px-16 py-12 md:py-20">
         <HomeCardSection
           title={['Help me influence', 'city council']}
           cards={influenceCards}
@@ -227,7 +226,11 @@ export default function Home() {
               </Link>
               <Link href="/join" className="button button-outline">
                 <span>Join the team</span>
-                <ArrowRight className="h-6 w-6" aria-hidden="true" />
+                <ArrowRight
+                  strokeWidth={1.5}
+                  className="h-6 w-6"
+                  aria-hidden="true"
+                />
               </Link>
             </div>
           </div>
