@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
+import { Heading1, Heading2 } from '@/components/ui/text-items';
 import { ArrowRight, Check } from 'lucide-react';
 
 type HomeCard = {
@@ -30,7 +30,11 @@ const influenceCards: HomeCard[] = [
     imageSrc: '/home/feature-image-watch.png',
     imageAlt: 'Councillor watch',
     title: 'Councillor \n Watch',
-    bullets: ['Find your councillor', 'Follow how your councillor is voting', 'See voting and attendance history'],
+    bullets: [
+      'Find your councillor',
+      'Follow how your councillor is voting',
+      'See voting and attendance history',
+    ],
     ctaLabel: 'Explore Councillor Watch',
     href: '/councillors',
   },
@@ -77,7 +81,6 @@ function HomeCard({ card }: { card: HomeCard }) {
         </p>
       </div>
       <div className="flex flex-col gap-8 justify-between h-full">
-        
         <ul className="flex flex-col gap-2">
           {card.bullets.map((bullet) => (
             <li key={bullet} className="flex items-start gap-2">
@@ -93,7 +96,11 @@ function HomeCard({ card }: { card: HomeCard }) {
         </ul>
         <Link href={card.href} className="button button-outline w-fit">
           <span>{card.ctaLabel}</span>
-          <ArrowRight strokeWidth={1.5} className="h-6 w-6" aria-hidden="true" />
+          <ArrowRight
+            strokeWidth={1.5}
+            className="h-6 w-6"
+            aria-hidden="true"
+          />
         </Link>
       </div>
     </article>
@@ -219,7 +226,11 @@ export default function Home() {
               </Link>
               <Link href="/join" className="button button-outline">
                 <span>Join the team</span>
-                <ArrowRight strokeWidth={1.5} className="h-6 w-6" aria-hidden="true" />
+                <ArrowRight
+                  strokeWidth={1.5}
+                  className="h-6 w-6"
+                  aria-hidden="true"
+                />
               </Link>
             </div>
           </div>
