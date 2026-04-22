@@ -43,7 +43,7 @@ const sitemapSections: Array<{
     ],
   },
   {
-    title: 'Company',
+    title: 'Our Team',
     links: [
       { label: 'About us', href: '/about' },
       {
