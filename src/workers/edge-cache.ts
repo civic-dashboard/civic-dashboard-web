@@ -9,7 +9,7 @@ export interface Env {
 }
 
 const ttlSeconds = 3600;
-const cachePrefixes = ['/councillors/', '/public-consultations/'] as const;
+const cachePrefixes = ['/councillors/'] as const;
 
 function shouldCachePath(pathname: string): boolean {
   return cachePrefixes.some((p) => pathname.startsWith(p));
