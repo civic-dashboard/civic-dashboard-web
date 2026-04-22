@@ -159,8 +159,8 @@ export default function Home() {
               </Heading1>
             </div>
             <p className="text-body max-w-[604px] text-[var(--black)]">
-              Civic Dashboard is built by volunteers to help Torontonians
-              follow and influence Toronto City Council.
+              Civic Dashboard is built by volunteers to help Torontonians follow
+              and influence Toronto City Council.
             </p>
           </div>
 
