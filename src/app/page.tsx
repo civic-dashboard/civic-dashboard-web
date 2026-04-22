@@ -141,7 +141,7 @@ export default function Home() {
           <div className="flex flex-1 flex-col md:gap-6 justify-center py-16">
             <div className="inline-block md:w-[410px] flex-col gap-0">
               <Heading1 className="relative inline-block mb-0 pb-[39px] text-display text-[var(--black)]">
-                Let’s get a
+                Let’s make a
                 <br />
                 Toronto
                 <span className="relative">
@@ -159,7 +159,7 @@ export default function Home() {
               </Heading1>
             </div>
             <p className="text-body max-w-[604px] text-[var(--black)]">
-              Civic Dashboard was built by volunteers to help Torontonians
+              Civic Dashboard is built by volunteers to help Torontonians
               follow and influence Toronto City Council.
             </p>
           </div>
