@@ -23,6 +23,7 @@
   --background-shaded: var(--grey-lightest);
   --foreground: var(--black);
   --foreground-muted: var(--grey-dark);
+  --muted-border: var(--grey-light);
 
   --font-body: var(--font-ibm-plex-sans);
   --font-heading: var(--font-epilogue);
@@ -31,9 +32,10 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: var(--black);
-    --background-shaded: var(--grey-darkest);
+    --background-shaded: var(--grey-dark);
     --foreground: var(--white);
     --foreground-muted: var(--grey-light);
+    --muted-border: var(--grey-dark);
   }
 }
 
@@ -83,7 +85,7 @@
     /* Default button is solid primary  */
     @apply 
     inline-flex items-center justify-center
-    px-4 py-3 whitespace-nowrap
+    px-4 py-3 whitespace-nowrap gap-4
     text-button border
     text-white bg-[var(--primary)] border-[var(--primary)]; 
   }
