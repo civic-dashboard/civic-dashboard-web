@@ -1,6 +1,5 @@
-import DOMPurify, {
-  type Config as DOMPurifyConfig,
-} from 'isomorphic-dompurify';
+import DOMPurify from 'isomorphic-dompurify';
+import type { Config as DOMPurifyConfig } from 'dompurify';
 
 const config: DOMPurifyConfig = {
   ALLOWED_TAGS: [
@@ -14,8 +13,32 @@ const config: DOMPurifyConfig = {
     'sup',
     // 'a', // Todo: tricky since we ought to add rel, target, and class
   ],
-  ALLOWED_ATTR: ['title'],
+  ALLOWED_ATTR: ['title', 'style'],
 };
+
+// Add a hook to sanitize the style attribute manually since we only want to allow padding
+DOMPurify.addHook('uponSanitizeAttribute', (_node, event) => {
+  if (event.attrName === 'style') {
+    const styles = event.attrValue.split(';').filter(Boolean);
+    const allowedStyles = styles
+      .map((style) => style.trim())
+      .filter((style) => {
+        const property = style.split(':')[0].trim().toLowerCase();
+        return (
+          property === 'padding' ||
+          property.startsWith('padding-') ||
+          property === 'margin' ||
+          property.startsWith('margin-')
+        );
+      });
+
+    if (allowedStyles.length > 0) {
+      event.attrValue = allowedStyles.join('; ') + ';';
+    } else {
+      event.keepAttr = false;
+    }
+  }
+});
 
 export const sanitize = (text: string) => {
   if (!text) return '';
