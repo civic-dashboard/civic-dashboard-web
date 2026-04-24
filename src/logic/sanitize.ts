@@ -11,29 +11,29 @@ const config: DOMPurifyConfig = {
     'li',
     'em',
     'sup',
+    'table',
+    'thead',
+    'tbody',
+    'tr',
+    'td',
     // 'a', // Todo: tricky since we ought to add rel, target, and class
   ],
   ALLOWED_ATTR: ['title', 'style'],
 };
 
-// Add a hook to sanitize the style attribute manually since we only want to allow padding
+// Add a hook to sanitize the style attribute manually since we only want to remove color
 DOMPurify.addHook('uponSanitizeAttribute', (_node, event) => {
   if (event.attrName === 'style') {
     const styles = event.attrValue.split(';').filter(Boolean);
-    const allowedStyles = styles
+    const filteredStyles = styles
       .map((style) => style.trim())
       .filter((style) => {
         const property = style.split(':')[0].trim().toLowerCase();
-        return (
-          property === 'padding' ||
-          property.startsWith('padding-') ||
-          property === 'margin' ||
-          property.startsWith('margin-')
-        );
+        return property !== 'color';
       });
 
-    if (allowedStyles.length > 0) {
-      event.attrValue = allowedStyles.join('; ') + ';';
+    if (filteredStyles.length > 0) {
+      event.attrValue = filteredStyles.join('; ') + ';';
     } else {
       event.keepAttr = false;
     }
