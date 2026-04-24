@@ -7,8 +7,12 @@ const nextConfig = {
         hostname: 'www.toronto.ca',
         pathname: '/wp-content/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'contrib.wp.intra.prod-toronto.ca',
+        pathname: '**',
+      },
     ],
-    domains: ['contrib.wp.intra.prod-toronto.ca'],
   },
   async redirects() {
     return [
