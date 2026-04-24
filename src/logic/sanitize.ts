@@ -16,6 +16,8 @@ const config: DOMPurifyConfig = {
     'tbody',
     'tr',
     'td',
+    'th',
+    'tfoot',
     // 'a', // Todo: tricky since we ought to add rel, target, and class
   ],
   ALLOWED_ATTR: ['title', 'style'],
