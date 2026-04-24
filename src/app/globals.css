@@ -16,15 +16,15 @@
 
 @layer base {
   h1 {
-    @apply text-4xl mb-2;
+    @apply text-4xl mb-2 font-heading font-extrabold;
   }
 
   h2 {
-    @apply text-2xl font-bold mb-2;
+    @apply text-2xl mb-2 font-heading font-bold;
   }
 
   body {
-    @apply bg-slate-200;
+    @apply bg-slate-200 font-body font-normal;
   }
 
   :root {
@@ -48,7 +48,6 @@ html {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .rich-html-styles ul {
