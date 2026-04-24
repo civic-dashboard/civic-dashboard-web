@@ -59,3 +59,9 @@ body {
 .rich-html-styles strong {
   font-weight: bold;
 }
+
+div.search-current-map div {
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+}
