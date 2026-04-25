@@ -57,9 +57,9 @@ export default function ContactBio({
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="space-y-4 text-center md:text-left">
           <h1 className="text-3xl font-bold">{contact.contactName}</h1>
-          <div className="space-y-1">
+          <div className="md:space-y-1">
             {contact.role === 'Councillor' && (
               <p>
                 <ExternalLink
@@ -89,7 +89,7 @@ export default function ContactBio({
             )}
             {contact.role === 'Mayor' && <p>Mayor of Toronto</p>}
           </div>
-          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+          <dl className="grid grid-cols-[auto_1fr] gap-x-4 md:gap-y-1 text-left">
             <dt className="font-bold">Email</dt>
             <dd>
               <a
