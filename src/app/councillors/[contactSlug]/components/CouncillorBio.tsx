@@ -92,10 +92,7 @@ export default function ContactBio({
           <dl className="grid grid-cols-[auto_1fr] gap-x-4 md:gap-y-1 text-left">
             <dt className="font-bold">Email</dt>
             <dd>
-              <a
-                className="classic-link"
-                href={`mailto:${contact.email}`}
-              >
+              <a className="classic-link" href={`mailto:${contact.email}`}>
                 {contact.email}
               </a>
             </dd>
@@ -104,10 +101,7 @@ export default function ContactBio({
               <>
                 <dt className="font-bold">Phone</dt>
                 <dd>
-                  <a
-                    className="classic-link"
-                    href={`tel:${contact.phone}`}
-                  >
+                  <a className="classic-link" href={`tel:${contact.phone}`}>
                     {contact.phone}
                   </a>
                 </dd>
