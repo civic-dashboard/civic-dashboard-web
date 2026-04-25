@@ -1,5 +1,6 @@
-import DOMPurify from 'isomorphic-dompurify';
-import type { Config as DOMPurifyConfig } from 'dompurify';
+import DOMPurify, {
+  type Config as DOMPurifyConfig,
+} from 'isomorphic-dompurify';
 
 const config: DOMPurifyConfig = {
   ALLOWED_TAGS: [
@@ -26,9 +27,10 @@ const config: DOMPurifyConfig = {
 // Add a hook to sanitize the style attribute manually since we only want to remove color
 DOMPurify.addHook('uponSanitizeAttribute', (_node, event) => {
   if (event.attrName === 'style') {
-    const styles = event.attrValue.split(';').filter(Boolean);
-    const filteredStyles = styles
+    const filteredStyles = event.attrValue
+      .split(';')
       .map((style) => style.trim())
+      .filter(Boolean)
       .filter((style) => {
         const property = style.split(':')[0].trim().toLowerCase();
         return property !== 'color';
