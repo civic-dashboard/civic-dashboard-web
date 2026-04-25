@@ -17,7 +17,7 @@ jobs:
     steps:
       # Create the required check as "in_progress" and store its ID
       - name: Mark check in_progress
-        uses: actions/github-script@v9
+        uses: actions/github-script@v8
         id: start_check
         with:
           script: |
@@ -100,7 +100,7 @@ jobs:
       # Update the same check run with success/failure
       - name: Mark check success
         if: success()
-        uses: actions/github-script@v9
+        uses: actions/github-script@v8
         with:
           script: |
             await github.rest.checks.update({
@@ -118,7 +118,7 @@ jobs:
 
       - name: Mark check failure
         if: failure()
-        uses: actions/github-script@v9
+        uses: actions/github-script@v8
         with:
           script: |
             await github.rest.checks.update({

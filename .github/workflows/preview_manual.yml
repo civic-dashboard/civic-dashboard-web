@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Get PR data
         id: pr
-        uses: actions/github-script@v9
+        uses: actions/github-script@v8
         env:
           PR_NUMBER: ${{ github.event.inputs.pr_number }}
         with:
@@ -37,7 +37,7 @@ jobs:
       # Create the check and save its ID for later update
       - name: Set "Upload preview deployment" check to in_progress
         id: start_check
-        uses: actions/github-script@v9
+        uses: actions/github-script@v8
         with:
           script: |
             const res = await github.rest.checks.create({
@@ -117,7 +117,7 @@ jobs:
       # Update the same check run with success/failure
       - name: Set "Upload preview deployment" check to success
         if: success()
-        uses: actions/github-script@v9
+        uses: actions/github-script@v8
         with:
           script: |
             await github.rest.checks.update({
@@ -135,7 +135,7 @@ jobs:
 
       - name: Set "Upload preview deployment" check to failure
         if: failure()
-        uses: actions/github-script@v9
+        uses: actions/github-script@v8
         with:
           script: |
             await github.rest.checks.update({
