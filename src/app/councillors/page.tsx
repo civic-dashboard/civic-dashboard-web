@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { createDB } from '@/database/kyselyDb';
 import { CouncillorListContainer } from '@/components/CouncillorListContainer';
 import { sql } from 'kysely';
+import { Page } from '@/components/ui/page';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -71,8 +72,8 @@ export default async function CouncillorListPage() {
   const councillors = await listCouncillors();
 
   return (
-    <div className="max-w-screen-md mx-auto my-8 px-4">
+    <Page>
       <CouncillorListContainer councillors={councillors} />
-    </div>
+    </Page>
   );
 }

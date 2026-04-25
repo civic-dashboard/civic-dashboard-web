@@ -5,6 +5,7 @@ import CouncillorBio from '@/app/councillors/[contactSlug]/components/Councillor
 import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/CouncillorVoteContent';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
+import { Page } from '@/components/ui/page';
 
 type ParamsType = {
   contactSlug: string;
@@ -97,12 +98,12 @@ export default async function CouncillorVotePage(props: {
     notFound();
   }
   return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Page>
       <CouncillorBio contact={contact} />
       <CouncillorVoteContent
         currentPage={currentPage}
         contactSlug={contactSlug}
       />
-    </main>
+    </Page>
   );
 }
