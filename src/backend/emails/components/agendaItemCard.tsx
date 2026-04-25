@@ -1,4 +1,5 @@
 import { AgendaItem } from '@/database/queries/agendaItems';
+import { sanitize } from '@/logic/sanitize';
 import { Heading, Link, Section, Text } from '@react-email/components';
 
 export const EmailAgendaItemCard = ({ item }: { item: AgendaItem }) => {
@@ -13,7 +14,7 @@ export const EmailAgendaItemCard = ({ item }: { item: AgendaItem }) => {
       </Heading>
       <Text
         style={{ fontSize: '16px' }}
-        dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
+        dangerouslySetInnerHTML={{ __html: sanitize(item.agendaItemSummary) }}
       />
     </Section>
   );
