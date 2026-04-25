@@ -17,7 +17,7 @@ jobs:
     steps:
       # Create the required check as "in_progress" and store its ID
       - name: Mark check in_progress
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         id: start_check
         with:
           script: |
@@ -36,16 +36,16 @@ jobs:
             core.setOutput('check_id', res.data.id);
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version-file: '.tool-versions'
           cache: npm
 
       - name: Restore cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .next/cache
           key: ${{ runner.os }}-frontend-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
@@ -80,7 +80,7 @@ jobs:
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
 
       - name: Find Comment
-        uses: peter-evans/find-comment@v3
+        uses: peter-evans/find-comment@v4
         id: preview_url_comment
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -88,7 +88,7 @@ jobs:
           body-includes: Preview
 
       - name: Create or update comment
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.preview_url_comment.outputs.comment-id }}
@@ -100,7 +100,7 @@ jobs:
       # Update the same check run with success/failure
       - name: Mark check success
         if: success()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.checks.update({
@@ -118,7 +118,7 @@ jobs:
 
       - name: Mark check failure
         if: failure()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.checks.update({
