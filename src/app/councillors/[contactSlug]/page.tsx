@@ -10,6 +10,8 @@ type ParamsType = {
   contactSlug: string;
 };
 
+export const revalidate = 3600;
+
 export async function generateStaticParams(): Promise<ParamsType[]> {
   return await createDB()
     .selectFrom('Councillors')
