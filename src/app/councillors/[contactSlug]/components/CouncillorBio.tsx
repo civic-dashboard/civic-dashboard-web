@@ -39,7 +39,7 @@ export default function ContactBio({
   }
 
   return (
-    <section className="m-8">
+    <section>
       <div className="flex flex-col md:flex-row gap-6 items-center">
         {showFallbackAvatar ? (
           <div className="w-48 h-48 light:bg-gray-200 rounded-full flex items-center justify-center">
@@ -49,7 +49,7 @@ export default function ContactBio({
           <div className="min-w-48 max-w-48 h-48 relative rounded-full overflow-hidden">
             <Image
               src={contact.photoUrl!}
-              alt={contact.contactName}
+              alt={`Photo of ${contact.contactName}`}
               fill
               className="object-cover object-top"
               onError={() => setShowFallbackAvatar(true)}
@@ -57,44 +57,42 @@ export default function ContactBio({
           </div>
         )}
 
-        <div>
-          <h1 className="text-3xl font-bold mb-2">{contact.contactName}</h1>
-          {contact.role === 'Councillor' && (
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              <ExternalLink
-                href={councillorProfileURL}
-                className="classic-link"
-              >
-                Councillor Profile
-              </ExternalLink>
-            </p>
-          )}
-          {contact.role === 'Councillor' && (
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              <ExternalLink href={wardURL} className="classic-link">
-                Ward {contact.wardId}, {contact.wardName}
-              </ExternalLink>
-            </p>
-          )}
-          {contact.role === 'Mayor' && (
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              <ExternalLink
-                href="https://www.toronto.ca/city-government/council/office-of-the-mayor/"
-                className="classic-link"
-              >
-                Office of the Mayor
-              </ExternalLink>
-            </p>
-          )}
-          {contact.role === 'Mayor' && <p>Mayor of Toronto</p>}
-
-          <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+        <div className="space-y-4 text-center md:text-left">
+          <h1 className="text-3xl font-bold">{contact.contactName}</h1>
+          <div className="md:space-y-1">
+            {contact.role === 'Councillor' && (
+              <p>
+                <ExternalLink
+                  href={councillorProfileURL}
+                  className="classic-link"
+                >
+                  Councillor Profile
+                </ExternalLink>
+              </p>
+            )}
+            {contact.role === 'Councillor' && (
+              <p>
+                <ExternalLink href={wardURL} className="classic-link">
+                  Ward {contact.wardId}, {contact.wardName}
+                </ExternalLink>
+              </p>
+            )}
+            {contact.role === 'Mayor' && (
+              <p>
+                <ExternalLink
+                  href="https://www.toronto.ca/city-government/council/office-of-the-mayor/"
+                  className="classic-link"
+                >
+                  Office of the Mayor
+                </ExternalLink>
+              </p>
+            )}
+            {contact.role === 'Mayor' && <p>Mayor of Toronto</p>}
+          </div>
+          <dl className="grid grid-cols-[auto_1fr] gap-x-4 md:gap-y-1 text-left">
             <dt className="font-bold">Email</dt>
             <dd>
-              <a
-                className="text-blue-500 underline"
-                href={`mailto:${contact.email}`}
-              >
+              <a className="classic-link" href={`mailto:${contact.email}`}>
                 {contact.email}
               </a>
             </dd>
@@ -103,10 +101,7 @@ export default function ContactBio({
               <>
                 <dt className="font-bold">Phone</dt>
                 <dd>
-                  <a
-                    className="text-blue-500 underline"
-                    href={`tel:${contact.phone}`}
-                  >
+                  <a className="classic-link" href={`tel:${contact.phone}`}>
                     {contact.phone}
                   </a>
                 </dd>
@@ -120,7 +115,7 @@ export default function ContactBio({
         <h2 className="text-2xl font-bold mb-4">
           {contact.role === 'Mayor' ? 'Mayor' : 'Councillor'} Voting Record
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+        <p>
           Here are all the past agenda items that the{' '}
           {contact.role === 'Mayor' ? 'mayor' : 'councillor'} has voted on
           during the current city council session. For each item, you may find

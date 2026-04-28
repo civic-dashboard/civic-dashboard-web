@@ -10,19 +10,43 @@ const config: DOMPurifyConfig = {
     'ul',
     'ol',
     'li',
-    'span',
     'em',
     'sup',
+    'table',
+    'thead',
+    'tbody',
+    'tr',
+    'td',
+    'th',
+    'tfoot',
     // 'a', // Todo: tricky since we ought to add rel, target, and class
   ],
-  ALLOWED_ATTR: ['title'],
+  ALLOWED_ATTR: ['title', 'style'],
 };
+
+// Add a hook to sanitize the style attribute manually since we only want to remove color
+DOMPurify.addHook('uponSanitizeAttribute', (_node, event) => {
+  if (event.attrName === 'style') {
+    const filteredStyles = event.attrValue
+      .split(';')
+      .map((style) => style.trim())
+      .filter(Boolean)
+      .filter((style) => {
+        const property = style.split(':')[0].trim().toLowerCase();
+        return property !== 'color';
+      });
+
+    if (filteredStyles.length > 0) {
+      event.attrValue = filteredStyles.join('; ') + ';';
+    } else {
+      event.keepAttr = false;
+    }
+  }
+});
 
 export const sanitize = (text: string) => {
   if (!text) return '';
-  const safeSummary = DOMPurify.sanitize(text, config);
-  if (!safeSummary) throw new Error(`No content after sanitizing`);
-  return safeSummary;
+  return DOMPurify.sanitize(text, config);
 };
 
 export const stripHtmlAndGetFirstParagraph = (html: string) => {

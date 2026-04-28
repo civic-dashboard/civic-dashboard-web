@@ -27,6 +27,7 @@ import { SubmitCommentModal } from '@/components/deputation-modals/SubmitComment
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 import { allTags } from '@/constants/tags';
 import React from 'react';
+import { sanitize } from '@/logic/sanitize';
 import { formatAgendaItemStatus } from '@/logic/strings';
 
 import { getStartOfToday } from '@/logic/date';
@@ -198,7 +199,9 @@ export function FullPageAgendaItemCard({
           <h4 className="mt-4 font-bold">Decision</h4>
           <div
             className="mt-2"
-            dangerouslySetInnerHTML={{ __html: item.decisionRecommendations }}
+            dangerouslySetInnerHTML={{
+              __html: sanitize(item.decisionRecommendations),
+            }}
           />
         </>
       )}
@@ -210,7 +213,7 @@ export function FullPageAgendaItemCard({
           </h4>
           <div
             className="mt-2"
-            dangerouslySetInnerHTML={{ __html: item.decisionAdvice }}
+            dangerouslySetInnerHTML={{ __html: sanitize(item.decisionAdvice) }}
           />
         </>
       )}
@@ -227,7 +230,7 @@ export function FullPageAgendaItemCard({
       )}
       <div
         className="mt-2"
-        dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
+        dangerouslySetInnerHTML={{ __html: sanitize(item.agendaItemSummary) }}
       />
 
       {item.agendaItemRecommendation && !item.decisionRecommendations && (
@@ -235,7 +238,9 @@ export function FullPageAgendaItemCard({
           <h4 className="mt-4 font-bold">Recommendations</h4>
           <div
             className="mt-2"
-            dangerouslySetInnerHTML={{ __html: item.agendaItemRecommendation }}
+            dangerouslySetInnerHTML={{
+              __html: sanitize(item.agendaItemRecommendation),
+            }}
           />
         </>
       )}
@@ -376,7 +381,9 @@ export function SearchResultAgendaItemCard({
               )}
               <div
                 className="mt-2"
-                dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(item.agendaItemSummary),
+                }}
               />
             </HighlightChildren>
           </div>

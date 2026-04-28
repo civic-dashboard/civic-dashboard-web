@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
 import { ExternalLink } from '@/components/ExternalLink';
+import { BulletedList, Heading1, Heading2 } from '@/components/ui/text-items';
+import { Section } from '@/components/ui/section';
+import { ArticlePage } from '@/components/ui/page';
 
 export const metadata: Metadata = {
   title: 'Feedback – Civic Dashboard',
@@ -7,28 +10,26 @@ export const metadata: Metadata = {
 
 export default function ShareThoughtsPage() {
   return (
-    <main className="min-h-screen max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-lg">
-      {/* Hero Section */}
-      <section className="mb-16">
-        <h1 className="text-4xl font-bold">Share Your Thoughts</h1>
-        <p className="mt-4">
+    <ArticlePage>
+      <Heading1>Share Your Thoughts</Heading1>
+      <Section>
+        <p>
           We’d love to hear any thoughts you're willing to share! Know that we
           read every piece of feedback, and that it is this project's guiding
           light.
         </p>
-        <p className="mt-4">
+        <p>
           All we ask is that you be respectful in your communication. It's 100%
           ok if you have strong negative feelings about any aspect of the
           project - we want to hear them! That said, everyone working on this
           project is a passion-driven volunteer who is truly doing their best -
           please keep this in mind as you share your thoughts 😊
         </p>
-      </section>
+      </Section>
 
-      {/* Ways to Share Section */}
-      <section>
-        <h2 className="text-2xl font-bold">Ways to Share</h2>
-        <ul className="mt-6 list-disc pl-6 space-y-4">
+      <Section>
+        <Heading2>Ways to Share</Heading2>
+        <BulletedList>
           <li>
             <strong>Google Form</strong> - After checking out our products
             above, fill out this{' '}
@@ -102,8 +103,8 @@ export default function ShareThoughtsPage() {
             Toronto and over Zoom! They're full of friendly people working to
             make our city better and having fun doing it 😊.
           </li>
-        </ul>
-      </section>
-    </main>
+        </BulletedList>
+      </Section>
+    </ArticlePage>
   );
 }
