@@ -76,7 +76,7 @@ function HomeCard({ card }: { card: HomeCard }) {
           sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-cover"
         />
-        <p className="text-h1 text-white relative z-10 mb-0 p-4 md:p-6 whitespace-pre-line">
+        <p className="text-h2 text-white relative z-10 mb-0 p-4 md:p-6 whitespace-pre-line">
           {card.title}
         </p>
       </div>
