@@ -43,6 +43,31 @@ export type SubscribableSearchFilters = {
   tags: TagEnum[];
 };
 
+export const getSearchFiltersDescription = (
+  filter: SubscribableSearchFilters,
+  allTags: Record<string, { displayName: string }>,
+  decisionBodies: Record<number, { decisionBodyName: string }>,
+) => {
+  const parts: string[] = [];
+  if (filter.textQuery) {
+    parts.push(`"${filter.textQuery}"`);
+  }
+  if (filter.tags.length > 0) {
+    const tagNames = filter.tags
+      .map((t) => allTags[t]?.displayName)
+      .filter(Boolean);
+    const joinedTags = tagNames.join(', ');
+    parts.push(filter.textQuery ? `about ${joinedTags}` : joinedTags);
+  }
+  if (filter.decisionBodyIds.length > 0) {
+    const dbNames = filter.decisionBodyIds
+      .map((id) => decisionBodies[id]?.decisionBodyName)
+      .filter(Boolean);
+    parts.push(`in ${dbNames.join(', ')}`);
+  }
+  return parts.join(' ');
+};
+
 export type TransientSearchFilters = {
   termId?: number;
   minimumDate?: Date;
