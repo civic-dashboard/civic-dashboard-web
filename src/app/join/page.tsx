@@ -152,7 +152,7 @@ export default function JoinPage() {
               className="classic-link"
               rel="noopener noreferrer"
             >
-              Civic Tech Toronto hacknights
+              Civic Tech Toronto breakout groups
             </a>
             , which happen both in-person somewhere in Toronto and over Zoom!
           </li>
