@@ -112,6 +112,12 @@ export default function Footer() {
               >
                 Bluesky
               </ExternalLink>
+              <ExternalLink
+                href="https://steady.page/en/civic-dashboard/posts"
+                className="hover:text-blue-400 transition-colors duration-200"
+              >
+                Blog
+              </ExternalLink>
             </div>
 
             <Link

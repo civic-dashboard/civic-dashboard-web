@@ -157,6 +157,13 @@ export default function About() {
             className="classic-link"
           >
             BlueSky
+          </ExternalLink>
+          , check out our{' '}
+          <ExternalLink
+            href="https://steady.page/en/civic-dashboard/posts"
+            className="classic-link"
+          >
+            blog
           </ExternalLink>{' '}
           or find us in the{' '}
           <ExternalLink
