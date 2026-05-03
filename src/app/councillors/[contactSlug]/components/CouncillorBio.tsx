@@ -23,8 +23,10 @@ type MayorBioInfo = SharedBioInfo & {
 
 export default function ContactBio({
   contact,
+  committees,
 }: {
   contact: CouncillorBioInfo | MayorBioInfo;
+  committees: { decisionBodyId: number; decisionBodyName: string }[];
 }) {
   const [showFallbackAvatar, setShowFallbackAvatar] = useState(
     !contact.photoUrl,
@@ -104,6 +106,26 @@ export default function ContactBio({
                   <a className="classic-link" href={`tel:${contact.phone}`}>
                     {contact.phone}
                   </a>
+                </dd>
+              </>
+            )}
+
+            {committees.length > 0 && (
+              <>
+                <dt className="font-bold">Committees & Boards</dt>
+                <dd>
+                  <ul className="list-none p-0 m-0">
+                    {committees.map((committee) => (
+                      <li key={committee.decisionBodyId}>
+                        <ExternalLink
+                          href={`https://secure.toronto.ca/council/#/committees/${committee.decisionBodyId}`}
+                          className="classic-link"
+                        >
+                          {committee.decisionBodyName}
+                        </ExternalLink>
+                      </li>
+                    ))}
+                  </ul>
                 </dd>
               </>
             )}
