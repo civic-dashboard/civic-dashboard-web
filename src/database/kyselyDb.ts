@@ -2,18 +2,19 @@ import { Kysely } from 'kysely';
 import { PostgresJSDialect } from 'kysely-postgres-js';
 import { createPostgres } from '@/database/psql';
 import { DB } from '@/database/allDbTypes';
-import { PHASE_PRODUCTION_BUILD } from 'next/dist/shared/lib/constants';
 
-const isDuringBuild = () => process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
-
-let buildTimeDb: Kysely<DB> | null = null;
+const globalForDb = globalThis as unknown as {
+  __kysely_db__: Kysely<DB> | undefined;
+};
 
 export const createDB = () => {
-  if (isDuringBuild()) {
-    buildTimeDb ??= createNewDb();
-    return buildTimeDb;
-  }
-  return createNewDb();
+  // Use a singleton for all phases (Build, Dev, Prod).
+  // should fix connection exhaustion crashes during runtime.
+  if (globalForDb.__kysely_db__) return globalForDb.__kysely_db__;
+
+  const db = createNewDb();
+  globalForDb.__kysely_db__ = db;
+  return db;
 };
 
 const createNewDb = () => {
