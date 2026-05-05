@@ -181,7 +181,7 @@ export default function About() {
             href="https://guild.host/ctto/events"
             className="classic-link"
           >
-            weekly hacknights
+            weekly breakout groups
           </ExternalLink>{' '}
           - they happen every Tuesday 7-9pm somewhere in Toronto and on Zoom.
         </p>

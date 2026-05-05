@@ -92,12 +92,12 @@ export default function ShareThoughtsPage() {
             to know when we're asking for feedback!
           </li>
           <li>
-            <strong>Meet Us</strong> - Come to a{' '}
+            <strong>Meet Us</strong> - Come to{' '}
             <ExternalLink
               href="https://guild.host/ctto/events"
               className="classic-link"
             >
-              Civic Tech Toronto hacknight
+              Civic Tech Toronto breakout groups
             </ExternalLink>
             . These happen every Tuesday 7-9pm, both in-person somewhere in
             Toronto and over Zoom! They're full of friendly people working to
