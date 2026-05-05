@@ -6,6 +6,8 @@ import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/Co
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { Page } from '@/components/ui/page';
+import { decisionBodies } from '@/constants/decisionBodies';
+import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 
 type ParamsType = {
   contactSlug: string;
@@ -99,9 +101,29 @@ export default async function CouncillorVotePage(props: {
   if (!contact) {
     notFound();
   }
+
+  const committees = Object.values(decisionBodies)
+    .filter(
+      (body) =>
+        body.termId === CURRENT_COUNCIL_TERM &&
+        //Everyone is already part of council so we don't want to just list "City Council"
+        body.decisionBodyPublishLabelCd !== 'COUNCIL' &&
+        //Not an ideal matching technique but we get our list of contacts (councillors/mayor) from OpenData (which has no ID) vs the committee data which comes from TMMIS
+        body.members.some(
+          (m) =>
+            `${m.firstName.trim()} ${m.lastName.trim()}` ===
+            contact.contactName.trim(),
+        ),
+    )
+    .map((c) => ({
+      decisionBodyId: c.decisionBodyId,
+      decisionBodyName: c.decisionBodyName,
+    }))
+    .sort((a, b) => a.decisionBodyName.localeCompare(b.decisionBodyName));
+
   return (
     <Page>
-      <CouncillorBio contact={contact} />
+      <CouncillorBio contact={contact} committees={committees} />
       <CouncillorVoteContent
         currentPage={currentPage}
         contactSlug={contactSlug}
