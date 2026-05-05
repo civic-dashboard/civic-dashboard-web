@@ -31,7 +31,7 @@ What is in each of these sections is elaborated below.
 
 In this section, we will go through an example staff report together. This example staff report outlines a new Festival Strategy for Toronto. 
 
-This staff report was attached to Item EC26.2 of the Economic and Community Development Committee’s meeting on February 24, 2026, titled “Toronto’s Festival Strategy”. The full agenda for this meeting can be found at: https://secure.toronto.ca/council/\#/committees/2563/27210.  
+This staff report was attached to Item EC26.2 of the Economic and Community Development Committee’s meeting on February 24, 2026, titled “Toronto’s Festival Strategy”. The full agenda for this meeting can be found at: https://secure.toronto.ca/council/#/committees/2563/27210  
 
 To find this staff report, click on the link above to open the full agenda of the Economic and Community Development Committee meeting. Click on Item EC26.2. 
 
