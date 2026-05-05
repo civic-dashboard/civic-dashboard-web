@@ -42,7 +42,7 @@ export default function ContactBio({
 
   return (
     <section>
-      <div className="flex flex-col md:flex-row gap-6 items-center">
+      <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
         {showFallbackAvatar ? (
           <div className="w-48 h-48 light:bg-gray-200 rounded-full flex items-center justify-center">
             <CircleUserRound size={190} />
