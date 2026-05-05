@@ -57,7 +57,7 @@ export const getSearchFiltersDescription = (
       .map((t) => allTags[t]?.displayName)
       .filter(Boolean);
     const joinedTags = tagNames.join(', ');
-    parts.push(filter.textQuery ? `about ${joinedTags}` : joinedTags);
+    parts.push(filter.textQuery ? `in ${joinedTags}` : joinedTags);
   }
   if (filter.decisionBodyIds.length > 0) {
     const dbNames = filter.decisionBodyIds
