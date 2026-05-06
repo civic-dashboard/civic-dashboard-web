@@ -26,7 +26,7 @@ jobs:
       # i'm not sure why `npm run db:start` doesn't work here,
       # but the remaining commands can't connect to the DB without using this action
       - name: Start database
-        uses: hoverkraft-tech/compose-action@v2
+        uses: hoverkraft-tech/compose-action@d2bee4f07e8ca410d6b196d00f90c12e7d48c33a # v2.6.0
 
       - name: Run migrations
         run: npm run db:run-migrations
