@@ -16,3 +16,8 @@ HOSTNAME_FOR_EMAIL_LINKS = "https://civicdashboard.ca"
 binding = "NEXT_INC_CACHE_R2_BUCKET"
 bucket_name = "civic-dashboard-inc-cache"
 preview_bucket_name = "civic-dashboard-inc-cache-preview"
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "4ab86d703678451587637b0d0cc46a0c"
+localConnectionString = "postgresql://postgres:postgres@localhost:54320/civic_dashboard"
