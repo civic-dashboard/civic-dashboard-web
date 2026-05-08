@@ -142,7 +142,7 @@ export const fetchSearchResults = async ({
 
   if (!response.ok) {
     try {
-      const error = await response.json();
+      const error = (await response.json()) as { message?: string };
       throw new Error(`Failed to fetch search results: ${error?.message}`);
     } catch {
       throw new Error(`Failed to fetch search results`);
