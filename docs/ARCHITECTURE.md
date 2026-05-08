@@ -3,7 +3,7 @@
 The app in production currently consists of:
 
 - A Next app deployed on Cloudflare Workers, which queries
-- A Postgres database hosted on Sevalla using Hyperdrive, which is updated by
+- A Postgres database hosted on Sevalla accessed via Cloudflare Hyperdrive, which is updated by
 - Some data pipelines which run in GitHub Actions workers
 - An external email provider (Resend) which we interact with API
 
