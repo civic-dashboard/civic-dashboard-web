@@ -1,6 +1,7 @@
 //can be executed by calling: npm run tsxe src/scripts/exportNormalizedSubjectTerms.ts
 //This gets all the subject terms from TMMIS saved in our database, normalize them, and then
 //create a .txt file that we can then use to put into the notebook to assign to categories
+//if you run this locally, recommending to update your .env so that you query against our prod database to get more subject terms
 import { createDB } from '@/database/kyselyDb';
 import { normalizeSubjectTerms } from '@/database/queries/agendaItems';
 import fs from 'fs';
