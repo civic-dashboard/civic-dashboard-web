@@ -1,61 +1,62 @@
-import { defineConfig } from 'eslint/config';
-import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
-import nextTypescript from 'eslint-config-next/typescript';
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import sql from 'eslint-plugin-sql';
-import tsParser from '@typescript-eslint/parser';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import js from '@eslint/js';
+import { includeIgnoreFile } from '@eslint/compat';
 import { FlatCompat } from '@eslint/eslintrc';
+import js from '@eslint/js';
+import { defineConfig } from 'eslint/config';
+import tseslint from 'typescript-eslint';
+import next from 'eslint-config-next';
+import sqlPlugin from 'eslint-plugin-sql';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
+
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
 });
 
 export default defineConfig([
+  includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
+  { ignores: ['db-data/**', '.open-next/**'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...compat.extends('plugin:prettier/recommended'),
+  ...compat.extends('plugin:react/recommended'),
+  ...next,
   {
-    extends: [
-      ...compat.extends('eslint:recommended'),
-      ...compat.extends('plugin:@typescript-eslint/recommended'),
-      ...compat.extends('plugin:prettier/recommended'),
-      ...compat.extends('plugin:react/recommended'),
-      ...nextCoreWebVitals,
-      ...nextTypescript,
-    ],
-
     plugins: {
-      '@typescript-eslint': typescriptEslint,
-      sql,
+      sql: sqlPlugin,
     },
-
-    languageOptions: {
-      parser: tsParser,
+    rules: {
+      'sql/format': [
+        'error',
+        {
+          sqlTag: 'sql',
+        },
+        {
+          language: 'postgresql',
+          keywordCase: 'upper',
+          dataTypeCase: 'upper',
+        },
+      ],
+      'sql/no-unsafe-query': [
+        'error',
+        {
+          sqlTag: 'sql',
+        },
+      ],
     },
-
+  },
+  {
     settings: {
       react: {
-        version: '19',
+        version: '19.0',
       },
     },
-
-    ignores: [
-      'node_modules/**',
-      '.next/**',
-      '.open-next/**',
-      'db-data/**',
-      'dist/**',
-      'ml/**',
-      'public/**',
-    ],
-
     rules: {
       'comma-dangle': ['error', 'always-multiline'],
-
       'no-restricted-globals': [
         'error',
         {
@@ -63,7 +64,6 @@ export default defineConfig([
           message: 'Use logAnalytics instead.',
         },
       ],
-
       'react/no-unescaped-entities': [
         'error',
         {
@@ -79,7 +79,6 @@ export default defineConfig([
           ],
         },
       ],
-
       'no-restricted-imports': [
         'error',
         {
@@ -95,7 +94,6 @@ export default defineConfig([
                 'Please use our wrapper components in @/components/ui instead.',
             },
           ],
-
           paths: [
             {
               name: 'pg',
@@ -120,7 +118,6 @@ export default defineConfig([
           ],
         },
       ],
-
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -132,26 +129,6 @@ export default defineConfig([
           varsIgnorePattern: '^_',
         },
       ],
-
-      'sql/format': [
-        2,
-        {
-          sqlTag: 'sql',
-        },
-        {
-          language: 'postgresql',
-          keywordCase: 'upper',
-          dataTypeCase: 'upper',
-        },
-      ],
-
-      'sql/no-unsafe-query': [
-        2,
-        {
-          sqlTag: 'sql',
-        },
-      ],
-
       'prettier/prettier': [
         'error',
         {

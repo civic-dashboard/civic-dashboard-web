@@ -1,6 +1,57 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-background: rgb(var(--background));
+  --color-foreground: rgb(var(--foreground));
+  --color-primary: rgb(var(--primary));
+  --color-primary-foreground: rgb(var(--white));
+  --color-primary-light: rgb(var(--primary-light));
+  --color-primary-lightest: rgb(var(--primary-lightest));
+  --color-success: rgb(var(--success));
+  --color-warning: rgb(var(--warning));
+  --color-danger: rgb(var(--danger));
+  --color-black: rgb(var(--black));
+  --color-white: rgb(var(--white));
+  --color-gray-light: rgb(var(--gray-light));
+  --color-gray-lightest: rgb(var(--gray-lightest));
+  --color-gray-dark: rgb(var(--gray-dark));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --shadow-lg: 0px 4px 20px 3px #7575751a;
+  --shadow-xl: 0px 4px 20px 3px #5555552a;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  --spacing-max-content-width: 814px;
+
+  --font-heading: var(--font-epilogue), sans-serif;
+  --font-body: var(--font-ibm-plex-sans), sans-serif;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
 
 :root {
   --background: 255 255 255;
