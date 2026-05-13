@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
+import { Heading1, Heading2 } from '@/components/ui/text-items';
 import { ArrowRight, Check } from 'lucide-react';
 
 type HomeCard = {
@@ -84,9 +84,7 @@ function HomeCard({ card }: { card: HomeCard }) {
         </p>
       </div>
       <div className="flex flex-col justify-between h-full">
-        <p className="font-bold mb-3">
-          {card.question}
-        </p>
+        <p className="font-bold mb-3">{card.question}</p>
         <ul className="flex flex-col gap-2 mb-6">
           {card.bullets.map((bullet) => (
             <li key={bullet} className="flex items-start gap-2">
