@@ -1,13 +1,14 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heading1, Heading2 } from '@/components/ui/text-items';
+import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
 import { ArrowRight, Check } from 'lucide-react';
 
 type HomeCard = {
   imageSrc: string;
   imageAlt: string;
   title: string;
+  question: string;
   bullets: string[];
   ctaLabel: string;
   href: string;
@@ -18,8 +19,8 @@ const influenceCards: HomeCard[] = [
     imageSrc: '/home/feature-image-activity.png',
     imageAlt: 'Council activity',
     title: 'Council \n Activity',
+    question: 'What\u2019s City Council up to?',
     bullets: [
-      'See what council is discussing and deciding',
       'Track important issues',
       'Register to attend or speak on issues you care about',
     ],
@@ -30,8 +31,8 @@ const influenceCards: HomeCard[] = [
     imageSrc: '/home/feature-image-watch.png',
     imageAlt: 'Councillor watch',
     title: 'Councillor \n Watch',
+    question: 'What\u2019s my councillor\u2019s stance?',
     bullets: [
-      'Find your councillor',
       'Follow how your councillor is voting',
       'See voting and attendance history',
     ],
@@ -45,6 +46,7 @@ const understandCards: HomeCard[] = [
     imageSrc: '/home/feature-image-get-started.png',
     imageAlt: 'How council works',
     title: 'How council \n works',
+    question: 'How does City Council work?',
     bullets: [
       'Understand the basics of council processes',
       'Learn how you can participate',
@@ -55,7 +57,8 @@ const understandCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-wiki.png',
     imageAlt: 'Civic dashboard wiki',
-    title: 'Civic dashboard wiki',
+    title: 'Civic dashboard \n wiki',
+    question: 'Civic Dashboard Wiki',
     bullets: [
       'Detailed guides, explanations, and resources',
       'A community wiki built by volunteers, continuously evolving',
@@ -80,8 +83,11 @@ function HomeCard({ card }: { card: HomeCard }) {
           {card.title}
         </p>
       </div>
-      <div className="flex flex-col gap-8 justify-between h-full">
-        <ul className="flex flex-col gap-2">
+      <div className="flex flex-col justify-between h-full">
+        <p className="font-bold mb-3">
+          {card.question}
+        </p>
+        <ul className="flex flex-col gap-2 mb-6">
           {card.bullets.map((bullet) => (
             <li key={bullet} className="flex items-start gap-2">
               <Check
