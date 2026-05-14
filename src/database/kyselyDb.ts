@@ -5,6 +5,9 @@ import { DB } from '@/database/allDbTypes';
 import { PHASE_PRODUCTION_BUILD } from 'next/dist/shared/lib/constants';
 import React from 'react';
 
+// React.cache is only available in the Next.js runtime.
+// Standalone scripts (like updateDatabase) will fail (The requested module 'react' does not provide an export named 'cache')
+// if we try to use it directly. This fallback ensures compatibility across both.
 const cache =
   (React as unknown as { cache?: <T>(fn: T) => T }).cache ||
   (<T>(fn: T): T => fn);
@@ -36,7 +39,8 @@ export const createDB = cache(() => {
     return db;
   }
 
-  // In production runtime (Cloudflare Workers), React.cache handles the singleton
-  // scope per request, avoiding stale context issues of global singletons.
+  // In production runtime (Cloudflare Workers), we avoid global singletons to prevent
+  // connection leaks or stale state between requests. React.cache provides a
+  // request-scoped singleton, ensuring only one DB instance is created per request.
   return createNewDb();
 });
