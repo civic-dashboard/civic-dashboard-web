@@ -3,7 +3,11 @@ import { PostgresJSDialect } from 'kysely-postgres-js';
 import { createPostgres } from '@/database/psql';
 import { DB } from '@/database/allDbTypes';
 import { PHASE_PRODUCTION_BUILD } from 'next/dist/shared/lib/constants';
-import { cache } from 'react';
+import React from 'react';
+
+const cache =
+  (React as unknown as { cache?: <T>(fn: T) => T }).cache ||
+  (<T>(fn: T): T => fn);
 
 const globalForDb = globalThis as unknown as {
   __kysely_db__: Kysely<DB> | undefined;
