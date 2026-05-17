@@ -6,7 +6,7 @@ This directory contains the tools and instructions for grouping and categorizing
 
 1.  **Export Subject Terms:** Retrieve all normalized subject terms from the database by running:
     ```sh
-    npm run tsxe src/scripts/exportNormalizedSubjectTerms.ts
+    npm run tsxe src/scripts/tag-exporSubjectTerms.ts
     ```
     *Note: Ensure your `.env` is pointed to the production database if you want the most up-to-date terms.*
 
