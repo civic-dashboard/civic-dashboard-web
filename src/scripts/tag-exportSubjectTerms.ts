@@ -29,7 +29,7 @@ async function main() {
     const normalizedResults = normalizeSubjectTerms(agendaItemRecords);
 
     for (const term of normalizedResults) {
-      uniqueTerms.add(term.subjectTermNormalized);
+      uniqueTerms.add(term.subjectTermRaw);
     }
 
     offset += batchSize;
@@ -38,12 +38,12 @@ async function main() {
 
   const sortedTerms = Array.from(uniqueTerms).sort();
   fs.writeFileSync(
-    'ml/input/normalized_subject_terms.txt',
+    'ml/input/subject_terms.txt',
     sortedTerms.join('\n'),
   );
 
   console.log(
-    `Successfully exported ${sortedTerms.length} unique normalized terms to ml/input/normalized_subject_terms.txt`,
+    `Successfully exported ${sortedTerms.length} unique raw terms to ml/input/subject_terms.txt`,
   );
   await db
     .destroy()
