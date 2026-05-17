@@ -1,4 +1,4 @@
-//can be executed by calling: npm run tsxe src/scripts/exportNormalizedSubjectTerms.ts
+//can be executed by calling: npm run tsxe src/scripts/tag-exportNormalizedSubjectTerms.ts
 //This gets all the subject terms from TMMIS saved in our database, normalizes them, and then
 //creates a .txt file that we can then use to put into the notebook to assign to categories
 import { createDB } from '@/database/kyselyDb';
