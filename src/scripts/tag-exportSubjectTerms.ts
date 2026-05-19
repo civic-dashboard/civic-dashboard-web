@@ -37,10 +37,7 @@ async function main() {
   }
 
   const sortedTerms = Array.from(uniqueTerms).sort();
-  fs.writeFileSync(
-    'ml/input/subject_terms.txt',
-    sortedTerms.join('\n'),
-  );
+  fs.writeFileSync('ml/input/subject_terms.txt', sortedTerms.join('\n'));
 
   console.log(
     `Successfully exported ${sortedTerms.length} unique raw terms to ml/input/subject_terms.txt`,

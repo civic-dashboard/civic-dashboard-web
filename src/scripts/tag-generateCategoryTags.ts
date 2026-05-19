@@ -36,7 +36,7 @@ async function main() {
     // Split by comma, but handle potential quoted values if necessary.
     const columns = line.split(',');
 
-    let rawTerm = columns[subjectTermIdx];
+    const rawTerm = columns[subjectTermIdx];
     if (!rawTerm) continue;
 
     // Use app logic to explode and normalize terms
