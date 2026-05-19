@@ -33,7 +33,7 @@ type Props<ID extends number | string> = {
   /** Keeps original order if false. Otherwise, reorders the items in the combo box based on selection */
   reorderSelected?: boolean;
   /** Scroll the dropdown list to the top when the search query changes - if we sort dropdown items on search then this is useful to keep the selected item in view */
-  scrollToTopOnSearch?: boolean;
+  resetScrollOnSearch?: boolean;
   defaultValue?: ID | ID[];
 };
 
@@ -47,7 +47,7 @@ export const Combobox = <ID extends number | string>({
   noResults,
   searchable = true,
   reorderSelected = true,
-  scrollToTopOnSearch = false,
+  resetScrollOnSearch = false,
   defaultValue = undefined,
 }: Props<ID>) => {
   const [open, setOpen] = useState(false);
@@ -60,16 +60,16 @@ export const Combobox = <ID extends number | string>({
   }, []);
 
   useLayoutEffect(() => {
-    if (scrollToTopOnSearch) scrollListToTop();
-  }, [searchQuery, scrollToTopOnSearch, scrollListToTop]);
+    if (resetScrollOnSearch) scrollListToTop();
+  }, [searchQuery, resetScrollOnSearch, scrollListToTop]);
 
   const onSearchValueChange = useCallback(
     (value: string) => {
-      if (!scrollToTopOnSearch) return;
+      if (!resetScrollOnSearch) return;
       scrollListToTop();
       setSearchQuery(value);
     },
-    [scrollToTopOnSearch, scrollListToTop],
+    [resetScrollOnSearch, scrollListToTop],
   );
 
   const handleOpenChange = useCallback(
@@ -162,7 +162,7 @@ export const Combobox = <ID extends number | string>({
             <CommandInput
               placeholder={placeholder}
               onValueChange={
-                scrollToTopOnSearch ? onSearchValueChange : undefined
+                resetScrollOnSearch ? onSearchValueChange : undefined
               }
             />
           )}
