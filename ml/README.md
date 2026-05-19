@@ -26,3 +26,7 @@ This directory contains the tools and instructions for grouping and categorizing
     - Go to **Session Options**.
     - Enable **Internet Access**.
     - Set the **Accelerator** to **GPU T4 x2**.
+
+8. This will output multiple files, the most important being `all_terms.csv`. Download and then update this file in `ml/output/all_terms.csv`. This file contains the most likely category (aka tag) that matches with each subject term.
+
+9. Run `npm run tsxe src/scripts/tag-generateCategoryTags.ts` to create a new version of the file `seeds/categories_tags.json`
