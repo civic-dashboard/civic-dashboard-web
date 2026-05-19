@@ -11,7 +11,8 @@ BODY=$(cat <<EOF
   "includeRecommendations": true,
   "includeDecisions": true,
   "meetingFromDate": "$START_DATE",
-  "meetingToDate": "$END_DATE"
+  "meetingToDate": "$END_DATE",
+  "word": ""
 }
 EOF
 )
