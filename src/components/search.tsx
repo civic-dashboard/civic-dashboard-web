@@ -106,6 +106,7 @@ export function DecisionBodyFilter({
       value={decisionBodyIds}
       onSelect={onSelect}
       placeholder="Select decision body..."
+      scrollToTopOnSearch
     />
   );
 }
