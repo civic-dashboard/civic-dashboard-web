@@ -63,7 +63,7 @@ export function SortDropdown() {
       placeholder="Sort by..."
       multiple={false}
       searchable={false}
-      reorderSelected={false}
+      reorderListItems={false}
     />
   );
 }
@@ -106,7 +106,6 @@ export function DecisionBodyFilter({
       value={decisionBodyIds}
       onSelect={onSelect}
       placeholder="Select decision body..."
-      scrollToTopOnSearch
     />
   );
 }
