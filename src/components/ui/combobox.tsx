@@ -30,8 +30,10 @@ type Props<ID extends number | string> = {
   noResults?: string;
   /** Hides search bar if false */
   searchable?: boolean;
-  /** Keeps original order if false. Otherwise, reorders the items in the combo box based on selection / search */
-  reorderListItems?: boolean;
+  /** Keeps original order if false. Otherwise, reorders the items in the combo box based on selection */
+  reorderSelected?: boolean;
+  /** Scroll the dropdown list to the top when the search query changes - if we sort dropdown items on search then this is useful to keep the selected item in view */
+  scrollToTopOnSearch?: boolean;
   defaultValue?: ID | ID[];
 };
 
@@ -44,7 +46,8 @@ export const Combobox = <ID extends number | string>({
   placeholder,
   noResults,
   searchable = true,
-  reorderListItems = true,
+  reorderSelected = true,
+  scrollToTopOnSearch = false,
   defaultValue = undefined,
 }: Props<ID>) => {
   const [open, setOpen] = useState(false);
@@ -57,16 +60,16 @@ export const Combobox = <ID extends number | string>({
   }, []);
 
   useLayoutEffect(() => {
-    if (reorderListItems) scrollListToTop();
-  }, [searchQuery, reorderListItems, scrollListToTop]);
+    if (scrollToTopOnSearch) scrollListToTop();
+  }, [searchQuery, scrollToTopOnSearch, scrollListToTop]);
 
   const onSearchValueChange = useCallback(
     (value: string) => {
-      if (!reorderListItems) return;
+      if (!scrollToTopOnSearch) return;
       scrollListToTop();
       setSearchQuery(value);
     },
-    [reorderListItems, scrollListToTop],
+    [scrollToTopOnSearch, scrollListToTop],
   );
 
   const handleOpenChange = useCallback(
@@ -126,13 +129,13 @@ export const Combobox = <ID extends number | string>({
 
   const orderedOptions = useMemo(
     () =>
-      reorderListItems
+      reorderSelected
         ? [
             ...options.filter((opt) => isValueSelected(opt.id)),
             ...options.filter((opt) => !isValueSelected(opt.id)),
           ]
         : options,
-    [options, isValueSelected, reorderListItems],
+    [options, isValueSelected, reorderSelected],
   );
 
   return (
@@ -158,7 +161,9 @@ export const Combobox = <ID extends number | string>({
           {searchable && (
             <CommandInput
               placeholder={placeholder}
-              onValueChange={reorderListItems ? onSearchValueChange : undefined}
+              onValueChange={
+                scrollToTopOnSearch ? onSearchValueChange : undefined
+              }
             />
           )}
           <CommandList ref={commandListRef}>
