@@ -32,7 +32,7 @@ type Props<ID extends number | string> = {
   searchable?: boolean;
   /** Keeps original order if false. Otherwise, reorders the items in the combo box based on selection */
   reorderSelected?: boolean;
-  /** Scroll the dropdown list to the top when the search query changes - if we sort dropdown items on search then this is useful to keep the selected item in view */
+  /** Scroll the dropdown list to the top when the search query changes - this is useful to keep the searched item in view */
   resetScrollOnSearch?: boolean;
   defaultValue?: ID | ID[];
 };
