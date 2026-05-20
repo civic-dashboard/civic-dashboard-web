@@ -1,4 +1,4 @@
-# Committees Wiki
+# Committees
 
 ***This Wiki page, like all our Wiki pages, was created by a community of volunteers. We have a fair bit of knowledge about City processes, but we definitely do not know everything\! If you have feedback on any Wiki page, and want to offer edits, corrections, suggestions etc., we would love to hear it. Feel free to fill out our [feedback form](https://docs.google.com/forms/d/e/1FAIpQLSdTXLo01njU2E7ZJiLQHJJln3oEity1GMJnkuOIFS-63R0XiQ/viewform) or email [teamcivicdashboard@gmail.com](mailto:teamcivicdashboard@gmail.com).*** 
 
