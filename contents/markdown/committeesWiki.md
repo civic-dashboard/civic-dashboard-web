@@ -1,4 +1,4 @@
-# **Committees Wiki**
+# Committees Wiki
 
 ***This Wiki page, like all our Wiki pages, was created by a community of volunteers. We have a fair bit of knowledge about City processes, but we definitely do not know everything\! If you have feedback on any Wiki page, and want to offer edits, corrections, suggestions etc., we would love to hear it. Feel free to fill out our [feedback form](https://docs.google.com/forms/d/e/1FAIpQLSdTXLo01njU2E7ZJiLQHJJln3oEity1GMJnkuOIFS-63R0XiQ/viewform) or email [teamcivicdashboard@gmail.com](mailto:teamcivicdashboard@gmail.com).*** 
 
@@ -57,5 +57,3 @@ A map of the specific area council oversees can be found [here](https://www.toro
 Lastly, **Ad Hoc Committees** (or **Special Committees**) are committees established by City Council with a specialized goal. These committees can be temporary, as they are assigned to tackle a specific project and disperse once they have seen things through. For example, the [FIFA World Cup 2026 Subcommittee](https://secure.toronto.ca/council/#/committees/2904/26970), which was formed to make recommendations to Council matters related to the World Cup. But, Ad Hoc Committees can also be recurring or permanent, such as the [Audit Committee](https://secure.toronto.ca/council/#/committees/2582/26078) or [Budget Committee](https://secure.toronto.ca/council/#/committees/2562/25834).
 
 A list of all current City Council Committees can be found [here](https://secure.toronto.ca/council/#/committees).
-
-## 
