@@ -20,7 +20,8 @@ export default function ShareThoughtsPage() {
         </p>
         <p>
           All we ask is that you be respectful in your communication — everyone
-          working on this project is a passion-driven volunteer doing their best.
+          working on this project is a passion-driven volunteer doing their
+         best.
         </p>
       </Section>
       <FeedbackFormContent />
