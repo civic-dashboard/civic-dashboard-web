@@ -19,7 +19,8 @@ function isValidPayload(body: unknown): body is FeedbackPayload {
       typeof b.email === 'string' &&
       b.email.trim().length > 0 &&
       typeof b.availability === 'string' &&
-      b.availability.trim().length > 0
+      b.availability.trim().length > 0 &&
+      typeof b.anythingElse === 'string'
     );
   }
   return false;
@@ -30,7 +31,7 @@ function formatSlackMessage(payload: FeedbackPayload): string {
     const namePrefix = payload.name.trim() ? `*From:* ${payload.name}\n` : '';
     return `*New Feedback*\n${namePrefix}*Message:*\n${payload.message}`;
   }
-  return `*User Interview Signup*\n*Name:* ${payload.name}\n*Email:* ${payload.email}\n*Availability:* ${payload.availability}`;
+  return `*User Interview Signup*\n*Name:* ${payload.name}\n*Email:* ${payload.email}\n*Availability:* ${payload.availability}${payload.anythingElse.trim() ? `\n*Anything else:* ${payload.anythingElse}` : ''}`;
 }
 
 export async function POST(request: NextRequest) {
@@ -50,17 +51,15 @@ export async function POST(request: NextRequest) {
 
   const payload = body;
 
-  let slackOk = false;
-  if (process.env.SLACK_FEEDBACK_WEBHOOK_URL) {
-    try {
-      const res = await fetch(process.env.SLACK_FEEDBACK_WEBHOOK_URL, {
+  const slackOk = process.env.SLACK_FEEDBACK_WEBHOOK_URL
+    ? await fetch(process.env.SLACK_FEEDBACK_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: formatSlackMessage(payload) }),
-      });
-      slackOk = res.ok;
-    } catch (_e) {}
-  }
+      })
+        .then((res) => res.ok)
+        .catch(() => false)
+    : false;
 
   if (slackOk) {
     return Response.json({ success: true });

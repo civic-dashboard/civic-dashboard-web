@@ -40,6 +40,9 @@ export function FeedbackEmailTemplate({
           <Text>Name: {payload.name}</Text>
           <Text>Email: {payload.email}</Text>
           <Text>Availability: {payload.availability}</Text>
+          {payload.anythingElse.trim() && (
+            <Text>Anything else: {payload.anythingElse}</Text>
+          )}
         </Container>
       </Body>
     </Html>

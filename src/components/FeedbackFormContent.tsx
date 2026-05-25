@@ -17,6 +17,7 @@ export function FeedbackFormContent() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [availability, setAvailability] = useState('');
+  const [anythingElse, setAnythingElse] = useState('');
 
   const onModeChange = (newMode: Mode) => {
     setMode(newMode);
@@ -30,7 +31,7 @@ export function FeedbackFormContent() {
     const payload: FeedbackPayload =
       mode === 'text'
         ? { type: 'text', message, name }
-        : { type: 'interview', name, email, availability };
+        : { type: 'interview', name, email, availability, anythingElse };
 
     const response = await fetch('/api/feedback', {
       method: 'POST',
@@ -108,8 +109,9 @@ export function FeedbackFormContent() {
         ) : (
           <>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Sign up for a 30–60 minute remote conversation with a member of
-              our team.
+              Interviews typically take 30–60 minutes and are done virtually
+              over Zoom or Google Meet. Someone from our team will be in touch
+              shortly to schedule.
             </p>
             <Input
               type="text"
@@ -130,6 +132,11 @@ export function FeedbackFormContent() {
               value={availability}
               onChange={(e) => setAvailability(e.target.value)}
               required
+            />
+            <TextArea
+              placeholder="Anything else we should know before talking to you? (optional)"
+              value={anythingElse}
+              onChange={(e) => setAnythingElse(e.target.value)}
             />
           </>
         )}
