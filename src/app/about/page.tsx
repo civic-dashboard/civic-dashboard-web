@@ -157,6 +157,13 @@ export default function About() {
             className="classic-link"
           >
             BlueSky
+          </ExternalLink>
+          , check out our{' '}
+          <ExternalLink
+            href="https://steady.page/en/civic-dashboard/posts"
+            className="classic-link"
+          >
+            blog
           </ExternalLink>{' '}
           or find us in the{' '}
           <ExternalLink
@@ -181,7 +188,7 @@ export default function About() {
             href="https://guild.host/ctto/events"
             className="classic-link"
           >
-            weekly hacknights
+            weekly breakout groups
           </ExternalLink>{' '}
           - they happen every Tuesday 7-9pm somewhere in Toronto and on Zoom.
         </p>

@@ -43,6 +43,31 @@ export type SubscribableSearchFilters = {
   tags: TagEnum[];
 };
 
+export const getSearchFiltersDescription = (
+  filter: SubscribableSearchFilters,
+  allTags: Record<string, { displayName: string }>,
+  decisionBodies: Record<number, { decisionBodyName: string }>,
+) => {
+  const parts: string[] = [];
+  if (filter.textQuery) {
+    parts.push(`"${filter.textQuery}"`);
+  }
+  if (filter.tags.length > 0) {
+    const tagNames = filter.tags
+      .map((t) => allTags[t]?.displayName)
+      .filter(Boolean);
+    const joinedTags = tagNames.join(', ');
+    parts.push(filter.textQuery ? `in ${joinedTags}` : joinedTags);
+  }
+  if (filter.decisionBodyIds.length > 0) {
+    const dbNames = filter.decisionBodyIds
+      .map((id) => decisionBodies[id]?.decisionBodyName)
+      .filter(Boolean);
+    parts.push(`in ${dbNames.join(', ')}`);
+  }
+  return parts.join(' ');
+};
+
 export type TransientSearchFilters = {
   termId?: number;
   minimumDate?: Date;
@@ -117,7 +142,7 @@ export const fetchSearchResults = async ({
 
   if (!response.ok) {
     try {
-      const error = await response.json();
+      const error = (await response.json()) as { message?: string };
       throw new Error(`Failed to fetch search results: ${error?.message}`);
     } catch {
       throw new Error(`Failed to fetch search results`);

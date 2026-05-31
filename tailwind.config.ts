@@ -39,6 +39,10 @@ const config: Config = {
       spacing: {
         'max-content-width': '814px',
       },
+      fontFamily: {
+        'heading': ['var(--font-epilogue)', 'sans-serif'],
+        'body': ['var(--font-ibm-plex-sans)', 'sans-serif'],
+      }
     },
   },
   plugins: [typography, require('tailwindcss-animate')],

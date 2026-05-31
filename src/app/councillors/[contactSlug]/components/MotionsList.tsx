@@ -39,7 +39,7 @@ export const MotionsList = ({ motions }: MotionsListProps) => {
   return (
     <div className="mt-2">
       {motionsToShow.map((motion) => (
-        <div key={motion.motionId} className="border-t p-4">
+        <div key={motion.motionId} className="border-t py-4 px-1">
           <dl className="flex mb-2 text-xs gap-1">
             <dt>Date</dt>
             <dd className="text-gray-500">{motion.dateTime}</dd>

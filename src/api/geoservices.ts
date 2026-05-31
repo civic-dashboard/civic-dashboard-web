@@ -16,7 +16,12 @@ export async function fetchWardsForPostalCode(
     throw new Error('Failed to fetch from Toronto Geoservices');
   }
 
-  const data = await response.json();
+  const data = (await response.json()) as {
+    result?: {
+      bestResult?: { detail?: string }[];
+      likelyResults?: { detail?: string }[];
+    };
+  };
   const results = [
     ...(data.result?.bestResult || []),
     ...(data.result?.likelyResults || []),

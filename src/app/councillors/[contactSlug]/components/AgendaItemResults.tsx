@@ -324,8 +324,8 @@ export default function AgendaItemResults({
     <div>
       {totalItems > 0 ? (
         <>
-          <div className="flex justify-between items-center mt-2 mb-8">
-            <div className="text-sm text-gray-600">
+          <div className="flex justify-between items-center mt-8 mb-4">
+            <div className="text-sm text-gray-500">
               {totalItems >= startIndex ? (
                 <>
                   Showing {startIndex}-{endIndex} of {totalItems} results
@@ -349,13 +349,8 @@ export default function AgendaItemResults({
         </>
       ) : (
         <>
-          <div className="flex justify-between items-center mt-2 mb-8">
-            <div className="text-sm text-gray-600">Loading...</div>
-          </div>
-          <div>
-            <div className="text-center py-8 text-gray-500">
-              Loading agenda items
-            </div>
+          <div className="text-center py-8 text-gray-500">
+            Loading agenda items...
           </div>
         </>
       )}

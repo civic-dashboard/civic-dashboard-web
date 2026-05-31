@@ -31,7 +31,10 @@ export function PostalCodeSearch({
           `/api/postal-code-wards?postalCode=${encodeURIComponent(cleaned)}`,
         );
         if (!response.ok) throw new Error('Failed to fetch');
-        const data = await response.json();
+        const data = (await response.json()) as {
+          error?: string;
+          wardIds?: string[];
+        };
         if (data.error) throw new Error(data.error);
 
         const wardIds = data.wardIds || [];

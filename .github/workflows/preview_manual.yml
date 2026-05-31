@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Get PR data
         id: pr
-        uses: actions/github-script@v7
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         env:
           PR_NUMBER: ${{ github.event.inputs.pr_number }}
         with:
@@ -37,7 +37,7 @@ jobs:
       # Create the check and save its ID for later update
       - name: Set "Upload preview deployment" check to in_progress
         id: start_check
-        uses: actions/github-script@v7
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         with:
           script: |
             const res = await github.rest.checks.create({
@@ -55,7 +55,7 @@ jobs:
             core.setOutput('check_id', res.data.id);
 
       - name: Checkout PR HEAD (no persisted creds)
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: ${{ steps.pr.outputs.repo_full_name }}
           ref: ${{ steps.pr.outputs.ref }}
@@ -63,13 +63,13 @@ jobs:
           fetch-depth: 1
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: '20'
+          node-version-file: '.tool-versions'
           cache: npm
 
       - name: Restore Next.js cache
-        uses: actions/cache@v4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: .next/cache
           key: ${{ runner.os }}-frontend-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
@@ -97,7 +97,7 @@ jobs:
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
 
       - name: Find Comment
-        uses: peter-evans/find-comment@v3
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
         id: preview_url_comment
         with:
           issue-number: ${{ github.event.inputs.pr_number }}
@@ -105,7 +105,7 @@ jobs:
           body-includes: Preview
 
       - name: Create or update comment
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.preview_url_comment.outputs.comment-id }}
@@ -117,7 +117,7 @@ jobs:
       # Update the same check run with success/failure
       - name: Set "Upload preview deployment" check to success
         if: success()
-        uses: actions/github-script@v7
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         with:
           script: |
             await github.rest.checks.update({
@@ -135,7 +135,7 @@ jobs:
 
       - name: Set "Upload preview deployment" check to failure
         if: failure()
-        uses: actions/github-script@v7
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         with:
           script: |
             await github.rest.checks.update({

@@ -20,7 +20,7 @@ export const NewSubscriptionEmail = ({
   return (
     <EmailWrapper
       unsubscribeToken={unsubscribeToken}
-      previewText="New search subscription on Civic Dashboard."
+      previewText="New subscription on Civic Dashboard."
     >
       <Heading>
         This email has been subscribed to search results on{' '}
