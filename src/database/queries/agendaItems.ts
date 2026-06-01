@@ -388,7 +388,13 @@ export const searchAgendaItems = async (
       }
 
       if (postgresQuery) {
-        query = query.whereRef('textSearchVector', '@@', 'query');
+        query = query.where((eb) =>
+          eb.or([
+            sql<boolean>`"textSearchVector" @@ query.query`,
+            // Partial matches of query to the reference field of agenda items
+            eb('reference', 'ilike', `%${textQuery}%`),
+          ]),
+        );
       }
 
       if (minimumDate !== undefined) {
