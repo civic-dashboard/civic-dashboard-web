@@ -391,6 +391,7 @@ export const searchAgendaItems = async (
         query = query.where((eb) =>
           eb.or([
             sql<boolean>`"textSearchVector" @@ query.query`,
+            // Partial matching of text query to 'reference' column of action item
             eb('reference', 'ilike', `%${textQuery}%`),
           ]),
         );
