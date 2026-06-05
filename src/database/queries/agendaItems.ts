@@ -352,7 +352,16 @@ export const searchAgendaItems = async (
     pagination: { page, pageSize },
   }: SearchAgendaItemArgs,
 ) => {
-  const postgresQuery = queryAndTagsToPostgresTextSearchQuery({
+  // Generate separate queries for tags and text to filter independently
+  const tagsQuery = queryAndTagsToPostgresTextSearchQuery({
+    textQuery: '',
+    tags,
+  });
+  const textOnlyQuery = queryAndTagsToPostgresTextSearchQuery({
+    textQuery,
+    tags: [],
+  });
+  const combinedQuery = queryAndTagsToPostgresTextSearchQuery({
     textQuery,
     tags,
   });
@@ -367,13 +376,13 @@ export const searchAgendaItems = async (
         .orderBy('meetingDate', 'desc'),
     )
     .with('query', (db) =>
-      db.selectNoFrom(sql`to_tsquery('english', ${postgresQuery})`.as('query')),
+      db.selectNoFrom(sql`to_tsquery('english', ${combinedQuery})`.as('query')),
     )
     .with('filteredAgendaItems', (db) => {
       let query = db
         .selectFrom(['mostRecentConsiderations', 'query'])
         .select(agendaItemConflictColumns)
-        .$if(Boolean(postgresQuery), (query) =>
+        .$if(Boolean(combinedQuery), (query) =>
           query.select(sql`ts_rank("textSearchVector", query)`.as('rank')),
         );
 
@@ -387,10 +396,18 @@ export const searchAgendaItems = async (
         query = query.where('termId', '=', termId);
       }
 
-      if (postgresQuery) {
+      // Apply tag filtering as a mandatory condition
+      if (tagsQuery) {
+        query = query.where(
+          sql<boolean>`"textSearchVector" @@ to_tsquery('english', ${tagsQuery})`,
+        );
+      }
+
+      // Apply text filtering (can match in search vector or reference field)
+      if (textOnlyQuery) {
         query = query.where((eb) =>
           eb.or([
-            sql<boolean>`"textSearchVector" @@ query.query`,
+            sql<boolean>`"textSearchVector" @@ to_tsquery('english', ${textOnlyQuery})`,
             // Partial matching of text query to 'reference' column of action item
             eb('reference', 'ilike', `%${textQuery}%`),
           ]),
@@ -429,7 +446,7 @@ export const searchAgendaItems = async (
 
   query = query
     .orderBy(
-      sortBy === 'relevance' && Boolean(postgresQuery) ? 'rank' : 'meetingDate',
+      sortBy === 'relevance' && Boolean(combinedQuery) ? 'rank' : 'meetingDate',
       sortDirection === 'ascending' ? 'asc' : 'desc',
     )
     .limit(pageSize)
