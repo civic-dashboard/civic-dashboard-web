@@ -29,9 +29,7 @@ export const EmailAgendaItemCard = ({ item }: { item: AgendaItem }) => {
           {item.reference}: {item.agendaItemTitle}
         </Link>
       </Heading>
-      {formattedStatus && (
-        <Text style={statusBadge}>{formattedStatus}</Text>
-      )}
+      {formattedStatus && <Text style={statusBadge}>{formattedStatus}</Text>}
       <Hr style={divider} />
       {item.decisionRecommendations && (
         <>
