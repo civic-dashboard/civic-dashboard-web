@@ -1,7 +1,14 @@
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { sanitize, stripHtmlAndGetFirstParagraph } from '@/logic/sanitize';
+import { stripHtmlAndGetFirstParagraph } from '@/logic/sanitize';
 import { formatAgendaItemStatus } from '@/logic/strings';
-import { Button, Heading, Hr, Link, Section, Text } from '@react-email/components';
+import {
+  Button,
+  Heading,
+  Hr,
+  Link,
+  Section,
+  Text,
+} from '@react-email/components';
 
 const SUMMARY_MAX_CHARS = 200;
 
