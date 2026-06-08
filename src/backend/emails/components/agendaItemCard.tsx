@@ -1,7 +1,9 @@
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { sanitize } from '@/logic/sanitize';
+import { sanitize, stripHtmlAndGetFirstParagraph } from '@/logic/sanitize';
 import { formatAgendaItemStatus } from '@/logic/strings';
-import { Heading, Hr, Link, Section, Text } from '@react-email/components';
+import { Button, Heading, Hr, Link, Section, Text } from '@react-email/components';
+
+const SUMMARY_MAX_CHARS = 200;
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
   month: 'short',
@@ -15,6 +17,12 @@ export const EmailAgendaItemCard = ({ item }: { item: AgendaItem }) => {
     .format(new Date(item.meetingDate))
     .replace(',', '');
   const formattedStatus = formatAgendaItemStatus(item.itemStatus);
+  const plainSummary = stripHtmlAndGetFirstParagraph(item.agendaItemSummary);
+  const summary =
+    plainSummary.length > SUMMARY_MAX_CHARS
+      ? plainSummary.slice(0, SUMMARY_MAX_CHARS) + '...'
+      : plainSummary;
+  const itemUrl = `${process.env.HOSTNAME_FOR_EMAIL_LINKS}/actions/item/${item.reference}`;
 
   return (
     <Section style={card}>
@@ -22,32 +30,16 @@ export const EmailAgendaItemCard = ({ item }: { item: AgendaItem }) => {
         {formattedDate} · {item.decisionBodyName}
       </Text>
       <Heading as="h2" style={heading}>
-        <Link
-          href={`${process.env.HOSTNAME_FOR_EMAIL_LINKS}/actions/item/${item.reference}`}
-          style={titleLink}
-        >
+        <Link href={itemUrl} style={titleLink}>
           {item.reference}: {item.agendaItemTitle}
         </Link>
       </Heading>
       {formattedStatus && <Text style={statusBadge}>{formattedStatus}</Text>}
       <Hr style={divider} />
-      {item.decisionRecommendations && (
-        <>
-          <Text style={label}>Decision</Text>
-          <Text
-            style={body}
-            dangerouslySetInnerHTML={{
-              __html: sanitize(item.decisionRecommendations),
-            }}
-          />
-          <Hr style={divider} />
-          <Text style={label}>Summary</Text>
-        </>
-      )}
-      <Text
-        style={body}
-        dangerouslySetInnerHTML={{ __html: sanitize(item.agendaItemSummary) }}
-      />
+      <Text style={body}>{summary}</Text>
+      <Button href={itemUrl} style={readMore}>
+        Read more →
+      </Button>
     </Section>
   );
 };
@@ -62,11 +54,7 @@ const card = {
   padding: '24px',
   margin: '16px 0',
 };
-const meta = {
-  color: '#6b7280',
-  fontSize: '13px',
-  margin: '0 0 8px 0',
-};
+const meta = { color: '#6b7280', fontSize: '13px', margin: '0 0 8px 0' };
 const heading = { margin: '0 0 12px 0' };
 const titleLink = { color: '#1d4ed8', textDecoration: 'none' };
 const statusBadge = {
@@ -78,14 +66,18 @@ const statusBadge = {
   margin: '0 0 4px 0',
 };
 const divider = { borderTopColor: '#e5e7eb', margin: '16px 0' };
-const label = {
-  fontWeight: 'bold' as const,
-  fontSize: '14px',
-  margin: '0 0 4px 0',
-};
 const body = {
   fontSize: '15px',
   lineHeight: '1.6',
   color: '#374151',
-  margin: '0',
+  margin: '0 0 16px 0',
+};
+const readMore = {
+  backgroundColor: '#4f46e5',
+  borderRadius: '6px',
+  color: '#ffffff',
+  fontSize: '14px',
+  fontWeight: 'bold' as const,
+  padding: '10px 20px',
+  textDecoration: 'none',
 };
