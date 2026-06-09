@@ -514,6 +514,20 @@ export const getSubscribersToNotify = async (db: Kysely<DB>) => {
                 '@@',
                 eb.ref('Subscriptions.tsQuery'),
               ),
+              // NEW: Also match partial reference like new search does
+              eb.and([
+                eb('Subscriptions.textQuery', '!=', ''),
+                sql<boolean>`"newConsiderations"."reference" ILIKE '%' || "Subscriptions"."textQuery" || '%'`,
+                // Ensure tags also match if present (to avoid false positives)
+                eb.or([
+                  sql<boolean>`array_length("Subscriptions"."tags", 1) IS NULL`,
+                  eb(
+                    'newConsiderations.textSearchVector',
+                    '@@',
+                    eb.ref('Subscriptions.tsQuery'),
+                  ),
+                ]),
+              ]),
             ]),
           )
           .where('Subscribers.email', '!=', '')
