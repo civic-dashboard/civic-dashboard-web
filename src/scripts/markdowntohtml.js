@@ -7,6 +7,8 @@ import { marked } from 'marked';
 // Configuration
 const CONFIG = {
   inputDir: './contents/markdown',
+  mediaDir: './contents/media',
+  mediaPublicDir: './public/media',
   outputDir: './public/html',
   templatePath: './src/scripts/template.html',
 };
@@ -19,10 +21,10 @@ const DEFAULT_TEMPLATE = `<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <style>
-        body { 
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px; 
-            margin: 0 auto; 
+            max-width: 800px;
+            margin: 0 auto;
             padding: 2rem;
             line-height: 1.6;
         }
@@ -71,6 +73,64 @@ function loadTemplate() {
   return DEFAULT_TEMPLATE;
 }
 
+/**
+ * Copy contents/media → public/media so Next.js can serve /media/...
+ */
+function copyMediaAssets() {
+  if (!fs.existsSync(CONFIG.mediaDir)) {
+    return;
+  }
+
+  if (fs.existsSync(CONFIG.mediaPublicDir)) {
+    fs.rmSync(CONFIG.mediaPublicDir, { recursive: true, force: true });
+  }
+
+  copyDirectory(CONFIG.mediaDir, CONFIG.mediaPublicDir);
+  console.log(`📁 Copied media: ${CONFIG.mediaDir} → ${CONFIG.mediaPublicDir}`);
+}
+
+function copyDirectory(srcDir, destDir) {
+  ensureDirectoryExists(destDir);
+
+  for (const entry of fs.readdirSync(srcDir, { withFileTypes: true })) {
+    if (entry.name === '.gitkeep' || entry.name === 'README.md') {
+      continue;
+    }
+
+    const srcPath = path.join(srcDir, entry.name);
+    const destPath = path.join(destDir, entry.name);
+
+    if (entry.isDirectory()) {
+      copyDirectory(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
+/**
+ * Rewrite asset URLs for HTML under public/html/ (../ resolves on /html/, /wiki/, file://).
+ * - media/... and /media/... from contents/media
+ * - /file.jpg for legacy assets still in public/ root
+ */
+function rewriteAssetPaths(html) {
+  let result = html;
+
+  result = result.replace(
+    /\b(src|poster)=(["'])(\/?)(media\/[^"']+)\2/gi,
+    (_match, attr, quote, _slash, assetPath) =>
+      `${attr}=${quote}../${assetPath}${quote}`,
+  );
+
+  result = result.replace(
+    /\b(src|poster)=(["'])\/(?!\/|media\/)([^"']+)\2/gi,
+    (_match, attr, quote, assetPath) =>
+      `${attr}=${quote}../${assetPath}${quote}`,
+  );
+
+  return result;
+}
+
 function processMarkdownFile(filePath, template) {
   const fileName = path.basename(filePath, '.md');
   const content = fs.readFileSync(filePath, 'utf8');
@@ -97,7 +157,7 @@ function processMarkdownFile(filePath, template) {
   }
 
   // Convert markdown to HTML
-  const htmlContent = marked(markdownContent);
+  const htmlContent = rewriteAssetPaths(marked(markdownContent));
 
   // Apply template
   const finalHtml = template
@@ -125,10 +185,10 @@ function generateIndex(processedFiles) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generated Pages</title>
     <style>
-        body { 
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 600px; 
-            margin: 2rem auto; 
+            max-width: 600px;
+            margin: 2rem auto;
             padding: 2rem;
         }
         ul { list-style-type: none; padding: 0; }
@@ -168,6 +228,8 @@ function main() {
 
   // Ensure output directory exists
   ensureDirectoryExists(CONFIG.outputDir);
+
+  copyMediaAssets();
 
   // Load template
   const template = loadTemplate();
@@ -229,4 +291,4 @@ if (isRunningDirectly) {
   );
 }
 
-export { processMarkdownFile, CONFIG };
+export { processMarkdownFile, copyMediaAssets, rewriteAssetPaths, CONFIG };

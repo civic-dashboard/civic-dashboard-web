@@ -11,6 +11,7 @@ Take a look at the following documentation files to get a better lay of the land
 - [CONTRIBUTING.md](./docs/CONTRIBUTING.md) contains guidelines on making changes to the codebase.
 - [DEPENDENCIES.md](./docs/DEPENDENCIES.md) explains what dependencies we use and why.
 - [DATASOURCES.md](./docs/DATASOURCES.md) details which data sources we query from.
+- [WIKI_MEDIA.md](./docs/WIKI_MEDIA.md) explains how to add images and video to wiki pages.
 
 ## Getting started
 
@@ -68,6 +69,8 @@ npm run tsxe src/scripts/repopulateRawContactsAndVotes.ts
 npm run dev:html
 ```
 
+See [docs/WIKI_MEDIA.md](./docs/WIKI_MEDIA.md) for adding images, video, and new wiki pages.
+
 ### Run the app
 
 ```sh
@@ -80,4 +83,4 @@ Try editing `src/app/page.tsx` to see your changes live! They should be visible 
 
 We use maildev to preview emails in development. After starting your docker containers, navigate to http://localhost:1080 in your browser. All emails that are sent from the app in development mode will show up in this inbox!
 
-Note that links in emails will by default link to https://civicdashboard.ca, rather than your local dev server. `HOSTNAME_FOR_EMAIL_LINKS`  in your environment file is where you can change this.
+Note that links in emails will by default link to https://civicdashboard.ca, rather than your local dev server. `HOSTNAME_FOR_EMAIL_LINKS` in your environment file is where you can change this.

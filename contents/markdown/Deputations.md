@@ -2,6 +2,13 @@
 
 ## What are Deputations?
 
+<video src="media/videos/no-more-noise.mp4"
+  controls
+  width="800"
+  height="600"
+  playsinline /> Your browser does not support embedded video.
+</video>
+
 Deputations are short speeches, lasting between 3-5 minutes, made by citizens to influence the decision making of the City Council Committees on a given issue or recommendation. Members of the public can register to speak, or "depute", on a specific topic at meetings of Committees, sub-committees and community councils. Public deputations make up part of the public record of the meeting, and allow for citizens to voice their views and concerns on agenda items directly to decision makers within the City.
 
 ## Who can make a deputation?
@@ -48,42 +55,48 @@ Most in-person meetings are held in a committee room on the second floor of [Cit
 
 Non-City Hall Meeting Locations
 
-* Etobicoke Civic Centre at [399 The West Mall](https://maps.app.goo.gl/tGysrMapCsc941gQ8)
-    * Etobicoke Community Council
-    * Etobicoke Budget Subcommittee
+- Etobicoke Civic Centre at [399 The West Mall](https://maps.app.goo.gl/tGysrMapCsc941gQ8)
 
-* Scarborough Civic Centre at [150 Borough Drive](https://maps.app.goo.gl/zLwLc9XZ5AjkvorN8)
-    * Scarborough Community Council
-    * Scarborough Budget Subcommittee
+  - Etobicoke Community Council
+  - Etobicoke Budget Subcommittee
 
-* North York Civic Centre at [5100 Yonge Street](https://maps.app.goo.gl/nit1VJD9e9vXrK777) 
-    * North York Community Council
-    * North York Budget Subcommittee
+- Scarborough Civic Centre at [150 Borough Drive](https://maps.app.goo.gl/zLwLc9XZ5AjkvorN8)
 
-* Metro Hall at [55 John Street](https://maps.app.goo.gl/jzJZfwekKkiSJ2hw9) 
+  - Scarborough Community Council
+  - Scarborough Budget Subcommittee
 
-* Toronto Zoo Boardroom at [361A Old Finch Ave](https://maps.app.goo.gl/P4iSjvi3463jVxC99)
-    * Toronto Zoo Board of Management
+- North York Civic Centre at [5100 Yonge Street](https://maps.app.goo.gl/nit1VJD9e9vXrK777)
 
-* William McBrien Building Boardroom/TTC Offices at [1900 Yonge Street, 7th Floor](https://maps.app.goo.gl/Jrh3acLGbnLGhhB6A)
-    * TTC Human Resources Committee
-    * TTC Audit & Risk Management Committee
+  - North York Community Council
+  - North York Budget Subcommittee
 
-* Meridian Hall at [1 Front Street East](https://maps.app.goo.gl/zAmFbpu2dTgY3vXv8)
-    * TO Live Committee (sometimes)
-    * TO Live - Finance and Audit Committee (sometimes)
-    * TO Live - Environmental, Social and Governance Committee (sometimes)
+- Metro Hall at [55 John Street](https://maps.app.goo.gl/jzJZfwekKkiSJ2hw9)
 
-* Exhibition Place Automotive Building at [105 Princes' Boulevard, Room 204](https://maps.app.goo.gl/JPEWUTAksQWJPD4GA) 
-    * Exhibition Place Board of Governors
+- Toronto Zoo Boardroom at [361A Old Finch Ave](https://maps.app.goo.gl/P4iSjvi3463jVxC99)
 
- * Video Conference Only:
-    * Bid Award Panel
-    * Dangerous Dog Review Tribunal
-    * Property Standards Committees
-    * Sign Variance Committee
-    * Toronto Parking Authority - Audit and Risk Management Committee
+  - Toronto Zoo Board of Management
 
+- William McBrien Building Boardroom/TTC Offices at [1900 Yonge Street, 7th Floor](https://maps.app.goo.gl/Jrh3acLGbnLGhhB6A)
+
+  - TTC Human Resources Committee
+  - TTC Audit & Risk Management Committee
+
+- Meridian Hall at [1 Front Street East](https://maps.app.goo.gl/zAmFbpu2dTgY3vXv8)
+
+  - TO Live Committee (sometimes)
+  - TO Live - Finance and Audit Committee (sometimes)
+  - TO Live - Environmental, Social and Governance Committee (sometimes)
+
+- Exhibition Place Automotive Building at [105 Princes' Boulevard, Room 204](https://maps.app.goo.gl/JPEWUTAksQWJPD4GA)
+
+  - Exhibition Place Board of Governors
+
+- Video Conference Only:
+  - Bid Award Panel
+  - Dangerous Dog Review Tribunal
+  - Property Standards Committees
+  - Sign Variance Committee
+  - Toronto Parking Authority - Audit and Risk Management Committee
 
 ## Can I Make My Deputation Remotely?
 
@@ -92,7 +105,6 @@ Yes! When registering to make a deputation, you can choose whether to make your 
 If you have never used Webex before, it is wise to familarise yourself with the software before your deputation, to limit the impact of any technical difficulties. You can use [this link](https://www.webex.com/test-meeting.html) to test Webex meetings on your device, and you can find additional information on joining and participating in online meetings, including tips and troubleshooting advice, [here](https://www.toronto.ca/legdocs/pdf/Participating-in-Electronic-Meetings-Mar2022.pdf).
 
 Give yourself 10 minutes of buffer to make sure you're in the meeting and to not be caught off guard in case the speakers before you are absent! Then speak as you would normally. You can even have your notes loaded up on your screen to help you out!
-
 
 ## What Should I Say?
 
@@ -103,8 +115,6 @@ If you're not sure how to phrase your comments, try the following simple format 
 Who you are - name, where you live (if relevant), relevant communities you're part of
 Your relationship to the item - why do you care about it? How does it affect you? Why do you think it's important?
 What you want - what would you like this committee to do? Do you want them to vote yes or no on this item? Do you want them to amend/change it in some way?
-
-
 
 ## Deputation Template:
 
@@ -121,4 +131,4 @@ Jasmine Michaels
 
 ## Final Thoughts
 
-While it can be intimidating at first, taking the time to prepare your presentation in advance will give your deputation structure and clarity, and will make your presentation more persuasive to the committee. Making a deputation isn't for everyone, but hearing and taking on feedback from residents and communities is a vital part of the City's decision-making process. If you feel strongly about an issue, there is no better way to advocate for the change you want to see. 
+While it can be intimidating at first, taking the time to prepare your presentation in advance will give your deputation structure and clarity, and will make your presentation more persuasive to the committee. Making a deputation isn't for everyone, but hearing and taking on feedback from residents and communities is a vital part of the City's decision-making process. If you feel strongly about an issue, there is no better way to advocate for the change you want to see.
