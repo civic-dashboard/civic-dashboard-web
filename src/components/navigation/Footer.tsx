@@ -1,146 +1,166 @@
-import { menuItems } from '@/constants/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
+import { Text } from '@/components/ui/text-items';
+
+const footerGroups = [
+  {
+    heading: 'Civic Dashboard',
+    links: [
+      { label: 'Council Activity', href: '/actions' },
+      { label: 'Councillor Watch', href: '/councillors' },
+      { label: 'How Council works', href: '/how-council-works' },
+      { label: 'The Wiki', href: '/wiki' },
+    ],
+  },
+  {
+    heading: 'Resources',
+    links: [
+      {
+        label: 'Source code',
+        href: 'https://github.com/civic-dashboard/civic-dashboard',
+        external: true,
+      },
+      {
+        label: 'Civic Tech Toronto',
+        href: 'https://civictech.ca/',
+        external: true,
+      },
+      { label: 'Privacy Policy', href: '/privacy' },
+      {
+        label: 'Analytics',
+        href: 'https://eu.umami.is/share/6R9CNotgCUNEmDL5/civicdashboard.ca',
+        external: true,
+      },
+    ],
+  },
+  {
+    heading: 'Our Team',
+    links: [
+      { label: 'About us', href: '/about' },
+      { label: 'Join us', href: '/join' },
+      { label: 'Sign up for newsletter', href: '/join-newsletter' },
+    ],
+  },
+] as const;
+
+const socialLinks = [
+  {
+    label: 'Bluesky',
+    href: 'https://bsky.app/profile/civicdashboard.bsky.social',
+    iconSrc: '/bluesky-logo-white.svg',
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/civic-dashboard/',
+    iconSrc: '/linkedin-logo-white.svg',
+  },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/civic-dashboard',
+    iconSrc: '/github-logo-white.svg',
+  },
+  {
+    label: 'Slack',
+    href: 'http://link.civictech.ca/slack',
+    iconSrc: '/slack-logo-white.svg',
+  },
+] as const;
+
+type FooterLink = (typeof footerGroups)[number]['links'][number];
+
+function FooterNavLink({ link }: { link: FooterLink }) {
+  if ('external' in link && link.external) {
+    return (
+      <ExternalLink href={link.href} className="link">
+        <Text preset="Small" className="text-white">
+          {link.label}
+        </Text>
+      </ExternalLink>
+    );
+  }
+
+  return (
+    <Link href={link.href} className="link">
+      <Text preset="Small" className="text-white">
+        {link.label}
+      </Text>
+    </Link>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Navigation Links Column */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Navigation
-            </h3>
-            <ul className="space-y-3">
-              {menuItems.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="hover:text-blue-400 transition-colors duration-200 block"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-
-              <li>
-                <Link
-                  href="/labs"
-                  className="hover:text-blue-400 transition-colors duration-200"
-                >
-                  Labs
-                </Link>
-              </li>
-            </ul>
+    <footer className="bg-primary text-white">
+      <div className="mx-auto flex max-w-7xl flex-col gap-7 px-6 py-16 md:gap-10 md:px-8 md:py-24 lg:px-16">
+        <div className="flex flex-col gap-8 md:gap-10 lg:grid lg:grid-cols-2 lg:gap-16">
+          <div className="flex flex-col items-start gap-3">
+            <Text preset="Heading2" className="mb-0 max-w-[400px]">
+              Tools to help you follow and influence Toronto City Council.
+            </Text>
+            <Image
+              src="/footer-logo.svg"
+              alt="Civic Dashboard logo"
+              width={36}
+              height={49}
+              className="h-[49px] w-9 object-contain"
+            />
           </div>
 
-          <div className="space-y-4">
-            {/* Contact Column */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                Contact
-              </h3>
+          <div className="grid gap-x-4 gap-y-8 md:grid-cols-3 md:gap-y-8">
+            {footerGroups.map((group) => (
+              <div key={group.heading} className="flex flex-col gap-1">
+                <Text preset="Body" as="h3" className="font-semibold mb-1">
+                  {group.heading}
+                </Text>
+                <div className="flex flex-col gap-2">
+                  {group.links.map((link) => (
+                    <FooterNavLink key={link.label} link={link} />
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            <div className="flex flex-col gap-2 md:col-span-3">
+              <Text preset="Body" as="h3" className="font-semibold mb-1">
+                Email
+              </Text>
               <ExternalLink
                 href="mailto:teamcivicdashboard@gmail.com"
-                className="hover:text-blue-400 transition-colors duration-200"
               >
-                teamcivicdashboard@gmail.com
+                <Text preset="Small" className="text-white">
+                  teamcivicdashboard@gmail.com
+                </Text>
               </ExternalLink>
             </div>
-
-            {/* Resources (currently just privacy) */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                Resources
-              </h3>
-
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="hover:text-blue-400 transition-colors duration-200"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/analytics"
-                    className="hover:text-blue-400 transition-colors duration-200"
-                  >
-                    Analytics
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Social & Newsletter Column */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Stay Connected
-            </h3>
-            <div className="flex space-x-6">
-              {/* <a
-                href="#"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                Twitter
-              </a> */}
-              <ExternalLink
-                href="https://civictechto.slack.com/archives/C06KU3DHEKV"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                Slack
-              </ExternalLink>
-              <ExternalLink
-                href="https://www.linkedin.com/company/civic-dashboard/about/"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                LinkedIn
-              </ExternalLink>
-              <ExternalLink
-                href="https://github.com/civic-dashboard"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                GitHub
-              </ExternalLink>
-              <ExternalLink
-                href="https://bsky.app/profile/civicdashboard.bsky.social"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                Bluesky
-              </ExternalLink>
-              <ExternalLink
-                href="https://steady.page/en/civic-dashboard/posts"
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                Blog
-              </ExternalLink>
-            </div>
-
-            <Link
-              href="/join-newsletter"
-              className="w-full block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg text-center"
-            >
-              Subscribe to Newsletter
-            </Link>
-
-            <ExternalLink
-              href="https://civictech.ca/"
-              className="block text-center py-2 px-4 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:scale-105"
-            >
-              Civic Tech Toronto
-            </ExternalLink>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-700/50 text-center">
-          <p className="text-gray-400">
-            &copy; {new Date().getFullYear()} Civic Dashboard. All rights
-            reserved.
-          </p>
+        <div className="h-px w-full bg-white/20" />
+
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
+          <div className="flex items-center gap-2">
+            {socialLinks.map((link) => (
+              <ExternalLink
+                key={link.label}
+                href={link.href}
+                aria-label={link.label}
+              >
+                <Image
+                  src={link.iconSrc}
+                  alt={`${link.label} logo`}
+                  width={32}
+                  height={32}
+                  className="size-8"
+                />
+              </ExternalLink>
+            ))}
+          </div>
+
+          <Text preset="Small" className="max-w-[455px]">
+            This is an independent project powered by Toronto Open Data and
+            built by volunteers at Civic Tech Toronto.
+          </Text>
         </div>
       </div>
     </footer>
