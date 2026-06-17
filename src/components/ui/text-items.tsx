@@ -6,8 +6,21 @@ type TextItemProps = {
   className?: string;
 };
 
-type TextPreset = 'Heading1' | 'Heading2' | 'Heading3' | 'Body' | 'Small';
-type TextElement = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
+export type TextPreset =
+  | 'Heading1'
+  | 'Heading2'
+  | 'Heading3'
+  | 'Body'
+  | 'Small';
+export type TextElement =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'p'
+  | 'span';
 
 type TextProps = {
   preset: TextPreset;
@@ -16,7 +29,15 @@ type TextProps = {
   className?: string;
 } & Omit<HTMLAttributes<HTMLElement>, 'children' | 'className'>;
 
-const textPresetElements: Record<TextPreset, TextElement> = {
+export const TEXT_PRESETS = [
+  'Heading1',
+  'Heading2',
+  'Heading3',
+  'Body',
+  'Small',
+] as const satisfies readonly TextPreset[];
+
+export const textPresetElements: Record<TextPreset, TextElement> = {
   Heading1: 'h1',
   Heading2: 'h2',
   Heading3: 'h3',
@@ -24,7 +45,7 @@ const textPresetElements: Record<TextPreset, TextElement> = {
   Small: 'p',
 };
 
-const textPresetClasses: Record<TextPreset, string> = {
+export const textPresetClasses: Record<TextPreset, string> = {
   Heading1:
     'font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight',
   Heading2: 'font-heading text-2xl md:text-3xl font-bold leading-[1.2]',
