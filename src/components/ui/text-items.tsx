@@ -11,7 +11,7 @@ type TextElement = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
 
 type TextProps = {
   preset: TextPreset;
-  as?: TextElement; /* Optionally override the default HTML element for a11y compliance */
+  as?: TextElement /* Optionally override the default HTML element for a11y compliance */;
   children: ReactNode;
   className?: string;
 } & Omit<HTMLAttributes<HTMLElement>, 'children' | 'className'>;
