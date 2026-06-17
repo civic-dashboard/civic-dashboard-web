@@ -1,17 +1,15 @@
 import { type HTMLAttributes, type ReactNode } from 'react';
 import { cn } from '@/components/ui/utils';
 
-type TextItemProps = {
-  children: ReactNode;
-  className?: string;
-};
+export const TEXT_PRESETS = [
+  'Heading1',
+  'Heading2',
+  'Heading3',
+  'Body',
+  'Small',
+] as const;
 
-export type TextPreset =
-  | 'Heading1'
-  | 'Heading2'
-  | 'Heading3'
-  | 'Body'
-  | 'Small';
+export type TextPreset = (typeof TEXT_PRESETS)[number];
 export type TextElement =
   | 'h1'
   | 'h2'
@@ -28,14 +26,6 @@ type TextProps = {
   children: ReactNode;
   className?: string;
 } & Omit<HTMLAttributes<HTMLElement>, 'children' | 'className'>;
-
-export const TEXT_PRESETS = [
-  'Heading1',
-  'Heading2',
-  'Heading3',
-  'Body',
-  'Small',
-] as const satisfies readonly TextPreset[];
 
 export const textPresetElements: Record<TextPreset, TextElement> = {
   Heading1: 'h1',
@@ -69,7 +59,13 @@ export function Text({ preset, as, children, className, ...props }: TextProps) {
  * elements. You do not need to add margin/padding for `<li>` -- this component
  * will provide it automatically.
  */
-export function BulletedList({ children, className }: TextItemProps) {
+export function BulletedList({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <ul className={cn('text-base list-disc mb-6 pl-6 space-y-4', className)}>
       {children}
