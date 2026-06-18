@@ -2,11 +2,9 @@
 
 ## What are Deputations?
 
-<video src="media/videos/no-more-noise.mp4"
-  controls
-  width="800"
-  height="600"
-  playsinline /> Your browser does not support embedded video.
+<video controls width="800" height="600" playsinline>
+  <source src="media/videos/no-more-noise.mp4" type="video/mp4" />
+  Your browser does not support embedded video.
 </video>
 
 Deputations are short speeches, lasting between 3-5 minutes, made by citizens to influence the decision making of the City Council Committees on a given issue or recommendation. Members of the public can register to speak, or "depute", on a specific topic at meetings of Committees, sub-committees and community councils. Public deputations make up part of the public record of the meeting, and allow for citizens to voice their views and concerns on agenda items directly to decision makers within the City.
