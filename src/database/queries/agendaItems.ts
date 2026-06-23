@@ -447,7 +447,7 @@ export const searchAgendaItems = async (
   const headlineExpr = textOnlyQuery
     ? sql<
         string | null
-      >`ts_headline('english', regexp_replace("agendaItemSummary", '<[^>]+>', ' ', 'g'), to_tsquery('english', ${textOnlyQuery}), 'MaxWords=30, MinWords=15, StartSel=<mark>, StopSel=</mark>, HighlightAll=false')`
+      >`ts_headline('english', regexp_replace("agendaItemSummary", '<[^>]+>', ' ', 'g'), to_tsquery('english', ${textOnlyQuery}), 'StartSel=<mark>, StopSel=</mark>, HighlightAll=true')`
     : sql<string | null>`NULL`;
 
   let query = commonTables
