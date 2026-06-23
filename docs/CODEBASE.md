@@ -4,6 +4,7 @@ This is an explanation of how the files in the codebase are (intended to) be lai
 
 - `/` contains the typical mess of configuration files and documentation.
 - `/public` contains static assets for the website
+- `/contents` contains wiki markdown (`contents/markdown/`) and wiki media (`contents/media/`); see [WIKI_MEDIA.md](./WIKI_MEDIA.md)
 - `/.github` contains the `yaml` files which define our CI/CD pipeline on GitHub Actions
 - `/docs` contains documentation files (like this one!)
 - `/src` contains all of the source code! Let's dig into it:
