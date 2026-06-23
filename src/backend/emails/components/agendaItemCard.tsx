@@ -41,7 +41,9 @@ export const EmailAgendaItemCard = ({ item }: { item: AgendaItem }) => {
           {item.reference}: {item.agendaItemTitle}
         </Link>
       </Heading>
-      {formattedStatus && <Text style={statusBadge}>{formattedStatus}</Text>}
+      {formattedStatus && (
+        <Text style={statusBadge}>Status: {formattedStatus}</Text>
+      )}
       <Hr style={divider} />
       <Text style={body}>{summary}</Text>
       <Button href={itemUrl} style={readMore}>

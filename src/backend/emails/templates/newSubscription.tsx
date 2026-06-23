@@ -7,7 +7,7 @@ import { SubscribableSearchFilters } from '@/logic/search';
 import { Heading, Hr, Link, Section, Text } from '@react-email/components';
 import { Fragment } from 'react';
 
-const MAX_ITEMS = 2;
+const MAX_ITEMS = 5;
 
 export type NewSubscriptionEmailProps = {
   unsubscribeToken: string;
