@@ -32,7 +32,7 @@ export const textPresetElements: Record<TextPreset, TextElement> = {
   Heading2: 'h2',
   Heading3: 'h3',
   Body: 'p',
-  Small: 'p',
+  Small: 'small',
 };
 
 export const textPresetClasses: Record<TextPreset, string> = {
