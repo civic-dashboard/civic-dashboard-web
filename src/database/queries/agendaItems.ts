@@ -41,6 +41,10 @@ export interface AgendaItem {
   neighbourhoodId: number[] | null;
 }
 
+export type AgendaItemSearchResult = AgendaItem & {
+  searchHeadline: string | null;
+};
+
 type AgendaItemForSubjectTerm = Pick<
   AgendaItem,
   'agendaItemId' | 'subjectTerms'
@@ -440,9 +444,16 @@ export const searchAgendaItems = async (
       .executeTakeFirstOrThrow()
   ).count;
 
+  const headlineExpr = textOnlyQuery
+    ? sql<
+        string | null
+      >`ts_headline('english', regexp_replace("agendaItemSummary", '<[^>]+>', ' ', 'g'), to_tsquery('english', ${textOnlyQuery}), 'MaxWords=30, MinWords=15, StartSel=<mark>, StopSel=</mark>, HighlightAll=false')`
+    : sql<string | null>`NULL`;
+
   let query = commonTables
     .selectFrom('filteredAgendaItems')
-    .select(agendaItemConflictColumns);
+    .select(agendaItemConflictColumns)
+    .select(headlineExpr.as('searchHeadline'));
 
   query = query
     .orderBy(
@@ -454,7 +465,9 @@ export const searchAgendaItems = async (
 
   const rawResults = await query.execute();
 
-  const results: AgendaItem[] = rawResults.map(cleanAgendaItem);
+  const results = rawResults.map(
+    cleanAgendaItem,
+  ) as unknown as AgendaItemSearchResult[];
 
   return {
     totalCount,
