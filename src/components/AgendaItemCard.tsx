@@ -331,10 +331,12 @@ const TakeActionDropdown = ({
 type SearchResultAgendaItemCardProps = {
   item: AgendaItem;
   decisionBody: DecisionBody;
+  rank?: number;
 };
 export function SearchResultAgendaItemCard({
   item,
   decisionBody,
+  rank,
 }: SearchResultAgendaItemCardProps) {
   const {
     searchOptions: { textQuery },
@@ -366,6 +368,11 @@ export function SearchResultAgendaItemCard({
         )}
       >
         <div className="relative max-h-[200px] overflow-hidden">
+          {rank !== undefined && (
+            <span className="absolute top-0 right-0 z-10 font-mono text-xs bg-yellow-200 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100 px-1.5 py-0.5 rounded pointer-events-none">
+              ts_rank: {rank.toFixed(6)}
+            </span>
+          )}
           <div
             className="absolute inset-0 h-[100px] top-[100px] bg-gradient-to-t from-white dark:from-neutral-800 dark:group-hover:from-neutral-700 from-1% via-transparent to-transparent pointer-events-none"
             data-overflow-gradient

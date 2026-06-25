@@ -15,6 +15,7 @@ export type AgendaItemSearchResponse = {
   pageSize: number;
   totalCount: number;
   results: AgendaItem[];
+  debug: { parsedQuery: string | null; ranks: Record<string, number> } | null;
 };
 
 export async function GET(request: NextRequest) {
@@ -92,6 +93,7 @@ export async function GET(request: NextRequest) {
       { status: 422 },
     );
   }
+  const debugMode = searchParams.get('debug') === 'true';
 
   let result: AgendaItemSearchResponse;
   try {
@@ -105,6 +107,7 @@ export async function GET(request: NextRequest) {
         sortDirection,
         minimumDate,
         maximumDate,
+        debug: debugMode,
       },
       pagination: {
         page,

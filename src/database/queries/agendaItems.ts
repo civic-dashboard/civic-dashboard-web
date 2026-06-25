@@ -348,6 +348,7 @@ export const searchAgendaItems = async (
       sortDirection,
       minimumDate,
       maximumDate,
+      debug: debugMode = false,
     },
     pagination: { page, pageSize },
   }: SearchAgendaItemArgs,
@@ -456,11 +457,50 @@ export const searchAgendaItems = async (
 
   const results: AgendaItem[] = rawResults.map(cleanAgendaItem);
 
+  let debugResult: {
+    parsedQuery: string | null;
+    ranks: Record<string, number>;
+  } | null = null;
+  if (debugMode) {
+    const parsedQuery = combinedQuery
+      ? (
+          await db
+            .selectNoFrom(
+              sql<string>`to_tsquery('english', ${combinedQuery})::text`.as(
+                'q',
+              ),
+            )
+            .executeTakeFirst()
+        )?.q ?? null
+      : null;
+
+    const ranks: Record<string, number> = {};
+    if (combinedQuery && results.length > 0) {
+      const ids = results.map((r) => r.id);
+      const rankRows = await db
+        .selectFrom('RawAgendaItemConsiderations')
+        .select([
+          'id',
+          sql<number>`ts_rank("textSearchVector", to_tsquery('english', ${combinedQuery}))`.as(
+            'rank',
+          ),
+        ])
+        .where('id', 'in', ids)
+        .execute();
+      for (const r of rankRows) {
+        ranks[r.id] = r.rank;
+      }
+    }
+
+    debugResult = { parsedQuery, ranks };
+  }
+
   return {
     totalCount,
     page,
     pageSize,
     results,
+    debug: debugResult,
   };
 };
 

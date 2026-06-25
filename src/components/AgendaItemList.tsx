@@ -20,8 +20,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import { isTag } from '@/constants/tags';
 
 function ResultList() {
-  const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
-    useSearch();
+  const {
+    searchResults,
+    searchOptions,
+    isLoadingMore,
+    hasMoreSearchResults,
+    getNextPage,
+  } = useSearch();
 
   const { sentinelRef } = useInfiniteScroll({
     isLoadingMore,
@@ -29,11 +34,21 @@ function ResultList() {
     onLoadMore: getNextPage,
   });
 
+  const debugMode = searchOptions.debug ?? false;
+
   return (
     <>
       <Spinner show={searchResults === null} />
       {searchResults && (
         <>
+          {debugMode && searchResults.debug?.parsedQuery && (
+            <div className="font-mono text-xs bg-gray-100 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-600 p-2 rounded">
+              <span className="text-gray-500 dark:text-gray-400">
+                Parsed query:{' '}
+              </span>
+              <code>{searchResults.debug.parsedQuery}</code>
+            </div>
+          )}
           {searchResults.results.length === 0 && (
             <h4 className="mx-auto my-32">No results...</h4>
           )}
@@ -42,6 +57,11 @@ function ResultList() {
               key={item.id}
               item={item}
               decisionBody={decisionBodies[item.decisionBodyId]}
+              rank={
+                debugMode
+                  ? searchResults.debug?.ranks[item.id]
+                  : undefined
+              }
             />
           ))}
           {hasMoreSearchResults &&
@@ -75,8 +95,13 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
         ? [initialSearchParams.tag]
         : initialSearchParams.tag || [];
     const validTags = tags.filter(isTag);
+    const debugMode = initialSearchParams.debug === 'true';
 
-    setSearchOptions((opts) => ({ ...opts, tags: validTags }));
+    setSearchOptions((opts) => ({
+      ...opts,
+      tags: validTags,
+      debug: debugMode,
+    }));
     // This only runs once; passing empty deps array on purpose.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -91,6 +116,9 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
     const params = new URLSearchParams();
     for (const i in tags) {
       params.append('tag', tags[i]);
+    }
+    if (searchOptions.debug) {
+      params.set('debug', 'true');
     }
 
     const queryString = params.toString();

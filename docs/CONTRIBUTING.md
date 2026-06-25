@@ -88,6 +88,23 @@ Several features are currently living in the `labs` space. To add a labs feature
     - this allows us flexibility to adjust the API of the dependency, and makes it easy to swap it out or remove it if necessary.
     - see [`toSlug.ts`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/src/logic/toSlug.ts) and [`.eslintrc.json`](https://github.com/civic-dashboard/civic-dashboard-web/tree/main/.eslintrc.json#L14) for an example of this.
 
+## Developer Tools
+
+### Search Debug Mode
+
+Append `?debug=true` to the `/actions` page URL to enable internal search diagnostics:
+
+```
+http://localhost:3000/actions?debug=true
+```
+
+When active, two overlays appear:
+
+- **Parsed query** — shown above the result list; displays the stemmed `tsquery` Postgres evaluates (e.g. `'hous' & 'park'` for the input `"housing park"`)
+- **ts_rank score** — shown on each result card; the full-text relevance score Postgres assigned (higher = more relevant)
+
+The `debug` param is preserved as you search and filter. This is invisible to regular users and intended for contributors tuning search quality or debugging unexpected ranking behaviour.
+
 ## Teams
 
 As soon as you have been onboarded and feel comfortable with submitting your first PR, you can ask to join the `write` Github team. This team has the Github Write access which will allow you to merge PRs, see the execution of our Github actions, etc. If you have been on the project for a few months, you can join the `eng` team which has the Github Maintain access. Read the official [Github docs on Repository Roles

@@ -72,6 +72,7 @@ export type TransientSearchFilters = {
   termId?: number;
   minimumDate?: Date;
   maximumDate?: Date;
+  debug?: boolean;
 };
 
 export type SearchFilters = SubscribableSearchFilters & TransientSearchFilters;
@@ -135,6 +136,9 @@ export const fetchSearchResults = async ({
   }
   if (options.maximumDate) {
     searchParams.set('maximumDate', options.maximumDate?.getTime().toString());
+  }
+  if (options.debug) {
+    searchParams.set('debug', 'true');
   }
   const response = await fetch(`/api/agenda-item/search?${searchParams}`, {
     signal: abortSignal,
