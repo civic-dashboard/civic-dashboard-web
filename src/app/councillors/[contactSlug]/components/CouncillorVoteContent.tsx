@@ -1,5 +1,7 @@
 'use client';
 import AgendaItemResults from '@/app/councillors/[contactSlug]/components/AgendaItemResults';
+import { Suspense } from 'react';
+import { Spinner } from '@/components/ui/spinner';
 //import { useState } from 'react';
 //import { SearchInput } from '@/components/SearchInput';
 
@@ -22,11 +24,13 @@ export default function CouncillorVoteContent({
         className="dark:bg-transparent"
       />
       */}
-      <AgendaItemResults
-        currentPage={currentPage}
-        //searchTerm={searchTerm}
-        contactSlug={contactSlug}
-      />
+      <Suspense fallback={Spinner}>
+        <AgendaItemResults
+          currentPage={currentPage}
+          //searchTerm={searchTerm}
+          contactSlug={contactSlug}
+        />
+      </Suspense>
     </>
   );
 }
