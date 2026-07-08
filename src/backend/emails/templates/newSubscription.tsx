@@ -1,11 +1,13 @@
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { SubscribableSearchFilters } from '@/logic/search';
-import { Heading, Hr, Link, Section } from '@react-email/components';
-import { Fragment } from 'react';
 import { EmailWrapper } from '@/backend/emails/components/emailWrapper';
 import { EmailSubscriptionCard } from '@/backend/emails/components/subscriptionCard';
 import { EmailAgendaItemCard } from '@/backend/emails/components/agendaItemCard';
 import { UnsubscribeLink } from '@/backend/emails/components/unsubscribeLink';
+import { SubscribableSearchFilters } from '@/logic/search';
+import { Heading, Hr, Link, Section, Text } from '@react-email/components';
+import { Fragment } from 'react';
+
+const MAX_ITEMS = 5;
 
 export type NewSubscriptionEmailProps = {
   unsubscribeToken: string;
@@ -37,12 +39,21 @@ export const NewSubscriptionEmail = ({
       <Section>
         <EmailSubscriptionCard filters={filters} />
       </Section>
-      {items.map((item, index) => (
+      {items.slice(0, MAX_ITEMS).map((item, index) => (
         <Fragment key={item.agendaItemId}>
           {index !== 0 && <Hr style={{ borderTopColor: 'black' }} />}
           <EmailAgendaItemCard item={item} />
         </Fragment>
       ))}
+      {items.length > MAX_ITEMS && (
+        <Text style={{ fontSize: '14px', color: '#6b7280' }}>
+          And {items.length - MAX_ITEMS} more result
+          {items.length - MAX_ITEMS !== 1 ? 's' : ''}.{' '}
+          <Link href={process.env.HOSTNAME_FOR_EMAIL_LINKS}>
+            View all on Civic Dashboard
+          </Link>
+        </Text>
+      )}
     </EmailWrapper>
   );
 };
