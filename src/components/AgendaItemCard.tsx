@@ -9,7 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import type { AgendaItem } from '@/database/queries/agendaItems';
+import type {
+  AgendaItem,
+  AgendaItemSearchResult,
+} from '@/database/queries/agendaItems';
 import { useSearch } from '@/contexts/SearchContext';
 import { Chip, ChipLink } from '@/components/ui/chip';
 import { Link2, MessageSquarePlus, Paperclip, Speech } from 'lucide-react';
@@ -329,7 +332,7 @@ const TakeActionDropdown = ({
 };
 
 type SearchResultAgendaItemCardProps = {
-  item: AgendaItem;
+  item: AgendaItemSearchResult;
   decisionBody: DecisionBody;
 };
 export function SearchResultAgendaItemCard({
@@ -379,13 +382,22 @@ export function SearchResultAgendaItemCard({
                   {formatAgendaItemStatus(item.itemStatus)}
                 </div>
               )}
+            </HighlightChildren>
+            {item.searchHeadline ? (
+              <div
+                className="mt-2 [&_mark]:bg-yellow-200 dark:[&_mark]:bg-yellow-800 [&_mark]:rounded-sm"
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(item.searchHeadline),
+                }}
+              />
+            ) : (
               <div
                 className="mt-2"
                 dangerouslySetInnerHTML={{
                   __html: sanitize(item.agendaItemSummary),
                 }}
               />
-            </HighlightChildren>
+            )}
           </div>
         </div>
       </AgendaItemCard>
