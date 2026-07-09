@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(_request: NextRequest) {
+export function proxy(_request: NextRequest) {
   const res = NextResponse.next();
 
   // Instruct Cloudflare (and other CDNs) to cache the HTML response at the edge
