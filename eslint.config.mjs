@@ -37,6 +37,22 @@ export default defineConfig([
       parser: tsParser,
     },
 
+    settings: {
+      react: {
+        version: '19',
+      },
+    },
+
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      '.open-next/**',
+      'db-data/**',
+      'dist/**',
+      'ml/**',
+      'public/**',
+    ],
+
     rules: {
       'comma-dangle': ['error', 'always-multiline'],
 
