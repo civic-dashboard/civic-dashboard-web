@@ -76,7 +76,7 @@
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@types/umami": "^2.10.0",
-    "eslint": "10.6.0",
+    "eslint": "^9.39.4",
     "eslint-config-next": "16.2.10",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -94,7 +94,8 @@
     "tsx": "^4.19.3",
     "typescript": "^5",
     "typescript-eslint": "^8.18.0",
-    "wrangler": "^4.37.1"
+    "wrangler": "^4.107.1",
+    "zod": "^4.4.3"
   },
   "overrides": {
     "@types/react": "19.2.17",
