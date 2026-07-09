@@ -5,7 +5,7 @@ type Options = {
   from: string;
   subject: string;
   to: string | string[];
-  react: React.ReactElement<any>;
+  react: React.ReactElement;
 };
 export async function sendEmail(options: Options) {
   if (process.env.NODE_ENV !== 'production') {

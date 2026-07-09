@@ -21,6 +21,7 @@ export function PostalCodeSearch({
       const cleaned = pc.trim().replace(/\s+/g, '').toLowerCase();
       if (cleaned.length < 5) {
         onWardsFound([]);
+        setError(null);
         return;
       }
 
@@ -65,8 +66,6 @@ export function PostalCodeSearch({
       debouncedFetchWards.debounced(cleaned);
     } else {
       debouncedFetchWards.cancel();
-      setError(null);
-      onWardsFound([]);
     }
     return debouncedFetchWards.cancel;
   }, [postalCode, debouncedFetchWards, onWardsFound]);

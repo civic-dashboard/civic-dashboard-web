@@ -267,7 +267,7 @@ export default function AgendaItemResults({
   currentPage: number;
   //searchTerm?: string;
 }) {
-  if (currentPage <= 0) currentPage = 1;
+  const safeCurrentPage = currentPage <= 0 ? 1 : currentPage;
 
   const pageSize = 10; // make this dynamic based on user selection
 
@@ -298,13 +298,13 @@ export default function AgendaItemResults({
     goToPage,
     goToNextPage,
     goToPreviousPage,
-  } = usePagination(currentPage, agendaItemCount, contactSlug, 10);
+  } = usePagination(safeCurrentPage, agendaItemCount, contactSlug, 10);
 
   useEffect(() => {
-    setPageAgendaItems([]);
     const res = async () => {
+      setPageAgendaItems([]);
       const response = await fetch(
-        `/api/councillor-items?contactSlug=${contactSlug}&page=${currentPage}&pageSize=${pageSize}`,
+        `/api/councillor-items?contactSlug=${contactSlug}&page=${safeCurrentPage}&pageSize=${pageSize}`,
         {
           method: 'GET',
         },
@@ -318,7 +318,7 @@ export default function AgendaItemResults({
       setPageAgendaItems(newAgendaItems);
     };
     res();
-  }, [currentPage, contactSlug]);
+  }, [safeCurrentPage, contactSlug]);
 
   return (
     <div>
@@ -356,7 +356,7 @@ export default function AgendaItemResults({
       )}
 
       <Pagination
-        currentPage={currentPage}
+        currentPage={safeCurrentPage}
         totalPages={totalPages}
         onPageChange={goToPage}
         hasNextPage={hasNextPage}

@@ -1,6 +1,6 @@
 import { subscribeToSearch } from '@/backend/emails/subscriptions';
 import { useSearch } from '@/contexts/SearchContext';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   Popover,
   PopoverTrigger,
@@ -18,9 +18,14 @@ export const SubscribeToSearchButton = () => {
   );
   const emailInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  // Track the searchOptions value from the previous render
+  const [prevSearchOptions, setPrevSearchOptions] = useState(searchOptions);
+
+  // If searchOptions changed since last render, reset the send state
+  if (searchOptions !== prevSearchOptions) {
+    setPrevSearchOptions(searchOptions);
     setSendState('ready');
-  }, [searchOptions]);
+  }
 
   const onChange = useCallback(() => setSendState('ready'), [setSendState]);
 

@@ -111,10 +111,10 @@ export function SearchProvider({ children }: Props) {
   }, []);
 
   useEffect(() => {
-    // when searchOptions changes, that means we're executing a new search, so reset currentPage to 0
-    setCurrentPage(0);
-
     const debounceTimeout = setTimeout(() => {
+      // when searchOptions changes, that means we're executing a new search, so reset currentPage to 0
+      setCurrentPage(0);
+
       onSearch(searchOptions, 0);
     }, SEARCH_DEBOUNCE_DELAY_MS);
 
@@ -124,6 +124,8 @@ export function SearchProvider({ children }: Props) {
   // infinite scroll - trigger a new search when currentPage changes
   useEffect(() => {
     if (currentPage > 0) {
+      // onSearch is async; setIsLoading(true) is intentional and doesn't cause a cascade
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       onSearch(searchOptions, currentPage);
     }
   }, [currentPage, searchOptions, onSearch]);
