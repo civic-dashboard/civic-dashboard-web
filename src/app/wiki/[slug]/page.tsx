@@ -4,11 +4,9 @@ import WikiDocClient from '@/app/wiki/wikiDocClient';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ slug: string }>;
-  }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const params = await props.params;
   // params.slug is the full filename, e.g., "Deputations.html"
   return {
@@ -16,7 +14,9 @@ export async function generateMetadata(
   };
 }
 
-export default async function WikiDocPage(props: { params: Promise<{ slug: string }> }) {
+export default async function WikiDocPage(props: {
+  params: Promise<{ slug: string }>;
+}) {
   const params = await props.params;
   return (
     <div className="min-h-screen">
