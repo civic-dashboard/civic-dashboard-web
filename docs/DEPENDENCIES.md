@@ -15,7 +15,7 @@ This file comprehensively lists the dependencies of the project, and why they ar
 
 ## Emails
 
-- `react-email`, and `@react-email/components` are used for constructing email content.
+- `react-email` is used for constructing email content.
 - `resend` is our prod email provider.
 - `nodemailer` and `maildev` are used for previewing emails in development.
 
