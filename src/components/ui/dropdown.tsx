@@ -103,6 +103,7 @@ const DropdownMenuLink = React.forwardRef<
   }
 >(({ children, href, ...props }, ref) => (
   <DropdownMenuItem ref={ref} asChild {...props}>
+    {/* eslint-disable-next-line custom-rules/require-classic-link */}
     <a href={href} className="hover:underline hover:cursor-pointer">
       {children}
     </a>

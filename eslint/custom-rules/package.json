@@ -1,0 +1,9 @@
+{
+  "name": "eslint-plugin-custom-rules",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "description": "Local ESLint plugin with custom rules for this project",
+  "keywords": [],
+  "license": "MIT"
+}
