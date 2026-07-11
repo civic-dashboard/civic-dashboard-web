@@ -18,10 +18,19 @@ import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
 import { usePathname, useRouter } from 'next/navigation';
 import { isTag } from '@/constants/tags';
+import { Button } from './ui/button';
+import Link from 'next/link';
 
 function ResultList() {
-  const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
-    useSearch();
+  const {
+    searchResults,
+    isLoadingMore,
+    hasMoreSearchResults,
+    getNextPage,
+    searchOptions,
+  } = useSearch();
+
+  const { textQuery } = searchOptions;
 
   const { sentinelRef } = useInfiniteScroll({
     isLoadingMore,
@@ -29,13 +38,37 @@ function ResultList() {
     onLoadMore: getNextPage,
   });
 
+  const emptySearchResults = [];
+
   return (
     <>
       <Spinner show={searchResults === null} />
       {searchResults && (
         <>
-          {searchResults.results.length === 0 && (
+          {/* If search results do not return agenda items matching query */}
+          {emptySearchResults.length === 0 && textQuery.length !== 0 && (
             <h4 className="mx-auto my-32">No results...</h4>
+          )}
+          {/* If search results are empty when no query has been made */}
+          {emptySearchResults.length === 0 && textQuery.length === 0 && (
+            <div>
+              <h2 className="mx-auto">No upcoming agenda items right now</h2>
+              <h5 className="mx-auto">
+                There are no upcoming meetings or agenda items scheduled at the
+                moment. In the meantime, you can explore recent decisions or
+                review how your councillor has voted.
+              </h5>
+              <div className="flex my-5 justify-start">
+                <Button variant={'secondary'} className="mr-2">
+                  Browse Past Items
+                </Button>
+                <Button variant={'secondary'}>
+                  <Link href={'/councillors'}>
+                    See How Your Councillor Voted
+                  </Link>
+                </Button>
+              </div>
+            </div>
           )}
           {searchResults.results.map((item) => (
             <SearchResultAgendaItemCard
