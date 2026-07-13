@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const presetCopy: Record<
   TextPreset,
-  { sample: string; usage: string; wrapperClassName?: string }
+  { sample: string; usage: string }
 > = {
   Heading1: {
     sample: 'Democracy should feel legible before it feels impressive.',
@@ -37,13 +37,11 @@ const presetCopy: Record<
     sample:
       'Body text is the default reading style for explanatory copy, descriptions, and most page content where clarity matters more than emphasis.',
     usage: 'Default long-form paragraph style.',
-    wrapperClassName: 'max-w-2xl',
   },
   Small: {
     sample:
       'Small is useful for captions, helper copy, and metadata that should stay present without overpowering the primary reading path.',
     usage: 'Secondary metadata, hints, or captions.',
-    wrapperClassName: 'max-w-xl',
   },
 };
 
