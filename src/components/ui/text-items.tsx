@@ -18,6 +18,7 @@ export type TextElement =
   | 'h5'
   | 'h6'
   | 'p'
+  | 'small'
   | 'span';
 
 type TextProps = {
