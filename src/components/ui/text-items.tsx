@@ -10,7 +10,7 @@ export const TEXT_PRESETS = [
 ] as const;
 
 export type TextPreset = (typeof TEXT_PRESETS)[number];
-export type TextElement =
+export type TextTag =
   | 'h1'
   | 'h2'
   | 'h3'
@@ -23,12 +23,12 @@ export type TextElement =
 
 type TextProps = {
   preset: TextPreset;
-  as?: TextElement /* Optionally override the default HTML element for a11y compliance */;
+  tag?: TextTag /* Optionally override the default HTML tag for a11y compliance */;
   children: ReactNode;
   className?: string;
 } & Omit<HTMLAttributes<HTMLElement>, 'children' | 'className'>;
 
-export const textPresetElements: Record<TextPreset, TextElement> = {
+export const textPresetTags: Record<TextPreset, TextTag> = {
   Heading1: 'h1',
   Heading2: 'h2',
   Heading3: 'h3',
@@ -45,8 +45,14 @@ export const textPresetClasses: Record<TextPreset, string> = {
   Small: 'font-body text-sm font-normal leading-[1.5]',
 };
 
-export function Text({ preset, as, children, className, ...props }: TextProps) {
-  const Element = as ?? textPresetElements[preset];
+export function Text({
+  preset,
+  tag,
+  children,
+  className,
+  ...props
+}: TextProps) {
+  const Element = tag ?? textPresetTags[preset];
 
   return (
     <Element className={cn(textPresetClasses[preset], className)} {...props}>

@@ -6,7 +6,7 @@ import {
   BulletedList,
   TEXT_PRESETS,
   Text,
-  textPresetElements,
+  textPresetTags,
   type TextPreset,
 } from '@/components/ui/text-items';
 
@@ -16,10 +16,7 @@ export const metadata: Metadata = {
     'Reference page showing every shared Text and BulletedList variant.',
 };
 
-const presetCopy: Record<
-  TextPreset,
-  { sample: string; usage: string }
-> = {
+const presetCopy: Record<TextPreset, { sample: string; usage: string }> = {
   Heading1: {
     sample: 'Democracy should feel legible before it feels impressive.',
     usage: 'Primary page or hero heading.',
@@ -58,7 +55,7 @@ function VariantCard({ preset }: { preset: TextPreset }) {
           <Text preset="Small" className="font-bold">
             Default tag
           </Text>
-          <Text preset="Body">{`${textPresetElements[preset]}`}</Text>
+          <Text preset="Body">{`${textPresetTags[preset]}`}</Text>
         </div>
         <div className="col-span-2">
           <Text preset="Small" className="font-bold">
@@ -91,11 +88,11 @@ export default function TextItemsLabPage() {
 
         <Card className="border border-gray-light">
           <CardHeader className="border-b border-gray-light bg-gray-lightest">
-            <CardTitle className="mb-0">`as` examples</CardTitle>
+            <CardTitle className="mb-0">`tag` examples</CardTitle>
           </CardHeader>
           <CardContent>
-            <Text preset="Heading3" as="p">
-              The `as` prop allows changing the semantic element to decouple
+            <Text preset="Heading3" tag="p">
+              The `tag` prop allows changing the semantic HTML tag to decouple
               style from structure for better accessibility.
             </Text>
           </CardContent>
