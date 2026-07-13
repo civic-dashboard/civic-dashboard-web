@@ -47,7 +47,7 @@ function VariantCard({ preset }: { preset: TextPreset }) {
 
   return (
     <Card>
-      <CardHeader className="border-b border-gray-light bg-gray-lightest flex-col md:grid md:grid-cols-4 gap-1">
+      <CardHeader className="border-b border-gray-light flex-col md:grid md:grid-cols-4 gap-1">
         <Text preset="Heading3" className="mb-0 text-lg">
           {preset}
         </Text>
