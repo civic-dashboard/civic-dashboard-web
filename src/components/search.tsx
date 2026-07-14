@@ -1,5 +1,5 @@
 import { Check, Search } from 'lucide-react';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
 import { ChipButton } from '@/components/ui/chip';
@@ -8,7 +8,6 @@ import { allTags, Tag, TagEnum } from '@/constants/tags';
 import { useSearch } from '@/contexts/SearchContext';
 import { logAnalytics } from '@/api/analytics';
 import { sortByFilterOptions } from '@/constants/sortByFilterOptions';
-import { getStartOfToday } from '@/logic/date';
 
 type DecisionBodyFilterProps = {
   decisionBodies: Record<string, DecisionBody>;
