@@ -38,15 +38,15 @@ function AgendaListEmptyState() {
             moment. In the meantime, you can explore recent decisions or review
             how your councillor has voted.
           </h5>
-          <div className="flex my-5 justify-start">
+          <div className="flex flex-col sm:flex-row my-5 justify-center sm:justify-start gap-3">
             <Button
               variant={'secondary'}
-              className="mr-2"
+              className="w-full sm:w-auto"
               onClick={switchToPastItems}
             >
               Browse Past Items
             </Button>
-            <Button variant={'secondary'}>
+            <Button variant={'secondary'} className="w-full sm:w-auto">
               <Link href={'/councillors'}>See How Your Councillor Voted</Link>
             </Button>
           </div>
