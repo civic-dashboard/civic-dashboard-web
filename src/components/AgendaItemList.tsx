@@ -40,8 +40,6 @@ function ResultList() {
     onLoadMore: getNextPage,
   });
 
-  const emptySearchResults = [];
-
   const switchToPastItems = () => setTimeRange('past');
 
   return (
@@ -50,11 +48,11 @@ function ResultList() {
       {searchResults && (
         <>
           {/* If search results do not return agenda items matching non-empty query */}
-          {emptySearchResults.length === 0 && textQuery.length !== 0 && (
+          {searchResults.results.length === 0 && textQuery.length !== 0 && (
             <h4 className="mx-auto my-32">No results...</h4>
           )}
           {/* If search results are empty for upcoming items when no query has been made */}
-          {emptySearchResults.length === 0 &&
+          {searchResults.results.length === 0 &&
             textQuery.length === 0 &&
             timeRange === 'upcoming' && (
               <div>
