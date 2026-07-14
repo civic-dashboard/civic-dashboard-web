@@ -21,18 +21,44 @@ import { isTag } from '@/constants/tags';
 import { Button } from './ui/button';
 import Link from 'next/link';
 
-function ResultList() {
-  const {
-    searchResults,
-    isLoadingMore,
-    hasMoreSearchResults,
-    getNextPage,
-    searchOptions,
-    setTimeRange,
-    timeRange,
-  } = useSearch();
-
+function AgendaListEmptyState() {
+  const { searchOptions, timeRange, setTimeRange } = useSearch();
   const { textQuery } = searchOptions;
+
+  const switchToPastItems = () => setTimeRange('past');
+
+  if (timeRange === 'upcoming') {
+    if (textQuery.length === 0) {
+      return (
+        <div>
+          <h2 className="mx-auto">No upcoming agenda items right now</h2>
+          <h5 className="mx-auto">
+            There are no upcoming meetings or agenda items scheduled at the
+            moment. In the meantime, you can explore recent decisions or review
+            how your councillor has voted.
+          </h5>
+          <div className="flex my-5 justify-start">
+            <Button
+              variant={'secondary'}
+              className="mr-2"
+              onClick={switchToPastItems}
+            >
+              Browse Past Items
+            </Button>
+            <Button variant={'secondary'}>
+              <Link href={'/councillors'}>See How Your Councillor Voted</Link>
+            </Button>
+          </div>
+        </div>
+      );
+    }
+  }
+  return <h4 className="mx-auto my-32">No results...</h4>;
+}
+
+function ResultList() {
+  const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
+    useSearch();
 
   const { sentinelRef } = useInfiniteScroll({
     isLoadingMore,
@@ -40,44 +66,14 @@ function ResultList() {
     onLoadMore: getNextPage,
   });
 
-  const switchToPastItems = () => setTimeRange('past');
-
   return (
     <>
       <Spinner show={searchResults === null} />
       {searchResults && (
         <>
-          {/* If search results do not return agenda items matching non-empty query */}
-          {searchResults.results.length === 0 && textQuery.length !== 0 && (
-            <h4 className="mx-auto my-32">No results...</h4>
-          )}
-          {/* If search results are empty for upcoming items when no query has been made */}
-          {searchResults.results.length === 0 &&
-            textQuery.length === 0 &&
-            timeRange === 'upcoming' && (
-              <div>
-                <h2 className="mx-auto">No upcoming agenda items right now</h2>
-                <h5 className="mx-auto">
-                  There are no upcoming meetings or agenda items scheduled at
-                  the moment. In the meantime, you can explore recent decisions
-                  or review how your councillor has voted.
-                </h5>
-                <div className="flex my-5 justify-start">
-                  <Button
-                    variant={'secondary'}
-                    className="mr-2"
-                    onClick={switchToPastItems}
-                  >
-                    Browse Past Items
-                  </Button>
-                  <Button variant={'secondary'}>
-                    <Link href={'/councillors'}>
-                      See How Your Councillor Voted
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            )}
+          {/* {If search results are empty} */}
+          {searchResults.results.length === 0 && <AgendaListEmptyState />}
+          {/* If search results are non-empty */}
           {searchResults.results.map((item) => (
             <SearchResultAgendaItemCard
               key={item.id}
