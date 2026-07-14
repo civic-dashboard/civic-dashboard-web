@@ -52,10 +52,10 @@ export function SearchProvider({ children }: Props) {
   // use this ref to access latest searchResults val without adding searchResults to dependency arrays
   const searchResultsRef = useRef<AgendaItemSearchResponse | null>(null);
 
-  // Controlling time range of action items displayed / fetched (moved from UpcomingPastToggle)
+  // Controlling time range of action items fetched (moved from UpcomingPastToggle)
   const [timeRange, setTimeRange] = useState<TimeRangeType>('upcoming');
 
-  // Setting search options based on time range
+  // Setting search options based on time range (moved from UpcomingPastToggle)
   useEffect(() => {
     const isPast = timeRange === 'past';
     const startOfToday = getStartOfToday();

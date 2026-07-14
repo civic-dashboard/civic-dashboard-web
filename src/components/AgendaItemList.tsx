@@ -27,6 +27,7 @@ function AgendaListEmptyState() {
 
   const switchToPastItems = () => setTimeRange('past');
 
+  // Display new empty state when no upcoming agenda items exist and there is no search query
   if (timeRange === 'upcoming') {
     if (textQuery.length === 0) {
       return (
@@ -53,6 +54,7 @@ function AgendaListEmptyState() {
       );
     }
   }
+  // Display basic message for any other case
   return <h4 className="mx-auto my-32">No results...</h4>;
 }
 

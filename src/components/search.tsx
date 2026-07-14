@@ -115,6 +115,7 @@ export function UpcomingPastToggle() {
   type TimeRangeType = 'upcoming' | 'past';
   const { timeRange, setTimeRange } = useSearch();
 
+  // Setting time range using context provided setter
   const handleDateRange = (selectedRange: TimeRangeType) => {
     setTimeRange(selectedRange);
   };
