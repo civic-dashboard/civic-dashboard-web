@@ -18,7 +18,7 @@ import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
 import { usePathname, useRouter } from 'next/navigation';
 import { isTag } from '@/constants/tags';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 function AgendaListEmptyState() {
