@@ -113,26 +113,10 @@ export function DecisionBodyFilter({
 
 export function UpcomingPastToggle() {
   type TimeRangeType = 'upcoming' | 'past';
-  const { setSearchOptions } = useSearch();
-  const updateItemsType = useCallback(
-    (selectedRange: TimeRangeType) => {
-      const isPast = selectedRange === 'past';
-      const startOfToday = getStartOfToday();
-
-      setSearchOptions((opts) => ({
-        ...opts,
-        minimumDate: isPast ? undefined : startOfToday,
-        maximumDate: isPast ? new Date(startOfToday.getTime() - 1) : undefined,
-      }));
-    },
-    [setSearchOptions],
-  );
-
-  const [active, setActive] = useState('upcoming');
+  const { timeRange, setTimeRange } = useSearch();
 
   const handleDateRange = (selectedRange: TimeRangeType) => {
-    updateItemsType(selectedRange);
-    setActive(selectedRange);
+    setTimeRange(selectedRange);
   };
 
   return (
@@ -140,10 +124,10 @@ export function UpcomingPastToggle() {
       <div className="flex gap-6">
         <button
           role="tab"
-          aria-selected={active === 'upcoming'}
+          aria-selected={timeRange === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
           className={`pb-2 text-lg font-semibold ${
-            active === 'upcoming'
+            timeRange === 'upcoming'
               ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
               : 'text-gray-400 dark:text-neutral-800'
           }`}
@@ -153,10 +137,10 @@ export function UpcomingPastToggle() {
 
         <button
           role="tab"
-          aria-selected={active === 'past'}
+          aria-selected={timeRange === 'past'}
           onClick={() => handleDateRange('past')}
           className={`pb-2 text-lg font-semibold ${
-            active === 'past'
+            timeRange === 'past'
               ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
               : 'text-gray-400 dark:text-neutral-800'
           }`}
