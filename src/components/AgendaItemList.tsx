@@ -46,9 +46,12 @@ function AgendaListEmptyState() {
             >
               Browse Past Items
             </Button>
-            <Button variant={'secondary'} className="w-full sm:w-auto">
-              <Link href={'/councillors'}>See How Your Councillor Voted</Link>
-            </Button>
+
+            <Link href={'/councillors'}>
+              <Button variant={'secondary'} className="w-full sm:w-auto">
+                See How Your Councillor Voted
+              </Button>
+            </Link>
           </div>
         </div>
       );
