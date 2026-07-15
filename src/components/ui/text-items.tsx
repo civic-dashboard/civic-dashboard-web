@@ -1,24 +1,64 @@
-import React from 'react';
+import { type HTMLAttributes, type ReactNode } from 'react';
+import { cn } from '@/components/ui/utils';
 
-/**
- * Renders a `<h1>` with correct styling.
- */
-export function Heading1({ children }: { children: React.ReactNode }) {
-  return <h1 className="text-4xl font-bold mb-12">{children}</h1>;
-}
+export const TEXT_PRESETS = [
+  'Heading1',
+  'Heading2',
+  'Heading3',
+  'Body',
+  'Small',
+] as const;
 
-/**
- * Renders a `<h2>` with correct styling.
- */
-export function Heading2({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-3xl font-semibold mb-6">{children}</h2>;
-}
+export type TextPreset = (typeof TEXT_PRESETS)[number];
+export type TextTag =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'p'
+  | 'small'
+  | 'span';
 
-/**
- * Renders a `<h3>` with correct styling.
- */
-export function Heading3({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-xl font-bold mb-6">{children}</h3>;
+type TextProps = {
+  preset: TextPreset;
+  tag?: TextTag /* Optionally override the default HTML tag for a11y compliance */;
+  children: ReactNode;
+  className?: string;
+} & Omit<HTMLAttributes<HTMLElement>, 'children' | 'className'>;
+
+export const textPresetTags: Record<TextPreset, TextTag> = {
+  Heading1: 'h1',
+  Heading2: 'h2',
+  Heading3: 'h3',
+  Body: 'p',
+  Small: 'small',
+};
+
+export const textPresetClasses: Record<TextPreset, string> = {
+  Heading1:
+    'font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight',
+  Heading2: 'font-heading text-2xl md:text-3xl font-bold leading-[1.2]',
+  Heading3: 'font-heading text-lg md:text-xl font-bold leading-[1.2]',
+  Body: 'font-body text-base font-normal leading-[1.5]',
+  Small: 'font-body text-sm font-normal leading-[1.5]',
+};
+
+export function Text({
+  preset,
+  tag,
+  children,
+  className,
+  ...props
+}: TextProps) {
+  const Element = tag ?? textPresetTags[preset];
+
+  return (
+    <Element className={cn(textPresetClasses[preset], className)} {...props}>
+      {children}
+    </Element>
+  );
 }
 
 /**
@@ -26,6 +66,16 @@ export function Heading3({ children }: { children: React.ReactNode }) {
  * elements. You do not need to add margin/padding for `<li>` -- this component
  * will provide it automatically.
  */
-export function BulletedList({ children }: { children: React.ReactNode }) {
-  return <ul className="list-disc mb-6 pl-6 space-y-4">{children}</ul>;
+export function BulletedList({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <ul className={cn('text-base list-disc mb-6 pl-6 space-y-4', className)}>
+      {children}
+    </ul>
+  );
 }
