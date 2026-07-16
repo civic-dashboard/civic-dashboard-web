@@ -20,18 +20,16 @@ import { usePathname, useRouter } from 'next/navigation';
 import { isTag } from '@/constants/tags';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { areSearchFiltersEmpty } from '@/logic/search';
 
 function AgendaListEmptyState() {
   const { searchOptions, timeRange, setTimeRange } = useSearch();
-  const { textQuery, decisionBodyIds, tags } = searchOptions;
 
   const switchToPastItems = () => setTimeRange('past');
 
   // Fancy empty state when no upcoming items and empty search options (text query, decision bodies, tags)
-  const emptyUpcomingItems =
-    textQuery.length === 0 && decisionBodyIds.length === 0 && tags.length === 0;
   if (timeRange === 'upcoming') {
-    if (emptyUpcomingItems) {
+    if (areSearchFiltersEmpty(searchOptions)) {
       return (
         <div>
           <h2 className="mx-auto">No upcoming agenda items right now</h2>
