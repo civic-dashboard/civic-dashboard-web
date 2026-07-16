@@ -89,7 +89,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
               href={`/actions/item/${item.agendaItemNumber}`}
               target="_blank"
               className={cn(
-                buttonVariants({ variant: 'outline', size: 'sm' }),
+                buttonVariants({ variant: 'outline', size: 'default' }),
                 'shadow-md hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors bg-white dark:bg-neutral-800',
               )}
             >
@@ -205,7 +205,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <Button
         onClick={onPreviousPage}
         disabled={!hasPreviousPage}
-        variant="secondary-outline"
+        variant="outline"
       >
         Previous
       </Button>
@@ -213,7 +213,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <div className="flex space-x-1">
         {visiblePages[0] > 1 && (
           <>
-            <Button onClick={() => onPageChange(1)} variant="secondary">
+            <Button onClick={() => onPageChange(1)} variant="ghost">
               1
             </Button>
             {visiblePages[0] > 2 && (
@@ -226,7 +226,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <Button
             key={page}
             onClick={() => onPageChange(page)}
-            variant={`${page === currentPage ? 'default' : 'secondary'}`}
+            variant={page === currentPage ? 'default' : 'ghost'}
           >
             {page}
           </Button>
@@ -237,21 +237,14 @@ const Pagination: React.FC<PaginationProps> = ({
             {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
               <span className="px-3 py-2 text-sm text-gray-500">...</span>
             )}
-            <Button
-              onClick={() => onPageChange(totalPages)}
-              variant="secondary"
-            >
+            <Button onClick={() => onPageChange(totalPages)} variant="ghost">
               {totalPages}
             </Button>
           </>
         )}
       </div>
 
-      <Button
-        onClick={onNextPage}
-        disabled={!hasNextPage}
-        variant="secondary-outline"
-      >
+      <Button onClick={onNextPage} disabled={!hasNextPage} variant="outline">
         Next
       </Button>
     </nav>

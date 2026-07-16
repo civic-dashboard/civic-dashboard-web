@@ -217,11 +217,11 @@ export function RequestToSpeakModal({
                 <CopyIcon />
                 Copy email: {decisionBody.email}
               </Button>
-              <Button size="sm" onClick={() => copySubjectText()}>
+              <Button size="md" onClick={() => copySubjectText()}>
                 <CopyIcon />
                 Copy subject line
               </Button>
-              <Button size="sm" onClick={() => copyBodyText()}>
+              <Button size="md" onClick={() => copyBodyText()}>
                 <CopyIcon />
                 Copy email body
               </Button>
