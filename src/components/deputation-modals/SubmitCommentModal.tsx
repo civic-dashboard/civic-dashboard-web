@@ -185,17 +185,26 @@ export function SubmitCommentModal({
             </p>
             <div className="flex flex-wrap gap-2 mb-4">
               <Button
-                size="sm"
+                variant="outline"
+                size="md"
                 onClick={() => copyToClipboard(decisionBody.email!)}
               >
                 <CopyIcon />
                 Copy email: {decisionBody.email}
               </Button>
-              <Button size="md" onClick={() => copySubjectText()}>
+              <Button
+                variant="outline"
+                size="md"
+                onClick={() => copySubjectText()}
+              >
                 <CopyIcon />
                 Copy subject line
               </Button>
-              <Button size="md" onClick={() => copyBodyText()}>
+              <Button
+                variant="outline"
+                size="md"
+                onClick={() => copyBodyText()}
+              >
                 <CopyIcon />
                 Copy email body
               </Button>
@@ -205,7 +214,7 @@ export function SubmitCommentModal({
               client with all the text prefilled for you:
             </p>
             <div className="flex gap-2 mb-4">
-              <Button asChild size="sm">
+              <Button asChild variant="outline" size="md">
                 <a href={mailtoLink} target="_blank" rel="noopener noreferrer">
                   <ExternalLink />
                   Create email (opens your mail client)
