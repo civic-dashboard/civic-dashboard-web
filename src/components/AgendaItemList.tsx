@@ -23,13 +23,15 @@ import Link from 'next/link';
 
 function AgendaListEmptyState() {
   const { searchOptions, timeRange, setTimeRange } = useSearch();
-  const { textQuery } = searchOptions;
+  const { textQuery, decisionBodyIds, tags } = searchOptions;
 
   const switchToPastItems = () => setTimeRange('past');
 
-  // Display new empty state when no upcoming agenda items exist and there is no search query
+  // Fancy empty state when no upcoming items and empty search options (text query, decision bodies, tags)
+  const emptyUpcomingItems =
+    textQuery.length === 0 && decisionBodyIds.length === 0 && tags.length === 0;
   if (timeRange === 'upcoming') {
-    if (textQuery.length === 0) {
+    if (emptyUpcomingItems) {
       return (
         <div>
           <h2 className="mx-auto">No upcoming agenda items right now</h2>
