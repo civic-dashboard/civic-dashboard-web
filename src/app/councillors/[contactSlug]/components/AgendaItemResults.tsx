@@ -88,10 +88,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
             <Link
               href={`/actions/item/${item.agendaItemNumber}`}
               target="_blank"
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'sm' }),
-                'shadow-md hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors bg-white dark:bg-neutral-800',
-              )}
+              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
             >
               Learn more
             </Link>
@@ -205,7 +202,8 @@ const Pagination: React.FC<PaginationProps> = ({
       <Button
         onClick={onPreviousPage}
         disabled={!hasPreviousPage}
-        variant="secondary-outline"
+        variant="outline"
+        size="sm"
       >
         Previous
       </Button>
@@ -213,7 +211,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <div className="flex space-x-1">
         {visiblePages[0] > 1 && (
           <>
-            <Button onClick={() => onPageChange(1)} variant="secondary">
+            <Button onClick={() => onPageChange(1)} variant="ghost" size="sm">
               1
             </Button>
             {visiblePages[0] > 2 && (
@@ -226,7 +224,8 @@ const Pagination: React.FC<PaginationProps> = ({
           <Button
             key={page}
             onClick={() => onPageChange(page)}
-            variant={`${page === currentPage ? 'default' : 'secondary'}`}
+            variant={page === currentPage ? 'default' : 'ghost'}
+            size="sm"
           >
             {page}
           </Button>
@@ -239,7 +238,8 @@ const Pagination: React.FC<PaginationProps> = ({
             )}
             <Button
               onClick={() => onPageChange(totalPages)}
-              variant="secondary"
+              variant="ghost"
+              size="sm"
             >
               {totalPages}
             </Button>
@@ -250,7 +250,8 @@ const Pagination: React.FC<PaginationProps> = ({
       <Button
         onClick={onNextPage}
         disabled={!hasNextPage}
-        variant="secondary-outline"
+        variant="outline"
+        size="sm"
       >
         Next
       </Button>
