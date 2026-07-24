@@ -1,4 +1,4 @@
-import { Heading1, Heading2, BulletedList } from '@/components/ui/text-items';
+import { BulletedList, Text } from '@/components/ui/text-items';
 import { Section } from '@/components/ui/section';
 import { Page } from '@/components/ui/page';
 
@@ -7,44 +7,44 @@ export default function JoinPage() {
     <Page>
       {/* Hero Section */}
       <Section>
-        <Heading1>Join The Team!</Heading1>
-        <p className="mt-4 text-xl">
+        <Text preset="Heading1">Join The Team!</Text>
+        <Text preset="Body" className="mt-4 text-xl">
           We're a completely volunteer-run team - meaning that all of us were
           once where you are, just hearing about this project for the first
           time! No matter who you are, you can contribute to this project.
-        </p>
+        </Text>
       </Section>
 
       {/* Who We Need Section */}
       <Section>
-        <p>
+        <Text preset="Body">
           If you have technical skills in software development, user experience
           design/research, product/project management, research/writing,
           marketing/communication, or anything else relevant to a non-profit,
           open source technology project? We need you.
-        </p>
+        </Text>
 
-        <p>
+        <Text preset="Body">
           If you have experience/expertise in government, policy, organizing,
           activism, campaigning, or anything related to political engagement? We
           need you.
-        </p>
+        </Text>
 
-        <p>
+        <Text preset="Body">
           If you're just someone who believes that we can more peacefully,
           thoughtfully, creatively, and sustainably coexist, believes this
           project could be a way to help do that, and wants to contribute? We
           need you.
-        </p>
+        </Text>
       </Section>
 
       {/* How We Work Section */}
       <Section>
-        <Heading2>How We Work</Heading2>
-        <p>
+        <Text preset="Heading2">How We Work</Text>
+        <Text preset="Body">
           We collaborate by breaking up our work into manageable pieces, then
           getting it done based on these principles:
-        </p>
+        </Text>
 
         <BulletedList>
           <li>
@@ -65,7 +65,7 @@ export default function JoinPage() {
           </li>
         </BulletedList>
 
-        <p>
+        <Text preset="Body">
           We rarely set deadlines, we get the majority of our work done on our
           own time, and we communicate asynchronously via{' '}
           <a
@@ -86,19 +86,19 @@ export default function JoinPage() {
             Civic Tech Toronto
           </a>{' '}
           meetups.
-        </p>
+        </Text>
 
-        <p>
+        <Text preset="Body">
           We've had folks contribute continuously from the start of the project,
           we've had folks come in and out, we've had folks contribute intensely
           for a short stretch, and we're accommodating of and deeply grateful
           for it all.
-        </p>
+        </Text>
       </Section>
 
       {/* Ways to Get Involved Section */}
       <Section>
-        <Heading2>Ways to Get Involved</Heading2>
+        <Text preset="Heading2">Ways to Get Involved</Text>
         <BulletedList>
           <li>
             <strong>Onboarding</strong> - Read through our{' '}

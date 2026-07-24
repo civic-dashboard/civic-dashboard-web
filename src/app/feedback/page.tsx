@@ -1,34 +1,32 @@
 import { Metadata } from 'next';
 import { ExternalLink } from '@/components/ExternalLink';
-import { BulletedList, Heading1, Heading2 } from '@/components/ui/text-items';
+import { BulletedList, Text } from '@/components/ui/text-items';
 import { Section } from '@/components/ui/section';
 import { ArticlePage } from '@/components/ui/page';
 
-export const metadata: Metadata = {
-  title: 'Feedback – Civic Dashboard',
-};
+export const metadata: Metadata = { title: 'Feedback – Civic Dashboard' };
 
 export default function ShareThoughtsPage() {
   return (
     <ArticlePage>
-      <Heading1>Share Your Thoughts</Heading1>
+      <Text preset="Heading1">Share Your Thoughts</Text>
       <Section>
-        <p>
+        <Text preset="Body">
           We’d love to hear any thoughts you're willing to share! Know that we
           read every piece of feedback, and that it is this project's guiding
           light.
-        </p>
-        <p>
+        </Text>
+        <Text preset="Body">
           All we ask is that you be respectful in your communication. It's 100%
           ok if you have strong negative feelings about any aspect of the
           project - we want to hear them! That said, everyone working on this
           project is a passion-driven volunteer who is truly doing their best -
           please keep this in mind as you share your thoughts 😊
-        </p>
+        </Text>
       </Section>
 
       <Section>
-        <Heading2>Ways to Share</Heading2>
+        <Text preset="Heading2">Ways to Share</Text>
         <BulletedList>
           <li>
             <strong>Google Form</strong> - After checking out our products

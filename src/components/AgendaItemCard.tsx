@@ -296,7 +296,7 @@ const TakeActionDropdown = ({
       onOpenChange={(isOpen) => isOpen && logAnalytics('Take action opened')}
     >
       <DropdownMenuTrigger asChild>
-        <Button size="lg" className="grow sm:flex-initial">
+        <Button size="md" className="grow sm:flex-initial">
           Take action
         </Button>
       </DropdownMenuTrigger>
@@ -353,7 +353,7 @@ export function SearchResultAgendaItemCard({
         Footer={() => (
           <>
             <Button
-              size="lg"
+              size="md"
               variant="outline"
               className="grow sm:flex-initial"
             >
