@@ -7,10 +7,18 @@ const footerGroups = [
   {
     heading: 'Civic Dashboard',
     links: [
-      { label: 'Actions', href: '/actions' },
-      { label: 'Councillors', href: '/councillors' },
-      { label: 'How Council works', href: '/how-council-works' },
-      { label: 'The Wiki', href: '/wiki' },
+      { label: 'Actions', href: '/actions', umamiEvent: 'Council Activity' },
+      {
+        label: 'Councillors',
+        href: '/councillors',
+        umamiEvent: 'Councillor Watch',
+      },
+      {
+        label: 'How Council works',
+        href: '/how-council-works',
+        umamiEvent: 'How Council Works',
+      },
+      { label: 'The Wiki', href: '/wiki', umamiEvent: 'The Wiki' },
     ],
   },
   {
@@ -20,26 +28,37 @@ const footerGroups = [
         label: 'Source code',
         href: 'https://github.com/civic-dashboard/civic-dashboard',
         external: true,
+        umamiEvent: 'GitHub',
       },
       {
         label: 'Civic Tech Toronto',
         href: 'https://civictech.ca/',
         external: true,
+        umamiEvent: 'Civic Tech Toronto',
       },
-      { label: 'Privacy Policy', href: '/privacy' },
+      {
+        label: 'Privacy Policy',
+        href: '/privacy',
+        umamiEvent: 'Privacy Policy',
+      },
       {
         label: 'Analytics',
         href: 'https://eu.umami.is/share/6R9CNotgCUNEmDL5/civicdashboard.ca',
         external: true,
+        umamiEvent: 'Analytics',
       },
     ],
   },
   {
     heading: 'Our Team',
     links: [
-      { label: 'About us', href: '/about' },
-      { label: 'Join us', href: '/join' },
-      { label: 'Sign up for newsletter', href: '/join-newsletter' },
+      { label: 'About us', href: '/about', umamiEvent: 'About us' },
+      { label: 'Join us', href: '/join', umamiEvent: 'Join us' },
+      {
+        label: 'Sign up for newsletter',
+        href: '/join-newsletter',
+        umamiEvent: 'Newsletter Signup',
+      },
     ],
   },
 ] as const;
@@ -49,30 +68,36 @@ const socialLinks = [
     label: 'Bluesky',
     href: 'https://bsky.app/profile/civicdashboard.bsky.social',
     iconSrc: '/bluesky-logo-white.svg',
+    umamiEvent: 'Bluesky',
   },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/company/civic-dashboard/',
     iconSrc: '/linkedin-logo-white.svg',
+    umamiEvent: 'LinkedIn',
   },
   {
     label: 'GitHub',
     href: 'https://github.com/civic-dashboard',
     iconSrc: '/github-logo-white.svg',
+    umamiEvent: 'GitHub',
   },
   {
     label: 'Slack',
     href: 'http://link.civictech.ca/slack',
     iconSrc: '/slack-logo-white.svg',
+    umamiEvent: 'Slack',
   },
 ] as const;
 
 type FooterLink = (typeof footerGroups)[number]['links'][number];
 
 function FooterNavLink({ link }: { link: FooterLink }) {
+  const umamiEvent = 'umamiEvent' in link ? link.umamiEvent : undefined;
+
   if ('external' in link && link.external) {
     return (
-      <ExternalLink href={link.href}>
+      <ExternalLink href={link.href} data-umami-event={umamiEvent}>
         <Text preset="Small" tag="span" className="text-white">
           {link.label}
         </Text>
@@ -81,7 +106,7 @@ function FooterNavLink({ link }: { link: FooterLink }) {
   }
 
   return (
-    <Link href={link.href}>
+    <Link href={link.href} data-umami-event={umamiEvent}>
       <Text preset="Small" tag="span" className="text-white">
         {link.label}
       </Text>
@@ -125,7 +150,10 @@ export default function Footer() {
               <Text preset="Body" tag="h3" className="font-semibold mb-1">
                 Email
               </Text>
-              <ExternalLink href="mailto:teamcivicdashboard@gmail.com">
+              <ExternalLink
+                href="mailto:teamcivicdashboard@gmail.com"
+                data-umami-event="Contact"
+              >
                 <Text preset="Small" tag="span" className="text-white">
                   teamcivicdashboard@gmail.com
                 </Text>
@@ -143,6 +171,7 @@ export default function Footer() {
                 key={link.label}
                 href={link.href}
                 aria-label={link.label}
+                data-umami-event={link.umamiEvent}
               >
                 <Image
                   src={link.iconSrc}
