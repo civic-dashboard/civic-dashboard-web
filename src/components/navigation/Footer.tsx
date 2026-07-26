@@ -1,7 +1,7 @@
 import {
   companyItems,
   iconItems,
-  menuItems,
+  civicDashboardItems,
   resourceItems,
 } from '@/constants/navigation';
 import Link from 'next/link';
@@ -31,17 +31,20 @@ export default function Footer() {
           </div>
           {/* Links Columns */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Navigation */}
+            {/* Civic Dashboard */}
             <div className="space-y-4">
               <h3 className="text-l font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                 Civic Dashboard
               </h3>
               <ul className="space-y-3">
-                {menuItems.map((item) => (
+                {civicDashboardItems.map((item) => (
                   <li key={item.label}>
                     <Link
                       href={item.href}
                       className="text-sm hover:text-blue-400 transition-colors duration-200 block"
+                      {...(item.umamiEvent
+                        ? { 'data-umami-event': item.umamiEvent }
+                        : {})}
                     >
                       {item.label}
                     </Link>
@@ -62,6 +65,9 @@ export default function Footer() {
                     <Link
                       href={item.href}
                       className="text-sm hover:text-blue-400 transition-colors duration-200 block"
+                      {...(item.umamiEvent
+                        ? { 'data-umami-event': item.umamiEvent }
+                        : {})}
                     >
                       {item.label}
                     </Link>
@@ -82,7 +88,14 @@ export default function Footer() {
                     key={item.label}
                     className="text-sm hover:text-blue-400 transition-colors duration-200 block"
                   >
-                    <Link href={item.href}>{item.label}</Link>
+                    <Link
+                      href={item.href}
+                      {...(item.umamiEvent
+                        ? { 'data-umami-event': item.umamiEvent }
+                        : {})}
+                    >
+                      {item.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -97,6 +110,7 @@ export default function Footer() {
                 key={item.icon}
                 href={item.href}
                 className="w-[26px] h-[26px] flex items-center justify-center"
+                data-umami-event={item.umamiEvent}
               >
                 <Image
                   src={item.icon}
