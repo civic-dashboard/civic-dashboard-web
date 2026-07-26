@@ -84,12 +84,10 @@ export default function Footer() {
 
               <ul className="space-y-3">
                 {companyItems.map((item) => (
-                  <li
-                    key={item.label}
-                    className="text-sm hover:text-blue-400 transition-colors duration-200 block"
-                  >
+                  <li key={item.label}>
                     <Link
                       href={item.href}
+                      className="text-sm hover:text-blue-400 transition-colors duration-200 block"
                       {...(item.umamiEvent
                         ? { 'data-umami-event': item.umamiEvent }
                         : {})}
