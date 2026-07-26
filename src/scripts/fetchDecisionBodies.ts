@@ -1,12 +1,32 @@
 import { DecisionBody, fetchDecisionBodies } from '@/api/decisionBody';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
+import { writeFileSync } from 'fs';
 
-const bodies: Record<number, DecisionBody> = {};
-for (let termId = 0; termId <= CURRENT_COUNCIL_TERM; termId++) {
-  console.log('fetching for', termId);
-  const thisTermBodies = await fetchDecisionBodies({ termId });
-  console.log(`got ${Object.values(thisTermBodies).length} values`);
-  Object.assign(bodies, thisTermBodies);
+async function main() {
+
+  const bodies: Record<number, DecisionBody> = {};
+  for (let termId = 0; termId <= CURRENT_COUNCIL_TERM; termId++) {
+    console.log('fetching for', termId);
+    const thisTermBodies = await fetchDecisionBodies({ termId });
+    console.log(`got ${Object.values(thisTermBodies).length} values`);
+    Object.assign(bodies, thisTermBodies);
+  }
+
+  const jsonString = JSON.stringify(bodies, null, 2)
+
+  const unQuotedKeys = jsonString.replace(/"([^"]+)":/g, '$1:')
+
+  const tsCode = `
+  import { DecisionBody } from '@/api/decisionBody';
+  
+  export const decisionBodies: Record<number, DecisionBody> = ${unQuotedKeys}
+  `
+
+  writeFileSync('decisionBodies.ts', tsCode, 'utf-8')
 }
 
-console.log(JSON.stringify(bodies));
+main().then(() => console.log("Decision bodies written to file successfully!")).catch((err) => {
+  console.error(err)
+  process.exit(1)
+})
+
