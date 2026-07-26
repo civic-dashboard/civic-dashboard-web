@@ -7,8 +7,8 @@ const footerGroups = [
   {
     heading: 'Civic Dashboard',
     links: [
-      { label: 'Council Activity', href: '/actions' },
-      { label: 'Councillor Watch', href: '/councillors' },
+      { label: 'Actions', href: '/actions' },
+      { label: 'Councillors', href: '/councillors' },
       { label: 'How Council works', href: '/how-council-works' },
       { label: 'The Wiki', href: '/wiki' },
     ],
@@ -110,7 +110,7 @@ export default function Footer() {
           <div className="grid gap-x-4 gap-y-8 md:grid-cols-3 md:gap-y-8">
             {footerGroups.map((group) => (
               <div key={group.heading} className="flex flex-col gap-1">
-                <Text preset="Body" as="h3" className="font-semibold mb-1">
+                <Text preset="Body" tag="h3" className="font-semibold mb-1">
                   {group.heading}
                 </Text>
                 <div className="flex flex-col gap-2">
@@ -122,7 +122,7 @@ export default function Footer() {
             ))}
 
             <div className="flex flex-col gap-2 md:col-span-3">
-              <Text preset="Body" as="h3" className="font-semibold mb-1">
+              <Text preset="Body" tag="h3" className="font-semibold mb-1">
                 Email
               </Text>
               <ExternalLink
