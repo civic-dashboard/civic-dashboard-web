@@ -3,7 +3,6 @@ import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 import { writeFileSync } from 'fs';
 
 async function main() {
-
   const bodies: Record<number, DecisionBody> = {};
   for (let termId = 0; termId <= CURRENT_COUNCIL_TERM; termId++) {
     console.log('fetching for', termId);
