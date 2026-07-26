@@ -72,10 +72,6 @@ export const resourceItems: FooterNavItem[] = [
     umamiEvent: 'Slack',
   },
   {
-    label: 'Documentation',
-    href: '',
-  },
-  {
     label: 'Civic Tech Toronto',
     href: 'https://civictech.ca/',
     umamiEvent: 'Civic Tech Toronto',
