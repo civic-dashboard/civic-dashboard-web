@@ -6,7 +6,7 @@ import {
 } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ExternalLink } from '../ExternalLink';
+import { ExternalLink } from '@/components/ExternalLink';
 
 export default function Footer() {
   return (
