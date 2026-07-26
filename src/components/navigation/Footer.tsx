@@ -72,8 +72,8 @@ type FooterLink = (typeof footerGroups)[number]['links'][number];
 function FooterNavLink({ link }: { link: FooterLink }) {
   if ('external' in link && link.external) {
     return (
-      <ExternalLink href={link.href} className="link">
-        <Text preset="Small" className="text-white">
+      <ExternalLink href={link.href}>
+        <Text preset="Small" tag="span" className="text-white">
           {link.label}
         </Text>
       </ExternalLink>
@@ -81,8 +81,8 @@ function FooterNavLink({ link }: { link: FooterLink }) {
   }
 
   return (
-    <Link href={link.href} className="link">
-      <Text preset="Small" className="text-white">
+    <Link href={link.href}>
+      <Text preset="Small" tag="span" className="text-white">
         {link.label}
       </Text>
     </Link>
@@ -125,10 +125,8 @@ export default function Footer() {
               <Text preset="Body" tag="h3" className="font-semibold mb-1">
                 Email
               </Text>
-              <ExternalLink
-                href="mailto:teamcivicdashboard@gmail.com"
-              >
-                <Text preset="Small" className="text-white">
+              <ExternalLink href="mailto:teamcivicdashboard@gmail.com">
+                <Text preset="Small" tag="span" className="text-white">
                   teamcivicdashboard@gmail.com
                 </Text>
               </ExternalLink>
