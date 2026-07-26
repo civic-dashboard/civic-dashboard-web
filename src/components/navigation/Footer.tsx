@@ -101,26 +101,26 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-4 mt-12 pt-8 border-t border-gray-700/50 text-left">
-          <div className="flex flex-row space-x-3">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-6 mt-12 pt-8 border-t border-gray-700/50 text-left">
+          <div className="flex flex-row space-x-3 items-center">
             {iconItems.map((item) => (
               <ExternalLink
                 key={item.icon}
                 href={item.href}
-                className="w-[26px] h-[26px] flex items-center justify-center"
+                className="w-[30px] h-[30px] flex items-center justify-center"
                 data-umami-event={item.umamiEvent}
               >
                 <Image
                   src={item.icon}
                   alt={item.alt}
-                  width={26}
-                  height={26}
+                  width={30}
+                  height={30}
                   className="w-full h-full object-contain"
                 />
               </ExternalLink>
             ))}
           </div>
-          <p className="flex flex-start text-gray-400 col-span-1 md:col-span-3">
+          <p className="flex flex-start text-gray-400 text-sm col-span-1 md:col-span-3">
             This is an independent project powered by Toronto Open Data and
             built by volunteers at Civic Tech Toronto.
           </p>
