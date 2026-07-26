@@ -93,7 +93,7 @@ export const companyItems: FooterNavItem[] = [
     href: 'mailto:teamcivicdashboard@gmail.com',
     umamiEvent: 'Contact',
   },
-  { label: 'Join us', href: '/join', umamiEvent: "Join us" },
+  { label: 'Join us', href: '/join', umamiEvent: 'Join us' },
   {
     label: 'Sign up for our newsletter',
     href: '/join-newsletter',
