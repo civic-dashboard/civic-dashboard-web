@@ -64,7 +64,12 @@ export const fetchDecisionBody = async (id: number): Promise<DecisionBody> => {
   );
 
   const record = ((await response.json()) as InidividualApiResponse).Record;
-  return { ...record.decisionBody, members: record.members };
+  // Removing "meetings" from incoming decision body, since "meeting" doesn't exist on DecisionBody
+  const body = { ...record.decisionBody, members: record.members } as DecisionBody & {
+    meetings?: unknown;
+  };
+  delete body.meetings;
+  return body;
 };
 
 export interface DecisionBodyBrief {
