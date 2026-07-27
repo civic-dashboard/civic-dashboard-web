@@ -4,12 +4,11 @@ import { writeFileSync } from 'fs';
 
 async function main() {
   const bodies: Record<number, DecisionBody> = {};
-  for (let termId = 0; termId <= CURRENT_COUNCIL_TERM; termId++) {
-    console.log('fetching for', termId);
-    const thisTermBodies = await fetchDecisionBodies({ termId });
-    console.log(`got ${Object.values(thisTermBodies).length} values`);
-    Object.assign(bodies, thisTermBodies);
-  }
+  const termId = CURRENT_COUNCIL_TERM
+  console.log('fetching for', termId);
+  const thisTermBodies = await fetchDecisionBodies({ termId });
+  console.log(`got ${Object.values(thisTermBodies).length} values`);
+  Object.assign(bodies, thisTermBodies);
 
   const jsonString = JSON.stringify(bodies, null, 2)
 
@@ -21,7 +20,7 @@ async function main() {
   export const decisionBodies: Record<number, DecisionBody> = ${unQuotedKeys}
   `
 
-  writeFileSync('decisionBodies.ts', tsCode, 'utf-8')
+  writeFileSync('src/constants/decisionBodies.ts', tsCode, 'utf-8')
 }
 
 main().then(() => console.log("Decision bodies written to file successfully!")).catch((err) => {
