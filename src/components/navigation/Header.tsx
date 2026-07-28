@@ -1,10 +1,17 @@
 'use client';
 import { useState } from 'react';
-import { menuItems } from '@/constants/navigation';
+import { menuItems, newMenuItems } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { X } from 'lucide-react';
 import NotificationBanner from '@/components/navigation/NotificationBanner';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@/components/ui/accordion';
+import { cn } from '@/components/ui/utils';
 
 const gradientAnimation = `
 @keyframes gradient {
@@ -39,13 +46,14 @@ export default function Header() {
                   className="object-contain"
                 />
               </Link>
-              <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+              {/* TODO JTRANG: add blue-green logo instead of purple one */}
+              <span className="text-xl font-bold font-heading text-black dark:text-white">
                 <Link href="/">Civic Dashboard</Link>
               </span>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8">
+            {/* <div className="hidden lg:flex items-center space-x-8">
               {menuItems.map((item) => (
                 <Link
                   key={item.label}
@@ -55,7 +63,7 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
-            </div>
+            </div> */}
 
             {/* Mobile/Tablet menu button */}
             <div className="lg:hidden flex items-center">
@@ -98,17 +106,36 @@ export default function Header() {
             >
               <X size={24} color="red" />
             </button>
-            <div className="w-full max-w-sm space-y-2 pt-16">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block px-4 py-3 text-lg font-bold text-gray-700 dark:text-gray-300 hover:text-blue-600 hover:bg-blue-50 dark:hover:text-blue-400 dark:hover:bg-gray-700 transition-all duration-200 text-right"
-                >
-                  {item.label}
-                </Link>
-              ))}
+            <div className="w-full space-y-2 pt-16">
+              <Accordion
+                type="multiple"
+                defaultValue={['prototype']}
+                className="w-full"
+              >
+                {newMenuItems.map((item) => (
+                  <AccordionItem key={item.label} value={item.label}>
+                    <AccordionTrigger variant="heading">
+                      {item.label}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      {item.subItems.map((subItem) => (
+                        <Link
+                          onClick={() => setIsMenuOpen(false)}
+                          key={subItem.label}
+                          href={subItem.href}
+                          style={{
+                            borderColor: subItem.borderColor ?? 'transparent',
+                          }}
+                          className="block border-l-4 p-2 my-2 mx-1"
+                        >
+                          <h3>{subItem.label}</h3>
+                          <p>{subItem.description}</p>
+                        </Link>
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </div>
         </div>
