@@ -23,7 +23,6 @@ export const menuItems = [
   },
 ];
 
-// TODO: confirm the hrefs are correct
 export const newMenuItems = [
   {
     label: 'Our tools',

@@ -46,7 +46,6 @@ export default function Header() {
                   className="object-contain"
                 />
               </Link>
-              {/* TODO JTRANG: add blue-green logo instead of purple one */}
               <span className="text-xl font-bold font-heading text-black dark:text-white">
                 <Link href="/">Civic Dashboard</Link>
               </span>
