@@ -60,7 +60,7 @@ export default function Home() {
                 width={319}
                 height={416}
                 priority
-                className="h-auto max-h-[340px] w-auto sm:max-h-[360px] lg:h-[416px] lg:max-h-none"
+                className="h-[340px] w-auto sm:h-[360px] lg:h-[416px] lg:max-h-none"
               />
             </div>
           </div>
