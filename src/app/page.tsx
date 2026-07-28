@@ -42,7 +42,13 @@ export default function Home() {
                 </div>
                 <Text preset="Body" className="mt-6 max-w-[544px] text-black">
                   Civic Dashboard was built by volunteers to help Torontonians
-                  follow and influence Toronto City Council.
+                  follow and influence{' '}
+                <Tooltip
+                  tooltipTitle={tooltips.cityCouncil.trigger}
+                  tooltipContent={tooltips.cityCouncil.content}
+                >
+                  Toronto City Council
+                </Tooltip>.
                 </Text>
               </div>
             </div>
