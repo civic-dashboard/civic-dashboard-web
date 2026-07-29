@@ -10,7 +10,6 @@ import { SearchOptions, SearchPagination } from '@/logic/search';
 import { Kysely, sql } from 'kysely';
 import { processSubjectTerms } from '@/database/pipelines/textParseUtils';
 import { toSlug } from '@/logic/toSlug';
-import { getStartOfToday } from '@/logic/date';
 
 export interface AgendaItem {
   id: string;
@@ -265,16 +264,6 @@ export const getAgendaItemByReference = async (
     .executeTakeFirst();
 
   return agendaItem ? cleanAgendaItem(agendaItem) : undefined;
-};
-
-export const getUpcomingAgendaItemCount = async (db: Kysely<DB>) => {
-  const today = getStartOfToday().getTime().toString();
-  const result = await db
-    .selectFrom('RawAgendaItemConsiderations')
-    .select(sql<number>`COUNT(*)`.as('count'))
-    .where('meetingDate', '>=', today)
-    .executeTakeFirstOrThrow();
-  return result.count;
 };
 
 export type VoteWithContact = {
