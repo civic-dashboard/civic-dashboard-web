@@ -20,7 +20,7 @@ export default function Home() {
                     tag="p"
                     className="mb-0 inline-block text-balance"
                   >
-                    Let&apos;s get a Toronto{' '}
+                    Let’s make a Toronto{' '}
                     <span className="relative inline-block whitespace-nowrap pb-[0.65em]">
                       we love.
                       <svg
@@ -41,7 +41,7 @@ export default function Home() {
                   </Text>
                 </div>
                 <Text preset="Body" className="mt-6 max-w-[544px] text-black">
-                  Civic Dashboard was built by volunteers to help Torontonians
+                  Civic Dashboard is built by volunteers to help Torontonians
                   follow and influence{' '}
                   <Tooltip
                     tooltipTitle={tooltips.cityCouncil.trigger}
