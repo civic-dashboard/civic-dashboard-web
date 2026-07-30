@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { menuItems, newMenuItems } from '@/constants/navigation';
+import { newMenuItems } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { X } from 'lucide-react';
@@ -11,7 +11,6 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
-import { cn } from '@/components/ui/utils';
 
 const gradientAnimation = `
 @keyframes gradient {
@@ -108,12 +107,15 @@ export default function Header() {
             <div className="w-full space-y-2 pt-16">
               <Accordion
                 type="multiple"
-                defaultValue={['prototype']}
+                defaultValue={[newMenuItems[0].label]}
                 className="w-full"
               >
                 {newMenuItems.map((item) => (
                   <AccordionItem key={item.label} value={item.label}>
-                    <AccordionTrigger variant="heading">
+                    <AccordionTrigger
+                      variant="heading"
+                      className="data-[state=open]:bg-primary-lightest"
+                    >
                       {item.label}
                     </AccordionTrigger>
                     <AccordionContent>
