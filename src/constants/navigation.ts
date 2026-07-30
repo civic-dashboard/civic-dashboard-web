@@ -32,26 +32,26 @@ export const newMenuItems = [
         description:
           'Track current issues & meetings and register to attend or speak.',
         href: '/actions',
-        borderColor: '#008046',
+        borderColor: 'success',
       },
       {
         label: 'Councillor Watch',
         description: 'Find your councillor and see their voting history.',
         href: '/councillors',
-        borderColor: '#d32522',
+        borderColor: 'danger',
       },
       {
         label: 'How Council Works',
         description:
           'Understand City Council processes and how you can participate.',
         href: '/how-council-works',
-        borderColor: '#f39113',
+        borderColor: 'warning',
       },
       {
         label: 'Civic Dashboard Wiki',
         description: 'Detailed guides, explanations and resources.',
         href: '/wiki',
-        borderColor: '#4997ef',
+        borderColor: 'primary',
       },
       {
         label: "Don't see what you're looking for?",

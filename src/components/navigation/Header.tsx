@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { newMenuItems } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import NotificationBanner from '@/components/navigation/NotificationBanner';
+import { Text } from '@/components/ui/text-items';
 import {
   Accordion,
   AccordionItem,
@@ -20,6 +21,13 @@ const gradientAnimation = `
 }
 `;
 
+const borderClassByColor: Record<string, string> = {
+  success: 'border-success',
+  warning: 'border-warning',
+  danger: 'border-danger',
+  primary: 'border-primary',
+};
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -29,7 +37,7 @@ export default function Header() {
         message="We love and need your feedback! Tap to share your thoughts."
         link="/feedback"
       />
-      <header className="sticky top-0 z-10 backdrop-blur-md bg-white/80 dark:bg-gray-800/80 shadow-lg">
+      <header className="sticky top-0 z-10 bg-white dark:bg-black">
         <style jsx global>
           {gradientAnimation}
         </style>
@@ -45,9 +53,13 @@ export default function Header() {
                   className="object-contain"
                 />
               </Link>
-              <span className="text-xl font-bold font-heading text-black dark:text-white">
+              <Text
+                preset="Heading3"
+                tag="span"
+                className="text-xl text-black dark:text-white"
+              >
                 <Link href="/">Civic Dashboard</Link>
-              </span>
+              </Text>
             </div>
 
             {/* Desktop Navigation */}
@@ -66,23 +78,16 @@ export default function Header() {
             {/* Mobile/Tablet menu button */}
             <div className="lg:hidden flex items-center">
               <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
-                aria-label="Toggle menu"
+                onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
+                className={
+                  isMenuOpen
+                    ? 'flex h-12 w-12 items-center justify-center border border-black text-black dark:border-white dark:text-white'
+                    : 'text-gray-700 transition-colors duration-200 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
+                }
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMenuOpen}
               >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
+                {isMenuOpen ? <X size={28} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
@@ -91,53 +96,53 @@ export default function Header() {
 
       {/* Mobile/Tablet Menu - moved outside header */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[51]">
-          <div
-            className="fixed inset-0 bg-black/50"
-            onClick={() => setIsMenuOpen(false)}
-          />
-          <div className="fixed inset-0 flex flex-col bg-white dark:bg-gray-900">
-            <button
-              onClick={() => setIsMenuOpen(false)}
-              className="absolute top-4 right-4 p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
-              aria-label="Close menu"
+        <div className="fixed inset-x-0 bottom-0 top-16 z-[9] flex flex-col bg-white dark:bg-black lg:hidden">
+          <div className="w-full min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-2 mt-16">
+            <Accordion
+              type="single"
+              collapsible
+              defaultValue={newMenuItems[0].label}
+              className="w-full flex flex-col gap-4"
             >
-              <X size={24} color="red" />
-            </button>
-            <div className="w-full space-y-2 pt-16">
-              <Accordion
-                type="multiple"
-                defaultValue={[newMenuItems[0].label]}
-                className="w-full"
-              >
-                {newMenuItems.map((item) => (
-                  <AccordionItem key={item.label} value={item.label}>
-                    <AccordionTrigger
-                      variant="heading"
-                      className="data-[state=open]:bg-primary-lightest"
-                    >
-                      {item.label}
-                    </AccordionTrigger>
-                    <AccordionContent>
+              {newMenuItems.map((item) => (
+                <AccordionItem key={item.label} value={item.label} className="border-gray-light dark:border-white/10">
+                  <AccordionTrigger
+                    variant="heading"
+                    className="data-[state=open]:bg-primary-lightest data-[state=open]:dark:bg-primary py-4"
+                  >
+                    {item.label}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="flex flex-col gap-2 px-2 pt-3">
                       {item.subItems.map((subItem) => (
                         <Link
                           onClick={() => setIsMenuOpen(false)}
                           key={subItem.label}
                           href={subItem.href}
-                          style={{
-                            borderColor: subItem.borderColor ?? 'transparent',
-                          }}
-                          className="block border-l-4 p-2 my-2 mx-1"
+                          className={`flex flex-col border-l-4 px-4 py-2 gap-1 ${
+                            subItem.borderColor
+                              ? (borderClassByColor[subItem.borderColor] ??
+                                'border-transparent')
+                              : 'border-transparent'
+                          }`}
                         >
-                          <h3>{subItem.label}</h3>
-                          <p>{subItem.description}</p>
+                          <Text
+                            preset="Body"
+                            tag="h3"
+                            className="font-semibold"
+                          >
+                            {subItem.label}
+                          </Text>
+                          <Text preset="Small" className="text-gray-dark">
+                            {subItem.description}
+                          </Text>
                         </Link>
                       ))}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       )}
