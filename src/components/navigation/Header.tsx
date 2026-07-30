@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import NotificationBanner from '@/components/navigation/NotificationBanner';
+import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text-items';
 import {
   Accordion,
@@ -41,7 +42,7 @@ export default function Header() {
         <style jsx global>
           {gradientAnimation}
         </style>
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="max-w-7xl py-2 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center gap-2">
               <Link href="/">
@@ -76,19 +77,17 @@ export default function Header() {
             </div> */}
 
             {/* Mobile/Tablet menu button */}
-            <div className="lg:hidden flex items-center">
-              <button
+            <div className="lg:hidden flex items-center py-2">
+              <Button
                 onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
-                className={
-                  isMenuOpen
-                    ? 'flex h-12 w-12 items-center justify-center border border-black text-black dark:border-white dark:text-white'
-                    : 'text-gray-700 transition-colors duration-200 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
-                }
+                variant="outline"
+                size="icon"
+                className='text-black border-black'
                 aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMenuOpen}
               >
-                {isMenuOpen ? <X size={28} /> : <Menu size={24} />}
-              </button>
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </Button>
             </div>
           </div>
         </nav>
@@ -97,7 +96,7 @@ export default function Header() {
       {/* Mobile/Tablet Menu - moved outside header */}
       {isMenuOpen && (
         <div className="fixed inset-x-0 bottom-0 top-16 z-[9] flex flex-col bg-white dark:bg-black lg:hidden">
-          <div className="w-full min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-2 mt-16">
+          <div className="w-full min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-4 mt-16">
             <Accordion
               type="single"
               collapsible
