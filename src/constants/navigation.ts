@@ -1,28 +1,3 @@
-export const menuItems = [
-  { label: 'Home', href: '/' },
-  {
-    label: 'How Council Works',
-    href: '/how-council-works',
-  },
-  { label: 'Actions', href: '/actions' },
-  {
-    label: 'Councillors',
-    href: '/councillors',
-  },
-  {
-    label: 'About Us',
-    href: '/about',
-  },
-  {
-    label: 'Feedback',
-    href: '/feedback',
-  },
-  {
-    label: 'Wiki',
-    href: '/wiki',
-  },
-];
-
 export const newMenuItems = [
   {
     label: 'Our tools',
@@ -52,7 +27,7 @@ export const newMenuItems = [
         label: 'Civic Dashboard Wiki',
         description: 'Detailed guides, explanations and resources.',
         href: '/wiki',
-      borderColor: 'primary',
+        borderColor: 'primary',
       },
       {
         label: "Don't see what you're looking for?",
