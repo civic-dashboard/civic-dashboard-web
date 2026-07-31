@@ -71,7 +71,11 @@ export default function Header() {
                   height={46}
                   className="object-contain h-[30px] md:h-[44px] w-auto"
                 />
-                <Text preset="Heading2" tag="h1" className="tracking-tight">
+                <Text
+                  preset="Heading2"
+                  tag="h1"
+                  className="mb-0 tracking-tight"
+                >
                   Civic Dashboard
                 </Text>
               </Link>
