@@ -20,7 +20,7 @@ export default function NotificationBanner({
   }, [pathname, link]);
 
   return (
-    <div className="w-full">
+    <div className="w-full z-50">
       {!isCollapsed ? (
         <div className="bg-orange-700 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
