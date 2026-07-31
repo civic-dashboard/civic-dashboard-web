@@ -40,7 +40,7 @@ function AgendaListEmptyState() {
           </h5>
           <div className="flex flex-col sm:flex-row my-5 justify-center sm:justify-start gap-3">
             <Button
-              variant={'secondary'}
+              variant={'outline'}
               className="w-full sm:w-auto"
               onClick={switchToPastItems}
             >
@@ -48,7 +48,7 @@ function AgendaListEmptyState() {
             </Button>
 
             <Link href={'/councillors'}>
-              <Button variant={'secondary'} className="w-full sm:w-auto">
+              <Button variant={'outline'} className="w-full sm:w-auto">
                 See How Your Councillor Voted
               </Button>
             </Link>
