@@ -26,6 +26,7 @@ export const menuItems = [
 export const newMenuItems = [
   {
     label: 'Our tools',
+    slug: 'our-tools',
     subItems: [
       {
         label: 'Council Activity',
@@ -51,7 +52,7 @@ export const newMenuItems = [
         label: 'Civic Dashboard Wiki',
         description: 'Detailed guides, explanations and resources.',
         href: '/wiki',
-        borderColor: 'primary',
+      borderColor: 'primary',
       },
       {
         label: "Don't see what you're looking for?",
@@ -63,6 +64,7 @@ export const newMenuItems = [
   },
   {
     label: 'About this project',
+    slug: 'about-this-project',
     subItems: [
       {
         label: 'About us',

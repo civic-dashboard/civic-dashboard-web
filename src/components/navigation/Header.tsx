@@ -1,9 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { newMenuItems } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import NotificationBanner from '@/components/navigation/NotificationBanner';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text-items';
@@ -14,14 +14,6 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion';
 
-const gradientAnimation = `
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-`;
-
 const borderClassByColor: Record<string, string> = {
   success: 'border-success',
   warning: 'border-warning',
@@ -31,6 +23,32 @@ const borderClassByColor: Record<string, string> = {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);
+  const desktopMenuRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!openDesktopMenu) return;
+
+    const closeMenu = (event: MouseEvent) => {
+      if (
+        event.target instanceof Node &&
+        !desktopMenuRef.current?.contains(event.target)
+      ) {
+        setOpenDesktopMenu(null);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpenDesktopMenu(null);
+    };
+
+    document.addEventListener('mousedown', closeMenu);
+    document.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      document.removeEventListener('mousedown', closeMenu);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [openDesktopMenu]);
 
   return (
     <>
@@ -39,42 +57,48 @@ export default function Header() {
         link="/feedback"
       />
       <header className="sticky top-0 z-10 bg-white dark:bg-black">
-        <style jsx global>
-          {gradientAnimation}
-        </style>
-        <nav className="max-w-7xl py-2 mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
+        <nav
+          ref={desktopMenuRef}
+          className="relative max-w-7xl py-2 mx-auto px-4 sm:px-6 lg:px-8 lg:py-4"
+        >
+          <div className="flex justify-between">
             <div className="flex items-center gap-2">
-              <Link href="/">
+              <Link href="/" className="flex items-center gap-2">
                 <Image
                   src="/logo.png"
                   alt="Civic Dashboard Logo"
-                  width={32}
-                  height={32}
-                  className="object-contain"
+                  width={33}
+                  height={46}
+                  className="object-contain h-[30px] md:h-[44px] w-auto"
                 />
+                <Text preset="Heading2" tag="h1" className="tracking-tight">
+                  Civic Dashboard
+                </Text>
               </Link>
-              <Text
-                preset="Heading3"
-                tag="span"
-                className="text-xl text-black dark:text-white"
-              >
-                <Link href="/">Civic Dashboard</Link>
-              </Text>
             </div>
 
-            {/* Desktop Navigation */}
-            {/* <div className="hidden lg:flex items-center space-x-8">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 font-medium"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div> */}
+            <div className="hidden lg:flex items-center gap-4">
+              {newMenuItems.map((item) => {
+                const isOpen = openDesktopMenu === item.slug;
+
+                return (
+                  <Button
+                    key={item.label}
+                    variant="outline"
+                    size="lg"
+                    onClick={() =>
+                      setOpenDesktopMenu(isOpen ? null : item.slug)
+                    }
+                    aria-expanded={isOpen}
+                    aria-controls={`${item.slug}-menu`}
+                    className={`border-black text-black  ${isOpen ? 'bg-primary-lightest dark:bg-white/10' : ''}`}
+                  >
+                    {item.label}
+                    <ChevronDown className={`h-6 w-6`} aria-hidden="true" />
+                  </Button>
+                );
+              })}
+            </div>
 
             {/* Mobile/Tablet menu button */}
             <div className="lg:hidden flex items-center py-2">
@@ -82,7 +106,7 @@ export default function Header() {
                 onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
                 variant="outline"
                 size="icon"
-                className='text-black border-black'
+                className="text-black border-black"
                 aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMenuOpen}
               >
@@ -90,6 +114,46 @@ export default function Header() {
               </Button>
             </div>
           </div>
+
+          {openDesktopMenu && (
+            <div
+              id={`${openDesktopMenu}-menu`}
+              className={`absolute right-0 top-full z-20 hidden w-auto lg:block ${
+                openDesktopMenu === 'our-tools' ? '-translate-x-8' : ''
+              }`}
+            >
+              <div className="mx-auto max-w-4xl border border-gray-light bg-white py-8 px-6 shadow-md dark:border-gray-dark dark:bg-black">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-6">
+                  {newMenuItems
+                    .find((item) => item.slug === openDesktopMenu)
+                    ?.subItems.map((subItem, index) => (
+                      <Link
+                        key={subItem.label}
+                        href={subItem.href}
+                        onClick={() => setOpenDesktopMenu(null)}
+                        className={`flex flex-col gap-2 px-4 py-2 hover:bg-primary-lightest dark:hover:bg-primary/20 ${
+                          index === 4 ? 'col-span-2' : ''
+                        } ${
+                          subItem.borderColor
+                            ? `border-l-4 ${borderClassByColor[subItem.borderColor]}`
+                            : ''
+                        }`}
+                      >
+                        <Text preset="Body" tag="h3" className="font-semibold">
+                          {subItem.label}
+                        </Text>
+                        <Text
+                          preset="Small"
+                          className="text-gray-dark dark:text-gray-light"
+                        >
+                          {subItem.description}
+                        </Text>
+                      </Link>
+                    ))}
+                </div>
+              </div>
+            </div>
+          )}
         </nav>
       </header>
 
@@ -104,7 +168,11 @@ export default function Header() {
               className="w-full flex flex-col gap-4"
             >
               {newMenuItems.map((item) => (
-                <AccordionItem key={item.label} value={item.label} className="border-gray-light dark:border-white/10">
+                <AccordionItem
+                  key={item.label}
+                  value={item.label}
+                  className="border-gray-light dark:border-white/10"
+                >
                   <AccordionTrigger
                     variant="heading"
                     className="data-[state=open]:bg-primary-lightest data-[state=open]:dark:bg-primary py-4"
