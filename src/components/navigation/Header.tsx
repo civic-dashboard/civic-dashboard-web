@@ -63,7 +63,11 @@ export default function Header() {
         >
           <div className="flex justify-between">
             <div className="flex items-center gap-2">
-              <Link href="/" className="flex items-center gap-2">
+              <Link
+                href="/"
+                className="flex items-center gap-2"
+                data-umami-event="Header navigation: Home"
+              >
                 <Image
                   src="/logo.png"
                   alt="Civic Dashboard Logo"
@@ -93,6 +97,7 @@ export default function Header() {
                     onClick={() =>
                       setOpenDesktopMenu(isOpen ? null : item.slug)
                     }
+                    data-umami-event={`Header navigation: ${item.label}`}
                     aria-expanded={isOpen}
                     aria-controls={`${item.slug}-menu`}
                     className={`border-black text-black  ${isOpen ? 'bg-primary-lightest dark:bg-white/10' : ''}`}
@@ -113,6 +118,9 @@ export default function Header() {
                 className="text-black border-black"
                 aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMenuOpen}
+                data-umami-event={`Header navigation: ${
+                  isMenuOpen ? 'Close menu' : 'Open menu'
+                }`}
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </Button>
@@ -135,6 +143,7 @@ export default function Header() {
                         key={subItem.label}
                         href={subItem.href}
                         onClick={() => setOpenDesktopMenu(null)}
+                        data-umami-event={`Header navigation: ${subItem.label}`}
                         className={`flex flex-col gap-2 px-4 py-2 hover:bg-primary-lightest dark:hover:bg-primary/20 ${
                           index === 4 ? 'col-span-2' : ''
                         } ${
@@ -180,6 +189,7 @@ export default function Header() {
                   <AccordionTrigger
                     variant="heading"
                     className="data-[state=open]:bg-primary-lightest data-[state=open]:dark:bg-primary py-4"
+                    data-umami-event={`Header navigation: ${item.label}`}
                   >
                     {item.label}
                   </AccordionTrigger>
@@ -196,6 +206,7 @@ export default function Header() {
                                 'border-transparent')
                               : 'border-transparent'
                           }`}
+                          data-umami-event={`Header navigation: ${subItem.label}`}
                         >
                           <Text
                             preset="Body"
