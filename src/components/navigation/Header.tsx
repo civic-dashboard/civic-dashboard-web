@@ -14,6 +14,8 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion';
 
+// We need to declare the border classes for each color variant.
+// We apply these class names dynamically, so we need to declare them here to ensure they are included in the final CSS bundle.
 const borderClassByColor: Record<string, string> = {
   success: 'border-success',
   warning: 'border-warning',
@@ -131,7 +133,7 @@ export default function Header() {
             <div
               id={`${openDesktopMenu}-menu`}
               className={`absolute right-0 top-full z-20 hidden w-auto lg:block ${
-                openDesktopMenu === 'our-tools' ? '-translate-x-8' : ''
+                openDesktopMenu === 'our-tools' ? '-translate-x-8' : '' // For slight visual diff of the menus
               }`}
             >
               <div className="mx-auto max-w-4xl border border-gray-light bg-white py-8 px-6 shadow-md dark:border-gray-dark dark:bg-black">
