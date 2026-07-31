@@ -14,6 +14,8 @@ import { PAGE_LIMIT, SEARCH_DEBOUNCE_DELAY_MS } from '@/constants/search';
 
 import { getStartOfToday } from '@/logic/date';
 
+type TimeRangeType = 'upcoming' | 'past';
+
 type SearchContext = {
   searchOptions: SearchOptions;
   setSearchOptions: Dispatch<SetStateAction<SearchOptions>>;
@@ -21,6 +23,8 @@ type SearchContext = {
   isLoadingMore: boolean;
   hasMoreSearchResults: boolean;
   getNextPage: () => void;
+  timeRange: TimeRangeType;
+  setTimeRange: (timeRange: TimeRangeType) => void;
 };
 
 const SearchContext = createContext<SearchContext | null>(null);
@@ -47,6 +51,21 @@ export function SearchProvider({ children }: Props) {
   const [hasMoreSearchResults, setHasMoreSearchResults] = useState(false);
   // use this ref to access latest searchResults val without adding searchResults to dependency arrays
   const searchResultsRef = useRef<AgendaItemSearchResponse | null>(null);
+
+  // Controlling time range of action items fetched (moved from UpcomingPastToggle)
+  const [timeRange, setTimeRange] = useState<TimeRangeType>('upcoming');
+
+  // Setting search options based on time range (moved from UpcomingPastToggle)
+  useEffect(() => {
+    const isPast = timeRange === 'past';
+    const startOfToday = getStartOfToday();
+
+    setSearchOptions((opts) => ({
+      ...opts,
+      minimumDate: isPast ? undefined : startOfToday,
+      maximumDate: isPast ? new Date(startOfToday.getTime() - 1) : undefined,
+    }));
+  }, [timeRange]);
 
   // keep the ref in sync with the actual state
   useEffect(() => {
@@ -137,6 +156,8 @@ export function SearchProvider({ children }: Props) {
         isLoadingMore: isLoading && searchResults !== null,
         hasMoreSearchResults,
         getNextPage,
+        timeRange,
+        setTimeRange,
       }}
     >
       {children}
