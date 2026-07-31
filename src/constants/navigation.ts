@@ -69,22 +69,22 @@ export const newMenuItems = [
       {
         label: 'About us',
         description: 'Learn about the team behind Civic Dashboard.',
-        href: '/',
+        href: '/about',
       },
       {
         label: 'Get involved',
         description: 'Join our volunteer-run team through weekly hack nights.',
-        href: '/',
+        href: '/join',
       },
       {
         label: 'Civic Dashboard Lab',
         description: "Browse potential ideas we're experimenting with.",
-        href: '/',
+        href: '/labs',
       },
       {
         label: 'Browse our code',
         description: 'Civic Dashboard is free and open-source software',
-        href: '/',
+        href: 'https://github.com/civic-dashboard/civic-dashboard-web',
       },
       {
         label: 'Give us feedback',
