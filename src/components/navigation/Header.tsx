@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { newMenuItems } from '@/constants/navigation';
+import { menuItems } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronDown, Menu, X } from 'lucide-react';
@@ -86,7 +86,7 @@ export default function Header() {
             </div>
 
             <div className="hidden lg:flex items-center gap-4">
-              {newMenuItems.map((item) => {
+              {menuItems.map((item) => {
                 const isOpen = openDesktopMenu === item.slug;
 
                 return (
@@ -136,7 +136,7 @@ export default function Header() {
             >
               <div className="mx-auto max-w-4xl border border-gray-light bg-white py-8 px-6 shadow-md dark:border-gray-dark dark:bg-black">
                 <div className="grid grid-cols-2 gap-x-6 gap-y-6">
-                  {newMenuItems
+                  {menuItems
                     .find((item) => item.slug === openDesktopMenu)
                     ?.subItems.map((subItem, index) => (
                       <Link
@@ -177,10 +177,10 @@ export default function Header() {
             <Accordion
               type="single"
               collapsible
-              defaultValue={newMenuItems[0].label}
+              defaultValue={menuItems[0].label}
               className="w-full flex flex-col gap-4"
             >
-              {newMenuItems.map((item) => (
+              {menuItems.map((item) => (
                 <AccordionItem
                   key={item.label}
                   value={item.label}

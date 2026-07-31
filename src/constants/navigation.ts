@@ -1,4 +1,4 @@
-export const newMenuItems = [
+export const menuItems = [
   {
     label: 'Our tools',
     slug: 'our-tools',
