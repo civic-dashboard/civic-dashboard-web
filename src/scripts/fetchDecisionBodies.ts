@@ -11,11 +11,13 @@ async function main() {
   }
 
   const bodies: Record<number, DecisionBody> = {};
-  const termId = CURRENT_COUNCIL_TERM;
-  console.log('fetching for', termId);
-  const thisTermBodies = await fetchDecisionBodies({ termId });
-  console.log(`got ${Object.values(thisTermBodies).length} values`);
-  Object.assign(bodies, thisTermBodies);
+
+  for (let termId = 0; termId <= CURRENT_COUNCIL_TERM; termId++) {
+    console.log('fetching for', termId);
+    const thisTermBodies = await fetchDecisionBodies({ termId });
+    console.log(`got ${Object.values(thisTermBodies).length} values`);
+    Object.assign(bodies, thisTermBodies);
+  }
 
   const jsonString = JSON.stringify(bodies, null, 2);
 
