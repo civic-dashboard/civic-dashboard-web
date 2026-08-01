@@ -217,7 +217,7 @@ export default function Header() {
                           >
                             {subItem.label}
                           </Text>
-                          <Text preset="Small" className="text-gray-dark">
+                          <Text preset="Small" className="text-gray-dark dark:text-gray-light">
                             {subItem.description}
                           </Text>
                         </Link>
