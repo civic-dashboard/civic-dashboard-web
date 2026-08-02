@@ -1,6 +1,6 @@
 import { AgendaItem } from '@/database/queries/agendaItems';
 import { SubscribableSearchFilters } from '@/logic/search';
-import { Heading, Hr, Link, Section } from '@react-email/components';
+import { Heading, Hr, Link, Section } from 'react-email';
 import { Fragment } from 'react';
 import { EmailWrapper } from '@/backend/emails/components/emailWrapper';
 import { EmailSubscriptionCard } from '@/backend/emails/components/subscriptionCard';

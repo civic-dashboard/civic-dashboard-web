@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { render } from '@react-email/components';
+import { render } from 'react-email';
 
 type Options = {
   from: string;
