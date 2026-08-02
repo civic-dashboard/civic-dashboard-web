@@ -1,18 +1,23 @@
 name: Repopulate decisionBodies.ts with decision bodies
 
 on:
-  push:
-    branches: ['main']
   schedule:
     - cron: '0 2 * * 0'
   workflow_dispatch:
 
+concurrency:
+  group: update-decision-bodies
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  update-database:
+  fetch-decision-bodies:
     runs-on: ubuntu-latest
-    name: Update database
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    name: Fetch decision bodies
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -21,19 +26,22 @@ jobs:
         with:
           node-version-file: '.tool-versions'
           cache: npm
-      - name: Restore cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-        with:
-          path: |
-            .next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-frontend-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
-          restore-keys: |
-            ${{ runner.os }}-frontend-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run update script
         run: npm run tsx src/scripts/fetchDecisionBodies.ts
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          add-paths: src/constants/decisionBodies.ts
+          branch: chore/update-decision-bodies
+          delete-branch: true
+          commit-message: Update decision bodies from TMMIS
+          title: Update decision bodies from TMMIS
+          body: |
+            Automated refresh of `src/constants/decisionBodies.ts` from the City of Toronto TMMIS API.
+
+            Triggered by the weekly schedule or a manual `workflow_dispatch` run of the Update decision bodies workflow.
