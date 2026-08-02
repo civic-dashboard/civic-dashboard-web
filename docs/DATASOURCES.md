@@ -27,7 +27,7 @@ TMMIS also provides the list of decision bodies, which we use to filter agenda i
 
 * **Data Schema:** [`src/api/decisionBody.ts`](../src/api/decisionBody.ts)
 * **Storage:** Saved statically in [`src/constants/decisionBodies.ts`](../src/constants/decisionBodies.ts) (not currently stored in the database).
-* **Updates:** Updates are manual. Run the [`src/scripts/fetchDecisionBodies.ts`](../src/scripts/fetchDecisionBodies.ts) script to fetch a new JSON list for each council term and manually update the constant file.
+* **Updates:** Refreshed weekly via GitHub Actions ([`.github/workflows/update_decision_bodies.yml`](../.github/workflows/update_decision_bodies.yml)), which opens a PR when `decisionBodies.ts` changes. For a one-off refresh locally, run the [`src/scripts/fetchDecisionBodies.ts`](../src/scripts/fetchDecisionBodies.ts) script.
 
 ---
 
