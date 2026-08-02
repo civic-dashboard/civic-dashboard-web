@@ -16,6 +16,7 @@
   --gray-light: 216 221 230;
   --gray-lightest: 247 248 249;
   --gray-dark: 73 86 104;
+  --gray-darkest: 35 42 51;
 }
 
 @media (prefers-color-scheme: dark) {

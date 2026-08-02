@@ -27,6 +27,7 @@ const config: Config = {
           light: 'rgb(var(--gray-light) / <alpha-value>)',
           lightest: 'rgb(var(--gray-lightest) / <alpha-value>)',
           dark: 'rgb(var(--gray-dark) / <alpha-value>)',
+          darkest: 'rgb(var(--gray-darkest) / <alpha-value>)',
         },
       },
       borderRadius: {
