@@ -7,6 +7,9 @@ import { sendNewSubscriptionEmail } from '@/backend/emails/sendNewSubscriptionEm
 import { searchAgendaItems } from '@/database/queries/agendaItems';
 import { allTags } from '@/constants/tags';
 import { decisionBodies } from '@/constants/decisionBodies';
+import { SubscriptionUpdateEmail } from '@/backend/emails/templates/subscriptionUpdate';
+import { SAMPLE_AGENDA_ITEMS } from '@/backend/emails/sampleAgendaItems';
+import { render } from 'react-email';
 
 import { getStartOfToday } from '@/logic/date';
 
@@ -52,6 +55,14 @@ export async function subscribeToSearch({
     },
   });
 
+  const previewHtml = await render(
+    <SubscriptionUpdateEmail
+      unsubscribeToken={unsubscribeToken}
+      items={SAMPLE_AGENDA_ITEMS}
+      filters={[filters]}
+    />,
+  );
+
   if (process.env.NEW_EMAIL_ALERT_WEBHOOK) {
     await fetch(process.env.NEW_EMAIL_ALERT_WEBHOOK, {
       method: 'POST',
@@ -67,6 +78,8 @@ export async function subscribeToSearch({
       }),
     });
   }
+
+  return { previewHtml };
 }
 
 type UnsubscribeFromSearchArgs = {
