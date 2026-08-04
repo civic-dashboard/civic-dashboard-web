@@ -21,7 +21,7 @@ const influenceCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-activity.png',
     imageAlt: 'Council activity',
-    title: 'Council \n activity',
+    title: 'Council activity',
     question: 'What\u2019s City Council up to?',
     bullets: [
       'Track current issues and meetings',
@@ -33,7 +33,7 @@ const influenceCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-watch.png',
     imageAlt: 'Councillor watch',
-    title: 'Councillor \n watch',
+    title: 'Councillor watch',
     question: 'What\u2019s my councillor\u2019s stance?',
     bullets: ['Find your councillor', 'See their voting history'],
     ctaLabel: 'Explore councillor watch',
@@ -45,13 +45,13 @@ const understandCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-get-started.png',
     imageAlt: 'How City Council works',
-    title: 'Get \n started',
-    question: 'How does City Council work?',
+    title: 'How Council works',
+    question: 'How does our City Council work?',
     bullets: [
       'Understand the basics of Council processes',
       'Learn how you can participate',
     ],
-    ctaLabel: 'Learn about \n City Council',
+    ctaLabel: 'Learn about City Council',
     href: '/how-council-works',
   },
   {
@@ -82,7 +82,7 @@ function HomeCard({ card }: { card: HomeCard }) {
         <div className="top-0 bottom-0 absolute flex items-center">
           <Text
             preset="Heading3"
-            className="mb-0 p-4 md:p-6 font-black text-white lg:text-[36px] lg:leading-tight whitespace-pre-line"
+            className="mb-0 p-4 md:p-6 font-black text-white lg:text-[34px] lg:leading-tight whitespace-pre-line"
           >
             {card.title}
           </Text>
@@ -125,7 +125,7 @@ function HomeCardSection({
   return (
     <section>
       <div className="flex flex-col gap-12">
-        <Text preset="Heading2" className="mb-0 lg:text-[38px]">
+        <Text preset="Heading2" className="mb-0 lg:text-[36px]">
           {title[0]}
           <span className="font-normal">{' ' + title[1]}</span>
         </Text>
