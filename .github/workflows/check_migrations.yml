@@ -23,10 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # i'm not sure why `npm run db:start` doesn't work here,
-      # but the remaining commands can't connect to the DB without using this action
       - name: Start database
-        uses: hoverkraft-tech/compose-action@11beaa1c2dae4e8ed7b1665aa074723b6cecb0e4 # v3.0.0
+        run: npm run docker:start
 
       - name: Run migrations
         run: npm run db:run-migrations
@@ -42,3 +40,10 @@ jobs:
 
       - name: Check that there is no diff
         run: git diff --exit-code
+
+      - name: Dump docker logs
+        if: always() # Ensure this runs if earlier steps fail
+        run: docker compose logs database
+
+      - name: Stop database
+        run: npm run docker:stop
