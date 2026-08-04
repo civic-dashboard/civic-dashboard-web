@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type JSX } from 'react';
 import Mark from 'mark.js';
 
 type Props = React.PropsWithChildren<{

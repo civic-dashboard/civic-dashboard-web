@@ -1,6 +1,6 @@
 import { AgendaItem } from '@/database/queries/agendaItems';
 import { sanitize } from '@/logic/sanitize';
-import { Heading, Link, Section, Text } from '@react-email/components';
+import { Heading, Link, Section, Text } from 'react-email';
 
 export const EmailAgendaItemCard = ({ item }: { item: AgendaItem }) => {
   return (

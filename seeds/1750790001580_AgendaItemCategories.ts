@@ -1,6 +1,7 @@
 import type { Kysely } from 'kysely';
+import { DB } from '@/database/allDbTypes';
 
-export async function seed(db: Kysely<any>): Promise<void> {
+export async function seed(db: Kysely<DB>): Promise<void> {
   // Performs a full backfill of categories based on existing subject terms.
   // This ensures that all existing agenda items are correctly categorized.
   const result = await db

@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
 import typography from '@tailwindcss/typography';
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 const config: Config = {
   content: [
@@ -56,11 +57,11 @@ const config: Config = {
         'max-content-width': '814px',
       },
       fontFamily: {
-        'heading': ['var(--font-epilogue)', 'sans-serif'],
-        'body': ['var(--font-ibm-plex-sans)', 'sans-serif'],
-      }
+        heading: ['var(--font-epilogue)', 'sans-serif'],
+        body: ['var(--font-ibm-plex-sans)', 'sans-serif'],
+      },
     },
   },
-  plugins: [typography, require('tailwindcss-animate')],
+  plugins: [typography, tailwindcssAnimate],
 };
 export default config;
