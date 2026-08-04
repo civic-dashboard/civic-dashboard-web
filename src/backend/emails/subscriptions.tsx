@@ -13,6 +13,8 @@ import { render } from 'react-email';
 
 import { getStartOfToday } from '@/logic/date';
 
+const PREVIEW_UNSUBSCRIBE_TOKEN = 'preview';
+
 type SubscribeToSearchArgs = {
   email: string;
   filters: SubscribableSearchFilters;
@@ -55,14 +57,6 @@ export async function subscribeToSearch({
     },
   });
 
-  const previewHtml = await render(
-    <SubscriptionUpdateEmail
-      unsubscribeToken={unsubscribeToken}
-      items={SAMPLE_AGENDA_ITEMS}
-      filters={[filters]}
-    />,
-  );
-
   if (process.env.NEW_EMAIL_ALERT_WEBHOOK) {
     await fetch(process.env.NEW_EMAIL_ALERT_WEBHOOK, {
       method: 'POST',
@@ -78,7 +72,26 @@ export async function subscribeToSearch({
       }),
     });
   }
+}
 
+type PreviewSubscriptionEmailArgs = {
+  filters: SubscribableSearchFilters;
+};
+export async function previewSubscriptionEmail({
+  filters: { textQuery, tags, decisionBodyIds },
+}: PreviewSubscriptionEmailArgs) {
+  const filters = {
+    textQuery,
+    tags,
+    decisionBodyIds,
+  };
+  const previewHtml = await render(
+    <SubscriptionUpdateEmail
+      unsubscribeToken={PREVIEW_UNSUBSCRIBE_TOKEN}
+      items={SAMPLE_AGENDA_ITEMS}
+      filters={[filters]}
+    />,
+  );
   return { previewHtml };
 }
 
