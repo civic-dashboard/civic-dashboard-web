@@ -38,7 +38,7 @@ function AgendaListEmptyState() {
             moment. In the meantime, you can explore recent decisions or review
             how your councillor has voted.
           </h5>
-          <div className="flex flex-col sm:flex-row my-5 justify-center sm:justify-start gap-3">
+          <div className="flex sm:flex-row flex-col justify-center sm:justify-start gap-3 my-5">
             <Button
               variant={'outline'}
               className="w-full sm:w-auto"
@@ -90,7 +90,7 @@ function ResultList() {
             (isLoadingMore ? (
               <Spinner show={isLoadingMore} />
             ) : (
-              <div ref={sentinelRef} className="py-4 mt-4" />
+              <div ref={sentinelRef} className="mt-4 py-4" />
             ))}
         </>
       )}
@@ -151,9 +151,9 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
   );
 
   return (
-    <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
+    <div className="flex flex-col items-stretch space-y-4 p-4 max-w-full sm:max-w-max-content-width">
       <div className="mt-4 mb-2">
-        <h1 className="text-2xl font-bold">Actions</h1>
+        <h1 className="font-bold text-2xl">Council activity</h1>
         <p>
           Here are agenda items that the City of Toronto will discuss at
           upcoming meetings. You can provide feedback on these items by
@@ -163,7 +163,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
         </p>
       </div>
       <UpcomingPastToggle />
-      <div className="flex flex-row self-stretch items-center space-x-2">
+      <div className="flex flex-row items-center self-stretch space-x-2">
         <div className="flex-grow">
           <SearchBar />
         </div>
@@ -176,8 +176,8 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
       <DecisionBodyFilter
         decisionBodies={currentTermDecisionBodies}
       ></DecisionBodyFilter>
-      <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
-        <div className="flex grow justify-between items-end">
+      <div className="flex flex-row flex-wrap justify-around items-end self-stretch space-x-4 space-y-4">
+        <div className="flex justify-between items-end grow">
           <ResultCount />
           <SubscribeToSearchButton />
         </div>

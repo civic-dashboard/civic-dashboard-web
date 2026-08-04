@@ -21,22 +21,22 @@ const influenceCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-activity.png',
     imageAlt: 'Council activity',
-    title: 'Council \n Activity',
+    title: 'Council \n activity',
     question: 'What\u2019s City Council up to?',
     bullets: [
       'Track current issues and meetings',
       'Register to attend or speak on issues you care about',
     ],
-    ctaLabel: 'Explore Council Activity',
+    ctaLabel: 'Explore Council activity',
     href: '/actions',
   },
   {
     imageSrc: '/home/feature-image-watch.png',
     imageAlt: 'Councillor watch',
-    title: 'Councillor \n Watch',
-    question: 'What\u2019s my Councillor\u2019s stance?',
+    title: 'Councillor \n watch',
+    question: 'What\u2019s my councillor\u2019s stance?',
     bullets: ['Find your councillor', 'See their voting history'],
-    ctaLabel: 'Explore Councillor Watch',
+    ctaLabel: 'Explore councillor watch',
     href: '/councillors',
   },
 ];
@@ -44,11 +44,11 @@ const influenceCards: HomeCard[] = [
 const understandCards: HomeCard[] = [
   {
     imageSrc: '/home/feature-image-get-started.png',
-    imageAlt: 'How city council works',
+    imageAlt: 'How City Council works',
     title: 'Get \n started',
     question: 'How does City Council work?',
     bullets: [
-      'Understand the basics of council processes',
+      'Understand the basics of Council processes',
       'Learn how you can participate',
     ],
     ctaLabel: 'Learn about \n City Council',
@@ -56,12 +56,12 @@ const understandCards: HomeCard[] = [
   },
   {
     imageSrc: '/home/feature-image-wiki.png',
-    imageAlt: 'Civic dashboard wiki',
+    imageAlt: 'Civic Dashboard Wiki',
     title: 'Expand your \n knowledge',
     question: 'Civic Dashboard Wiki',
     bullets: [
-      'Detailed guides, explanations, & resources',
-      'A community wiki built volunteers, continuously evolving',
+      'Detailed guides, explanations, and resources',
+      'A community wiki built by volunteers and continuously evolving',
     ],
     ctaLabel: 'Browse the wiki',
     href: '/wiki',
