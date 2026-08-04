@@ -13,6 +13,12 @@ services:
     volumes:
       - ${PWD}/db-data/:/var/lib/postgresql/data/
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
   maildev:
     image: maildev/maildev:2.2.1
 
