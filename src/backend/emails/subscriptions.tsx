@@ -128,7 +128,10 @@ export async function previewSubscriptionEmail({
       filters={[filters]}
     />,
   );
-  return { previewHtml };
+  return {
+    previewHtml,
+    hasMatchingResults: displayResults.length > 0,
+  };
 }
 
 type UnsubscribeFromSearchArgs = {

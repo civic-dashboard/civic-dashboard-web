@@ -35,6 +35,7 @@ export const SubscribeToSearchButton = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [previewHtml, setPreviewHtml] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [hasMatchingResults, setHasMatchingResults] = useState(true);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   // Track the searchOptions value from the previous render
@@ -52,10 +53,12 @@ export const SubscribeToSearchButton = () => {
     let cancelled = false;
     setPreviewLoading(true);
     setPreviewHtml(null);
+    setHasMatchingResults(true);
 
     previewSubscriptionEmail({ filters: searchOptions }).then((result) => {
       if (cancelled) return;
       setPreviewHtml(result.previewHtml);
+      setHasMatchingResults(result.hasMatchingResults);
       setPreviewLoading(false);
     });
 
@@ -117,6 +120,13 @@ export const SubscribeToSearchButton = () => {
               </>
             )}
           </DialogDescription>
+          {!previewLoading && !hasMatchingResults && sendState !== 'sent' && (
+            <p className="text-sm text-warning">
+              Your current filters match no upcoming or past agenda items.
+              Alerts may be rare — consider broadening your tags, decision
+              bodies, or search text.
+            </p>
+          )}
           <form onSubmit={onSubmit} className="flex flex-row space-x-2">
             <Input
               ref={emailInputRef}
