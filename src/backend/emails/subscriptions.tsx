@@ -11,12 +11,31 @@ import {
 import { allTags } from '@/constants/tags';
 import { decisionBodies } from '@/constants/decisionBodies';
 import { SubscriptionUpdateEmail } from '@/backend/emails/templates/subscriptionUpdate';
-import { SAMPLE_AGENDA_ITEMS } from '@/backend/emails/sampleAgendaItems';
 import { render } from 'react-email';
+import { Kysely } from 'kysely';
+import { DB } from '@/database/allDbTypes';
 
 import { getStartOfToday } from '@/logic/date';
 
 const PREVIEW_UNSUBSCRIBE_TOKEN = 'preview';
+
+async function searchCurrentResults(
+  db: Kysely<DB>,
+  filters: SubscribableSearchFilters,
+) {
+  return searchAgendaItems(db, {
+    options: {
+      ...filters,
+      minimumDate: getStartOfToday(),
+      sortBy: 'relevance',
+      sortDirection: 'descending',
+    },
+    pagination: {
+      page: 0,
+      pageSize: 20,
+    },
+  });
+}
 
 type SubscribeToSearchArgs = {
   email: string;
@@ -37,20 +56,8 @@ export async function subscribeToSearch({
     email,
     ...filters,
   });
-  const startOfToday = getStartOfToday();
 
-  const currentResults = await searchAgendaItems(db, {
-    options: {
-      ...filters,
-      minimumDate: startOfToday,
-      sortBy: 'relevance',
-      sortDirection: 'descending',
-    },
-    pagination: {
-      page: 0,
-      pageSize: 20,
-    },
-  });
+  const currentResults = await searchCurrentResults(db, filters);
   await sendNewSubscriptionEmail({
     to: email,
     props: {
@@ -94,18 +101,7 @@ export async function previewSubscriptionEmail({
 
   let displayResults: AgendaItemSearchResult[] = [];
 
-  const currentResults = await searchAgendaItems(db, {
-    options: {
-      ...filters,
-      minimumDate: startOfToday,
-      sortBy: 'relevance',
-      sortDirection: 'descending',
-    },
-    pagination: {
-      page: 0,
-      pageSize: 20,
-    },
-  });
+  const currentResults = await searchCurrentResults(db, filters);
 
   if (currentResults.totalCount > 0) {
     displayResults = currentResults.results;
@@ -119,7 +115,7 @@ export async function previewSubscriptionEmail({
       },
       pagination: {
         page: 0,
-        pageSize: 10,
+        pageSize: 20,
       },
     });
     displayResults = pastResults.results;
