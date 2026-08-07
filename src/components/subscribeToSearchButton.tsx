@@ -33,9 +33,11 @@ export const SubscribeToSearchButton = () => {
     'ready',
   );
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [previewHtml, setPreviewHtml] = useState<string | null>(null);
-  const [previewLoading, setPreviewLoading] = useState(false);
-  const [hasMatchingResults, setHasMatchingResults] = useState(true);
+  const [preview, setPreview] = useState<{
+    key: string;
+    html: string;
+    hasMatchingResults: boolean;
+  } | null>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   // Track the searchOptions value from the previous render
@@ -47,25 +49,36 @@ export const SubscribeToSearchButton = () => {
     setSendState('ready');
   }
 
+  const previewKey = dialogOpen
+    ? JSON.stringify({
+        textQuery: searchOptions.textQuery,
+        tags: searchOptions.tags,
+        decisionBodyIds: searchOptions.decisionBodyIds,
+      })
+    : null;
+
   useEffect(() => {
-    if (!dialogOpen) return;
+    if (!previewKey) return;
 
     let cancelled = false;
-    setPreviewLoading(true);
-    setPreviewHtml(null);
-    setHasMatchingResults(true);
-
     previewSubscriptionEmail({ filters: searchOptions }).then((result) => {
       if (cancelled) return;
-      setPreviewHtml(result.previewHtml);
-      setHasMatchingResults(result.hasMatchingResults);
-      setPreviewLoading(false);
+      setPreview({
+        key: previewKey,
+        html: result.previewHtml,
+        hasMatchingResults: result.hasMatchingResults,
+      });
     });
 
     return () => {
       cancelled = true;
     };
-  }, [dialogOpen, searchOptions]);
+  }, [previewKey, searchOptions]);
+
+  const previewLoading = dialogOpen && preview?.key !== previewKey;
+  const previewHtml = preview?.key === previewKey ? preview.html : null;
+  const hasMatchingResults =
+    preview?.key === previewKey ? preview.hasMatchingResults : true;
 
   const onChange = useCallback(() => setSendState('ready'), [setSendState]);
 
