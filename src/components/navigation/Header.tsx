@@ -39,7 +39,7 @@ export default function Header() {
                   className="object-contain"
                 />
               </Link>
-              <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+              <span className="text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
                 <Link href="/">Civic Dashboard</Link>
               </span>
             </div>

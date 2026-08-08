@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef, type JSX } from 'react';
+import { useEffect, useRef } from 'react';
 import Mark from 'mark.js';
 
 type Props = React.PropsWithChildren<{
-  element?: keyof JSX.IntrinsicElements;
+  element?: keyof React.JSX.IntrinsicElements;
   className?: string;
   terms: string | readonly string[];
 }>;
@@ -15,7 +15,7 @@ export function HighlightChildren({
   className,
   element = 'div',
 }: Props) {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) {

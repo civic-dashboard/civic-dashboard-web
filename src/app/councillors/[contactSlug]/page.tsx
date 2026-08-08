@@ -75,12 +75,14 @@ async function getCouncillorOrMayor(db: Kysely<DB>, contactSlug: string) {
   throw new Error(`Unable to find councillor or mayor ${contactSlug}`);
 }
 
-export async function generateMetadata(props: {
+export async function generateMetadata({
+  params,
+}: {
   params: Promise<ParamsType>;
 }): Promise<Metadata> {
-  const params = await props.params;
+  const { contactSlug } = await params;
   const db = createDB();
-  const contact = await getCouncillorOrMayor(db, params.contactSlug);
+  const contact = await getCouncillorOrMayor(db, contactSlug);
   if (!contact) {
     notFound();
   }
