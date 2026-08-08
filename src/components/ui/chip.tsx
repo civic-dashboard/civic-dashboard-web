@@ -4,7 +4,7 @@ import { cn } from '@/components/ui/utils';
 import { MouseEventHandler, useCallback } from 'react';
 
 const chipVariants = cva(
-  'inline-flex items-center rounded-lg border border-neutral-200 px-3 py-[6px] gap-x-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 dark:border-neutral-700 dark:focus:ring-neutral-300',
+  'inline-flex items-center rounded-lg border border-neutral-200 px-3 py-[6px] gap-x-1 text-xs font-semibold focus:outline-hidden focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 dark:border-neutral-700 dark:focus:ring-neutral-300',
   {
     variants: {
       variant: {
@@ -26,7 +26,8 @@ const chipVariants = cva(
 );
 
 export interface ChipProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof chipVariants> {}
 
 function Chip({ className, variant, ...props }: ChipProps) {
@@ -36,7 +37,8 @@ function Chip({ className, variant, ...props }: ChipProps) {
 }
 
 export interface ChipLinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  extends
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
     VariantProps<typeof chipVariants> {}
 
 function ChipLink({ className, variant, ...props }: ChipLinkProps) {
@@ -49,7 +51,8 @@ function ChipLink({ className, variant, ...props }: ChipLinkProps) {
 }
 
 export interface ChipButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof chipVariants> {}
 
 function ChipButton({ className, variant, ...props }: ChipButtonProps) {

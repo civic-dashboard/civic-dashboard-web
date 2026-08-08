@@ -281,7 +281,7 @@ export function SearchResultAgendaItemCard({
       >
         <div className="relative max-h-[200px] overflow-hidden">
           <div
-            className="absolute inset-0 h-[100px] top-[100px] bg-gradient-to-t from-white dark:from-neutral-800 dark:group-hover:from-neutral-700 from-1% via-transparent to-transparent pointer-events-none"
+            className="absolute inset-0 h-[100px] top-[100px] bg-linear-to-t from-white dark:from-neutral-800 dark:group-hover:from-neutral-700 from-1% via-transparent to-transparent pointer-events-none"
             data-overflow-gradient
           />
           <div className="overflow-y-auto max-h-full">
