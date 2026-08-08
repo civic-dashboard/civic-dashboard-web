@@ -23,8 +23,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --shadow-lg: 0px 4px 20px 3px #7575751a;
-  --shadow-xl: 0px 4px 20px 3px #5555552a;
+  --shadow-sm: 0px 1px 2px 0px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0px 4px 20px 3px rgb(117 117 117 / 0.1);
+  --shadow-xl: 0px 4px 20px 3px rgb(85 85 85 / 0.165);
+
+  --color-ring: rgb(59 130 246 / 0.5);
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -95,6 +98,14 @@
 
   .classic-link {
     @apply underline text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-500;
+  }
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: rgb(229 231 235);
   }
 }
 
