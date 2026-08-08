@@ -44,8 +44,6 @@ marked.setOptions({
   breaks: false,
   gfm: true,
   headerIds: true,
-  mangle: false,
-  sanitize: false,
 });
 
 function ensureDirectoryExists(dirPath) {

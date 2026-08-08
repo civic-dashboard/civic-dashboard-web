@@ -260,7 +260,7 @@ export const getAgendaItemByReference = async (
     .selectFrom('RawAgendaItemConsiderations')
     .selectAll()
     .where('reference', '=', reference)
-    .orderBy('meetingDate desc')
+    .orderBy('meetingDate', 'desc')
     .executeTakeFirst();
 
   return agendaItem ? cleanAgendaItem(agendaItem) : undefined;
@@ -542,7 +542,7 @@ export const getSubscribersToNotify = async (db: Kysely<DB>) => {
       'matchingSubscriptions.textQuery',
     ])
     .orderBy('matchingSubscriptions.subscriberId')
-    .orderBy('matchingSubscriptions.rank desc')
+    .orderBy('matchingSubscriptions.rank', 'desc')
     .execute();
 
   return rawResults.map(cleanAgendaItem);
