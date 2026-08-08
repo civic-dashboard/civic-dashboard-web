@@ -96,6 +96,10 @@ export default defineConfig([
           ],
           paths: [
             {
+              name: 'sanitize-html',
+              message: 'Please use @/logic/sanitize instead.',
+            },
+            {
               name: 'pg',
               message: 'Please use postgres instead.',
             },
