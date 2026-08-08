@@ -198,7 +198,7 @@ const Pagination: React.FC<PaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <nav className="flex items-center justify-center space-x-2 mt-8 mb-8">
+    <nav className="flex items-center justify-center gap-x-2 mt-8 mb-8">
       <Button
         onClick={onPreviousPage}
         disabled={!hasPreviousPage}
@@ -208,7 +208,7 @@ const Pagination: React.FC<PaginationProps> = ({
         Previous
       </Button>
 
-      <div className="flex space-x-1">
+      <div className="flex gap-x-1">
         {visiblePages[0] > 1 && (
           <>
             <Button onClick={() => onPageChange(1)} variant="ghost" size="sm">

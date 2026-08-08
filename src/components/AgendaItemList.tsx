@@ -151,7 +151,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
   );
 
   return (
-    <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
+    <div className="flex flex-col gap-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
       <div className="mt-4 mb-2">
         <h1 className="text-2xl font-bold">Actions</h1>
         <p>
@@ -163,7 +163,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
         </p>
       </div>
       <UpcomingPastToggle />
-      <div className="flex flex-row self-stretch items-center space-x-2">
+      <div className="flex flex-row self-stretch items-center gap-x-2">
         <div className="flex-grow">
           <SearchBar />
         </div>
@@ -176,7 +176,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
       <DecisionBodyFilter
         decisionBodies={currentTermDecisionBodies}
       ></DecisionBodyFilter>
-      <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
+      <div className="flex flex-row justify-around items-end flex-wrap self-stretch gap-x-4 gap-y-4">
         <div className="flex grow justify-between items-end">
           <ResultCount />
           <SubscribeToSearchButton />

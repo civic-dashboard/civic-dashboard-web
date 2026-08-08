@@ -60,7 +60,7 @@ export const SubscribeToSearchButton = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="max-w-90 min-w-72">
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col gap-2">
           <p>
             You will be sent emails for new agenda items matching your current
             tags & search filters, and can unsubscribe at any time. View our{' '}
@@ -69,7 +69,7 @@ export const SubscribeToSearchButton = () => {
             </a>
             .
           </p>
-          <form onSubmit={onSubmit} className="flex flex-row space-x-2">
+          <form onSubmit={onSubmit} className="flex flex-row gap-x-2">
             <Input
               ref={emailInputRef}
               type="email"
