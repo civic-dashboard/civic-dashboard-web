@@ -150,10 +150,7 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   );
 }
 
-export function AgendaItemList({
-  initialSearchParams,
-  decisionBodies,
-}: Props) {
+export function AgendaItemList({ initialSearchParams, decisionBodies }: Props) {
   return (
     <SearchProvider>
       <AgendaItemListInner

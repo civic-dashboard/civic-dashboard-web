@@ -60,17 +60,11 @@ export default async function AgendaItemPage({ params }: Props) {
     notFound();
   }
 
-  const decisionBody = await getDecisionBodyById(
-    db,
-    agendaItem.decisionBodyId,
-  );
+  const decisionBody = await getDecisionBodyById(db, agendaItem.decisionBodyId);
 
   return (
     <div className="m-auto sm:max-w-max-content-width sm:p-8">
-      <FullPageAgendaItemCard
-        decisionBody={decisionBody!}
-        item={agendaItem}
-      >
+      <FullPageAgendaItemCard decisionBody={decisionBody!} item={agendaItem}>
         <VotingRecord motions={motions} />
       </FullPageAgendaItemCard>
     </div>

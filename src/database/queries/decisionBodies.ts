@@ -111,14 +111,16 @@ export const upsertDecisionBodies = async (
       .insertInto('DecisionBodies')
       .values(batch)
       .onConflict((oc) =>
-        oc.column('decisionBodyId').doUpdateSet((eb) =>
-          Object.fromEntries(
-            decisionBodyConflictColumns.map((column) => [
-              column,
-              eb.ref(`excluded.${column}`),
-            ]),
+        oc
+          .column('decisionBodyId')
+          .doUpdateSet((eb) =>
+            Object.fromEntries(
+              decisionBodyConflictColumns.map((column) => [
+                column,
+                eb.ref(`excluded.${column}`),
+              ]),
+            ),
           ),
-        ),
       )
       .execute();
   }
