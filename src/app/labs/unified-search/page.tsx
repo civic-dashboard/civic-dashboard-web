@@ -4,6 +4,8 @@ import { Metadata } from 'next';
 import { createDB } from '@/database/kyselyDb';
 import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Unified Search Prototype',
   description: 'An experimental unified search UI for Civic Dashboard',
