@@ -3,18 +3,13 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
-export type Generated<T> =
-  T extends ColumnType<infer S, infer I, infer U>
-    ? ColumnType<S, I | undefined, U>
-    : ColumnType<T, T | undefined, T>;
+export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
 
-export type Int8 = ColumnType<
-  string,
-  bigint | number | string,
-  bigint | number | string
->;
+export type Int8 = ColumnType<string, bigint | number | string, bigint | number | string>;
 
 export type Json = JsonValue;
 
@@ -43,6 +38,55 @@ export interface AgendaItemSubjectTerms {
 export interface AiSummaries {
   agendaItemNumber: string;
   summary: string;
+}
+
+export interface DecisionBodies {
+  /**
+   * Flattened from TMMIS committeeCode.committeeCode
+   */
+  committeeCode: string;
+  committeeCodeId: number;
+  contactFirstName: string | null;
+  contactLastName: string | null;
+  dbdyStatusCd: string;
+  /**
+   * TMMIS decision body ID
+   */
+  decisionBodyId: number;
+  decisionBodyName: string;
+  decisionBodyPublishLabelCd: string;
+  duties: string | null;
+  email: string | null;
+  faxAreaCode: string | null;
+  faxNumber: string | null;
+  generalAddress: string | null;
+  /**
+   * JSONB array of member objects from TMMIS
+   */
+  members: Json;
+  phoneAreaCode: string | null;
+  phoneNumber: string | null;
+  /**
+   * TMMIS council term ID
+   */
+  termId: number;
+  /**
+   * Flattened from TMMIS term.termType
+   */
+  termType: string;
+  /**
+   * Flattened from TMMIS decisionBodyType.tier
+   */
+  tier: number;
+  /**
+   * Unix timestamp in milliseconds
+   */
+  trmEndDate: Int8;
+  /**
+   * Unix timestamp in milliseconds
+   */
+  trmStartDate: Int8;
+  webpostInd: string;
 }
 
 export interface RawAgendaItemConsiderations {
@@ -259,6 +303,7 @@ export interface DB {
   AgendaItemCategories: AgendaItemCategories;
   AgendaItemSubjectTerms: AgendaItemSubjectTerms;
   AiSummaries: AiSummaries;
+  DecisionBodies: DecisionBodies;
   RawAgendaItemConsiderations: RawAgendaItemConsiderations;
   RawAgendaItems: RawAgendaItems;
   RawContacts: RawContacts;

@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/accordion';
 import { Chip } from '@/components/ui/chip';
 import { Separator } from '@/app/labs/unified-search/separator';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { allTags } from '@/constants/tags';
 import SearchBar from '@/app/labs/unified-search/SearchBar';
 import sampleCouncillorPhoto from '@/app/labs/unified-search/sample-councillor-image.jpg';
@@ -143,7 +142,11 @@ const sampleMotions: Motion[] = [
   },
 ];
 
-function SearchResults() {
+function SearchResults({
+  decisionBodies,
+}: {
+  decisionBodies: Record<number, DecisionBody>;
+}) {
   // Using hardcoded data
   return (
     <div className="grid grid-cols-1 gap-6">
@@ -152,7 +155,9 @@ function SearchResults() {
         <SearchPageAgendaItemCard
           key={item.id}
           item={item}
-          decisionBody={decisionBodies[item.decisionBodyId]}
+          decisionBody={
+            decisionBodies[item.decisionBodyId] ?? mockCouncillorDecisionBody
+          }
           categories={item.subjectTerms.split(', ')}
           motions={sampleMotions}
         />
@@ -168,7 +173,11 @@ function SearchResults() {
   );
 }
 
-export function SearchInterface() {
+type SearchInterfaceProps = {
+  decisionBodies: Record<number, DecisionBody>;
+};
+
+export function SearchInterface({ decisionBodies }: SearchInterfaceProps) {
   const [_isTagsOpen, _setIsTagsOpen] = useState(false);
 
   return (
@@ -225,7 +234,9 @@ export function SearchInterface() {
             <SearchPageAgendaItemCard
               key={item.id}
               item={item}
-              decisionBody={decisionBodies[item.decisionBodyId]}
+              decisionBody={
+                decisionBodies[item.decisionBodyId] ?? mockCouncillorDecisionBody
+              }
               categories={item.subjectTerms.split(', ')}
               motions={sampleMotions}
             />
@@ -233,7 +244,7 @@ export function SearchInterface() {
         </div> */}
       </div>
       <div className="mt-8">
-        <SearchResults />
+        <SearchResults decisionBodies={decisionBodies} />
       </div>
 
       {/* Recent Items */}
@@ -251,7 +262,9 @@ export function SearchInterface() {
             <SearchPageAgendaItemCard
               key={item.id}
               item={item}
-              decisionBody={decisionBodies[item.decisionBodyId]}
+              decisionBody={
+                decisionBodies[item.decisionBodyId] ?? mockCouncillorDecisionBody
+              }
               categories={item.subjectTerms.split(', ')}
               motions={sampleMotions}
             />
@@ -261,7 +274,7 @@ export function SearchInterface() {
 
       {/* Search Results */}
       <div className="mt-8">
-        <SearchResults />
+        <SearchResults decisionBodies={decisionBodies} />
       </div>
     </div>
     // </SearchProvider>

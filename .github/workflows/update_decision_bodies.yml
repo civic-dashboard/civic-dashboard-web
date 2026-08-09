@@ -1,4 +1,4 @@
-name: Repopulate decisionBodies.ts with decision bodies
+name: Update decision bodies
 
 on:
   schedule:
@@ -9,15 +9,13 @@ concurrency:
   group: update-decision-bodies
   cancel-in-progress: false
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   fetch-decision-bodies:
     runs-on: ubuntu-latest
     name: Fetch decision bodies
     timeout-minutes: 30
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -32,16 +30,3 @@ jobs:
 
       - name: Run update script
         run: npm run tsx src/scripts/fetchDecisionBodies.ts
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        with:
-          add-paths: src/constants/decisionBodies.ts
-          branch: chore/update-decision-bodies
-          delete-branch: true
-          commit-message: Update decision bodies from TMMIS
-          title: Update decision bodies from TMMIS
-          body: |
-            Automated refresh of `src/constants/decisionBodies.ts` from the City of Toronto TMMIS API.
-
-            Triggered by the weekly schedule or a manual `workflow_dispatch` run of the Update decision bodies workflow.

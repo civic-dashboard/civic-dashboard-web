@@ -5,7 +5,6 @@ import {
   SubscribableSearchFilters,
 } from '@/logic/search';
 import { Card } from '@/components/ui/card';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { Button } from '@/components/ui/button';
 import { useCallback, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
@@ -28,11 +27,13 @@ type SubscriptionCardProps = {
   filters: SubscribableSearchFilters;
   unsubscribeToken: string;
   subscriptionId: number;
+  decisionBodies: Record<number, { decisionBodyName: string }>;
 };
 export const SubscriptionCard = ({
   filters,
   unsubscribeToken,
   subscriptionId,
+  decisionBodies,
 }: SubscriptionCardProps) => {
   const [state, setState] = useState<'subscribed' | 'loading' | 'unsubscribed'>(
     'subscribed',
@@ -75,7 +76,8 @@ export const SubscriptionCard = ({
         <SearchFilter
           label="Decision Bodies"
           content={filters.decisionBodyIds
-            .map((id) => decisionBodies[id].decisionBodyName)
+            .map((id) => decisionBodies[id]?.decisionBodyName)
+            .filter(Boolean)
             .join(', ')}
         />
       )}

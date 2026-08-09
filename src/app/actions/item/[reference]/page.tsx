@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FullPageAgendaItemCard } from '@/components/AgendaItemCard';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { createDB } from '@/database/kyselyDb';
 import {
   getAgendaItemByReference,
   getMotionsWithVotesByReference,
 } from '@/database/queries/agendaItems';
+import { getDecisionBodyById } from '@/database/queries/decisionBodies';
 import { stripHtmlAndGetFirstParagraph } from '@/logic/sanitize';
 import { VotingRecord } from '@/components/VotingRecord';
 
@@ -60,10 +60,15 @@ export default async function AgendaItemPage({ params }: Props) {
     notFound();
   }
 
+  const decisionBody = await getDecisionBodyById(
+    db,
+    agendaItem.decisionBodyId,
+  );
+
   return (
     <div className="m-auto sm:max-w-max-content-width sm:p-8">
       <FullPageAgendaItemCard
-        decisionBody={decisionBodies[agendaItem.decisionBodyId]}
+        decisionBody={decisionBody!}
         item={agendaItem}
       >
         <VotingRecord motions={motions} />

@@ -1,6 +1,6 @@
 import { cityCouncilGet } from '@/api/cityCouncilRequest';
 
-interface Member {
+export interface Member {
   apptEndDate: number; // Timestamp in milliseconds
   firstName: string;
   lastName: string;

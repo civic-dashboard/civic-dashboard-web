@@ -1,15 +1,9 @@
 import { DecisionBody, fetchDecisionBodies } from '@/api/decisionBody';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
-import { writeFileSync } from 'fs';
-import { format, resolveConfig, resolveConfigFile } from 'prettier';
+import { createDB } from '@/database/kyselyDb';
+import { upsertDecisionBodies } from '@/database/queries/decisionBodies';
 
 async function main() {
-  const configFile = await resolveConfigFile();
-
-  if (!configFile) {
-    throw Error('.prettierrc not found');
-  }
-
   const bodies: Record<number, DecisionBody> = {};
 
   for (let termId = 0; termId <= CURRENT_COUNCIL_TERM; termId++) {
@@ -19,28 +13,14 @@ async function main() {
     Object.assign(bodies, thisTermBodies);
   }
 
-  const jsonString = JSON.stringify(bodies, null, 2);
-
-  const unQuotedKeys = jsonString.replace(/"([^"]+)":/g, '$1:');
-
-  const tsCode = `
-  import { DecisionBody } from '@/api/decisionBody';
-  
-  export const decisionBodies: Record<number, DecisionBody> = ${unQuotedKeys}
-  `;
-
-  const projectConfig = await resolveConfig(configFile || '');
-
-  const formattedCode = await format(tsCode, {
-    ...projectConfig,
-    parser: 'typescript',
-  });
-
-  writeFileSync('src/constants/decisionBodies.ts', formattedCode, 'utf-8');
+  const bodyList = Object.values(bodies);
+  const db = createDB();
+  await upsertDecisionBodies(db, bodyList);
+  console.log(`Upserted ${bodyList.length} decision bodies into the database`);
 }
 
 main()
-  .then(() => console.log('Decision bodies written to file successfully!'))
+  .then(() => console.log('Decision bodies updated successfully!'))
   .catch((err) => {
     console.error(err);
     process.exit(1);

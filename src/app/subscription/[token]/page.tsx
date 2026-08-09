@@ -1,5 +1,6 @@
 import { SubscriptionCard } from '@/components/searchSubscriptionCard';
 import { createDB } from '@/database/kyselyDb';
+import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
 import { getSubscriptionsByToken } from '@/database/queries/subscriptions';
 
 type Params = {
@@ -12,7 +13,10 @@ type Props = {
 export default async function SubscriptionsPage({ params }: Props) {
   const db = createDB();
   const { token } = await params;
-  const subscriptionInfo = await getSubscriptionsByToken(db, token);
+  const [subscriptionInfo, decisionBodies] = await Promise.all([
+    getSubscriptionsByToken(db, token),
+    getAllDecisionBodies(db),
+  ]);
 
   if (!subscriptionInfo) {
     return (
@@ -35,6 +39,7 @@ export default async function SubscriptionsPage({ params }: Props) {
             filters={subscription}
             unsubscribeToken={token}
             subscriptionId={subscription.id}
+            decisionBodies={decisionBodies}
           />
         ))}
       </div>

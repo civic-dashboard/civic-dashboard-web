@@ -10,14 +10,19 @@ import {
   getSearchFiltersDescription,
 } from '@/logic/search';
 import { allTags } from '@/constants/tags';
-import { decisionBodies } from '@/constants/decisionBodies';
+import { DecisionBody } from '@/api/decisionBody';
+import { createDB } from '@/database/kyselyDb';
+import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
 
 type Args = {
   to: string | string[];
-  props: SubscriptionUpdateEmailProps;
+  props: Omit<SubscriptionUpdateEmailProps, 'decisionBodies'>;
 };
 
-function getSubject(filters: SubscribableSearchFilters[]): string {
+function getSubject(
+  filters: SubscribableSearchFilters[],
+  decisionBodies: Record<number, DecisionBody>,
+): string {
   if (filters.length === 0) {
     return 'New subscription results from Civic Dashboard';
   }
@@ -44,10 +49,13 @@ function getSubject(filters: SubscribableSearchFilters[]): string {
 }
 
 export async function sendSubscriptionUpdateEmail({ to, props }: Args) {
+  const decisionBodies = await getAllDecisionBodies(createDB());
   return await sendEmail({
     from: 'Civic Dashboard <alerts@civicdashboard.ca>',
-    subject: getSubject(props.filters),
+    subject: getSubject(props.filters, decisionBodies),
     to,
-    react: <SubscriptionUpdateEmail {...props} />,
+    react: (
+      <SubscriptionUpdateEmail {...props} decisionBodies={decisionBodies} />
+    ),
   });
 }

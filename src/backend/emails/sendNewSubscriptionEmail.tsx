@@ -7,13 +7,15 @@ import {
 } from '@/backend/emails/templates/newSubscription';
 import { getSearchFiltersDescription } from '@/logic/search';
 import { allTags } from '@/constants/tags';
-import { decisionBodies } from '@/constants/decisionBodies';
+import { createDB } from '@/database/kyselyDb';
+import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
 
 type Args = {
   to: string | string[];
-  props: NewSubscriptionEmailProps;
+  props: Omit<NewSubscriptionEmailProps, 'decisionBodies'>;
 };
 export async function sendNewSubscriptionEmail({ to, props }: Args) {
+  const decisionBodies = await getAllDecisionBodies(createDB());
   const filterDesc = getSearchFiltersDescription(
     props.filters,
     allTags,
@@ -27,6 +29,6 @@ export async function sendNewSubscriptionEmail({ to, props }: Args) {
     from: 'Civic Dashboard <alerts@civicdashboard.ca>',
     subject,
     to,
-    react: <NewSubscriptionEmail {...props} />,
+    react: <NewSubscriptionEmail {...props} decisionBodies={decisionBodies} />,
   });
 }

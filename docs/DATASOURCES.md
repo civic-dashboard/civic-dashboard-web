@@ -26,8 +26,8 @@ We fetch Agenda items that are scheduled to appear in future committee and counc
 TMMIS also provides the list of decision bodies, which we use to filter agenda items on the Actions page.
 
 * **Data Schema:** [`src/api/decisionBody.ts`](../src/api/decisionBody.ts)
-* **Storage:** Saved statically in [`src/constants/decisionBodies.ts`](../src/constants/decisionBodies.ts) (not currently stored in the database).
-* **Updates:** Refreshed weekly via GitHub Actions ([`.github/workflows/update_decision_bodies.yml`](../.github/workflows/update_decision_bodies.yml)), which opens a PR when `decisionBodies.ts` changes. For a one-off refresh locally, run the [`src/scripts/fetchDecisionBodies.ts`](../src/scripts/fetchDecisionBodies.ts) script.
+* **Database Table:** `DecisionBodies`
+* **Updates:** Refreshed weekly via GitHub Actions ([`.github/workflows/update_decision_bodies.yml`](../.github/workflows/update_decision_bodies.yml)), which upserts into the database from the TMMIS API. For a one-off refresh locally, run the [`src/scripts/fetchDecisionBodies.ts`](../src/scripts/fetchDecisionBodies.ts) script (requires `DATABASE_URL`). Local/CI bootstrap data is also loaded from [`seeds/decision_bodies.json`](../seeds/decision_bodies.json) when running seeds.
 
 ---
 

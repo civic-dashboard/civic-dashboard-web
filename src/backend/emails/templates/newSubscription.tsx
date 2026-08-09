@@ -11,11 +11,13 @@ export type NewSubscriptionEmailProps = {
   unsubscribeToken: string;
   items: AgendaItem[];
   filters: SubscribableSearchFilters;
+  decisionBodies: Record<number, { decisionBodyName: string }>;
 };
 export const NewSubscriptionEmail = ({
   unsubscribeToken,
   items,
   filters,
+  decisionBodies,
 }: NewSubscriptionEmailProps) => {
   return (
     <EmailWrapper
@@ -35,7 +37,10 @@ export const NewSubscriptionEmail = ({
       {items.length > 0 ? ' The emails you receive will look like this:' : ''}
       <Hr />
       <Section>
-        <EmailSubscriptionCard filters={filters} />
+        <EmailSubscriptionCard
+          filters={filters}
+          decisionBodies={decisionBodies}
+        />
       </Section>
       {items.map((item, index) => (
         <Fragment key={item.agendaItemId}>
