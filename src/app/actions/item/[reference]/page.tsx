@@ -6,7 +6,7 @@ import {
   getAgendaItemByReference,
   getMotionsWithVotesByReference,
 } from '@/database/queries/agendaItems';
-import { getDecisionBodyById } from '@/database/queries/decisionBodies';
+import { getCachedDecisionBodyById } from '@/database/queries/decisionBodies';
 import { stripHtmlAndGetFirstParagraph } from '@/logic/sanitize';
 import { VotingRecord } from '@/components/VotingRecord';
 
@@ -60,7 +60,9 @@ export default async function AgendaItemPage({ params }: Props) {
     notFound();
   }
 
-  const decisionBody = await getDecisionBodyById(db, agendaItem.decisionBodyId);
+  const decisionBody = await getCachedDecisionBodyById(
+    agendaItem.decisionBodyId,
+  );
 
   return (
     <div className="m-auto sm:max-w-max-content-width sm:p-8">

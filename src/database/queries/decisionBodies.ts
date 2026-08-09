@@ -1,6 +1,8 @@
 import { DecisionBody, Member } from '@/api/decisionBody';
 import { DB, DecisionBodies, Json } from '@/database/allDbTypes';
+import { createDB } from '@/database/kyselyDb';
 import { Insertable, Kysely, Selectable } from 'kysely';
+import { unstable_cache } from 'next/cache';
 
 export type DecisionBodyRow = Selectable<DecisionBodies>;
 export type InsertDecisionBody = Insertable<DecisionBodies>;
@@ -160,3 +162,26 @@ export const getDecisionBodyById = async (
     .executeTakeFirst();
   return row ? toDecisionBody(row) : undefined;
 };
+
+export const getCachedAllDecisionBodies = unstable_cache(
+  async () => getAllDecisionBodies(createDB()),
+  ['decision-bodies-all'],
+  { revalidate: 86400 },
+);
+
+export async function getCachedDecisionBodyById(
+  decisionBodyId: number,
+): Promise<DecisionBody | undefined> {
+  return (await getCachedAllDecisionBodies())[decisionBodyId];
+}
+
+export async function getCachedDecisionBodiesByTerm(
+  termId: number,
+): Promise<Record<number, DecisionBody>> {
+  const all = await getCachedAllDecisionBodies();
+  return Object.fromEntries(
+    Object.values(all)
+      .filter((body) => body.termId === termId)
+      .map((body) => [body.decisionBodyId, body]),
+  );
+}

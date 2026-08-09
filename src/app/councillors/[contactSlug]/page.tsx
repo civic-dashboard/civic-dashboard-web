@@ -7,7 +7,7 @@ import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { Page } from '@/components/ui/page';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
-import { getDecisionBodiesByTerm } from '@/database/queries/decisionBodies';
+import { getCachedDecisionBodiesByTerm } from '@/database/queries/decisionBodies';
 
 type ParamsType = {
   contactSlug: string;
@@ -102,10 +102,8 @@ export default async function CouncillorVotePage(props: {
     notFound();
   }
 
-  const decisionBodies = await getDecisionBodiesByTerm(
-    db,
-    CURRENT_COUNCIL_TERM,
-  );
+  const decisionBodies =
+    await getCachedDecisionBodiesByTerm(CURRENT_COUNCIL_TERM);
   const committees = Object.values(decisionBodies)
     .filter(
       (body) =>

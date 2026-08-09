@@ -1,8 +1,7 @@
 import { SearchInterface } from '@/app/labs/unified-search/SearchInterface';
 import { PrototypeNotice } from '@/app/labs/PrototypeNotice';
 import { Metadata } from 'next';
-import { createDB } from '@/database/kyselyDb';
-import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
+import { getCachedAllDecisionBodies } from '@/database/queries/decisionBodies';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const decisionBodies = await getAllDecisionBodies(createDB());
+  const decisionBodies = await getCachedAllDecisionBodies();
 
   return (
     <div className="mx-auto max-w-max-content-width min-h-screen flex flex-col items-center">

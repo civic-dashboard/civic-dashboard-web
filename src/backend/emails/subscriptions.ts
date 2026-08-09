@@ -6,7 +6,7 @@ import { createDB } from '@/database/kyselyDb';
 import { sendNewSubscriptionEmail } from '@/backend/emails/sendNewSubscriptionEmail';
 import { searchAgendaItems } from '@/database/queries/agendaItems';
 import { allTags } from '@/constants/tags';
-import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
+import { getCachedAllDecisionBodies } from '@/database/queries/decisionBodies';
 
 import { getStartOfToday } from '@/logic/date';
 
@@ -53,7 +53,7 @@ export async function subscribeToSearch({
   });
 
   if (process.env.NEW_EMAIL_ALERT_WEBHOOK) {
-    const decisionBodies = await getAllDecisionBodies(db);
+    const decisionBodies = await getCachedAllDecisionBodies();
     await fetch(process.env.NEW_EMAIL_ALERT_WEBHOOK, {
       method: 'POST',
       headers: {

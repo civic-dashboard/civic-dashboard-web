@@ -7,15 +7,14 @@ import {
 } from '@/backend/emails/templates/newSubscription';
 import { getSearchFiltersDescription } from '@/logic/search';
 import { allTags } from '@/constants/tags';
-import { createDB } from '@/database/kyselyDb';
-import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
+import { getCachedAllDecisionBodies } from '@/database/queries/decisionBodies';
 
 type Args = {
   to: string | string[];
   props: Omit<NewSubscriptionEmailProps, 'decisionBodies'>;
 };
 export async function sendNewSubscriptionEmail({ to, props }: Args) {
-  const decisionBodies = await getAllDecisionBodies(createDB());
+  const decisionBodies = await getCachedAllDecisionBodies();
   const filterDesc = getSearchFiltersDescription(
     props.filters,
     allTags,

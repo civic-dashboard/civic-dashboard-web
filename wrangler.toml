@@ -21,3 +21,16 @@ preview_bucket_name = "civic-dashboard-inc-cache-preview"
 binding = "HYPERDRIVE"
 id = "4ab86d703678451587637b0d0cc46a0c"
 localConnectionString = "postgresql://postgres:postgres@localhost:54320/civic_dashboard"
+
+[[services]]
+binding = "WORKER_SELF_REFERENCE"
+service = "civic-dashboard-web"
+
+[durable_objects]
+bindings = [
+  { name = "NEXT_CACHE_DO_QUEUE", class_name = "DOQueueHandler" },
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DOQueueHandler"]

@@ -1,6 +1,6 @@
 import { SubscriptionCard } from '@/components/searchSubscriptionCard';
 import { createDB } from '@/database/kyselyDb';
-import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
+import { getCachedAllDecisionBodies } from '@/database/queries/decisionBodies';
 import { getSubscriptionsByToken } from '@/database/queries/subscriptions';
 
 type Params = {
@@ -15,7 +15,7 @@ export default async function SubscriptionsPage({ params }: Props) {
   const { token } = await params;
   const [subscriptionInfo, decisionBodies] = await Promise.all([
     getSubscriptionsByToken(db, token),
-    getAllDecisionBodies(db),
+    getCachedAllDecisionBodies(),
   ]);
 
   if (!subscriptionInfo) {

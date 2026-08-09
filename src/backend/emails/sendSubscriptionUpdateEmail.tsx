@@ -11,8 +11,7 @@ import {
 } from '@/logic/search';
 import { allTags } from '@/constants/tags';
 import { DecisionBody } from '@/api/decisionBody';
-import { createDB } from '@/database/kyselyDb';
-import { getAllDecisionBodies } from '@/database/queries/decisionBodies';
+import { getCachedAllDecisionBodies } from '@/database/queries/decisionBodies';
 
 type Args = {
   to: string | string[];
@@ -49,7 +48,7 @@ function getSubject(
 }
 
 export async function sendSubscriptionUpdateEmail({ to, props }: Args) {
-  const decisionBodies = await getAllDecisionBodies(createDB());
+  const decisionBodies = await getCachedAllDecisionBodies();
   return await sendEmail({
     from: 'Civic Dashboard <alerts@civicdashboard.ca>',
     subject: getSubject(props.filters, decisionBodies),
