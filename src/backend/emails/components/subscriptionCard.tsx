@@ -2,7 +2,7 @@ import {
   areSearchFiltersEmpty,
   SubscribableSearchFilters,
 } from '@/logic/search';
-import { Text } from '@react-email/components';
+import { Text } from 'react-email';
 import { allTags } from '@/constants/tags';
 
 type Props = {

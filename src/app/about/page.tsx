@@ -2,20 +2,20 @@ import { Metadata } from 'next';
 import { ExternalLink } from '@/components/ExternalLink';
 import { Page } from '@/components/ui/page';
 import { Section } from '@/components/ui/section';
-import { Heading1, Heading2, BulletedList } from '@/components/ui/text-items';
+import { BulletedList, Text } from '@/components/ui/text-items';
 
-export const metadata: Metadata = {
-  title: 'About Us – Civic Dashboard',
-};
+export const metadata: Metadata = { title: 'About Us – Civic Dashboard' };
 
 export default function About() {
   return (
     <Page>
-      <Heading1>About Us</Heading1>
+      <Text preset="Heading1">About Us</Text>
 
       <Section>
-        <Heading2>Why We Exist</Heading2>
-        <p>In brief, we're regular Torontonians who believe:</p>
+        <Text preset="Heading2">Why We Exist</Text>
+        <Text preset="Body">
+          In brief, we're regular Torontonians who believe:
+        </Text>
         <BulletedList>
           <li>
             Finding out what is happening that is relevant to you in your local
@@ -38,7 +38,7 @@ export default function About() {
           </li>
         </BulletedList>
         <div className="space-y-6">
-          <p>
+          <Text preset="Body">
             We think that people care a lot, they just aren't given the right
             tools to translate that passion into democratic engagement. We
             believe a more accessible, lower-friction democracy will be adopted
@@ -47,13 +47,13 @@ export default function About() {
             during elections, and will contribute to a more bought-in,
             people-centric, and flourishing city - and that that's worth working
             on.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             Lastly, we believe that a small group of humble, ambitious, curious,
             hopeful, collaborative, and coordinated volunteers can make
             meaningful strides towards a more democratic Toronto.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             Learn more about our{' '}
             <ExternalLink
               href="https://docs.google.com/document/d/1J-gB3mbbXEZJfA1QzSN-H-8ZZKGFwwW-ISAROL3PeQA/edit?tab=t.0"
@@ -62,13 +62,15 @@ export default function About() {
               Theory of Change
             </ExternalLink>{' '}
             here.
-          </p>
+          </Text>
         </div>
       </Section>
 
       <Section>
-        <Heading2>About Our Organization</Heading2>
-        <p>Here are the core things to know about our team!</p>
+        <Text preset="Heading2">About Our Organization</Text>
+        <Text preset="Body">
+          Here are the core things to know about our team!
+        </Text>
         <BulletedList>
           <li>
             We're not for profit - no one is making money off of this, and no
@@ -88,17 +90,17 @@ export default function About() {
             Democracy's not gonna upgrade itself.
           </li>
         </BulletedList>
-        <p>
+        <Text preset="Body">
           Learn more about the team and how you can contribute/join{' '}
           <a href="/join" className="classic-link">
             here
           </a>
           .
-        </p>
-        <p>
+        </Text>
+        <Text preset="Body">
           We're an open organization - that means we default to showing everyone
           everything, including our works in progress! As a start, you can find:
-        </p>
+        </Text>
         <BulletedList>
           <li>
             <ExternalLink
@@ -126,10 +128,10 @@ export default function About() {
             </ExternalLink>
           </li>
         </BulletedList>
-        <p>
+        <Text preset="Body">
           If there's something you want to know about our organization or work
           but can't see below, it's due to one of:
-        </p>
+        </Text>
         <BulletedList>
           <li>The ever-present gap between documentation and reality</li>
           <li>The privacy of our contributors and/or users</li>
@@ -138,7 +140,7 @@ export default function About() {
             fallible, team
           </li>
         </BulletedList>
-        <p>
+        <Text preset="Body">
           If you have questions, concerns, curiosities, or comments, shoot us an
           email at{' '}
           <a
@@ -173,8 +175,8 @@ export default function About() {
             #proj-civic-dashboard
           </ExternalLink>{' '}
           channel in the Civic Tech Toronto Slack!
-        </p>
-        <p>
+        </Text>
+        <Text preset="Body">
           We are a project of{' '}
           <ExternalLink href="https://civictech.ca" className="classic-link">
             Civic Tech Toronto
@@ -191,7 +193,7 @@ export default function About() {
             weekly breakout groups
           </ExternalLink>{' '}
           - they happen every Tuesday 7-9pm somewhere in Toronto and on Zoom.
-        </p>
+        </Text>
       </Section>
     </Page>
   );

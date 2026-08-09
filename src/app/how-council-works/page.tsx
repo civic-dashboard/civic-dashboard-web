@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink } from '@/components/ExternalLink';
 import { tooltips } from '@/constants/tooltips';
-import { Heading1, Heading2, Heading3 } from '@/components/ui/text-items';
+import { Text } from '@/components/ui/text-items';
 import { ArticlePage } from '@/components/ui/page';
 import { Section } from '@/components/ui/section';
 
@@ -57,8 +57,8 @@ export default function HowCouncilWorks() {
     <TooltipProvider>
       <ArticlePage>
         <Section>
-          <Heading1>What is Toronto City Council?</Heading1>
-          <p>
+          <Text preset="Heading1">What is Toronto City Council?</Text>
+          <Text preset="Body">
             Toronto{' '}
             <Tooltip
               tooltipContent={tooltips.cityCouncil.content}
@@ -71,9 +71,9 @@ export default function HowCouncilWorks() {
             impact the city. These decisions affect everything from local parks
             to public transit and housing. The process used to make these
             decisions follows three key steps.
-          </p>
+          </Text>
           <ProcessImage src={imageData.toronto.src} />
-          <p>
+          <Text preset="Body">
             Toronto is divided into 25{' '}
             <Tooltip
               tooltipContent={tooltips.ward.content}
@@ -91,18 +91,18 @@ export default function HowCouncilWorks() {
             </Tooltip>
             , one per ward, and the Mayor, who is elected city-wide. Together,
             they shape policies and make decisions that impact the entire city.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             The Toronto Public Service (TPS) has 42K+ employees working across
             dozens of divisions and offices to implement city policies and
             services.
-          </p>
+          </Text>
         </Section>
 
         {/* Three-Step City Council Process */}
         <Section>
-          <Heading2>The Three-Step City Council Process</Heading2>
-          <p>
+          <Text preset="Heading2">The Three-Step City Council Process</Text>
+          <Text preset="Body">
             Before we dive into the process, let's define what City Council
             works on. An{' '}
             <Tooltip
@@ -122,18 +122,18 @@ export default function HowCouncilWorks() {
             </Tooltip>{' '}
             prepared by city staff to provide detailed background and
             recommendations.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             Now, let's follow how an item moves through City Council and how you
             can engage with it along the way.
-          </p>
+          </Text>
         </Section>
 
         {/* Staff Stage */}
         <Section>
-          <Heading2>First Step: Staff Stage</Heading2>
+          <Text preset="Heading2">First Step: Staff Stage</Text>
           <ProcessImage src={imageData.staff.src} />
-          <p>
+          <Text preset="Body">
             City staff, working at City Hall, take the first steps in acting on
             an item by researching and developing recommendations. They gather
             data, analyze what other cities are doing, and propose specific
@@ -148,17 +148,17 @@ export default function HowCouncilWorks() {
               committees
             </Tooltip>{' '}
             organized by city departments.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             <WikiLink />
-          </p>
+          </Text>
         </Section>
 
         {/* Committee Stage */}
         <Section>
-          <Heading2>Second Step: Committee Stage</Heading2>
+          <Text preset="Heading2">Second Step: Committee Stage</Text>
           <ProcessImage src={imageData.committee.src} />
-          <p>
+          <Text preset="Body">
             Next, the item moves to a{' '}
             <Tooltip
               tooltipContent={tooltips.committees.content}
@@ -171,8 +171,8 @@ export default function HowCouncilWorks() {
             questions to ensure the proposals are well thought out. While
             committees don't make final decisions, they refine the item and send
             it to the full Council for voting.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             This stage also provides an opportunity for public deputations,
             where citizens can speak directly to the committee about the item.{' '}
             <Tooltip
@@ -184,91 +184,91 @@ export default function HowCouncilWorks() {
             allow residents to share their opinions, highlight concerns, and
             advocate for their positions. Items typically move more quickly
             through this stage compared to the staff stage.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             <WikiLink />
-          </p>
+          </Text>
         </Section>
 
         {/* Council Stage */}
         <Section>
-          <Heading2>Third Step: Council Stage</Heading2>
+          <Text preset="Heading2">Third Step: Council Stage</Text>
           <ProcessImage src={imageData.council.src} />
-          <p>
+          <Text preset="Body">
             Finally, the item reaches the full City Council, which consists of
             all elected council members. At this stage, councillors review the
             item, debate its merits, and vote on whether to approve or reject
             it. Each councilor casts a vote—green for approval, red for
             rejection. If a majority votes in favor, the item becomes a new law,
             policy, or directive for the city.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             The Council Stage is the culmination of the process, where the item
             is finalized, and the decisions made here directly impact Toronto
             and its residents.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             <WikiLink />
-          </p>
+          </Text>
         </Section>
 
         {/* Get Involved */}
         <Section>
-          <Heading2>How Can I Get Involved?</Heading2>
-          <p>
+          <Text preset="Heading2">How Can I Get Involved?</Text>
+          <Text preset="Body">
             Getting involved with Toronto City Council is easier than you might
             think! There are several ways to share your opinions and influence
             decisions that matter to you.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             <span className="italic">
               Specific Actions - Can Be Done One Time or Many Times!
             </span>
-          </p>
+          </Text>
 
-          <Heading3>Call or Email Your Councillor</Heading3>
-          <p>
+          <Text preset="Heading3">Call or Email Your Councillor</Text>
+          <Text preset="Body">
             You can call or email your local councillor to discuss issues you
             care about. Councillors can advocate on your behalf and provide
             insights into ongoing city decisions.
-          </p>
+          </Text>
 
-          <Heading3>Attend a Consultation</Heading3>
-          <p>
+          <Text preset="Heading3">Attend a Consultation</Text>
+          <Text preset="Body">
             City staff often hold consultations, surveys, or community meetings
             to gather feedback on new policies and projects. These are great
             opportunities to share your thoughts early in the process.
-          </p>
+          </Text>
 
-          <Heading3>Submit a Deputation</Heading3>
-          <p>
+          <Text preset="Heading3">Submit a Deputation</Text>
+          <Text preset="Body">
             At the committee stage, you can make a deputation, which is a formal
             presentation where you share your views directly with council
             members during a public meeting. Your public comments can influence
             the proposal under review before it reaches City Council, or be
             taken into consideration for future proposals.
-          </p>
+          </Text>
 
-          <Heading3>Submit a Comment</Heading3>
-          <p>
+          <Text preset="Heading3">Submit a Comment</Text>
+          <Text preset="Body">
             At the committee stage, you can also make a comment on each agenda
             item that is being considered. Your comments can influence the
             members of the committee as they make their decisions.
-          </p>
+          </Text>
         </Section>
 
         {/* Stay Informed */}
         <Section>
-          <Heading2>Stay Informed, Take Action</Heading2>
-          <p>
+          <Text preset="Heading2">Stay Informed, Take Action</Text>
+          <Text preset="Body">
             Now that you know how City Council works, why not take the next
             step? Stay informed and make your voice heard! Check out our{' '}
             <Link href="/actions" className="classic-link">
               Actions Page
             </Link>{' '}
             to see upcoming Council items and take action in just one click.
-          </p>
-          <p>
+          </Text>
+          <Text preset="Body">
             Or visit our{' '}
             <Link href="/councillors" className="classic-link">
               Councillors Page
@@ -276,11 +276,11 @@ export default function HowCouncilWorks() {
             to see how your Councillor has voted and whether they align with
             your priorities. Your engagement can help shape the decisions that
             impact Toronto—get involved today!
-          </p>
+          </Text>
         </Section>
 
         <Section>
-          <p>
+          <Text preset="Body">
             <span className="italic">
               Illustrations by Luisa Castillo Henao. View more of her work on{' '}
               <ExternalLink
@@ -291,7 +291,7 @@ export default function HowCouncilWorks() {
               </ExternalLink>
               .
             </span>
-          </p>
+          </Text>
         </Section>
       </ArticlePage>
     </TooltipProvider>

@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Text } from '@/components/ui/text-items';
 import { Tooltip, Provider as TooltipProvider } from '@/components/ui/tooltip';
 import { tooltips } from '@/constants/tooltips';
 import { ExternalLink } from '@/components/ExternalLink';
@@ -9,47 +10,58 @@ export default function Home() {
   return (
     <TooltipProvider>
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        {/* Hero Section - with animation and gradient */}
-        <section className="relative h-[650px] bg-gradient-to-br from-blue-900 to-purple-900">
-          <div className="absolute inset-0">
-            <Image
-              src="/hero.jpg"
-              alt="Toronto Skyline"
-              fill
-              className="object-cover mix-blend-overlay"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-purple-900/60 animate-[gradient_8s_ease_infinite]"></div>
-          </div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-            <div className="text-white space-y-6">
-              <h1 className="text-4xl md:text-6xl font-normal tracking-tight mb-4 animate-fade-in">
-                Take Action on what's happening at <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-semibold">
-                  Toronto City Council
-                </span>
-              </h1>
-              <p className="text-xl sm:text-2xl md:text-3xl font-light max-w-4xl leading-relaxed">
-                Tools to help you follow, understand, and influence city
-                decisions.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-4">
-                <Link
-                  href="/actions"
-                  className="inline-flex items-center justify-center px-6 py-[20px] whitespace-nowrap bg-white border-white text-xl text-gray-900 rounded-xl font-medium hover:bg-gray-100 transition-all transform hover:scale-105"
-                >
-                  <span className="leading-none">
-                    Take Action on City Issues
-                  </span>
-                </Link>
-
-                <Link
-                  href="/how-council-works"
-                  className="inline-flex items-center justify-center px-6 py-[20px] whitespace-nowrap bg-transparent border-2 border-white text-white text-xl rounded-xl font-medium hover:bg-white/10 transition-all transform hover:scale-105"
-                >
-                  <span className="leading-none">Learn How Council Works</span>
-                </Link>
+        <section className="bg-primary-light">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 px-6 sm:grid-cols-2 sm:px-8 sm:gap-4 lg:gap-16 lg:px-16">
+            <div className="flex flex-col justify-center pt-14 sm:pt-0">
+              <div className="max-w-[544px]">
+                <div className="max-w-[410px] text-black">
+                  <Text
+                    preset="Heading1"
+                    tag="p"
+                    className="mb-0 inline-block text-balance"
+                  >
+                    Let’s make a Toronto{' '}
+                    <span className="relative inline-block whitespace-nowrap pb-[0.65em]">
+                      we love.
+                      <svg
+                        aria-hidden="true"
+                        className="pointer-events-none absolute bottom-0 right-0 h-auto w-[100%]"
+                        viewBox="0 0 217 34"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5 10C65 1 153 1 203 7C224 10 210 15 185 17C136 21 94 22 72 25C49 28 51 34 88 33"
+                          stroke="currentColor"
+                          strokeWidth="5"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </span>
+                  </Text>
+                </div>
+                <Text preset="Body" className="mt-6 max-w-[544px] text-black">
+                  Civic Dashboard is built by volunteers to help Torontonians
+                  follow and influence{' '}
+                  <Tooltip
+                    tooltipTitle={tooltips.cityCouncil.trigger}
+                    tooltipContent={tooltips.cityCouncil.content}
+                  >
+                    Toronto City Council
+                  </Tooltip>
+                  .
+                </Text>
               </div>
+            </div>
+            <div className="flex justify-center">
+              <Image
+                src="/city-hall-stylized.png"
+                alt="Toronto City Hall"
+                width={319}
+                height={416}
+                priority
+                className="h-[340px] w-auto sm:h-[360px] lg:h-[416px] lg:max-h-none"
+              />
             </div>
           </div>
         </section>

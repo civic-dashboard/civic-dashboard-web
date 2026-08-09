@@ -3,7 +3,7 @@
 import { DecisionBody } from '@/api/decisionBody';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { CopyIcon, HelpCircle, InfoIcon } from 'lucide-react';
+import { CopyIcon, ExternalLink, HelpCircle, InfoIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { InputHTMLAttributes, ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,6 @@ import {
   copyToClipboard,
   makeMailtoLink,
 } from '@/components/deputation-modals/utils';
-import { ExternalLink } from '@/components/ExternalLink';
 
 interface Props {
   agendaItem: AgendaItem;
@@ -212,16 +211,25 @@ export function RequestToSpeakModal({
             <div className="flex flex-wrap gap-2 mb-4">
               <Button
                 size="sm"
+                variant="outline"
                 onClick={() => copyToClipboard(decisionBody.email!)}
               >
                 <CopyIcon />
                 Copy email: {decisionBody.email}
               </Button>
-              <Button size="sm" onClick={() => copySubjectText()}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => copySubjectText()}
+              >
                 <CopyIcon />
                 Copy subject line
               </Button>
-              <Button size="sm" onClick={() => copyBodyText()}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => copyBodyText()}
+              >
                 <CopyIcon />
                 Copy email body
               </Button>
@@ -231,7 +239,7 @@ export function RequestToSpeakModal({
               client with all the text prefilled for you:
             </p>
             <div className="flex gap-2 mb-4">
-              <Button asChild size="sm">
+              <Button asChild size="sm" variant="outline">
                 <a href={mailtoLink} target="_blank" rel="noopener noreferrer">
                   <ExternalLink />
                   Create email (opens your mail client)

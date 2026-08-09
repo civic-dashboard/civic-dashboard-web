@@ -1,11 +1,4 @@
-import {
-  Body,
-  Container,
-  Head,
-  Hr,
-  Html,
-  Preview,
-} from '@react-email/components';
+import { Body, Container, Head, Hr, Html, Preview } from 'react-email';
 import { UnsubscribeLink } from '@/backend/emails/components/unsubscribeLink';
 
 type Props = React.PropsWithChildren<{

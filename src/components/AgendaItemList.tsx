@@ -18,6 +18,48 @@ import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
 import { usePathname, useRouter } from 'next/navigation';
 import { isTag } from '@/constants/tags';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { areSearchFiltersEmpty } from '@/logic/search';
+
+function AgendaListEmptyState() {
+  const { searchOptions, timeRange, setTimeRange } = useSearch();
+
+  const switchToPastItems = () => setTimeRange('past');
+
+  // Fancy empty state when no upcoming items and empty search options (text query, decision bodies, tags)
+  if (timeRange === 'upcoming') {
+    if (areSearchFiltersEmpty(searchOptions)) {
+      return (
+        <div>
+          <h2 className="mx-auto">No upcoming agenda items right now</h2>
+          <h5 className="mx-auto">
+            There are no upcoming meetings or agenda items scheduled at the
+            moment. In the meantime, you can explore recent decisions or review
+            how your councillor has voted.
+          </h5>
+          <div className="flex flex-col sm:flex-row my-5 justify-center sm:justify-start gap-3">
+            <Button
+              variant={'outline'}
+              className="w-full sm:w-auto"
+              onClick={switchToPastItems}
+            >
+              Browse Past Items
+            </Button>
+
+            <Link href={'/councillors'}>
+              <Button variant={'outline'} className="w-full sm:w-auto">
+                See How Your Councillor Voted
+              </Button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+  }
+  // Display basic message for any other case
+  return <h4 className="mx-auto my-32">No results...</h4>;
+}
 
 function ResultList({
   decisionBodies,
@@ -38,9 +80,9 @@ function ResultList({
       <Spinner show={searchResults === null} />
       {searchResults && (
         <>
-          {searchResults.results.length === 0 && (
-            <h4 className="mx-auto my-32">No results...</h4>
-          )}
+          {/* {If search results are empty} */}
+          {searchResults.results.length === 0 && <AgendaListEmptyState />}
+          {/* If search results are non-empty */}
           {searchResults.results.map((item) => (
             <SearchResultAgendaItemCard
               key={item.id}

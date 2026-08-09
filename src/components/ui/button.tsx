@@ -7,39 +7,32 @@ import { cn } from '@/components/ui/utils';
 
 const buttonVariants = cva(
   cn(
-    'inline-flex items-center justify-center gap-2',
-    'whitespace-nowrap rounded-md text-sm font-semibold',
+    'inline-flex items-center justify-center gap-4',
+    'whitespace-nowrap text-base font-semibold',
     'transition-colors',
-    'ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2',
+    'ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
     'dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300',
-    'disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+    'disabled:pointer-events-none disabled:opacity-50 [&_svg]:grow-0 [&_svg]:shrink-0',
   ),
   {
     variants: {
       variant: {
-        default: 'bg-[#1870f8] text-white ',
-        destructive:
-          'bg-red-500 text-neutral-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-neutral-50 dark:hover:bg-red-900/90',
+        default: 'bg-primary text-white hover:bg-primary/80',
         outline:
-          'border border-[#1870f8] text-[#1870f8] bg-white dark:border-neutral-200 dark:text-neutral-200 dark:bg-neutral-800',
-        secondary:
-          'bg-neutral-100 text-neutral-900 hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80',
-        'secondary-outline':
-          'border border-neutral-200 bg-white dark:border-neutral-400 dark:bg-neutral-950',
+          'border border-primary text-primary hover:bg-primary-lightest dark:border-white dark:text-white dark:hover:bg-white/10',
         ghost:
-          'hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-50',
-        link: 'text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50',
+          'hover:bg-primary-lightest hover:text-black dark:hover:bg-white/10 dark:hover:text-white',
       },
       size: {
-        default: 'h-10 rounded-[17px] px-4 py-2',
-        sm: 'h-8 rounded-[13px] px-3 text-xs',
-        lg: 'h-11 rounded-[20px] px-8',
-        icon: 'h-10 w-10',
+        sm: 'h-10 px-3 py-2 text-sm min-w-10',
+        md: 'h-12 px-4 py-3',
+        lg: 'h-14 px-6 py-4',
+        icon: 'h-12 w-12',
       },
     },
     defaultVariants: {
       variant: 'default',
-      size: 'default',
+      size: 'md',
     },
   },
 );
