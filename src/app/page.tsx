@@ -103,7 +103,7 @@ function HomeCard({ card }: { card: HomeCard }) {
         </ul>
       </div>
       <Button variant="outline" size="lg" className="mr-auto" asChild>
-        <Link href={card.href}>
+        <Link href={card.href} data-umami-event={card.imageAlt}>
           <span>{card.ctaLabel}</span>
           <ArrowRight className="w-6 h-6" aria-hidden="true" />
         </Link>
@@ -237,17 +237,24 @@ export default function Home() {
 
             <div className="flex md:flex-row flex-col md:flex-wrap items-start gap-2">
               <Button variant="ghost" asChild>
-                <Link href="/feedback">Give feedback</Link>
+                <Link href="/feedback" data-umami-event="Feedback">
+                  Give feedback
+                </Link>
               </Button>
               <Button variant="ghost" asChild>
-                <Link href="/join-newsletter">Sign up for newsletter</Link>
+                <Link
+                  href="/join-newsletter"
+                  data-umami-event="Newsletter Signup"
+                >
+                  Sign up for newsletter
+                </Link>
               </Button>
               <Button
                 variant="outline"
                 asChild
                 className="border-black text-black"
               >
-                <Link href="/join">
+                <Link href="/join" data-umami-event="Join us">
                   <span>Join the team</span>
                   <ArrowRight className="w-6 h-6" aria-hidden="true" />
                 </Link>
