@@ -19,46 +19,46 @@ type HomeCard = {
 
 const influenceCards: HomeCard[] = [
   {
-    imageSrc: '/home/feature-image-activity.png',
-    imageAlt: 'Council activity',
-    title: 'Council activity',
+    imageSrc: '/home/feature-image-1.jpg',
+    imageAlt: 'Council Activity',
+    title: 'Council\nActivity',
     question: 'What\u2019s City Council up to?',
     bullets: [
       'Track current issues and meetings',
       'Register to attend or speak on issues you care about',
     ],
-    ctaLabel: 'Explore Council activity',
+    ctaLabel: 'Explore Council Activity',
     href: '/actions',
   },
   {
-    imageSrc: '/home/feature-image-watch.png',
-    imageAlt: 'Councillor watch',
-    title: 'Councillor watch',
-    question: 'What\u2019s my councillor\u2019s stance?',
+    imageSrc: '/home/feature-image-2.jpg',
+    imageAlt: 'Councillor Watch',
+    title: 'Councillor\nWatch',
+    question: 'What\u2019s my Councillor\u2019s stance?',
     bullets: ['Find your councillor', 'See their voting history'],
-    ctaLabel: 'Explore councillor watch',
+    ctaLabel: 'Explore Councillor Watch',
     href: '/councillors',
   },
 ];
 
 const understandCards: HomeCard[] = [
   {
-    imageSrc: '/home/feature-image-get-started.png',
-    imageAlt: 'How City Council works',
-    title: 'How Council works',
-    question: 'How does our City Council work?',
+    imageSrc: '/home/feature-image-3.jpg',
+    imageAlt: 'How Council Works',
+    title: 'How Council\nWorks',
+    question: 'Learn the basics',
     bullets: [
-      'Understand the basics of Council processes',
-      'Learn how you can participate',
+      'Get to know Council processes',
+      'Find out how you can participate',
     ],
     ctaLabel: 'Learn about City Council',
     href: '/how-council-works',
   },
   {
-    imageSrc: '/home/feature-image-wiki.png',
+    imageSrc: '/home/feature-image-4.jpg',
     imageAlt: 'Civic Dashboard Wiki',
-    title: 'Expand your \n knowledge',
-    question: 'Civic Dashboard Wiki',
+    title: 'Civic\nDashboard Wiki',
+    question: 'Go deeper',
     bullets: [
       'Detailed guides, explanations, and resources',
       'A community wiki built by volunteers and continuously evolving',
@@ -70,19 +70,19 @@ const understandCards: HomeCard[] = [
 
 function HomeCard({ card }: { card: HomeCard }) {
   return (
-    <article className="flex flex-col gap-8">
+    <article className="flex flex-col gap-6 sm:gap-8">
       <div className="relative">
         <Image
           src={card.imageSrc}
           alt={card.imageAlt}
           width={600}
           height={200}
-          className="w-full object-cover aspect-[3/1]"
+          className="w-full object-cover aspect-[5/1] sm:aspect-[3/1]"
         />
-        <div className="top-0 bottom-0 absolute flex items-center">
+        <div className="top-0 bottom-0 absolute flex justify-start items-center w-full">
           <Text
-            preset="Heading3"
-            className="mb-0 p-4 md:p-6 font-black text-white lg:text-[34px] lg:leading-tight whitespace-pre-line"
+            preset="Heading2"
+            className="mb-0 p-4 md:p-6 text-white lg:leading-tight whitespace-nowrap sm:whitespace-pre-line"
           >
             {card.title}
           </Text>
@@ -90,10 +90,7 @@ function HomeCard({ card }: { card: HomeCard }) {
       </div>
 
       <div className="flex flex-col flex-grow gap-4">
-        <Text
-          preset="Heading3"
-          className="mb-0 pb-4 border-gray-light dark:border-gray-darkest border-b"
-        >
+        <Text preset="Body" className="font-bold text-lg">
           {card.question}
         </Text>
         <ul className="flex flex-col gap-2">
@@ -124,8 +121,8 @@ function HomeCardSection({
 }) {
   return (
     <section>
-      <div className="flex flex-col gap-12">
-        <Text preset="Heading2" className="mb-0 lg:text-[36px]">
+      <div className="flex flex-col gap-6 sm:gap-12">
+        <Text preset="Heading2" className="mb-0">
           {title[0]}
           <span className="font-normal">{' ' + title[1]}</span>
         </Text>
@@ -218,15 +215,15 @@ export default function Home() {
         <div className="flex md:flex-row flex-col gap-8 lg:gap-16 px-4 md:px-16 py-16 md:py-24 w-full max-w-7xl">
           <div className="max-w-[220px] md:max-w-none lg:max-w-[480px] grow-1">
             <Image
-              src="/home/civ-dash.png"
+              src="/home/contributors-collage.jpg"
               alt="Civic Dashboard team"
-              width={428}
-              height={372}
-              className="object-contain"
+              width={360}
+              height={300}
+              className="w-full h-auto object-contain"
             />
           </div>
 
-          <div className="flex flex-col gap-8 lg:max-w-[660px] h-full grow-1">
+          <div className="flex flex-col justify-center gap-8 lg:max-w-[660px] h-full grow-1">
             <Text preset="Heading2" className="mb-0 max-w-[440px]">
               Help us make democracy more accessible.
             </Text>
