@@ -183,7 +183,7 @@ export function SearchInterface() {
       <Separator className="mb-5.5" />
 
       {/* Tags Accordion */}
-      <div className="flex flex-col items-end space-y-4 pt-2 pb-8">
+      <div className="flex flex-col items-end gap-4 pt-2 pb-8">
         <Accordion type="multiple" className="w-full">
           <AccordionItem value="tags">
             <AccordionTrigger>Open Advanced Filter</AccordionTrigger>

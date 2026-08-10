@@ -7,7 +7,7 @@ import {
 
 export const PrototypeNotice = ({ children }: React.PropsWithChildren) => {
   return (
-    <div className="flex flex-col items-end space-y-4 w-full px-8 pt-4">
+    <div className="flex flex-col items-end gap-4 w-full px-8 pt-4">
       <Accordion
         type="multiple"
         defaultValue={['prototype']}
