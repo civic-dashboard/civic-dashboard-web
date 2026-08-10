@@ -33,6 +33,13 @@ export interface AgendaItemCategories {
   category: string;
 }
 
+export interface AgendaItems {
+  agendaItemNumber: string | null;
+  agendaItemTitle: string | null;
+  movedBy: string | null;
+  secondedBy: string[] | null;
+}
+
 export interface AgendaItemSubjectTerms {
   agendaItemId: number;
   subjectTermNormalized: string;
@@ -43,6 +50,62 @@ export interface AgendaItemSubjectTerms {
 export interface AiSummaries {
   agendaItemNumber: string;
   summary: string;
+}
+
+export interface Committees {
+  committeeName: string | null;
+  committeeSlug: string | null;
+}
+
+export interface Contacts {
+  contactName: string | null;
+  contactSlug: string | null;
+  email: string | null;
+  phone: string | null;
+  photoUrl: string | null;
+}
+
+export interface Councillors {
+  contactSlug: string | null;
+  term: string | null;
+  wardSlug: string | null;
+}
+
+export interface CouncilMembers {
+  contactSlug: string | null;
+  role: string | null;
+  term: string | null;
+  wardId: string | null;
+  wardName: string | null;
+  wardSlug: string | null;
+}
+
+export interface Mayors {
+  contactSlug: string | null;
+  term: string | null;
+}
+
+export interface Motions {
+  agendaItemNumber: string | null;
+  committeeSlug: string | null;
+  dateTime: string | null;
+  motionId: string | null;
+  motionType: string | null;
+  noVotes: number | null;
+  result: string | null;
+  resultKind: string | null;
+  voteDescription: string | null;
+  yesVotes: number | null;
+}
+
+export interface Movers {
+  agendaItemNumber: string | null;
+  movedBy: string | null;
+}
+
+export interface ProblemAgendaItems {
+  agendaItemNumber: string | null;
+  count: Int8 | null;
 }
 
 export interface RawAgendaItemConsiderations {
@@ -209,6 +272,11 @@ export interface RawVotes {
   voteDescription: string;
 }
 
+export interface Seconders {
+  agendaItemNumber: string | null;
+  unnest: string | null;
+}
+
 export interface Subscribers {
   /**
    * subscriber email address
@@ -255,15 +323,40 @@ export interface TagCategories {
   tagSlug: string;
 }
 
+export interface Votes {
+  agendaItemNumber: string | null;
+  contactSlug: string | null;
+  motionId: string | null;
+  value: string | null;
+}
+
+export interface Wards {
+  wardId: string | null;
+  wardName: string | null;
+  wardSlug: string | null;
+}
+
 export interface DB {
   AgendaItemCategories: AgendaItemCategories;
+  AgendaItems: AgendaItems;
   AgendaItemSubjectTerms: AgendaItemSubjectTerms;
   AiSummaries: AiSummaries;
+  Committees: Committees;
+  Contacts: Contacts;
+  Councillors: Councillors;
+  CouncilMembers: CouncilMembers;
+  Mayors: Mayors;
+  Motions: Motions;
+  Movers: Movers;
+  ProblemAgendaItems: ProblemAgendaItems;
   RawAgendaItemConsiderations: RawAgendaItemConsiderations;
   RawAgendaItems: RawAgendaItems;
   RawContacts: RawContacts;
   RawVotes: RawVotes;
+  Seconders: Seconders;
   Subscribers: Subscribers;
   Subscriptions: Subscriptions;
   TagCategories: TagCategories;
+  Votes: Votes;
+  Wards: Wards;
 }
