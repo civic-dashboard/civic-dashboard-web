@@ -213,7 +213,7 @@ export default function Home() {
 
       <section className="flex justify-center bg-gray-lightest dark:bg-gray-darkest">
         <div className="flex md:flex-row flex-col gap-8 lg:gap-16 px-4 md:px-16 py-16 md:py-24 w-full max-w-7xl">
-          <div className="max-w-[220px] md:max-w-none lg:max-w-[480px] grow-1">
+          <div className="max-w-[220px] md:max-w-none lg:max-w-[360px] grow-1">
             <Image
               src="/home/contributors-collage.jpg"
               alt="Civic Dashboard team"
