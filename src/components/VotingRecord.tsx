@@ -97,8 +97,11 @@ export const VotingRecord = ({ motions }: VotingRecordProps) => {
               <span>{group.committeeName}</span>
             </div>
             <div className="space-y-4">
-              {group.motions.map((motion) => (
-                <MotionCard key={motion.motionId} motion={motion} />
+              {group.motions.map((motion, motionIdx) => (
+                <MotionCard
+                  key={`${motion.motionId}-${motionIdx}`}
+                  motion={motion}
+                />
               ))}
             </div>
           </div>
@@ -211,9 +214,9 @@ const MotionCard = ({ motion }: { motion: MotionWithVotes }) => {
 
         {isExpanded && (
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {motion.votes.map((vote) => (
+            {motion.votes.map((vote, voteIdx) => (
               <Link
-                key={vote.contactSlug}
+                key={`${vote.contactSlug}-${voteIdx}`}
                 href={`/councillors/${vote.contactSlug}`}
                 className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-50 dark:hover:bg-neutral-700 border border-transparent hover:border-gray-200 dark:hover:border-neutral-600 transition-colors"
               >
