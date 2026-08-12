@@ -105,7 +105,9 @@ async function getVotesByAgendaItemsForContact(
       eb
         .selectFrom('RawAgendaItemConsiderations')
         .select(['reference', 'agendaItemSummary', 'itemStatus'])
-        .distinct(),
+        .distinctOn('reference')
+        .orderBy('reference')
+        .orderBy('meetingDate', 'desc'),
     )
     .with('AutoSummaries', (eb) =>
       eb
@@ -192,7 +194,9 @@ async function getVotesByAgendaItemsForContact(
       itemStatus,
       motions: [],
     };
-    agendaItem.motions.push(motion);
+    if (!agendaItem.motions.some((m) => m.motionId === motion.motionId)) {
+      agendaItem.motions.push(motion);
+    }
     agendaItemByNumber.set(agendaItemNumber, agendaItem);
   }
   return [...agendaItemByNumber.values()];
