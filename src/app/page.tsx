@@ -147,7 +147,6 @@ export default function Home() {
               <div className="max-w-[410px] text-black">
                 <Text
                   preset="Heading1"
-                  tag="p"
                   className="inline-block mb-0 text-balance"
                 >
                   Let’s make a Toronto{' '}
