@@ -79,7 +79,7 @@ export default function Header() {
                 />
                 <Text
                   preset="Heading2"
-                  tag="h1"
+                  tag="span"
                   className="mb-0 tracking-tight"
                 >
                   Civic Dashboard
