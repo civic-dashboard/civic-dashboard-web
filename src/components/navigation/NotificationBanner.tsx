@@ -34,14 +34,6 @@ export default function NotificationBanner({
             </button>
           </div>
         </div>
-      ) : !isRouteActive ? (
-        <button
-          onClick={() => setIsDismissed(false)}
-          className="fixed top-16 right-3 bg-orange-400 text-white mt-3 w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-50"
-          aria-label="Show notification"
-        >
-          ❤️
-        </button>
       ) : null}
     </div>
   );
