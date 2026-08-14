@@ -223,30 +223,39 @@ export default function Home() {
             />
           </div>
 
-          <div className="flex flex-col justify-center gap-8 lg:max-w-[660px] h-full grow-1">
-            <Text preset="Heading2" className="mb-0 max-w-[440px]">
+          <div className="flex flex-col justify-center gap-2 lg:max-w-[660px] h-full grow-1">
+            <Text preset="Heading2" className="max-w-[440px]">
               Help us make democracy more accessible.
             </Text>
-            <p className="text-body">
+            <Text preset="Body">
               We&apos;re regular, passionate Torontonians building a better city
               together.
-              <br />
+            </Text>
+            <Text preset="Body">
               Join our volunteer team, stay informed by subscribing to our
               newsletter or give us feedback on how we can improve this product!
-            </p>
+            </Text>
 
-            <div className="flex md:flex-row flex-col md:flex-wrap items-start gap-2">
-              <Button variant="ghost" asChild>
+            <div className="flex sm:flex-row flex-col sm:flex-wrap items-start gap-2 mt-8">
+              <Button
+                variant="outline"
+                asChild
+                className="border-black text-black"
+              >
                 <Link href="/feedback" data-umami-event="Feedback">
-                  Give feedback
+                  Give us feedback
                 </Link>
               </Button>
-              <Button variant="ghost" asChild>
+              <Button
+                variant="outline"
+                asChild
+                className="border-black text-black"
+              >
                 <Link
                   href="/join-newsletter"
                   data-umami-event="Newsletter Signup"
                 >
-                  Sign up for newsletter
+                  Sign up for the newsletter
                 </Link>
               </Button>
               <Button
@@ -255,8 +264,7 @@ export default function Home() {
                 className="border-black text-black"
               >
                 <Link href="/join" data-umami-event="Join us">
-                  <span>Join the team</span>
-                  <ArrowRight className="w-6 h-6" aria-hidden="true" />
+                  Join the team
                 </Link>
               </Button>
             </div>
