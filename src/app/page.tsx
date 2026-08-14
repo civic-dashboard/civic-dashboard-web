@@ -77,7 +77,7 @@ function HomeCard({ card }: { card: HomeCard }) {
           alt={card.imageAlt}
           width={600}
           height={200}
-          className="w-full object-cover aspect-[5/1] sm:aspect-[3/1]"
+          className="w-full object-cover aspect-[5/1] sm:aspect-[3/1] lg:aspect-[4/1]"
         />
         <div className="top-0 bottom-0 absolute flex justify-start items-center w-full">
           <Text
@@ -126,7 +126,7 @@ function HomeCardSection({
           {title[0]}
           <span className="font-normal">{' ' + title[1]}</span>
         </Text>
-        <div className="gap-12 lg:gap-16 grid sm:grid-cols-2 mx-auto w-full max-w-5xl">
+        <div className="gap-12 lg:gap-16 grid sm:grid-cols-2 mx-auto w-full">
           {cards.map((card) => (
             <HomeCard key={card.title} card={card} />
           ))}
@@ -141,7 +141,7 @@ export default function Home() {
     <main className="bg-white dark:bg-black">
       {/* Hero section */}
       <section className="bg-primary-light">
-        <div className="sm:gap-4 lg:gap-16 grid grid-cols-1 sm:grid-cols-2 mx-auto px-6 sm:px-8 lg:px-16 max-w-7xl">
+        <div className="sm:gap-4 lg:gap-16 grid grid-cols-1 sm:grid-cols-2 mx-auto px-4 sm:px-6 lg:px-16 max-w-6xl">
           <div className="flex flex-col justify-center pt-14 sm:pt-0">
             <div className="max-w-[544px]">
               <div className="max-w-[410px] text-black">
@@ -198,7 +198,7 @@ export default function Home() {
       </section>
 
       {/* Main content sections */}
-      <div className="flex flex-col gap-24 mx-auto px-4 sm:px-16 py-12 md:py-20 w-full max-w-7xl">
+      <div className="flex flex-col gap-24 mx-auto px-4 sm:px-6 lg:px-16 py-12 md:py-20 w-full max-w-6xl">
         <HomeCardSection
           title={['Help me influence', 'city council']}
           cards={influenceCards}
@@ -211,7 +211,7 @@ export default function Home() {
       </div>
 
       <section className="flex justify-center bg-gray-lightest dark:bg-gray-darkest">
-        <div className="flex md:flex-row flex-col gap-8 lg:gap-16 px-4 md:px-16 py-16 md:py-24 w-full max-w-7xl">
+        <div className="flex md:flex-row flex-col gap-8 lg:gap-16 px-4 sm:px-6 lg:px-16 py-16 md:py-24 w-full max-w-6xl">
           <div className="grayscale max-w-[220px] md:max-w-none lg:max-w-[360px] grow-1">
             <Image
               src="/home/contributors-collage.jpg"
