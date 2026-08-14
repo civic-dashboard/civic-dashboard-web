@@ -1,4 +1,16 @@
-export const menuItems = [
+type MenuItem = {
+  label: string;
+  slug: string;
+  subItems: {
+    label: string;
+    description: string;
+    href: string;
+    borderColor?: 'success' | 'warning' | 'danger' | 'primary';
+    newTab?: boolean;
+  }[];
+};
+
+export const menuItems: MenuItem[] = [
   {
     label: 'Our tools',
     slug: 'our-tools',
@@ -60,6 +72,7 @@ export const menuItems = [
         label: 'Browse our code',
         description: 'Civic Dashboard is free and open-source software',
         href: 'https://github.com/civic-dashboard/civic-dashboard-web',
+        newTab: true,
       },
       {
         label: 'Give us feedback',

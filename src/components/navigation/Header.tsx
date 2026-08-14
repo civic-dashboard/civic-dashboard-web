@@ -144,6 +144,7 @@ export default function Header() {
                       <Link
                         key={subItem.label}
                         href={subItem.href}
+                        target={subItem.newTab ? '_blank' : '_self'}
                         onClick={() => setOpenDesktopMenu(null)}
                         data-umami-event={`Header navigation: ${subItem.label}`}
                         className={`flex flex-col gap-2 px-4 py-2 hover:bg-primary-lightest dark:hover:bg-primary/20 ${
@@ -202,6 +203,7 @@ export default function Header() {
                           onClick={() => setIsMenuOpen(false)}
                           key={subItem.label}
                           href={subItem.href}
+                          target={subItem.newTab ? '_blank' : '_self'}
                           className={`flex flex-col border-l-4 px-4 py-2 gap-1 ${
                             subItem.borderColor
                               ? (borderClassByColor[subItem.borderColor] ??
