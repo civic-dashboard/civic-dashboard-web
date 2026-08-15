@@ -23,11 +23,12 @@ We fetch Agenda items that are scheduled to appear in future committee and counc
 
 ### Decision Bodies (Committees)
 
-TMMIS also provides the list of decision bodies, which we use to filter agenda items on the Actions page.
+TMMIS also provides the list of decision bodies, which we use to filter agenda items on the Actions page, resolve deputation emails, and show councillor committee membership.
 
-* **Data Schema:** [`src/api/decisionBody.ts`](../src/api/decisionBody.ts)
-* **Storage:** Saved statically in [`src/constants/decisionBodies.ts`](../src/constants/decisionBodies.ts) (not currently stored in the database).
-* **Updates:** Updates are manual. Run the [`src/scripts/fetchDecisionBodies.ts`](../src/scripts/fetchDecisionBodies.ts) script to fetch a new JSON list for each council term and manually update the constant file.
+* **Data Schema & Fetch Logic:** [`src/api/decisionBody.ts`](../src/api/decisionBody.ts)
+* **Database Table:** `DecisionBodies`
+* **Automation:** Fetched weekly via GitHub Actions ([`.github/workflows/update_decision_bodies.yml`](../.github/workflows/update_decision_bodies.yml)). Locally: `npm run tsx src/scripts/updateDecisionBodies.ts`
+* **Reads:** Cached via [`src/logic/decisionBodies.ts`](../src/logic/decisionBodies.ts) (`getCachedDecisionBodies`)
 
 ---
 

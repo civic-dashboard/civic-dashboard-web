@@ -1,5 +1,6 @@
 'use client';
 
+import { DecisionBody } from '@/api/decisionBody';
 import { SearchResultAgendaItemCard } from '@/components/AgendaItemCard';
 import {
   UpcomingPastToggle,
@@ -11,7 +12,6 @@ import {
 } from '@/components/search';
 import { useEffect, useMemo } from 'react';
 import { Spinner } from '@/components/ui/spinner';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
@@ -61,7 +61,11 @@ function AgendaListEmptyState() {
   return <h4 className="mx-auto my-32">No results...</h4>;
 }
 
-function ResultList() {
+function ResultList({
+  decisionBodies,
+}: {
+  decisionBodies: Record<number, DecisionBody>;
+}) {
   const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
     useSearch();
 
@@ -100,9 +104,10 @@ function ResultList() {
 
 type Props = {
   initialSearchParams: { [key: string]: string | string[] | undefined };
+  decisionBodies: Record<number, DecisionBody>;
 };
 
-function AgendaItemListInner({ initialSearchParams }: Props) {
+function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   const { searchOptions, setSearchOptions } = useSearch();
   const router = useRouter();
   const pathname = usePathname();
@@ -147,7 +152,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
           ([_, body]) => body.termId === CURRENT_COUNCIL_TERM,
         ),
       ),
-    [],
+    [decisionBodies],
   );
 
   return (
@@ -182,15 +187,18 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
           <SubscribeToSearchButton />
         </div>
       </div>
-      <ResultList />
+      <ResultList decisionBodies={decisionBodies} />
     </div>
   );
 }
 
-export function AgendaItemList({ initialSearchParams }: Props) {
+export function AgendaItemList({ initialSearchParams, decisionBodies }: Props) {
   return (
     <SearchProvider>
-      <AgendaItemListInner initialSearchParams={initialSearchParams} />
+      <AgendaItemListInner
+        initialSearchParams={initialSearchParams}
+        decisionBodies={decisionBodies}
+      />
     </SearchProvider>
   );
 }

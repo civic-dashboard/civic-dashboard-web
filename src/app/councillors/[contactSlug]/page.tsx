@@ -6,8 +6,8 @@ import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/Co
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { Page } from '@/components/ui/page';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
+import { getCachedDecisionBodies } from '@/logic/decisionBodies';
 
 type ParamsType = {
   contactSlug: string;
@@ -96,7 +96,10 @@ export default async function CouncillorVotePage(props: {
   const { contactSlug } = await props.params;
 
   const db = createDB();
-  const contact = await getCouncillorOrMayor(db, contactSlug);
+  const [contact, decisionBodies] = await Promise.all([
+    getCouncillorOrMayor(db, contactSlug),
+    getCachedDecisionBodies(),
+  ]);
   if (!contact) {
     notFound();
   }
