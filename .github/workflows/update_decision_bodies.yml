@@ -7,6 +7,9 @@ on:
     - cron: '0 3 * * 0'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   update-decision-bodies:
     runs-on: ubuntu-latest
