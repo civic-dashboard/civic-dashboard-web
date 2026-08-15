@@ -7,14 +7,18 @@ const footerGroups = [
   {
     heading: 'Civic Dashboard',
     links: [
-      { label: 'Actions', href: '/actions', umamiEvent: 'Council Activity' },
       {
-        label: 'Councillors',
+        label: 'Council Activity',
+        href: '/actions',
+        umamiEvent: 'Council Activity',
+      },
+      {
+        label: 'Councillor Watch',
         href: '/councillors',
         umamiEvent: 'Councillor Watch',
       },
       {
-        label: 'How Council works',
+        label: 'How Council Works',
         href: '/how-council-works',
         umamiEvent: 'How Council Works',
       },

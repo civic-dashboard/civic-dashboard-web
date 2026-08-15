@@ -15,7 +15,7 @@ export default function NotificationBanner({
   const [isDismissed, setIsDismissed] = useState(false);
 
   return (
-    <div className="w-full">
+    <div className="w-full z-50">
       {!isRouteActive && !isDismissed ? (
         <div className="bg-orange-700 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
@@ -34,14 +34,6 @@ export default function NotificationBanner({
             </button>
           </div>
         </div>
-      ) : !isRouteActive ? (
-        <button
-          onClick={() => setIsDismissed(false)}
-          className="fixed top-16 right-3 bg-orange-400 text-white mt-3 w-8 h-8 flex items-center justify-center rounded-full shadow-lg z-50"
-          aria-label="Show notification"
-        >
-          ❤️
-        </button>
       ) : null}
     </div>
   );
