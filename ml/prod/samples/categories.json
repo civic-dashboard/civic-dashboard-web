@@ -1,0 +1,88 @@
+{
+  "categories": {
+    "Accessibility": {
+      "description": "Accessibility: This is about accessibility for people with disabilities (the disabled), such as wheel-trans, wheelchairs, mobility aids, accessible parking permits, AODA, barrier-free design, accessible taxis, accessible parking, and mobility devices. Inputs that contain accessible or disabled as descriptors belong here, NOT in Governance & City Hall."
+    },
+    "Animals & Wildlife": {
+      "description": "Animals & Wildlife: Concerns about wild animals in urban or suburban areas, including animal sightings, injured or sick wild animals, and wildlife removal or deterrence. Covers all wild animals including raccoons, coyotes, skunks, snakes, squirrels, bats, deer, foxes, chickens, and wild birds (geese, gulls, pigeons). Also covers integrated pest management programs for rodents and invasive species. Excludes domestic pets (cats and dogs). Excludes natural habitat preservation."
+    },
+    "Arts, Culture & Events": {
+      "description": "Arts, Culture & Events: This is about arts, culture, events, and tourism, such as Canadian National Exhibition (CNE), festivals, museums, public art, theatres, concerts, exhibitions, events, and cultural organizations."
+    },
+    "Biking": {
+      "description": "Biking: This is about bikes, cycles, and bicycles, including bike trails."
+    },
+    "Budget, Taxes & Finance": {
+      "description": "Budget, Taxes & Finance: This is about city finances, revenue generation, taxes, and fees, such as institutional taxes, budgets, audits, financial reports, grants, user fees, fines, land transfer tax, billing, development charges, parking revenue, and tax rebates. All inputs related to revenue, budgets and finances belong here NOT in Governance & City Hall."
+    },
+    "Business & Economy": {
+      "description": "Business & Economy: This is about businesses and economic development, such as business improvement areas (also as bia), restaurants, cafes, retail stores, biotech, food & beverage industries, industrial parks, factories, tech hubs, film industry, investment attraction, 20-minute makeover, and commercial districts."
+    },
+    "Children & Youth": {
+      "description": "Children & Youth: This is about programs or services for children and youth, such as childcare, daycare, camps, early childhood education, youth justice, and youth programs."
+    },
+    "City Employment": {
+      "description": "City Employment: This is about the city as an employer such as hiring, collective bargaining, employee relations, staff training, service awards, job, labor, labour, and years of service recognition."
+    },
+    "Community & People": {
+      "description": "Community & People: This is about city-funded programs that support residents and neighbourhoods. Includes neighbourhood associations, resident panels, community outreach workers, community benefit agreements, civic engagement programs, religious communities, religious diversity, food banks, shelters, poverty reduction, income support, adult literacy programs, adult education, employment assistance, and college or continuing education programs. NOT arts festivals, recreational events, or city governance processes."
+    },
+    "Construction & Infrastructure": {
+      "description": "Construction & Infrastructure: This is about the physical building, repair, or maintenance of city structures, overpasses, and roads — the construction work itself, not traffic flow. Includes pothole repairs, road resurfacing, road widening, road alterations, road reconstruction, retaining walls, bollards, bridge reconstruction, sidewalk maintenance, building retrofits, restoration of structures, concrete work, construction deposits, heavy machinery and construction trucks, and capital infrastructure projects. Does NOT include traffic signals, lane management, or vehicle movement — those belong in Traffic."
+    },
+    "Climate": {
+      "description": "Environment & Climate: This is about the natural environment, climate, pollution; such as trees, urban forestry, air quality, climate change adaptation, green energy, native species, biodiversity, ecological conservation, ravine protection, clean-city, and greenhouse gas reduction. Does not include water infrastructure, sewers, or waste collection."
+    },
+    "Equity": {
+      "description": "Equity: This is about equity, social inclusion and human rights and contains terms to describe people that are not white heterosexual males such as minorities, sex & gender, gender identity, LGBTQ, sexism, bisexual, transgendered, immigration, refugees, racial discrimination, racism, indigenous, inuit, metis, First Nations, Indian, Native, racialized peoples. This group also includes the terms around inclusion such as pay equity."
+    },
+    "Governance & City Hall": {
+      "description": "Governance & City Hall: This is about Toronto city hall, its elected officials, and city council activities. Includes the mayor, city councillors, members of council, alderwomen, elected officials, elected representatives, council decisions, local government, bylaws, legislation, municipal elections, ward boundary reviews, advisory committees, ombudsman, integrity commissioner, and intergovernmental cooperation. NOT about specific policy areas like housing, zoning, health, drinking water, employee agreements, or transit — only the people and actions of city government itself."
+    },
+    "Housing & Homelessness": {
+      "description": "Housing & Homelessness: This is about housing or homelessness, such as affordable housing, below-market rent, shelters, encampments, rooming houses, tenants, rent subsidies, public housing (TCHC), and warming centres."
+    },
+    "Parks & Green Spaces": {
+      "description": "Parks & Green Spaces: Parks & Green Spaces: This is about the city's outdoor public land — its parks, natural areas, and green infrastructure. This is about parks, such as parkettes, ravines, beaches, rivers, dog parks, off-leash areas, leash-free zones playgrounds, splash pads, trails, skating rinks, invasive plants in parks, fauna, garden parks, and park maintenance. Does NOT include climate policy, wildlife control, or recreation centres."
+    },
+    "Pets": {
+      "description": "This is about Cats and dogs as pets and their owners, such as dog and cat licences/licenses, dog tags, dog bites, lost or missing cats, lost or missing dogs, and pet bylaws. Does NOT include wild animals like raccoons or coyotes."
+    },
+    "Public Safety": {
+      "description": "Public & Community Safety: This is about policing, fire, and emergency medical services, such as police, Toronto Police Service, fire services, paramedics, 911 calls, crime prevention, fire routes, and community violence reduction. Does not include general traffic or road safety."
+    },
+    "Public Health": {
+      "description": "Public Health: This is about public health or health services, such as communicable diseases, infectious diseases, sexual health clinics, vaccinations, dental care, mental health, harm reduction, and health clinics."
+    },
+    "Public Transportation": {
+      "description": "All things related to public transportation including Toronto Transit Corporation (TTC), ridership, subways, light rail transit (LRT), ferries, buses, bus shelters, express routes, subway stations, streetcar."
+    },
+    "Seniors & Aging": {
+      "description": "Seniors & Aging: This is about programs or facilities for seniors, such as long-term care (LTC) homes, nursing homes, senior programs, retirement homes, and home care."
+    },
+    "Service Requests & Nuisance Complaints": {
+      "description": "Service Requests & Nuisance Complaints: 311 is the phone number to call the city for NON-EMERGENCY Service requests. This is about requesting a city service or reporting an issue through calling 311 or online service request channels. Also includes complaints such as noise complaints, construction noise, foul odours, smells, and light pollution."
+    },
+    "Sports & Recreation": {
+      "description": "Sports & Recreation: This is about sports, recreation, or leisure facilities, such as arenas, pools, recreation centres, sports leagues & sports fields, skiing and ski hills, golf & golf courses, boating & docks, chess clubs, badminton, tennis, rinks, exercise, and fitness programs."
+    },
+    "Information & Libraries": {
+      "description": "Information Disclosure & Libraries: This is about access to information through the Public Library (TPL) and access to city records, archives, and documents. It includes terms such as borrowing books, requesting digital records, publishing city records, freedom of information requests (FOI), request for disclosure, geographical & geospatial information (GIS) requests. Includes the library infrastructure such as library branches."
+    },
+    "Toronto Hydro & Utilities": {
+      "description": "Toronto Hydro & Utilities: This is about electricity supply or hydro infrastructure, such as power outages, hydro bills, hydro poles, utility corridors, and electricity distribution & generation."
+    },
+    "Traffic": {
+      "description": "Traffic: All things related to the movement of cars, whether private, taxis or ride share and traffic controls impacting traffic. This includes traffic signals, left-turn arrow, scramble light, speed bump, signalized intersections, red light cameras, amber light, lane closures, HOV lanes, diamond lanes, lay-bys, lay bys, lane reduction, road conditions, sink holes, all-way stops, carpools, pedestrian crossings, towing, and road closures."
+    },
+    "Urban Planning & Zoning": {
+      "description": "Urban Planning & Zoning: This is about how land in Toronto is designated, regulated, and developed — the physical shaping of the city. Includes zoning bylaws, zoning amendments, zoning amendment applications, minor variances, land use, land use designations, land owners and property rights, front yard parking regulations, landscape projects, site plan approvals, official plan amendments, neighbourhood plans, regional planning, reurbanization, urban design guidelines, heritage preservation, Committee of Adjustment, and development applications."
+    },
+    "Waste Management": {
+      "description": "Waste Management: This is about collecting or disposing of solid waste, such as garbage (refuse) collection, recycling, green bin organics, blue bins, blue bin materials, biosolids, compost, landfills, landfill facilities, adopt-a-bin and waste diversion."
+    },
+    "Water & Sewers": {
+      "description": "Water & Sewers: This is about drinking water supply, sewers, waste water, and drainage infrastructure, such as watermains, sewage treatment, sewer systems, stormwater, water meters, drinking water quality, water service connections, lead pipe replacement, floor drains, catch-basins, and basement flooding. Also includes water & sewer policy such as water restrictions, water quality reports, stormwater management, wastewater management."
+    }
+  }
+}
