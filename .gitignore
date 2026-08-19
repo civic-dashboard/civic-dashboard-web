@@ -55,3 +55,6 @@ data/
 public/sitemap*.xml
 public/html/*
 public/media/*
+
+# ML/Python
+.venv
