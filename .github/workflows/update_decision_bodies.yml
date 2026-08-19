@@ -1,8 +1,6 @@
 name: Update decision bodies
 
 on:
-  push:
-    branches: ['main']
   schedule:
     - cron: '0 3 * * 0'
   workflow_dispatch:
