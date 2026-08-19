@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { AgendaItemList } from '@/components/AgendaItemList';
+import { getCachedDecisionBodies } from '@/logic/decisionBodies';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -13,9 +14,13 @@ export default async function Home({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
+  const decisionBodies = await getCachedDecisionBodies();
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <AgendaItemList initialSearchParams={params} />
+      <AgendaItemList
+        initialSearchParams={params}
+        decisionBodies={decisionBodies}
+      />
     </div>
   );
 }
