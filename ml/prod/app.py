@@ -10,6 +10,8 @@ import json
 import os
 import re
 
+import torch
+
 app = modal.App("civic-dashboard-categorize-subject-terms")
 
 MODEL_ID = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"
@@ -29,26 +31,38 @@ image = (
 
 # ── Classifier ────────────────────────────────────────────────────────────────
 
+def estimate_batch_size() -> int:
+    free_bytes, _ = torch.cuda.mem_get_info()
+    free_gb = free_bytes / (1024 ** 3)
+    return min(max(int(free_gb * 1024 / 50), 8), 128)
+
+
 @app.cls(image=image, gpu="T4", scaledown_window=120)
 class Classifier:
+
     @modal.enter()
     def setup(self):
         from transformers import pipeline
+
+        batch_size = estimate_batch_size()
+        print(f"Using batch size {batch_size}")
+
         self.clf = pipeline(
             "zero-shot-classification",
             model=MODEL_ID,
             device="cuda",
+            batch_size=batch_size,
         )
 
     @modal.method()
     def predict(
         self,
         terms: list[str],
-        categories: dict,
+        categories: list[dict],
         post_processing_rules: list[dict],
     ) -> list[dict]:
-        categories_short = list(categories.keys())
-        categories_verbose = [c["description"] for c in categories.values()]
+        categories_short = [cat['name'] for cat in categories]
+        categories_verbose = [cat['name'] + ': ' + cat['description'] for cat in categories]
 
         # 1. Contextualize + infer
         contextualized = [f"Toronto City Council agenda topic: {t}" for t in terms]
@@ -99,13 +113,12 @@ def main(terms_file: str = "terms.txt", categories_file: str = "categories.json"
 
     # Load categories
     with open(categories_file, "r", encoding="utf-8") as f:
-        obj = json.load(f)
-    categories = obj["categories"]
+        categories = json.load(f)
+    print(f"Loaded {len(categories)} categories")
 
     # Load post-processing rules
     with open(post_rules_file, "r", encoding="utf-8") as f:
-        obj = json.load(f)
-    post_processing_rules = obj["rules"]
+        post_processing_rules = json.load(f)
     print(f"Loaded {len(post_processing_rules)} post-processing rules")
 
     # For small set of terms (<=200) run them sequentially in one container.
@@ -125,7 +138,7 @@ def main(terms_file: str = "terms.txt", categories_file: str = "categories.json"
             results.extend(chunk_results)
 
     # Write CSV
-    categories_short = list(categories.keys())
+    categories_short = [cat["name"] for cat in categories]
     fieldnames = ['subject_term'] + categories_short + ['max_val', 'max_cat']
     with open(output, 'w', newline='', encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
