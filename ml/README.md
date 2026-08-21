@@ -1,5 +1,8 @@
 # Machine Learning - Subject Term Categorization
 
+> [NOTE!]
+> We are currently in the process of updating this ML work. See issue [#484](https://github.com/civic-dashboard/civic-dashboard-web/issues/484) for updates. 
+
 This directory contains the tools and instructions for grouping and categorizing subject terms using machine learning models.
 
 ## Workflow
