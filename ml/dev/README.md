@@ -24,4 +24,4 @@ Rules are defined in `input/post-processing-rules.json`, and loaded into the not
 {"pattern": "...", "category": "..."}
 ```
 
-For each rule, the regex `pattern` is used to select subject terms, and then the `category` is applied to each of them.
+For each rule, the regex `pattern` is used to select subject terms, and coalesce them into the `category`. 
