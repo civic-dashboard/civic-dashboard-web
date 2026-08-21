@@ -5,7 +5,22 @@
 
 This directory contains the tools and instructions for grouping and categorizing subject terms using machine learning models.
 
-## Workflow
+## Contents
+
+- `dev/` - development artifacts (jupyter notebook)
+- `prod/` - productions artifacts (Modal app)
+- `samples/` - randomly selected subsets of subject terms, for testing
+- `scripts/` - utility scripts
+
+## Comparing Development and Production Outputs
+
+1. Run both the dev notebook and the production app to generate respective outputs
+2. `python scripts/compare_outputs.py dev/output/all_terms.csv prod/results.csv dev/input/categories.json`
+
+> [NOTE!]
+> Since the notebook and Modal app run on different hardware some variance in the results is expected. `compare_outputs.py` defaults to a tolerance of 0.01.
+
+## Workflow [DEPRECATED]
 
 1.  **Export Subject Terms:** Retrieve all subject terms from the database by running:
     ```sh

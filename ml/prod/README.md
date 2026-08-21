@@ -1,6 +1,6 @@
 # Production Deployment
 
-This directory contains a productionized deployment of the zero-shot classification used to categorize agenda item _subject terms_.
+This directory contains a productionized deployment of the zero-shot classification used to categorize agenda item subject terms.
 
 
 # Setup
@@ -15,19 +15,17 @@ This directory contains a productionized deployment of the zero-shot classificat
     - uv `uv pip install modal`
     - venv - `pip install modal`
 
-# Inputs
+# Running
 
 The Modal app requires 3 inputs:
 - Subject terms - these are the subject terms we want to classify
 - Categories - a JSON object of all possible categories and their descriptions
 - Post-processing rules - a JSON object of all the post-processing rules
-
-An example for each of these can be found in `samples/`.
-
-# Running
-
 ```shell
-modal run app.py --terms-file samples/terms.txt --categories-file inputs/categories.json --post-rules-file inputs/post-processing-rules.json
+modal run app.py \
+  --terms-file ../samples/subject_terms_sample_500.txt\
+  --categories-file inputs/categories.json \
+  --post-rules-file inputs/post-processing-rules.json
 ```
 
 The output will be written to `results.csv`.
