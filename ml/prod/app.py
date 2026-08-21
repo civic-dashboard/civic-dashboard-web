@@ -25,7 +25,10 @@ def download_model():
 
 image = (
     modal.Image.debian_slim(python_version="3.12")
-    .pip_install("transformers[torch]==4.44.0", "torch==2.5.1")
+    .pip_install( # These should match what the notebook is using
+        "transformers==5.15.1",
+        "torch==2.13.0"
+    )
     .run_function(download_model)
 )
 
@@ -37,7 +40,7 @@ def estimate_batch_size() -> int:
     return min(max(int(free_gb * 1024 / 50), 8), 128)
 
 
-@app.cls(image=image, gpu="T4", scaledown_window=120)
+@app.cls(image=image, gpu="T4", scaledown_window=120, timeout=10800)
 class Classifier:
 
     @modal.enter()
@@ -45,7 +48,7 @@ class Classifier:
         from transformers import pipeline
 
         batch_size = estimate_batch_size()
-        print(f"Using batch size {batch_size}")
+        print(f"Using model batch size {batch_size}")
 
         self.clf = pipeline(
             "zero-shot-classification",
@@ -55,12 +58,12 @@ class Classifier:
         )
 
     @modal.method()
-    def predict(
+    def classify(
         self,
         terms: list[str],
         categories: list[dict],
-        post_processing_rules: list[dict],
     ) -> list[dict]:
+        print(f"Running classification for {len(terms)} terms")
         categories_short = [cat['name'] for cat in categories]
         categories_verbose = [cat['name'] + ': ' + cat['description'] for cat in categories]
 
@@ -84,20 +87,30 @@ class Classifier:
             row['max_cat'] = max(categories_short, key=lambda c: row[c])
             rows.append(row)
 
-        # 3. Post-processing rules (first match wins, skip already-overridden)
-        for rule in post_processing_rules:
-            target_cat = rule["category"]
-            for row in rows:
-                if row['max_val'] < 1.0 and row['max_cat'] != target_cat:
-                    if re.search(rule["pattern"], row['subject_term'], re.IGNORECASE):
-                        row['max_cat'] = target_cat
-                        row['max_val'] = 1.0
         return rows
 
 # ── Local entrypoint ──────────────────────────────────────────────────────────
 
+def run_post_processing(rules:list[dict], results: list[dict]):
+    print("Running post-processing rules")
+    for i, rule in enumerate(rules, 1):
+        target_cat = rule["category"]
+        pattern = rule["pattern"]
+        count = 0
+        for row in results:
+            if (re.search(pattern, row['subject_term'], re.IGNORECASE)
+                    and row['max_val'] < 1.0
+                    and row['max_cat'] != target_cat):
+                row['max_cat'] = target_cat
+                row['max_val'] = 1.0
+                count += 1
+
+        print(f"Rule {i}:\n\tCategory: {target_cat}\n\tPattern: {pattern}\n\tTerms corrected: {count}")
+
+    return results
+
 @app.local_entrypoint()
-def main(terms_file: str = "terms.txt", categories_file: str = "categories.json", post_rules_file: str = "post-rules.json", output: str = "results.csv"):
+def main(terms_file: str, categories_file: str = "inputs/categories.json", post_rules_file: str = "inputs/post-processing-rules.json", output: str = "results.csv"):
     # Check input files exist
     if not os.path.exists(terms_file):
         raise FileNotFoundError(f"Terms file not found: {terms_file}")
@@ -121,21 +134,22 @@ def main(terms_file: str = "terms.txt", categories_file: str = "categories.json"
         post_processing_rules = json.load(f)
     print(f"Loaded {len(post_processing_rules)} post-processing rules")
 
-    # For small set of terms (<=200) run them sequentially in one container.
-    # For larger sets of terms (>200) run them in subsets of `chunk_size` in parallel containers
-    if len(terms) <= 200:
-        results = Classifier().predict.remote(
-            terms, categories=categories, post_processing_rules=post_processing_rules
-        )
+    # For small set of terms (<= chunk_size) run them sequentially in one container.
+    # For larger sets of terms (> chunk_size) run them in subsets of `chunk_size` in parallel containers
+    chunk_size = 200
+    if len(terms) <= chunk_size:
+        results = Classifier().classify.remote(terms, categories)
     else:
-        chunk_size = 500
         chunks = [terms[i:i+chunk_size] for i in range(0, len(terms), chunk_size)]
         results = []
-        for chunk_results in Classifier().predict.map(
+        for chunk_results in Classifier().classify.map(
             chunks,
-            kwargs={"categories": categories, "post_processing_rules": post_processing_rules},
+            kwargs={"categories": categories},
         ):
             results.extend(chunk_results)
+
+    # Run post-processing
+    results = run_post_processing(post_processing_rules, results)
 
     # Write CSV
     categories_short = [cat["name"] for cat in categories]
