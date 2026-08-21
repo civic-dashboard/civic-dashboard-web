@@ -27,7 +27,7 @@ An example for each of these can be found in `samples/`.
 # Running
 
 ```shell
-modal run app.py --terms-file samples/terms.txt --categories-file samples/categories.json --post-rules-file samples/post-processing.json
+modal run app.py --terms-file samples/terms.txt --categories-file inputs/categories.json --post-rules-file inputs/post-processing-rules.json
 ```
 
 The output will be written to `results.csv`.
