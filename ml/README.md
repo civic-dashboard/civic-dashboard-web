@@ -12,13 +12,17 @@ This directory contains the tools and instructions for grouping and categorizing
 - `samples/` - randomly selected subsets of subject terms, for testing
 - `scripts/` - utility scripts
 
-## Comparing Development and Production Outputs
+## Comparing Outputs
+
+`scripts/compare_outputs.py` can be used to compare the .csv outputs of either the jupyter notebook or Modal app.
+
+- Some variance is expected for outputs from different hardware. 
 
 1. Run both the dev notebook and the production app to generate respective outputs
 2. `python scripts/compare_outputs.py dev/output/all_terms.csv prod/results.csv dev/input/categories.json`
 
-> [NOTE!]
-> Since the notebook and Modal app run on different hardware some variance in the results is expected. `compare_outputs.py` defaults to a tolerance of 0.01.
+> [!NOTE]
+> Since the notebook and Modal app run on different hardware some minor variance in the scores is expected, but should not affect the final category. The script defaults to a tolerance of 0.01, but can adjusted with `--tol`.
 
 ## Workflow [DEPRECATED]
 
