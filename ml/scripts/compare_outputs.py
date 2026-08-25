@@ -1,5 +1,5 @@
 """
-Compare inference outputs from a Jupyter notebook CSV and a Modal app CSV.
+Compare inference outputs from a Jupyter notebook CSV or a Modal app CSV.
 Validates that for every subject_term present in both files:
   1. Each category probability is within an absolute tolerance.
   2. max_val is within an absolute tolerance.
