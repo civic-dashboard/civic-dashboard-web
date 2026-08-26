@@ -34,47 +34,71 @@ type CsvRow = {
   max_cat: string;
 };
 
+type SkippedEntry = {
+  term: string;
+  category: string;
+  slug: string;
+};
+
+type BuildCategoryMappingResult = {
+  entries: CategoryMappingEntry[];
+  skippedInvalid: SkippedEntry[];
+  duplicates: SkippedEntry[];
+};
+
 /**
  * Parse the categorization CSV into category mapping entries.
  *
  * Validates each record's category against the canonical set,
- * explodes/normalizes subject terms, deduplicates, and returns sorted entries.
+ * explodes/normalizes subject terms, deduplicates, and returns sorted entries
+ * along with any skipped records.
+ *
+ * Deduplication is on (category, tagSlug) to match the DB unique index
+ * idx_category_tag. Two terms can normalize differently but slugify
+ * to the same value (e.g. "metis" and "métis" → "metis"), so
+ * deduping on normalized text alone is insufficient. In future, we should
+ * attempt to deduplicate prior to classification.
  */
 export function buildCategoryMapping(
   records: CsvRow[],
   validCategories: Set<string>,
-  onInvalidCategory?: (term: string, category: string) => void,
-): CategoryMappingEntry[] {
-  const result: CategoryMappingEntry[] = [];
-  const seenNormalized = new Set<string>();
+): BuildCategoryMappingResult {
+  const entries: CategoryMappingEntry[] = [];
+  const skippedInvalid: SkippedEntry[] = [];
+  const duplicates: SkippedEntry[] = [];
+  const seenCategorySlug = new Set<string>();
 
   for (const { subject_term: rawTerm, max_cat: category } of records) {
     if (!rawTerm) continue;
 
     if (!validCategories.has(category)) {
-      onInvalidCategory?.(rawTerm, category);
+      skippedInvalid.push({ term: rawTerm, category, slug: '' });
       continue;
     }
 
     const processedTerms = processSubjectTerms(rawTerm);
 
     for (const term of processedTerms) {
-      const normalizedKey = term.normalized.toLowerCase();
+      const slug = toSlug(term.normalized);
+      const dedupKey = `${category}\0${slug}`;
 
-      if (seenNormalized.has(normalizedKey)) continue;
-      seenNormalized.add(normalizedKey);
+      if (seenCategorySlug.has(dedupKey)) {
+        duplicates.push({ term: term.raw, category, slug });
+        continue;
+      }
+      seenCategorySlug.add(dedupKey);
 
-      result.push({
+      entries.push({
         tagRaw: term.raw,
         category: category,
         tagNormalized: term.normalized,
-        tagSlug: toSlug(term.normalized),
+        tagSlug: slug,
       });
     }
   }
 
-  result.sort((a, b) => a.tagRaw.localeCompare(b.tagRaw));
-  return result;
+  entries.sort((a, b) => a.tagRaw.localeCompare(b.tagRaw));
+  return { entries, skippedInvalid, duplicates };
 }
 
 /**
@@ -111,17 +135,24 @@ async function generateCategoryMappingFile(
   }
 
   // Core transformation
-  let skippedInvalid = 0;
-  const result = buildCategoryMapping(records, validCategories, () => {
-    skippedInvalid++;
-  });
+  const { entries, skippedInvalid, duplicates } = buildCategoryMapping(
+    records,
+    validCategories,
+  );
 
   // Write output
-  fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+  fs.writeFileSync(outputPath, JSON.stringify(entries, null, 2));
   console.log(`Successfully generated ${outputPath}`);
-  console.log(`Generated ${result.length} category mapping entries.`);
-  if (skippedInvalid > 0) {
-    console.warn(`Skipped ${skippedInvalid} term(s) with invalid categories.`);
+  console.log(`Generated ${entries.length} category mapping entries.`);
+  if (skippedInvalid.length > 0) {
+    console.warn(
+      `Skipped ${skippedInvalid.length} term(s) with invalid categories.`,
+    );
+  }
+  if (duplicates.length > 0) {
+    console.warn(
+      `Skipped ${duplicates.length} duplicate(s) on (category, tagSlug).`,
+    );
   }
 }
 

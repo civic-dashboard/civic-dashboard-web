@@ -4,17 +4,17 @@
 import { createDB } from '@/database/kyselyDb';
 import { normalizeSubjectTerms } from '@/database/queries/agendaItems';
 import fs from 'fs';
+import { argv } from 'process';
 
-async function main() {
+async function fetchAllSubjectTerms(): Promise<Set<string>> {
   const db = createDB();
   const batchSize = 2500;
   let offset = 0;
-  let hasMore = true;
   const uniqueTerms = new Set<string>();
 
   console.log('Fetching and normalizing subject terms from database...');
 
-  while (hasMore) {
+  while (true) {
     const agendaItemRecords = await db
       .selectFrom('RawAgendaItemConsiderations')
       .select(['agendaItemId', 'subjectTerms'])
@@ -23,11 +23,11 @@ async function main() {
       .orderBy('agendaItemId')
       .execute();
 
-    hasMore = agendaItemRecords.length > 0;
-    if (!hasMore) break;
+    if (agendaItemRecords.length === 0) break;
 
     const normalizedResults = normalizeSubjectTerms(agendaItemRecords);
 
+    // Discard any previously seen terms based on raw form
     for (const term of normalizedResults) {
       uniqueTerms.add(term.subjectTermRaw);
     }
@@ -36,15 +36,30 @@ async function main() {
     console.log(`Processed ${offset} rows...`);
   }
 
-  const sortedTerms = Array.from(uniqueTerms).sort();
-  fs.writeFileSync('ml/input/subject_terms.txt', sortedTerms.join('\n'));
-
-  console.log(
-    `Successfully exported ${sortedTerms.length} unique raw terms to ml/input/subject_terms.txt`,
-  );
   await db
     .destroy()
     .catch((err) => console.error('Failed to destroy DB connection:', err));
+
+  return uniqueTerms;
+}
+
+async function main() {
+  const [outputPath] = argv.slice(2);
+
+  if (!outputPath) {
+    console.error(
+      'Usage: npm run tsx src/scripts/exportAllSubjectTerms.ts <output.txt>',
+    );
+  }
+
+  const allTerms = await fetchAllSubjectTerms();
+
+  const sortedTerms = Array.from(allTerms).sort();
+  fs.writeFileSync(outputPath, sortedTerms.join('\n'));
+
+  console.log(
+    `Successfully exported ${sortedTerms.length} unique subject terms to ${outputPath}`,
+  );
 }
 
 main().catch((err) => {
