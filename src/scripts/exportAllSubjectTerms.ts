@@ -1,16 +1,31 @@
-//can be executed by calling: npm run tsxe src/scripts/tag-exportSubjectTerms.ts
-//This gets all the subject terms from TMMIS saved in our database and
-//creates a .txt file that we can then use to put into the notebook to assign to categories
+// Dumps all subject terms from every agenda item in the database into a txt file.
+// Optionally, `--new` can be supplied to fetch only unclassified terms.
+//
+// Usage:
+//  npm run tsxe src/scripts/exportAllSubjectTerms.ts <output.txt>
+//  npm run tsxe src/scripts/exportAllSubjectTerms.ts --new <output.txt>
 import { createDB } from '@/database/kyselyDb';
 import { normalizeSubjectTerms } from '@/database/queries/agendaItems';
 import fs from 'fs';
 import { argv } from 'process';
 
-async function fetchAllSubjectTerms(): Promise<Set<string>> {
+async function fetchAllSubjectTerms(onlyNew: boolean): Promise<Set<string>> {
   const db = createDB();
   const batchSize = 2500;
   let offset = 0;
   const uniqueTerms = new Set<string>();
+
+  // If onlyNew, fetch slugs already in TagCategories so we can skip them
+  let existingSlugs: Set<string> | null = null;
+  if (onlyNew) {
+    console.log('Fetching existing category mappings from TagCategories...');
+    const existing = await db
+      .selectFrom('TagCategories')
+      .select('tagSlug')
+      .execute();
+    existingSlugs = new Set(existing.map((r) => r.tagSlug));
+    console.log(`Found ${existingSlugs.size} already-processed term slugs`);
+  }
 
   console.log('Fetching and normalizing subject terms from database...');
 
@@ -27,9 +42,9 @@ async function fetchAllSubjectTerms(): Promise<Set<string>> {
 
     const normalizedResults = normalizeSubjectTerms(agendaItemRecords);
 
-    // Discard any previously seen terms based on raw form
     for (const term of normalizedResults) {
-      uniqueTerms.add(term.subjectTermRaw);
+      if (existingSlugs?.has(term.subjectTermSlug)) continue;
+      uniqueTerms.add(term.subjectTermRaw); // Ensures we only capture each subject term once
     }
 
     offset += batchSize;
@@ -44,15 +59,18 @@ async function fetchAllSubjectTerms(): Promise<Set<string>> {
 }
 
 async function main() {
-  const [outputPath] = argv.slice(2);
+  const args = argv.slice(2);
+  const outputPath = args.find((a) => !a.startsWith('--'));
+  const onlyNew = args.includes('--new');
 
   if (!outputPath) {
     console.error(
-      'Usage: npm run tsx src/scripts/exportAllSubjectTerms.ts <output.txt>',
+      'Usage: npm run tsxe src/scripts/exportAllSubjectTerms.ts [--new] <output.txt>',
     );
+    process.exit(1);
   }
 
-  const allTerms = await fetchAllSubjectTerms();
+  const allTerms = await fetchAllSubjectTerms(onlyNew);
 
   const sortedTerms = Array.from(allTerms).sort();
   fs.writeFileSync(outputPath, sortedTerms.join('\n'));
