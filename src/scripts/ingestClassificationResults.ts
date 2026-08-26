@@ -103,8 +103,8 @@ export async function ingestClassificationResults(
 
   console.log('');
   console.log('── Ingestion Summary ──');
-  console.log(`  Term→category mappings inserted: ${mappingEntries.length}`);
-  console.log(`  Agenda items updated:            ${agendaItemIds.length}`);
+  console.log(`  Subject terms updated:   ${mappingEntries.length}`);
+  console.log(`  Agenda items updated:    ${agendaItemIds.length}`);
 
   return { insertedCount: mappingEntries.length, agendaItemIds };
 }
