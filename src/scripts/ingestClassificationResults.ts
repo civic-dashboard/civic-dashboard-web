@@ -1,43 +1,22 @@
 // Ingests ML classification results into the database.
 //
-// Invoked by a GHA workflow after the Modal classification app produces
-// classified_terms.csv. Reads two file inputs:
-//   - new_terms.json        - terms from detectNewSubjectTerms.ts (#486)
-//   - classified_terms.csv  - Modal app output with subject_term + max_cat
+// Invoked by a GHA workflow to insert the output from generateCategoryMapping.ts
+// into the database.
 //
 // Usage:
-//   npm run tsxe src/scripts/ingestClassificationResults.ts \
-//     ml/output/new_terms.json \
-//     ml/output/classified_terms.csv
+//   npm run tsxe src/scripts/ingestClassificationResults.ts <subject_term_category_mapping.json>
 
 import { readFile } from 'fs/promises';
-import { parse } from 'csv-parse';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { createDB } from '@/database/kyselyDb';
 import { updateAgendaItemCategories } from '@/database/queries/agendaItems';
-import { processSubjectTerms } from '@/database/pipelines/textParseUtils';
-import { toSlug } from '@/logic/toSlug';
 
-type NewTermsFile = {
-  reclassify: string;
-  terms: {
-    subjectTermRaw: string;
-    subjectTermNormalized: string;
-    subjectTermSlug: string;
-  }[];
-};
-
-type ClassifiedRow = {
-  subject_term: string;
-  max_cat: string;
-};
-
-type TagCategoryEntry = {
+type CategoryMappingEntry = {
   tagRaw: string;
+  category: string;
   tagNormalized: string;
   tagSlug: string;
-  category: string;
 };
 
 type IngestionResult = {
@@ -45,66 +24,16 @@ type IngestionResult = {
   agendaItemIds: number[];
 };
 
-async function parseNewTermsJson(jsonPath: string): Promise<NewTermsFile> {
-  const data = JSON.parse(await readFile(jsonPath, 'utf8')) as NewTermsFile;
-  console.log(`Loaded ${data.terms.length} terms from ${jsonPath}`);
+async function parseCategoryMappingJson(
+  jsonPath: string,
+): Promise<CategoryMappingEntry[]> {
+  const data = JSON.parse(
+    await readFile(jsonPath, 'utf8'),
+  ) as CategoryMappingEntry[];
+  console.log(
+    `Loaded ${data.length} category mapping entries from ${jsonPath}`,
+  );
   return data;
-}
-
-async function parseClassifiedCsv(csvPath: string): Promise<ClassifiedRow[]> {
-  const rows: ClassifiedRow[] = [];
-  const parser = parse(await readFile(csvPath), { columns: true });
-  for await (const row of parser) {
-    if (!row.subject_term || !row.max_cat) continue;
-    rows.push({ subject_term: row.subject_term, max_cat: row.max_cat });
-  }
-  console.log(`Loaded ${rows.length} classified rows from ${csvPath}`);
-  return rows;
-}
-
-/**
- * Normalizes classified CSV rows into TagCategories entries, filtered to
- * only terms that were part of the classification batch (per new_terms.json).
- * Logs an error for any classified term not found in the batch.
- */
-function buildTagCategoryEntries(
-  newTerms: NewTermsFile,
-  classifiedRows: ClassifiedRow[],
-): TagCategoryEntry[] {
-  const termsBySlug = new Map<string, { raw: string; normalized: string }>();
-  for (const term of newTerms.terms) {
-    termsBySlug.set(term.subjectTermSlug, {
-      raw: term.subjectTermRaw,
-      normalized: term.subjectTermNormalized,
-    });
-  }
-
-  const entries: TagCategoryEntry[] = [];
-  const seenSlugs = new Set<string>();
-
-  for (const row of classifiedRows) {
-    const processed = processSubjectTerms(row.subject_term);
-    for (const term of processed) {
-      const slug = toSlug(term.normalized);
-      if (!termsBySlug.has(slug)) {
-        console.error(
-          `Term "${row.subject_term}" (slug: ${slug}) not found in classification batch - skipping`,
-        );
-        continue;
-      }
-      if (seenSlugs.has(slug)) continue;
-      seenSlugs.add(slug);
-
-      entries.push({
-        tagRaw: term.raw,
-        tagNormalized: term.normalized,
-        tagSlug: slug,
-        category: row.max_cat.trim(),
-      });
-    }
-  }
-
-  return entries;
 }
 
 /**
@@ -112,7 +41,7 @@ function buildTagCategoryEntries(
  */
 async function upsertTagCategories(
   db: Kysely<DB>,
-  entries: TagCategoryEntry[],
+  entries: CategoryMappingEntry[],
 ): Promise<void> {
   const slugs = entries.map((e) => e.tagSlug);
 
@@ -151,54 +80,50 @@ async function refreshAgendaItemCategories(
 }
 
 /**
- * Core ingestion logic. Replaces TagCategories entries for the batch,
+ * Core ingestion logic. Upserts category mapping entries into TagCategories,
  * and refreshes AgendaItemCategories for affected agenda items.
  */
 export async function ingestClassificationResults(
   db: Kysely<DB>,
-  newTerms: NewTermsFile,
-  classifiedRows: ClassifiedRow[],
+  mappingEntries: CategoryMappingEntry[],
 ): Promise<IngestionResult> {
-  const entries = buildTagCategoryEntries(newTerms, classifiedRows);
-
-  console.log(
-    `Prepared ${entries.length} term→category mappings for insertion`,
-  );
-
-  if (entries.length === 0) {
+  if (mappingEntries.length === 0) {
     console.log('No entries to insert.');
     return { insertedCount: 0, agendaItemIds: [] };
   }
 
-  await upsertTagCategories(db, entries);
+  console.log(
+    `Prepared ${mappingEntries.length} term→category mappings for insertion`,
+  );
 
-  const slugs = entries.map((e) => e.tagSlug);
+  await upsertTagCategories(db, mappingEntries);
+
+  const slugs = mappingEntries.map((e) => e.tagSlug);
   const agendaItemIds = await refreshAgendaItemCategories(db, slugs);
 
   console.log('');
   console.log('── Ingestion Summary ──');
-  console.log(`  Term→category mappings inserted: ${entries.length}`);
+  console.log(`  Term→category mappings inserted: ${mappingEntries.length}`);
   console.log(`  Agenda items updated:            ${agendaItemIds.length}`);
 
-  return { insertedCount: entries.length, agendaItemIds };
+  return { insertedCount: mappingEntries.length, agendaItemIds };
 }
 
 async function main() {
-  const [newTermsPath, classifiedTermsPath] = process.argv.slice(2);
+  const [mappingPath] = process.argv.slice(2);
 
-  if (!newTermsPath || !classifiedTermsPath) {
+  if (!mappingPath) {
     console.error(
-      'Usage: npm run tsxe src/scripts/ingestClassificationResults.ts <new_terms.json> <classified_terms.csv>',
+      'Usage: npm run tsxe src/scripts/ingestClassificationResults.ts <subject_term_category_mapping.json>',
     );
     process.exit(1);
   }
 
-  const newTermsData = await parseNewTermsJson(newTermsPath);
-  const classifiedRows = await parseClassifiedCsv(classifiedTermsPath);
+  const mappingEntries = await parseCategoryMappingJson(mappingPath);
 
   const db = createDB();
   try {
-    await ingestClassificationResults(db, newTermsData, classifiedRows);
+    await ingestClassificationResults(db, mappingEntries);
   } finally {
     await db
       .destroy()
