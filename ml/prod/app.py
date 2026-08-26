@@ -1,21 +1,15 @@
-# app.py
-#
-# TODO:
-# - Revisit regex word boundaries, create issue to change notebook to use the json file as well
-# - Fix issues with categories descriptions - Climate, Pets, Parks & Green Spaces
-#
 import modal
 import csv
 import json
 import os
 import re
 
-import torch
-
 app = modal.App("civic-dashboard-categorize-subject-terms")
 
 MODEL_ID = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"
 HYPOTHESIS_TEMPLATE = "In Toronto municipal government, this topic relates to {}."
+LOW_SCORE_THRESHOLD = 0.005
+UNCATEGORIZED_SENTINEL = "Uncategorized"
 
 # ── Image ─────────────────────────────────────────────────────────────────────
 
@@ -30,17 +24,19 @@ image = (
         "torch==2.13.0"
     )
     .run_function(download_model)
+    .env({"HF_HUB_OFFLINE": "1"})
 )
 
 # ── Classifier ────────────────────────────────────────────────────────────────
 
 def estimate_batch_size() -> int:
+    import torch
     free_bytes, _ = torch.cuda.mem_get_info()
     free_gb = free_bytes / (1024 ** 3)
     return min(max(int(free_gb * 1024 / 50), 8), 128)
 
 
-@app.cls(image=image, gpu="T4", scaledown_window=120, timeout=10800)
+@app.cls(image=image, gpu="T4", scaledown_window=120, timeout=300)
 class Classifier:
 
     @modal.enter()
@@ -55,6 +51,7 @@ class Classifier:
             model=MODEL_ID,
             device="cuda",
             batch_size=batch_size,
+            local_files_only=True,
         )
 
     @modal.method()
@@ -107,15 +104,29 @@ def run_post_processing(rules:list[dict], results: list[dict]):
 
         print(f"Rule {i}:\n\tCategory: {target_cat}\n\tPattern: {pattern}\n\tTerms corrected: {count}")
 
+    # Mark any terms below the threshold as uncategorizable
+    uncategorized_count = 0
+    for row in results:
+        if row['max_val'] < LOW_SCORE_THRESHOLD:
+            row['max_cat'] = UNCATEGORIZED_SENTINEL
+            uncategorized_count += 1
+    print(f"Marked {uncategorized_count} terms as {UNCATEGORIZED_SENTINEL} (max_val < {LOW_SCORE_THRESHOLD})")
     return results
 
 @app.local_entrypoint()
 def main(terms_file: str, categories_file: str = "inputs/categories.json", post_rules_file: str = "inputs/post-processing-rules.json", output: str = "results.csv"):
-    # Check input files exist
+    if not terms_file.endswith('.txt'):
+        raise ValueError(f"Terms file must be a .txt file, got: {terms_file}")
     if not os.path.exists(terms_file):
         raise FileNotFoundError(f"Terms file not found: {terms_file}")
+
+    if not categories_file.endswith('.json'):
+        raise ValueError(f"Categories file must be a .json file, got: {categories_file}")
     if not os.path.exists(categories_file):
         raise FileNotFoundError(f"Categories file not found: {categories_file}")
+
+    if not post_rules_file.endswith('.json'):
+        raise ValueError(f"Post-processing rules file must be a .json file, got: {post_rules_file}")
     if not os.path.exists(post_rules_file):
         raise FileNotFoundError(f"Post-processing rules file not found: {post_rules_file}")
 
