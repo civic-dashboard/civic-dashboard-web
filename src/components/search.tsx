@@ -200,7 +200,7 @@ export function Tags() {
 }
 
 export function SearchBar() {
-  const { setSearchOptions } = useSearch();
+  const { searchOptions, setSearchOptions } = useSearch();
 
   return (
     <div className="flex justify-center">
@@ -208,6 +208,7 @@ export function SearchBar() {
         <div className="flex space-x-2 items-center flex-1 p-1 px-3 rounded-[28px] bg-neutral-100 dark:bg-neutral-800">
           <Input
             className="border-none py-1 px-2 bg-transparent dark:bg-transparent"
+            value={searchOptions.textQuery}
             onChange={(ev) =>
               setSearchOptions((opts) => ({
                 ...opts,

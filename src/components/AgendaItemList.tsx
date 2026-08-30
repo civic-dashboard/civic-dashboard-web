@@ -114,31 +114,41 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
 
   useEffect(() => {
     // Read initial query params from server-side rendered URL.
-    //
-    // TODO: We're only reading/setting tags in the url right now,
-    // but in the future, we can support other search/filter options.
+
     const tags =
       typeof initialSearchParams.tag === 'string'
         ? [initialSearchParams.tag]
         : initialSearchParams.tag || [];
     const validTags = tags.filter(isTag);
 
-    setSearchOptions((opts) => ({ ...opts, tags: validTags }));
+    const decisionBodyIds =
+      typeof initialSearchParams.decisionBodyId === 'string'
+        ? [initialSearchParams.decisionBodyId]
+        : initialSearchParams.decisionBodyId || [];
+    const validDecisionBodyIds = decisionBodyIds.map(Number).filter(id => !isNaN(id) && Object.hasOwn(decisionBodies, id));
+
+    const topic =
+      typeof initialSearchParams.topic === 'string'
+      ? initialSearchParams.topic
+      : '';
+
+    setSearchOptions((opts) => ({ ...opts, tags: validTags, decisionBodyIds: validDecisionBodyIds, textQuery: topic}));
     // This only runs once; passing empty deps array on purpose.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     // Whenever search options change, update url to reflect these changes.
-    //
-    // TODO: We're only reading/setting tags in the url right now,
-    // but in the future, we can support other search/filter options.
+
     const tags = searchOptions.tags;
+    const decisionBodies = searchOptions.decisionBodyIds;
+    const textSearch = searchOptions.textQuery;
 
     const params = new URLSearchParams();
-    for (const i in tags) {
-      params.append('tag', tags[i]);
-    }
+    tags.forEach(tag => params.append('tag', tag));
+    decisionBodies.forEach(decisionBodyId => params.append('decisionBodyId', `${decisionBodyId}`));
+    const trimmed = textSearch?.trim();
+    if (trimmed) params.set('topic', trimmed);
 
     const queryString = params.toString();
     const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
