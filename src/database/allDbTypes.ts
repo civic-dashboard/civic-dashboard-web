@@ -1,6 +1,7 @@
 // This is the one place allowed to import from generated types as here is were we re-export them
 // eslint-disable-next-line no-restricted-imports
 import * as generated from '@/database/generatedDbTypes';
+import { Insertable } from 'kysely';
 
 // Note that some values from this export will be overridden by exports later in this file.
 // eslint-disable-next-line no-restricted-imports
@@ -19,8 +20,8 @@ export * from '@/database/generatedDbTypes';
 type AssertExactKeys<T, U> = [keyof T] extends [keyof U]
   ? [keyof U] extends [keyof T]
     ? true
-    : never
-  : never;
+    : `Extra keys in override not in generated: ${Exclude<keyof U, keyof T> & string}`
+  : `Missing keys from generated not in override: ${Exclude<keyof T, keyof U> & string}`;
 
 // ── Insertable types ──────────────────────────────────────────────────
 
@@ -47,27 +48,32 @@ export type InsertRawVote = Insertable<generated.RawVotes>;
  * See https://github.com/RobinBlomberg/kysely-codegen/issues/261
  */
 
+export interface AgendaItems
+  extends Omit<generated.AgendaItems, 'agendaItemNumber' | 'agendaItemTitle'> {
+  agendaItemNumber: string;
+  agendaItemTitle: string;
+}
+const _assertAgendaItemsKeys: AssertExactKeys<
+  generated.AgendaItems,
+  AgendaItems
+> = true;
+
+export interface Committees {
+  committeeName: string;
+  committeeSlug: string;
+}
+declare const _assertCommitteesKeys: AssertExactKeys<
+  generated.Committees,
+  Committees
+>;
+
 export interface Contacts
   extends Omit<generated.Contacts, 'contactName' | 'contactSlug' | 'email'> {
   contactName: string;
   contactSlug: string;
   email: string;
 }
-declare const _assertContactsKeys: AssertExactKeys<
-  generated.Contacts,
-  Contacts
->;
-
-export interface Councillors
-  extends Omit<generated.Councillors, 'contactSlug' | 'wardSlug' | 'term'> {
-  contactSlug: string;
-  wardSlug: string;
-  term: string;
-}
-declare const _assertCouncillorsKeys: AssertExactKeys<
-  generated.Councillors,
-  Councillors
->;
+const _assertContactsKeys: AssertExactKeys<generated.Contacts, Contacts> = true;
 
 export interface CouncilMembers
   extends Omit<generated.CouncilMembers, 'contactSlug' | 'role' | 'term'> {
@@ -75,26 +81,27 @@ export interface CouncilMembers
   role: string;
   term: string;
 }
-declare const _assertCouncilMembersKeys: AssertExactKeys<
+const _assertCouncilMembersKeys: AssertExactKeys<
   generated.CouncilMembers,
   CouncilMembers
->;
+> = true;
+
+export interface Councillors
+  extends Omit<generated.Councillors, 'contactSlug' | 'wardSlug' | 'term'> {
+  contactSlug: string;
+  wardSlug: string;
+  term: string;
+}
+const _assertCouncillorsKeys: AssertExactKeys<
+  generated.Councillors,
+  Councillors
+> = true;
 
 export interface Mayors extends Omit<generated.Mayors, 'contactSlug' | 'term'> {
   contactSlug: string;
   term: string;
 }
-declare const _assertMayorsKeys: AssertExactKeys<generated.Mayors, Mayors>;
-
-export interface AgendaItems
-  extends Omit<generated.AgendaItems, 'agendaItemNumber' | 'agendaItemTitle'> {
-  agendaItemNumber: string;
-  agendaItemTitle: string;
-}
-declare const _assertAgendaItemsKeys: AssertExactKeys<
-  generated.AgendaItems,
-  AgendaItems
->;
+const _assertMayorsKeys: AssertExactKeys<generated.Mayors, Mayors> = true;
 
 export interface Motions {
   agendaItemNumber: string;
@@ -108,7 +115,20 @@ export interface Motions {
   voteDescription: string;
   yesVotes: number;
 }
-declare const _assertMotionsKeys: AssertExactKeys<generated.Motions, Motions>;
+const _assertMotionsKeys: AssertExactKeys<generated.Motions, Motions> = true;
+
+export interface Movers {
+  agendaItemNumber: string;
+  movedBy: string;
+}
+const _assertMoversKeys: AssertExactKeys<generated.Movers, Movers> = true;
+
+export interface Seconders {
+  agendaItemNumber: string;
+  unnest: string;
+}
+const _assertSecondersKeys: AssertExactKeys<generated.Seconders, Seconders> =
+  true;
 
 export interface Votes {
   agendaItemNumber: string;
@@ -116,16 +136,7 @@ export interface Votes {
   motionId: string;
   value: string;
 }
-declare const _assertVotesKeys: AssertExactKeys<generated.Votes, Votes>;
-
-export interface Committees {
-  committeeName: string;
-  committeeSlug: string;
-}
-declare const _assertCommitteesKeys: AssertExactKeys<
-  generated.Committees,
-  Committees
->;
+const _assertVotesKeys: AssertExactKeys<generated.Votes, Votes> = true;
 
 export interface Wards
   extends Omit<generated.Wards, 'wardId' | 'wardSlug' | 'wardName'> {
@@ -133,22 +144,7 @@ export interface Wards
   wardSlug: string;
   wardName: string;
 }
-declare const _assertWardsKeys: AssertExactKeys<generated.Wards, Wards>;
-
-export interface Movers {
-  agendaItemNumber: string;
-  movedBy: string;
-}
-declare const _assertMoversKeys: AssertExactKeys<generated.Movers, Movers>;
-
-export interface Seconders {
-  agendaItemNumber: string;
-  unnest: string;
-}
-declare const _assertSecondersKeys: AssertExactKeys<
-  generated.Seconders,
-  Seconders
->;
+const _assertWardsKeys: AssertExactKeys<generated.Wards, Wards> = true;
 
 // ── Corrected DB type ────────────────────────────────────────────────
 
