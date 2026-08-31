@@ -205,7 +205,7 @@ export function SearchBar() {
   return (
     <div className="flex justify-center">
       <div className="flex flex-col w-full max-w-[500px] items-stretch">
-        <div className="flex space-x-2 items-center flex-1 p-1 px-3 rounded-[28px] bg-neutral-100 dark:bg-neutral-800">
+        <div className="flex gap-x-2 items-center flex-1 p-1 px-3 rounded-[28px] bg-neutral-100 dark:bg-neutral-800">
           <Input
             className="border-none py-1 px-2 bg-transparent dark:bg-transparent"
             onChange={(ev) =>

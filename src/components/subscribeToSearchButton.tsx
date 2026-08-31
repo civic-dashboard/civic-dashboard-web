@@ -114,7 +114,7 @@ export const SubscribeToSearchButton = () => {
         </Button>
       </DialogTrigger>
       <DialogContent className="flex h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] w-full flex-col gap-0 overflow-hidden p-0 md:max-w-4xl">
-        <DialogHeader className="shrink-0 space-y-3 border-b border-gray-light bg-gray-lightest px-6 py-5 pr-12 text-left dark:border-neutral-600 dark:bg-neutral-900">
+        <DialogHeader className="shrink-0 gap-y-3 border-b border-gray-light bg-gray-lightest px-6 py-5 pr-12 text-left dark:border-neutral-600 dark:bg-neutral-900">
           <DialogTitle className="font-heading text-2xl font-bold tracking-tight">
             {sendState === 'sent' ? "You're subscribed!" : 'Get Email Alerts'}
           </DialogTitle>
@@ -140,7 +140,7 @@ export const SubscribeToSearchButton = () => {
               bodies, or search text.
             </p>
           )}
-          <form onSubmit={onSubmit} className="flex flex-row space-x-2">
+          <form onSubmit={onSubmit} className="flex flex-row gap-x-2">
             <Input
               ref={emailInputRef}
               type="email"

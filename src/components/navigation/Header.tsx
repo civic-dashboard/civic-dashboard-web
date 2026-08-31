@@ -176,7 +176,7 @@ export default function Header() {
       {/* Mobile/Tablet Menu - moved outside header */}
       {isMenuOpen && (
         <div className="fixed inset-x-0 bottom-0 top-16 z-20 flex flex-col bg-white dark:bg-black lg:hidden">
-          <div className="w-full min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-4 mt-16">
+          <div className="w-full min-h-0 flex-1 gap-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-4 mt-16">
             <Accordion
               type="single"
               collapsible
