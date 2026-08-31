@@ -19,7 +19,7 @@ const compat = new FlatCompat({
 
 export default defineConfig([
   includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
-  { ignores: ['db-data/**', '.open-next/**'] },
+  { ignores: ['ml/**', 'public/**'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...compat.extends('plugin:prettier/recommended'),
