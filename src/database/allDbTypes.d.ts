@@ -47,10 +47,8 @@ export type InsertRawVote = Insertable<generated.RawVotes>;
  * See https://github.com/RobinBlomberg/kysely-codegen/issues/261
  */
 
-export interface Contacts extends Omit<
-  generated.Contacts,
-  'contactName' | 'contactSlug' | 'email'
-> {
+export interface Contacts
+  extends Omit<generated.Contacts, 'contactName' | 'contactSlug' | 'email'> {
   contactName: string;
   contactSlug: string;
   email: string;
@@ -60,10 +58,8 @@ declare const _assertContactsKeys: AssertExactKeys<
   Contacts
 >;
 
-export interface Councillors extends Omit<
-  generated.Councillors,
-  'contactSlug' | 'wardSlug' | 'term'
-> {
+export interface Councillors
+  extends Omit<generated.Councillors, 'contactSlug' | 'wardSlug' | 'term'> {
   contactSlug: string;
   wardSlug: string;
   term: string;
@@ -73,10 +69,8 @@ declare const _assertCouncillorsKeys: AssertExactKeys<
   Councillors
 >;
 
-export interface CouncilMembers extends Omit<
-  generated.CouncilMembers,
-  'contactSlug' | 'role' | 'term'
-> {
+export interface CouncilMembers
+  extends Omit<generated.CouncilMembers, 'contactSlug' | 'role' | 'term'> {
   contactSlug: string;
   role: string;
   term: string;
@@ -92,10 +86,8 @@ export interface Mayors extends Omit<generated.Mayors, 'contactSlug' | 'term'> {
 }
 declare const _assertMayorsKeys: AssertExactKeys<generated.Mayors, Mayors>;
 
-export interface AgendaItems extends Omit<
-  generated.AgendaItems,
-  'agendaItemNumber' | 'agendaItemTitle'
-> {
+export interface AgendaItems
+  extends Omit<generated.AgendaItems, 'agendaItemNumber' | 'agendaItemTitle'> {
   agendaItemNumber: string;
   agendaItemTitle: string;
 }
@@ -135,10 +127,8 @@ declare const _assertCommitteesKeys: AssertExactKeys<
   Committees
 >;
 
-export interface Wards extends Omit<
-  generated.Wards,
-  'wardId' | 'wardSlug' | 'wardName'
-> {
+export interface Wards
+  extends Omit<generated.Wards, 'wardId' | 'wardSlug' | 'wardName'> {
   wardId: string;
   wardSlug: string;
   wardName: string;
