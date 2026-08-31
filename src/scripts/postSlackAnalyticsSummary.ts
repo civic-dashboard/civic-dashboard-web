@@ -1,36 +1,47 @@
-// Weekly analytics summary from Umami Cloud API to Slack.
+// Weekly analytics summary from Umami Cloud to Slack.
 //
-// Fetches summary stats (with week-over-week comparison), top pages, and top
-// referrers for the last 7 days, formats a Slack message, and posts it to a
-// Slack incoming webhook.
+// Uses Umami's public share URL feature to authenticate (no API key needed,
+// works on the free Hobby tier). Fetches summary stats (with week-over-week
+// comparison), top pages, and top referrers for the last 7 days, formats a
+// Slack message, and posts it to a Slack incoming webhook.
 //
 // Usage:
 //   npm run tsxe src/scripts/postSlackAnalyticsSummary.ts              # live run
 //   npm run tsxe src/scripts/postSlackAnalyticsSummary.ts -- --dry-run # print only, no Slack post
 //
 // Env vars:
-//   UMAMI_API_KEY     — Bearer token (Umami dashboard → Settings → API Keys)
 //   SLACK_WEBHOOK_URL — Slack incoming webhook URL (required unless --dry-run)
 
 import { parseArgs } from 'node:util';
 
 // --- Config ---
-const WEBSITE_ID = 'cc44ac27-34a8-4561-8a0f-c0b448b090cd';
-const UMAMI_API_BASE = 'https://cloud.umami.is/api';
+
+const UMAMI_SHARE_SLUG = '6R9CNotgCUNEmDL5'; // Slug from public URL
+const UMAMI_API_BASE = 'https://cloud.umami.is/analytics/eu/api';
 
 // --- Types ---
-type StatField = {
-  value: number;
-  change: number;
-  prev: number;
+
+type ShareTokenResponse = {
+  shareId: string;
+  shareType: number;
+  parameters: Record<string, unknown>;
+  websiteId: string;
+  token: string;
 };
 
 type StatsResponse = {
-  pageviews: StatField;
-  visitors: StatField;
-  visits: StatField;
-  bounces: StatField;
-  totaltime: StatField;
+  pageviews: number;
+  visitors: number;
+  visits: number;
+  bounces: number;
+  totaltime: number;
+  comparison: {
+    pageviews: number;
+    visitors: number;
+    visits: number;
+    bounces: number;
+    totaltime: number;
+  };
 };
 
 type MetricEntry = {
@@ -46,9 +57,9 @@ function formatNumber(n: number): string {
 }
 
 /** Formats a week-over-week delta as a signed percentage: 15 → "+15%", -12 → "-12%" */
-function formatPercent(change: number, prev: number): string {
+function formatPercent(current: number, prev: number): string {
   if (prev === 0) return '—';
-  const pct = Math.round((change / prev) * 100);
+  const pct = Math.round(((current - prev) / prev) * 100);
   const sign = pct >= 0 ? '+' : '';
   return `${sign}${pct}%`;
 }
@@ -74,18 +85,15 @@ function buildSlackMessage(
   weekStart: Date,
   now: Date,
 ): string {
+  const prev = stats.comparison;
   const bounceRate =
-    stats.visits.value > 0
-      ? (stats.bounces.value / stats.visits.value) * 100
-      : 0;
+    stats.visits > 0 ? (stats.bounces / stats.visits) * 100 : 0;
   const prevBounceRate =
-    stats.visits.prev > 0 ? (stats.bounces.prev / stats.visits.prev) * 100 : 0;
+    prev.visits > 0 ? (prev.bounces / prev.visits) * 100 : 0;
   const bounceRateChange = bounceRate - prevBounceRate;
 
-  const avgVisitTime =
-    stats.visits.value > 0 ? stats.totaltime.value / stats.visits.value : 0;
-  const prevAvgVisitTime =
-    stats.visits.prev > 0 ? stats.totaltime.prev / stats.visits.prev : 0;
+  const avgVisitTime = stats.visits > 0 ? stats.totaltime / stats.visits : 0;
+  const prevAvgVisitTime = prev.visits > 0 ? prev.totaltime / prev.visits : 0;
   const avgVisitTimeChange = avgVisitTime - prevAvgVisitTime;
 
   const lines: string[] = [];
@@ -94,13 +102,13 @@ function buildSlackMessage(
   );
   lines.push('');
   lines.push(
-    `Pageviews: ${formatNumber(stats.pageviews.value)} (${formatPercent(stats.pageviews.change, stats.pageviews.prev)} vs last week)`,
+    `Pageviews: ${formatNumber(stats.pageviews)} (${formatPercent(stats.pageviews, prev.pageviews)} vs last week)`,
   );
   lines.push(
-    `Unique visitors: ${formatNumber(stats.visitors.value)} (${formatPercent(stats.visitors.change, stats.visitors.prev)})`,
+    `Unique visitors: ${formatNumber(stats.visitors)} (${formatPercent(stats.visitors, prev.visitors)})`,
   );
   lines.push(
-    `Sessions: ${formatNumber(stats.visits.value)} (${formatPercent(stats.visits.change, stats.visits.prev)})`,
+    `Sessions: ${formatNumber(stats.visits)} (${formatPercent(stats.visits, prev.visits)})`,
   );
   lines.push(
     `Bounce rate: ${bounceRate.toFixed(1)}% (${bounceRateChange >= 0 ? '+' : ''}${bounceRateChange.toFixed(1)}%)`,
@@ -131,16 +139,34 @@ function buildSlackMessage(
 
 // --- I/O functions ---
 
+/** Fetches a share token from the public share URL slug */
+async function fetchShareToken(
+  apiBase: string,
+  shareSlug: string,
+): Promise<ShareTokenResponse> {
+  const url = `${apiBase}/share/${shareSlug}`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(
+      `Share token request failed: ${res.status} ${res.statusText}`,
+    );
+  }
+  return (await res.json()) as ShareTokenResponse;
+}
+
 async function fetchStats(
   apiBase: string,
   websiteId: string,
-  apiKey: string,
+  shareToken: string,
   startAt: number,
   endAt: number,
 ): Promise<StatsResponse> {
   const url = `${apiBase}/websites/${websiteId}/stats?startAt=${startAt}&endAt=${endAt}`;
   const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${apiKey}` },
+    headers: {
+      'x-umami-share-token': shareToken,
+      'x-umami-share-context': '1',
+    },
   });
   if (!res.ok) {
     throw new Error(`Stats request failed: ${res.status} ${res.statusText}`);
@@ -151,15 +177,18 @@ async function fetchStats(
 async function fetchMetrics(
   apiBase: string,
   websiteId: string,
-  apiKey: string,
+  shareToken: string,
   startAt: number,
   endAt: number,
-  type: 'url' | 'referrer',
+  type: 'path' | 'referrer',
   limit: number,
 ): Promise<MetricEntry[]> {
   const url = `${apiBase}/websites/${websiteId}/metrics?startAt=${startAt}&endAt=${endAt}&type=${type}&limit=${limit}`;
   const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${apiKey}` },
+    headers: {
+      'x-umami-share-token': shareToken,
+      'x-umami-share-context': '1',
+    },
   });
   if (!res.ok) {
     throw new Error(
@@ -190,11 +219,6 @@ async function main(): Promise<void> {
   });
   const dryRun = values['dry-run'];
 
-  const apiKey = process.env.UMAMI_API_KEY;
-  if (!apiKey) {
-    throw new Error('UMAMI_API_KEY env var is required');
-  }
-
   const webhookUrl = process.env.SLACK_WEBHOOK_URL;
   if (!webhookUrl && !dryRun) {
     throw new Error(
@@ -213,13 +237,28 @@ async function main(): Promise<void> {
 
   console.log(`Fetching analytics for ${formatDateRange(weekStart, now)}...`);
 
+  // Step 1: get share token (provides auth for all subsequent calls)
+  const { token: shareToken, websiteId } = await fetchShareToken(
+    UMAMI_API_BASE,
+    UMAMI_SHARE_SLUG,
+  );
+
+  // Step 2: fetch stats + metrics in parallel
   const [stats, topPages, topReferrers] = await Promise.all([
-    fetchStats(UMAMI_API_BASE, WEBSITE_ID, apiKey, startAt, endAt),
-    fetchMetrics(UMAMI_API_BASE, WEBSITE_ID, apiKey, startAt, endAt, 'url', 5),
+    fetchStats(UMAMI_API_BASE, websiteId, shareToken, startAt, endAt),
     fetchMetrics(
       UMAMI_API_BASE,
-      WEBSITE_ID,
-      apiKey,
+      websiteId,
+      shareToken,
+      startAt,
+      endAt,
+      'path',
+      5,
+    ),
+    fetchMetrics(
+      UMAMI_API_BASE,
+      websiteId,
+      shareToken,
       startAt,
       endAt,
       'referrer',
