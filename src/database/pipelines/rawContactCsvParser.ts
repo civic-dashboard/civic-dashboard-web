@@ -67,7 +67,10 @@ export const formatContactCsvStream = (
 };
 
 // Process rows and validates fields
-async function processRow(row: CsvContactRow, term: string): InsertRawContact {
+async function processRow(
+  row: CsvContactRow,
+  term: string,
+): Promise<InsertRawContact> {
   if (!verifyFieldsAreNotNullish(MandatoryContactFields, row)) {
     throw new Error(`Missing not-nullable field(s)`, { cause: { row } });
   }
