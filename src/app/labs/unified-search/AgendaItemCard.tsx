@@ -385,8 +385,11 @@ export function SearchPageAgendaItemCard({
 
           {/* Motions section using the councillor page style */}
           <div className="mt-2">
-            {motions.map((motion) => (
-              <div key={motion.motionId} className="border-t p-4">
+            {motions.map((motion, motionIdx) => (
+              <div
+                key={`${motion.motionId}-${motionIdx}`}
+                className="border-t p-4"
+              >
                 <dl className="flex -center mb-2 text-xs gap-1">
                   <dt>Date</dt>
                   <dd className="text-gray-500">{motion.dateTime}</dd>

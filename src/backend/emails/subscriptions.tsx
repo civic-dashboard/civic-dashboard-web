@@ -9,11 +9,11 @@ import {
   searchAgendaItems,
 } from '@/database/queries/agendaItems';
 import { allTags } from '@/constants/tags';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { SubscriptionUpdateEmail } from '@/backend/emails/templates/subscriptionUpdate';
 import { render } from 'react-email';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
+import { getDecisionBodies } from '@/database/queries/decisionBodies';
 
 import { getStartOfToday } from '@/logic/date';
 
@@ -68,6 +68,7 @@ export async function subscribeToSearch({
   });
 
   if (process.env.NEW_EMAIL_ALERT_WEBHOOK) {
+    const decisionBodies = await getDecisionBodies(db);
     await fetch(process.env.NEW_EMAIL_ALERT_WEBHOOK, {
       method: 'POST',
       headers: {
@@ -76,7 +77,8 @@ export async function subscribeToSearch({
       body: JSON.stringify({
         tags: tags.map((t) => allTags[t].displayName).join(', '),
         decisionBodies: decisionBodyIds
-          .map((id) => decisionBodies[id].decisionBodyName)
+          .map((id) => decisionBodies[id]?.decisionBodyName)
+          .filter(Boolean)
           .join(', '),
         textSearchUsed: textQuery ? 'Yes' : 'No',
       }),
@@ -121,11 +123,13 @@ export async function previewSubscriptionEmail({
     displayResults = pastResults.results;
   }
 
+  const decisionBodies = await getDecisionBodies(db);
   const previewHtml = await render(
     <SubscriptionUpdateEmail
       unsubscribeToken={PREVIEW_UNSUBSCRIBE_TOKEN}
       items={displayResults}
       filters={[filters]}
+      decisionBodies={decisionBodies}
     />,
   );
   return {

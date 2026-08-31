@@ -1,0 +1,21 @@
+[
+  {"pattern": "\\bcat\\b|\\bdog\\b|\\bpet\\b", "category": "Pets"},
+  {"pattern": "accessibility|barrier-free|disabled|disabilities|wheelchair|aoda|accessible|mobility", "category": "Accessibility"},
+  {"pattern": "fees|taxes|grant|finance|financial|tax|levies|invoice|budget|charges|accounts payable|arrears", "category": "Budget, Taxes & Finance"},
+  {"pattern": "water|sewer|flood|basement flooding|culverts", "category": "Water & Sewers"},
+  {"pattern": "equity|bisexual|aboriginal|bilingual|First Nations|two spirited|gender", "category": "Equity"},
+  {"pattern": "public safety|911|9-1-1|traffic casualties|traffic fatalities|collision|crashes|crisis response", "category": "Public Safety"},
+  {"pattern": "employee", "category": "City Employment"},
+  {"pattern": "environment|drive clean", "category": "Climate"},
+  {"pattern": "311|3-1-1|complaints|noise", "category": "Service Requests & Nuisance Complaints"},
+  {"pattern": "construction", "category": "Construction & Infrastructure"},
+  {"pattern": "traffic|diamond lane|hov lane|pedestrian|left turn|layby|lay-by|laybys", "category": "Traffic"},
+  {"pattern": "business|convention cent|stores|cafes|industry|\\bbia\\b", "category": "Business & Economy"},
+  {"pattern": "blue bin|blue box|waste|collection routes|green bin|recycling|material recovery facilities|clothing bins", "category": "Waste Management"},
+  {"pattern": "council|legislation|local government|executive committees", "category": "Governance & City Hall"},
+  {"pattern": "fitness|community cent", "category": "Sports & Recreation"},
+  {"pattern": "festival", "category": "Arts, Culture & Events"},
+  {"pattern": "community|neighbourhood|civic participation|civic engagement", "category": "Community & People"},
+  {"pattern": "transportation|buses|go-peds|coach terminals|express|de-icing|transit|\\bbus\\b", "category": "Public Transportation"},
+  {"pattern": "back alley|mews", "category": "Urban Planning & Zoning"}
+]

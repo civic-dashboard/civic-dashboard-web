@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FullPageAgendaItemCard } from '@/components/AgendaItemCard';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { createDB } from '@/database/kyselyDb';
 import {
   getAgendaItemByReference,
   getMotionsWithVotesByReference,
 } from '@/database/queries/agendaItems';
+import { getCachedDecisionBodies } from '@/logic/decisionBodies';
 import { stripHtmlAndGetFirstParagraph } from '@/logic/sanitize';
 import { VotingRecord } from '@/components/VotingRecord';
 
@@ -51,9 +51,10 @@ type Props = {
 export default async function AgendaItemPage({ params }: Props) {
   const db = createDB();
   const { reference } = await params;
-  const [agendaItem, motions] = await Promise.all([
+  const [agendaItem, motions, decisionBodies] = await Promise.all([
     getAgendaItemByReference(db, reference),
     getMotionsWithVotesByReference(db, reference),
+    getCachedDecisionBodies(),
   ]);
 
   if (!agendaItem) {

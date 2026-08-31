@@ -28,6 +28,8 @@ export type JsonPrimitive = boolean | number | string | null;
 
 export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
+export type Timestamp = ColumnType<Date, Date | string, Date | string>;
+
 export interface AgendaItemCategories {
   agendaItemId: number;
   category: string;
@@ -78,6 +80,25 @@ export interface CouncilMembers {
   wardId: string | null;
   wardName: string | null;
   wardSlug: string | null;
+}
+
+export interface DecisionBodies {
+  /**
+   * TMMIS decision body ID
+   */
+  decisionBodyId: number;
+  decisionBodyName: string;
+  decisionBodyPublishLabelCd: string;
+  email: string | null;
+  /**
+   * Full DecisionBody JSON from TMMIS
+   */
+  payload: Json;
+  /**
+   * TMMIS council term ID
+   */
+  termId: number;
+  updatedAt: Generated<Timestamp>;
 }
 
 export interface Mayors {
@@ -345,6 +366,7 @@ export interface DB {
   Contacts: Contacts;
   Councillors: Councillors;
   CouncilMembers: CouncilMembers;
+  DecisionBodies: DecisionBodies;
   Mayors: Mayors;
   Motions: Motions;
   Movers: Movers;

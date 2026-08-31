@@ -35,7 +35,7 @@ const influenceCards: HomeCard[] = [
     imageAlt: 'Councillor Watch',
     title: 'Councillor\nWatch',
     question: 'What\u2019s my Councillor\u2019s stance?',
-    bullets: ['Find your councillor', 'See their voting history'],
+    bullets: ['Find your Councillor', 'See their voting history'],
     ctaLabel: 'Explore Councillor Watch',
     href: '/councillors',
   },
