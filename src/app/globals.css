@@ -18,6 +18,7 @@
   --color-gray-light: rgb(var(--gray-light));
   --color-gray-lightest: rgb(var(--gray-lightest));
   --color-gray-dark: rgb(var(--gray-dark));
+  --color-gray-darkest: rgb(var(--gray-darkest));
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -70,6 +71,7 @@
   --gray-light: 216 221 230;
   --gray-lightest: 247 248 249;
   --gray-dark: 73 86 104;
+  --gray-darkest: 35 42 51;
 }
 
 @media (prefers-color-scheme: dark) {
