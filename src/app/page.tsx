@@ -221,6 +221,7 @@ export default function Home() {
               width={360}
               height={300}
               className="w-full h-auto object-contain"
+              unoptimized
             />
           </div>
 

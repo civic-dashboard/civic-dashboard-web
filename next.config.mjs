@@ -14,30 +14,6 @@ const nextConfig = {
       },
     ],
   },
-  async headers() {
-    const cacheExts = [
-      'jpg',
-      'jpeg',
-      'png',
-      'svg',
-      'webp',
-      'avif',
-      'mp4',
-      'webm',
-      'ico',
-      'woff',
-      'woff2',
-    ];
-    return cacheExts.map((ext) => ({
-      source: `/:path*.${ext}`,
-      headers: [
-        {
-          key: 'Cache-Control',
-          value: 'public, max-age=31536000, immutable',
-        },
-      ],
-    }));
-  },
   async redirects() {
     return [
       {
