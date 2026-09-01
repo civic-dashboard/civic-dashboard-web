@@ -3,14 +3,14 @@
 // Uses Umami's public share URL feature to authenticate (no API key needed,
 // works on the free Hobby tier). Fetches summary stats (with week-over-week
 // comparison), top pages, and top referrers for the last 7 days, formats a
-// Slack message, and posts it to a Slack incoming webhook.
+// Slack message, and posts it to a Slack workflow webhook trigger.
 //
 // Usage:
-//   npm run tsxe src/scripts/postSlackAnalyticsSummary.ts              # live run
-//   npm run tsxe src/scripts/postSlackAnalyticsSummary.ts -- --dry-run # print only, no Slack post
+//   npm run tsx src/scripts/postSlackAnalyticsSummary.ts              # live run
+//   npm run tsx src/scripts/postSlackAnalyticsSummary.ts -- --dry-run # print only, no Slack post
 //
 // Env vars:
-//   SLACK_WEBHOOK_URL — Slack incoming webhook URL (required unless --dry-run)
+//   SLACK_WEBHOOK_URL — Slack workflow webhook trigger URL (required unless --dry-run)
 
 import { parseArgs } from 'node:util';
 
@@ -198,11 +198,11 @@ async function fetchMetrics(
   return (await res.json()) as MetricEntry[];
 }
 
-async function postToSlack(webhookUrl: string, text: string): Promise<void> {
+async function postToSlack(webhookUrl: string, message: string): Promise<void> {
   const res = await fetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ message }),
   });
   if (!res.ok) {
     throw new Error(`Slack POST failed: ${res.status} ${res.statusText}`);
