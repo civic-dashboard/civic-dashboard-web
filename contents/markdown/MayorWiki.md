@@ -1,4 +1,4 @@
-# Mayor Wiki
+# The Mayor
 
 ## What Does The Mayor of Toronto Do?
 
