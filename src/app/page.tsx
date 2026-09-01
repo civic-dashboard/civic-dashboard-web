@@ -77,7 +77,6 @@ function HomeCard({ card }: { card: HomeCard }) {
           alt={card.imageAlt}
           width={600}
           height={200}
-          sizes="(max-width: 640px) 100vw, 600px"
           priority
           unoptimized
           className="w-full object-cover aspect-[5/1] sm:aspect-[3/1] lg:aspect-[4/1]"

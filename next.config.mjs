@@ -14,6 +14,20 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source:
+          '/:path*{/?(.jpg|jpeg|png|svg|webp|avif|mp4|webm|ico|woff|woff2)}',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
