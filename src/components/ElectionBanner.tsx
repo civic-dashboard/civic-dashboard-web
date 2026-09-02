@@ -11,15 +11,18 @@
  * tool switches from registration lookup to general election information.
  */
 const VOTER_INFO_PHASE_START = new Date('2026-10-12T00:00:00Z');
+const ELECTION_PAST_DATE = new Date('2026-10-27T00:00:00Z');
 const VOTER_INFO_URL = 'https://myvote.toronto.ca';
 
 export default function ElectionBanner() {
   const isVoterInfoPhase = new Date() >= VOTER_INFO_PHASE_START;
+  const isPastElection = new Date() >= ELECTION_PAST_DATE;
 
+  if (isPastElection) return null;
   return (
-    <div className="w-full bg-orange-700 text-white">
+    <div className="w-full bg-green-700 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-        <p className="text-md font-semibold">
+        <p className="text-md text-center font-semibold">
           The Toronto municipal election is Monday, October 26, 2026.{' '}
           {isVoterInfoPhase ? (
             <>
