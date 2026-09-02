@@ -4,7 +4,6 @@ import { menuItems } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronDown, Menu, X } from 'lucide-react';
-import NotificationBanner from '@/components/navigation/NotificationBanner';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text-items';
 import {
@@ -13,6 +12,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
+import ElectionBanner from '@/components/ElectionBanner';
 
 // We need to declare the border classes for each color variant.
 // We apply these class names dynamically, so we need to declare them here to ensure they are included in the final CSS bundle.
@@ -54,10 +54,7 @@ export default function Header() {
 
   return (
     <>
-      <NotificationBanner
-        message="We love and need your feedback! Tap to share your thoughts."
-        link="/feedback"
-      />
+      <ElectionBanner />
       <header className="sticky top-0 z-30 bg-white dark:bg-black">
         <nav
           ref={desktopMenuRef}
