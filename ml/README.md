@@ -1,35 +1,25 @@
-# Machine Learning - Subject Term Categorization
+# Machine Learning
 
-> [NOTE!]
-> We are currently in the process of updating this ML work. See issue [#484](https://github.com/civic-dashboard/civic-dashboard-web/issues/484) for updates. 
+This directory contains the ML tools used for Civic Dashboard. 
 
-This directory contains the tools and instructions for grouping and categorizing subject terms using machine learning models.
+## Contents
 
-## Workflow
+- `dev/` - development artifacts (Jupyter notebook)
+- `prod/` - productions artifacts (Modal app)
+- `samples/` - datasets for testing
+- `scripts/` - utility scripts
 
-1.  **Export Subject Terms:** Retrieve all subject terms from the database by running:
-    ```sh
-    npm run tsxe src/scripts/tag-exportSubjectTerms.ts
-    ```
-    *Note: Ensure your `.env` is pointed to the production database if you want the most up-to-date terms.*
+## Subject Term Categorization
 
-2.  **Verify Output:** A new file will be generated at [input/subject_terms.txt](input/subject_terms.txt). This file is also committed to the repository if you wish to skip the export step.
+The primary ML application currently is assigning categories to agenda item subject terms. 
 
-3.  **Setup Kaggle:**
-    - Create a [Kaggle](https://www.kaggle.com/) account.
-    - Go to your profile and verify your phone number (required for GPU access).
+### Comparing Outputs
 
-4.  **Import Notebook:** Create a new notebook in Kaggle and import the local file: [2026-05-11-subject-term-grouping-to-tags.ipynb](2026-05-11-subject-term-grouping-to-tags.ipynb).
+`scripts/compare_outputs.py` can be used to compare the .csv outputs of either the Jupyter notebook or Modal app.
 
-5.  **Data Source:** By default, the notebook queries the `subject_terms.txt` file directly from the GitHub `main` branch. You can manually upload your own version to the Kaggle session if needed.
+```shell
+python scripts/compare_outputs.py resultsA.csv resultsB.csv categories.json
+```
 
-6.  **Configuration:** In the notebook, ensure the `categories` list contains the specific tags you want to test for similarity and associate with the subject terms.
-
-7.  **Execution Environment:**
-    - Go to **Session Options**.
-    - Enable **Internet Access**.
-    - Set the **Accelerator** to **GPU T4 x2**.
-
-8. This will output multiple files, the most important being `all_terms.csv`. Download and then update this file in `ml/output/all_terms.csv`. This file contains the most likely category (aka tag) that matches with each subject term.
-
-9. Run `npm run tsxe src/scripts/tag-generateCategoryTags.ts` to create a new version of the file `seeds/categories_tags.json`
+> [!NOTE]
+> Since the notebook and Modal app run on different hardware some minor variance in the scores is expected, but should not affect the final category. The script defaults to a tolerance of 0.01, but can adjusted with `--tol`.
