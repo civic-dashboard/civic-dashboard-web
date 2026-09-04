@@ -31,6 +31,7 @@
     "dev:html": "npm run build:html && echo 'HTML files generated in public/html'"
   },
   "dependencies": {
+    "@eslint/eslintrc": "^3.3.7",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-checkbox": "^1.3.3",
     "@radix-ui/react-dialog": "^1.1.15",
