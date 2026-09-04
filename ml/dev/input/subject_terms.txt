@@ -1,10 +1,10 @@
-20 minute makeover
+20-minute makeover
 25 year club
-3 1 1
 3 rs
+3-1-1
 311
 311 calls
-9 1 1
+9-1-1
 911
 911 calls
 AIDS
@@ -72,6 +72,7 @@ acts
 ad hoc committees
 adapted programs
 additional disclosure
+addresses
 adjudication
 administration
 administrative districts
@@ -80,7 +81,7 @@ administrative structure
 admission fees
 admission prices
 adolescents
-adopt a bin
+adopt-a-bin
 adoption
 adult and community education
 adult basic skills
@@ -95,6 +96,7 @@ advisory groups
 aed
 affordable homes
 affordable housing
+age of majority cards
 agencies
 agendas
 agreements
@@ -112,13 +114,14 @@ air quality indicators
 airline fares
 airline schedules
 airports
-airs rinks
+airs (rinks)
 alcohol abuse
 alcohol permits
 aldermen
 alderwomen
 alerts
-all way stop controls
+alive and well letters
+all-way stop controls
 alternative energy
 alternative fuel vehicles
 alternative housing
@@ -144,7 +147,7 @@ annual financial reports
 annual report cards
 annual reports
 anonymous crime reporting
-anti racism
+anti-racism
 aoda
 apartment neighbourhoods
 apartments
@@ -167,15 +170,15 @@ archaeological sites
 architects
 architecture
 archives
-archives records
+archives (records)
 arenas
 arrears
-arrows markings
+arrows (markings)
 art centres
 art classes
 art councils
 art facilities
-art galleries facilities
+art galleries (facilities)
 art organizations
 art programs
 art workshops
@@ -201,8 +204,12 @@ attributes in culture
 attributes in environment
 attributes in finance
 attributes in property
+attributes in public safety and protection
 attributes in transportation
 auctions
+audio
+audio recording
+audio tapes
 audiologists
 auditorium
 auditors
@@ -226,7 +233,7 @@ ball hockey
 bank holidays
 bankruptcy sales
 barnes dance
-barrier free design
+barrier-free design
 baseball
 baseball associations
 baseball diamonds
@@ -251,7 +258,7 @@ below market rent
 below market rent space
 below market space
 bench advertising
-benches street furniture
+benches (street furniture)
 benefits
 bequest
 bia
@@ -292,6 +299,7 @@ biosolids
 biosolids management
 biotech
 biotechnology industry
+bird-friendly development guidelines
 birds
 birth control
 bisexual and transgendered
@@ -304,7 +312,7 @@ blue boxes
 bmrs
 board members
 board of trade
-board run community centres
+board-run community centres
 boarding houses
 boards
 boards of directors
@@ -341,13 +349,13 @@ boulevard cafes
 boulevard cleaning
 boulevard maintenance
 boulevard parking
-boulevard patios restaurants
+boulevard patios (restaurants)
 boulevard permits
 boulevard vending
 bowling clubs
 branches
 branding
-break in
+break-in
 breakaway camps
 bridge construction
 bridge maintenance
@@ -383,7 +391,7 @@ building supplies
 buildings
 buildings by function
 buildings by height
-bulky plastics waste
+bulky plastics (waste)
 burger shops
 burglary
 burial permits
@@ -399,8 +407,8 @@ bus stations
 bus stops
 bus terminals
 buses
-buses motorcoaches
-business and industry sc
+buses (motorcoaches)
+business & industry (sc)
 business associations
 business continuity plans
 business development
@@ -415,13 +423,14 @@ business permits
 business retention
 business services
 business services industry
-business travel municipal
+business travel (municipal)
 businesses
 businessmen
 busker permits
 buying
 by elections
-by laws
+by-elections
+by-laws
 byelections
 bylaw passing
 bylaw procedures
@@ -446,18 +455,21 @@ car pooling
 car pools
 car sharing
 car washes
+car-parks
+car-pooling
 careers
 carparks
 carpooling
 carpools
 cars
-cash in lieu of parking
+cash-in-lieu of parking
 casinos
 cat licences
 cat licenses
 cat registration
 catalogues
 catch basins
+catch-basins
 catchbasins
 catering
 catholic schools
@@ -465,16 +477,18 @@ ccs
 cell phones
 cellular phones
 census
-centre lines pavement markings
+centre lines (pavement markings)
 ceremonial
 ceremonies
 certificate
+certificate of identity
 certificate of qualification
 certification
 chamber of commerce
 chambers of commerce
 championships
 change
+change of name
 changeable message signs
 charges
 charitable organizations
@@ -492,12 +506,13 @@ child care centres
 child care facilities
 childcare
 children
+chimineas
 chlorination
 chlorine
 churches
 cinema industry
-circles roads
-circuits roads
+circles (roads)
+circuits (roads)
 circulation
 cities
 citizen participation
@@ -514,7 +529,6 @@ city governments
 city halls
 city initiatives
 city officials
-city operated sports facilities
 city owned properties
 city owned trees
 city owned vehicles
@@ -522,10 +536,14 @@ city parking lots
 city planning
 city properties
 city services
-city to city relationships
 city twinning
 city vehicles
 city yards
+city-operated sports facilities
+city-owned properties
+city-owned trees
+city-owned vehicles
+city-to-city relationships
 civic awards
 civic centre ice rinks
 civic centre public space booking
@@ -536,6 +554,7 @@ civic participation
 civic squares
 civilian citations
 clauses
+clean & beautiful city
 clean and beautiful city
 clean city beautiful city
 climate
@@ -549,21 +568,21 @@ clothing drop boxes
 clubhouses
 cluster divisions
 cne
-co op housing
-co operative housing
+co-op housing
+co-operative housing
 coach lines
 coach terminals
-coaches buses
-coaches vehicles
+coaches (buses)
+coaches (vehicles)
 coats of arms
 code of conduct
 codes of behaviour
 codes of conduct
 coffee shops
-coin operated laundries
+coin-operated laundries
 cold alerts
 colds
-collection activity
+collection (activity)
 collection agencies
 collection routes
 collective agreements
@@ -604,8 +623,8 @@ communicable diseases
 communicating
 communication
 communications
+community & life (sc)
 community advisory councils
-community and life sc
 community associations
 community benefits
 community building
@@ -613,7 +632,7 @@ community capacity building
 community centers
 community centre advisory councils
 community centres
-community clean up days
+community clean-up days
 community complexes
 community consultation
 community council boundaries
@@ -650,7 +669,7 @@ computer equipment
 computer hardware
 computer networks
 computer programs
-computer related equipment
+computer-related equipment
 concerts
 concrete
 condominium housing
@@ -665,7 +684,7 @@ conflict of interest
 congestion
 congratulatory messages
 conservation
-conservation archival
+conservation (archival)
 conservation areas
 conservation authorities
 conservation organizations
@@ -674,7 +693,7 @@ constituencies
 construction
 construction deposits
 construction noise
-construction permits right of way
+construction permits (right-of-way)
 construction waste
 consultants
 consultation
@@ -728,12 +747,13 @@ council priorities
 council procedures
 council reference groups
 council structure
+council-committee structure
 councillors
 councilors
 counties
 courier services
 courts
-courts roads
+courts (roads)
 coyotes
 crack kits
 crack repairs
@@ -744,7 +764,7 @@ credit
 credit card receipts
 credit card statements
 credit cards
-crescents roads
+crescents (roads)
 cricket
 crime
 crime prevention
@@ -754,20 +774,21 @@ crime tips
 crisis management
 crisis response
 criteria
-cross country ski clubs
-cross country skiing
 cross walks
+cross-country ski clubs
+cross-country skiing
+cross-walks
 crossing guards
 crosswalk lights
 crosswalks
-cul de sacs
+cul-de-sacs
 cultural attractions
 cultural centres
 cultural events
 cultural facilities
 cultural neighbourhoods
 cultural organizations
-culture sc
+culture (sc)
 culverts
 curb cut permits
 curb cuts
@@ -802,14 +823,14 @@ databases
 day camps
 day cares
 day nurseries
-de icing
+de-icing
 dead birds
 death certificates
 deaths
 debentures
 debt
-decision making
-decisions council
+decision-making
+decisions (council)
 deep lake water cooling system
 deer
 delegation of authority
@@ -833,11 +854,12 @@ design industry
 designated disabled parking spaces
 designated heritage properties
 designers
-designers buildings
+designers (buildings)
 detention centres
 developers
 developing land
 development
+development (land)
 development applications
 development approval application fees
 development approval applications
@@ -845,7 +867,6 @@ development approvals
 development charges
 development control
 development controlled land
-development land
 development review process
 development reviews
 diamond lanes
@@ -892,11 +913,12 @@ documents
 dog bites
 dog licences
 dog licenses
-dog off leash areas
+dog off-leash areas
 dog parks
 dog tags
 dogs
 dogs off leash parks
+dogs off-leash parks
 domestic animals
 domestic violence
 donation
@@ -906,7 +928,7 @@ downhill skiing
 downspouts
 downtown cores
 downtowns
-draft by laws
+draft by-laws
 draft bylaws
 drainage areas
 drains
@@ -916,24 +938,24 @@ drinking water standards
 drive clean tests
 driver
 drivers
-drives roads
+drives (roads)
 driveway paving permits
 driveway resurfacing permits
 driveway widening permits
 driveways
 driving
-drop in swimming
 drop off areas
 drop off zones
+drop-in swimming
 drug abuse
 drug addiction
 drug stores
 ducks
-dump trucks fleet
+dump trucks (fleet)
 dumping
 dumps
 dwellings
-e bikes
+e-bikes
 ea
 early childhood education
 early education
@@ -952,7 +974,7 @@ economic indicators
 economy
 ecosystems
 edge lines
-education sc
+education (sc)
 education taxes
 educational institutions
 elderly
@@ -963,7 +985,6 @@ election signs
 elections
 electoral districts
 electoral reform
-electric assisted bikes
 electric bicycles
 electric bikes
 electric bills
@@ -972,6 +993,7 @@ electric power
 electric power failures
 electric scooters
 electric wheelchairs
+electric-assisted bikes
 electricity
 electricity bills
 electricity distribution utilities
@@ -989,6 +1011,7 @@ emergency assistance
 emergency communication
 emergency housing
 emergency management
+emergency medical plans
 emergency medical services
 emergency medical services stations
 emergency plans
@@ -1011,7 +1034,7 @@ employee relations
 employee training
 employees
 employment
-employment and labour sc
+employment & labour (sc)
 employment area revitalization
 employment areas
 employment contracts
@@ -1041,10 +1064,10 @@ entertainment
 entertainment establishments
 entertainment facilities
 entrepreneurs
-entry prohibitions traffic
+entry prohibitions (traffic)
 environment
+environment (sc)
 environment plans
-environment sc
 environmental assessment
 environmental assessments
 environmental conditions
@@ -1081,6 +1104,7 @@ environmentally friendly lawn care
 environmentally friendly products
 environmentally sensitive areas
 environmentally sensitive lands
+environmentally-sensitive areas
 enwave
 epidemics
 equipment rentals
@@ -1154,11 +1178,12 @@ farmer
 fast food outlets
 fauna
 federal governments
-federal municipal relations
+federal-municipal relations
 feedback
 fees
 fence viewers
 fence viewing
+fence-viewers
 fences
 ferries
 ferry boat schedules
@@ -1176,7 +1201,7 @@ film shoots
 filming
 filming permits
 filtration plants
-finance sc
+finance (sc)
 financial assistance
 financial assistance for recreation programs
 financial incentives
@@ -1187,6 +1212,7 @@ financial services sector
 financial statements
 financial subsidy
 financial write offs
+financial write-offs
 financing
 fines
 fire access routes
@@ -1216,16 +1242,16 @@ fires
 fireworks
 fish and chips shops
 fitness trails
-fixed time controllers
 fixed time signals
+fixed-time controllers
 fixing potholes
 flag raising
 flags
 floating reservoirs
 flood damage
 flood damages
-flood prevention devices
-flood related damage
+flood-prevention devices
+flood-related damage
 flooding
 floods
 floor drain traps
@@ -1243,7 +1269,7 @@ food and beverage sector
 food banks
 food business
 food carts
-food containers waste
+food containers (waste)
 food festivals
 food handler
 food handling
@@ -1268,7 +1294,7 @@ freeways
 friendship cities
 front yard parking
 fuels
-full closures traffic calming
+full closures (traffic calming)
 fumes
 funding
 fundraising
@@ -1285,14 +1311,14 @@ garden waste
 gardeners
 gardening
 gardens
-gardens roads
+gardens (roads)
 gas stations
 gasoline
-gates roads
+gates (roads)
 gay
 gay community
-geese domestic
-geese wild
+geese (domestic)
+geese (wild)
 gender identity
 generation stations
 geographic data
@@ -1303,6 +1329,7 @@ gis
 glbt
 go peds
 go transit
+go-peds
 goats
 going out of business sales
 golf
@@ -1314,8 +1341,8 @@ goods
 gophers
 governance
 governance structure
+government (sc)
 government officials
-government sc
 government services
 government symbols
 governmental relations
@@ -1364,7 +1391,7 @@ ground water
 grounds maintenance
 groundskeeping
 groundwater
-groves roads
+groves (roads)
 growth
 guard fences
 guard rails
@@ -1372,7 +1399,7 @@ guardrails
 guide rails
 guidelines
 guiderails
-guides publications
+guides (publications)
 gulls
 gymnastic clubs
 h20 to go water trailer
@@ -1391,12 +1418,12 @@ hauled waste
 hazardous spills
 heads and beds
 health
+health (sc)
 health clinics
 health coverage
 health impact assessment
 health issues
 health promotion
-health sc
 health treatments
 healthy eating
 hearing
@@ -1409,7 +1436,7 @@ heavy truck prohibitions
 heavy trucks
 height
 height restrictions
-heights roads
+heights (roads)
 help lines
 helplines
 heritage buildings
@@ -1428,7 +1455,7 @@ high risk youth
 higher education
 highway traffic signals
 highways
-hired equipment vehicles
+hired equipment (vehicles)
 hiring
 hiring process
 historic areas
@@ -1451,7 +1478,7 @@ holiday camps
 holiday closures
 holiday fun camps
 holidays
-holidays public
+holidays (public)
 holistic centres
 home care agencies
 home child care providers
@@ -1471,13 +1498,14 @@ horses
 horticulturalists
 horticulture
 hospitals
-hostels homeless
+hostels (homeless)
 hot dog carts
 hotel rooms
 hotels
 hotlines
 hours
 hours of operation
+house numbers
 household garbage
 household incomes
 household waste
@@ -1515,6 +1543,9 @@ ice rinks
 ice surfaces
 ici waste
 ict
+id badges
+id cards
+identification cards
 illegal
 illegal activity
 illegal discharges
@@ -1527,13 +1558,13 @@ immunizations
 implementation
 imports
 improvement
-in law suites
 in need
-in unit recycling containers
+in-law suites
+in-unit recycling containers
 incentives
 income
 income assistance
-indians native
+indians (native)
 indigenous peoples
 indoor hockey rinks
 indoor ice pads
@@ -1563,7 +1594,7 @@ infill housing
 infilling
 influenza
 information
-information and communication sc
+information & communication (sc)
 information and communication systems
 information and communication technology
 information and technology
@@ -1591,7 +1622,7 @@ insurance claims
 integrated pest management
 integrity commissioners
 intensification
-inter governmental relations
+inter-governmental relations
 interactive voice response
 intercity bus lines
 intercity bus terminals
@@ -1630,8 +1661,8 @@ ipm
 irrigation systems
 it
 it acquisitions
+items (council)
 items before council
-items council
 ivr
 jails
 job applications
@@ -1686,7 +1717,7 @@ landscape irrigation systems
 landscape projects
 landscapers
 landscaping
-landscaping permits right if way
+landscaping permits (right-if way)
 lane lines
 lane restrictions
 lanes
@@ -1694,16 +1725,17 @@ laneways
 languages
 laterals
 law
-law sc
+law (sc)
 lawn bowling
 lawn bowling clubs
 lawn bowling facilities
 lawn bowling greens
 lawns
 lay bys
+lay-bys
 laybys
 layoff
-lead contaminant
+lead (contaminant)
 lead in drinking water
 lead in soil
 lead levels
@@ -1721,6 +1753,9 @@ leash free areas
 leash free dog walking areas
 leash free parks
 leash free zones
+leash-free areas
+leash-free dog walking areas
+leash-free zones
 leasing
 left turn arrow phase
 left turn phase
@@ -1728,7 +1763,7 @@ legal boundary surveys
 legal issues
 legal matters
 legislation
-legislative process municipal
+legislative process (municipal)
 leisure swim
 leisure swimming
 leisure water vehicles
@@ -1748,12 +1783,13 @@ licences
 licenses
 licensing
 licensing tribunals
-life science sector
 life sciences sector
+life-science sector
 light pollution
 light rail transit
 light rail vehicles
-limited stop rocket services
+lights out toronto
+limited-stop rocket services
 line fences
 liquid chlorine
 liquid waste spills
@@ -1765,7 +1801,7 @@ listed heritage properties
 lists of speakers
 litter bins
 litter collection
-litter receptacles street furniture
+litter receptacles (street furniture)
 littering
 livestock
 loading spaces
@@ -1791,9 +1827,9 @@ locations in property
 locations in recreation and tourism
 locations in transportation
 lockouts
+lodging (short term)
 lodging homes
 lodging houses
-lodging short term
 long grass
 long term care centers
 long term care centres
@@ -1823,8 +1859,8 @@ mains
 maintenance
 major arterial roads
 major incident
-management activity
-management sc
+management (activity)
+management (sc)
 managers
 mandates
 manufactured articles
@@ -1846,14 +1882,14 @@ mass transit
 massage parlours
 master
 master licenses
-master shut off valve
+master shut-off valve
 material recovery facilities
 materials
 materials in culture
 materials in management
 materials in public safety and protection
 materials in transportation
-mattresses waste
+mattresses (waste)
 maximum acceptable concentration
 mayor
 mayors
@@ -1864,6 +1900,7 @@ media kits
 media organizations
 media relations
 medical clinics
+medical response plans
 medical scooters
 meeting room booking
 meetings
@@ -1893,6 +1930,7 @@ metropasses
 mews
 mice
 mid rise buildings
+migratory birds
 mikey
 mikey network
 minor arterial roads
@@ -1937,17 +1975,22 @@ moving businesses
 mp
 mpp
 multi faith
-multi occupancy lanes
-multi pupose trails
-multi purpose paths
 multi residential apartment buildings
 multi residential buildings
-multi residential properties
 multi unit buildings
 multi unit dwellings
-multi unit residential buildings
-multi use pathways
-multi use trails
+multi-occupancy lanes
+multi-pupose trails
+multi-purpose paths
+multi-residential apartment buildings
+multi-residential buildings
+multi-residential properties
+multi-unit buildings
+multi-unit dwellings
+multi-unit residential buildings
+multi-use pathways
+multi-use trails
+municipal addresses
 municipal associations
 municipal awards
 municipal buildings
@@ -1971,10 +2014,11 @@ municipal taxes
 municipal transit authorities
 municipalities
 mural program
-museums facilities
+museums (facilities)
 music
 musicals
 métis
+name change
 naming
 native peoples
 native plants
@@ -1995,7 +2039,7 @@ neighbourhood beautification
 neighbourhood improvement areas
 neighbourhood profiles
 neighbourhoods
-neighbourhoods planning
+neighbourhoods (planning)
 newcomers
 news releases
 newsletters
@@ -2003,7 +2047,7 @@ ngos
 nia
 night
 night clubs
-night school adult education
+night school (adult education)
 nightclubs
 nirs
 no entry
@@ -2017,17 +2061,19 @@ noise control
 noise exemption permits
 noise pollution
 nomination
-non emergency city services
 non emergency municipal services
 non government organizations
-non governmental organizations
-non motorized vehicles
 non moving businesses
 non profit
 non profit housing
-non profit organizations
+non-emergency city services
+non-government organizations
+non-governmental organizations
+non-motorized vehicles
+non-profit housing
+non-profit organizations
 nonprofit
-not for profit organizations
+not-for-profit organizations
 notes
 notices
 notices of assessment
@@ -2051,10 +2097,10 @@ odours
 odsp
 off leash areas
 off leash parks
-off ramps highways
-off road paths cycling
+off ramps (highways)
 off street parking
 off street permit parking
+off-road paths (cycling)
 offenses
 office buildings
 office lights
@@ -2071,14 +2117,15 @@ olympics
 omb
 ombudsman
 ombudspersons
-on ramps highways
+on ramps (highways)
 on street bike lanes
-on street meters
-on street parking
-on street permit parking
 on the job training
+on-street meters
+on-street parking
+on-street permit parking
 on1call
 onboarding
+one address repository
 one way operations
 one way streets
 one way traffic
@@ -2101,9 +2148,9 @@ organic gardening
 organic horticulture
 organic materials
 organic waste
+organics (waste)
 organics collection
 organics processing facilities
-organics waste
 organizational structure
 organizations
 organizations in community and life
@@ -2120,6 +2167,7 @@ out of home advertising
 outdoor advertising
 outdoor advertising companies
 outdoor art
+outdoor fireplaces
 outdoor fires
 outdoor pools
 outdoor sculptures
@@ -2136,6 +2184,7 @@ overflow
 overpasses
 ow
 ownership housing
+ownership letters
 p2 planning
 pad
 painting
@@ -2153,7 +2202,7 @@ parkettes
 parking
 parking authorities
 parking authority
-parking by laws
+parking by-laws
 parking bylaws
 parking charges
 parking enforcement
@@ -2202,12 +2251,14 @@ pay duty officers
 pay duty police officers
 pay equity
 pay scale
+pay-and-display machines
 paying
 payment
 payment in lieu of parking
 payment information
 payment methods
 payment options
+payment-in-lieu of parking
 pedestrian bridges
 pedestrian crossings
 pedestrian crossover timing
@@ -2220,7 +2271,7 @@ pedestrian network
 pedestrian overpasses
 pedestrian priority intersections
 pedestrian priority phase
-pedestrian push buttons
+pedestrian push-buttons
 pedestrian pushbuttons
 pedestrian refuge islands
 pedestrian scramble
@@ -2250,11 +2301,12 @@ performing arts facilities
 permanent memorials
 permanent sign permits
 permit parking
-permit parking disabled
+permit parking (disabled)
 permit renewal
 permits
 permitted use requests
 permitted uses
+personal identification
 personal mobility aids
 personal mobility devices
 personal protective equipment
@@ -2291,10 +2343,10 @@ physically disabled
 physically impaired
 physicians
 pick up areas
-pick up hockey
 pick up zones
+pick-up hockey
 pickup of recyclables
-pickup trucks fleet
+pickup trucks (fleet)
 pigeons
 pigs
 pilot projects
@@ -2302,21 +2354,21 @@ pizza parlours
 places of amusement
 places of interest
 planning
-planning and development sc
+planning & development (sc)
 planning application fees
 planning applications
 planning approvals
 planning development approvals
 planning fees
 planning tribunals
-plans drawings
+plans (drawings)
 plans of subdivision
 plant health care
 plant life
 planter boxes
 plants
 plaques
-plastic bags waste
+plastic bags (waste)
 play apparatus
 play equipment
 play structures
@@ -2344,20 +2396,20 @@ policy making
 political and administrative areas
 political reference groups
 polling
-polls elections
-polls public opinion
+polls (elections)
+polls (public opinion)
 pollution
 pollution prevention
 pollution prevention planning
-polystyrene waste
+polystyrene (waste)
 ponds
 pool enclosures
 pools
 population
 port authorities
 ports
-post graduate studies
-post secondary education
+post-graduate studies
+post-secondary education
 postering
 posters
 postgraduate studies
@@ -2376,11 +2428,12 @@ power plants
 power skating
 power stations
 power utilties
+power-assisted bicycles
 powerskate
 ppe
-pre authorized payment plans
-pre authorized plans
-pre school education
+pre-authorized payment plans
+pre-authorized plans
+pre-school education
 preauthorized payments
 preschool education
 preschool learning
@@ -2402,6 +2455,7 @@ private trees
 privately owned properties
 privately owned property
 privately owned trees
+privately-owned trees
 procedural bylaws
 proclamations
 procurement
@@ -2413,12 +2467,14 @@ programs
 prohibited animals
 project schedules
 projects
-promotion communication
-promotion employment
+promotion (communication)
+promotion (employment)
 promotional space booking
-properties real estate
+proof of residency
+properties (real estate)
 property
-property access roads
+property (sc)
+property access (roads)
 property acquisition
 property acquisitions
 property assessment
@@ -2426,11 +2482,11 @@ property assessment notices
 property boundaries
 property lines
 property maintenance
+property numbers
 property owners
 property ownership
 property reassessment
 property sales
-property sc
 property standards
 property surveys
 property tax accounts
@@ -2449,10 +2505,11 @@ protocol
 provincial governments
 provincial highways
 provincial legislation
-provincial municipal relations
 provincial offences
 provincial plaques
 provincial services
+provincial-municipal relations
+psas
 psychiatric treatment
 public access defibrillators
 public advisory committees
@@ -2486,9 +2543,10 @@ public property
 public realm
 public relations
 public safety
-public safety and protection sc
+public safety & protection (sc)
 public schools
 public sector buildings
+public service announcements
 public service awards
 public spaces
 public squares
@@ -2532,7 +2590,7 @@ railways
 rain
 rainfall
 raised medians
-ramps highways
+ramps (highways)
 ratepayers
 rates
 rats
@@ -2541,7 +2599,7 @@ ravine protection
 ravine protection areas
 ravine protection bylaws
 ravines
-re zoning
+re-zoning
 real estate
 real estate transactions
 real estate vacancies
@@ -2550,7 +2608,7 @@ rec centers
 rec centres
 reconstruction
 records
-recreation and tourism sc
+recreation & tourism (sc)
 recreation centers
 recreation centres
 recreation facilities
@@ -2597,8 +2655,8 @@ regional transportation agencies
 regional transportation authorities
 registration
 regulations
-rehabilitation people
-rehabilitation property
+rehabilitation (people)
+rehabilitation (property)
 reimbursement
 religious communities
 religious diversity
@@ -2649,6 +2707,7 @@ residential fastrack service
 residential infill
 residential landlords
 residential multi unit dwellings
+residential multi-unit dwellings
 residential properties
 residential real estate
 residential tenants
@@ -2663,7 +2722,7 @@ resource recovery centres
 resources
 responsibilities
 restaurants
-restaurants businesses
+restaurants (businesses)
 restoration
 restricted animals
 retail areas
@@ -2695,8 +2754,9 @@ riding stables
 riding trails
 ridings
 rifle clubs
-right of way permits
+right-of-way permits
 rinks
+rivers
 road accidents
 road allowance licensing
 road allowance permits
@@ -2739,6 +2799,7 @@ round tables
 roundtables
 rules in finance
 rules in planning and development
+rules in public safety and protection
 rules in recreation and tourism
 rules in transportation
 runs
@@ -2749,10 +2810,10 @@ safer injection
 safety
 safety barriers
 salary
-sale action
+sale (action)
 sale of surplus equipment
 sale of surplus materials
-sales events
+sales (events)
 sales of land
 sales of property
 salvage yards
@@ -2773,7 +2834,7 @@ school gymnasiums
 school trustees
 school zone review
 schools
-science and technology sc
+science & technology (sc)
 scooters
 scramble corners
 scramble light
@@ -2789,7 +2850,7 @@ security deposits
 security guards
 selection
 selling
-semi actuated signals
+semi-actuated signals
 seminar travel
 senior citizens
 senior programs
@@ -2806,7 +2867,7 @@ service quality
 service recognition
 services
 services in french
-severance land
+severance (land)
 sewage
 sewage systems
 sewage treatment
@@ -2835,7 +2896,7 @@ ships
 shopping
 shops
 shorelines
-short term housing
+short-term housing
 shots
 sick animals
 sidewalk brick installation
@@ -2843,7 +2904,7 @@ sidewalk brick maintenance
 sidewalk cafes
 sidewalk cleaning
 sidewalk maintenance
-sidewalk patios restaurants
+sidewalk patios (restaurants)
 sidewalk permits
 sidewalk plows
 sidewalk ramping
@@ -2871,7 +2932,7 @@ single family homes
 single family residences
 single space meters
 single stream recyclable materials
-single stream recycling facilities
+single-stream recycling facilities
 sink holes
 sinkholes
 sister city relationships
@@ -2896,7 +2957,7 @@ skills development in the workplace
 skunks
 sleeping policeman
 sleeping policemen
-slo pitch leagues
+slo-pitch leagues
 slogans
 small businesses
 smart phones
@@ -2910,7 +2971,7 @@ snakes
 snow
 snow advisory reports
 snow centres
-snow clean up
+snow clean-up
 snow clearing
 snow emergencies
 snow emergency
@@ -2984,7 +3045,7 @@ sports venues
 spring break camps
 spring break programs
 squares
-squares roads
+squares (roads)
 squirrels
 stables
 stadiums
@@ -3009,11 +3070,12 @@ stations
 steering committees
 stop signs
 stopping prohibitions
-stops public transportation
+stops (public transportation)
 storage reservoirs
 stores
 storm damage
 storm drainage
+storm drainage systems
 storm sewers
 storm water
 storm water management
@@ -3041,7 +3103,6 @@ streaming video
 streams
 street advertising
 street banner permits
-street cars
 street cleaning
 street closure permits
 street closures
@@ -3057,12 +3118,14 @@ street names
 street naming
 street needs assessment
 street network
+street numbers
 street occupation permits
 street parking
 street poles
 street signs
 street sweeping
 street vending
+street-cars
 streetcar routes
 streetcar stops
 streetcars
@@ -3076,12 +3139,12 @@ structures
 student hostels
 students
 studies
-styrofoam waste
-sub committees
+styrofoam (waste)
+sub-committees
 subcommittees
-subdivision land
+subdivision (land)
+subdivision (wards)
 subdivision of land
-subdivision wards
 submissions to committee
 subscriptions
 subsidies
@@ -3115,8 +3178,8 @@ surplus
 surplus equipment disposal procedure
 surplus materials disposal procedure
 surveillance alerts
-surveys maps
-surveys research
+surveys (maps)
+surveys (research)
 survival kits
 suspension
 sustainability
@@ -3180,6 +3243,7 @@ temporary signs
 tenancies legislation
 tenancy agreements
 tenancy legislation
+tenancy letters
 tenant organizations
 tenants
 tenders
@@ -3196,11 +3260,11 @@ terminals
 termination of employment
 terminus
 terminuses
-terraces roads
+terraces (roads)
 textured crosswalks
 the ex
 the physically disabled
-theatres facilities
+theatres (facilities)
 theatrical performances
 theatrical productions
 theft
@@ -3238,7 +3302,6 @@ trade shows
 trade unions
 traffic
 traffic accidents
-traffic actuated controller
 traffic actuated signals
 traffic calming
 traffic calming devices
@@ -3280,10 +3343,11 @@ traffic speed
 traffic studies
 traffic violations
 traffic volume
+traffic-actuated controller
 trail networks
 trail systems
 trails
-trails roads
+trails (roads)
 train stations
 training and development at work
 trains
@@ -3313,6 +3377,7 @@ transitional housing
 translators
 translators and interpreters
 transportation
+transportation (sc)
 transportation equipment
 transportation equipment conditions
 transportation fares
@@ -3327,14 +3392,13 @@ transportation organizations
 transportation planning
 transportation projects
 transportation research
-transportation sc
 transportation schedules
 transportation services
 trash
 travel
 traveller accommodation
 travellers
-treatment health
+treatment (health)
 treatment plants
 tree advocacy
 tree canopy
@@ -3359,7 +3423,7 @@ ttc maps
 turf maintenance
 turkeys
 turn lanes
-turn prohibitions traffic
+turn prohibitions (traffic)
 turning lanes
 twin cities
 twin city alliances
@@ -3377,7 +3441,7 @@ underground sprinkler systems
 underground utilities
 underground utility services call centres
 underpasses
-union management relations
+union-management relations
 unions
 universal design
 universities
@@ -3409,8 +3473,8 @@ user fees
 utilities
 utility corridors
 utility poles
-vacancies jobs
-vacancies real estate
+vacancies (jobs)
+vacancies (real estate)
 vacancy levels
 vacancy rates
 vacant buildings
@@ -3423,7 +3487,7 @@ valley corridors
 valley lands
 valleylands
 vandalism
-vans fleet
+vans (fleet)
 variance
 variety stores
 vehicle access
@@ -3442,6 +3506,13 @@ venture capital
 vermin
 vessels
 victims
+video
+video recordings
+video tapes
+videography
+videorecordings
+videos
+videotapes
 viewing
 violation
 violence
@@ -3475,11 +3546,11 @@ warnings
 washer rebate programs
 washrooms
 waste
+waste (fraud)
 waste collection
 waste depots
 waste disposal
 waste diversion
-waste fraud
 waste management
 waste management equipment
 waste management facilities
@@ -3510,7 +3581,7 @@ water efficiency
 water efficient plants
 water filtration
 water filtration plants
-water hook up
+water hook-up
 water hydrants
 water installation
 water laboratories
@@ -3521,6 +3592,8 @@ water management systems
 water meter readers
 water meter readings
 water meters
+water odor
+water odour
 water on wheels
 water parks
 water pipes
@@ -3534,15 +3607,19 @@ water rates
 water readings
 water rebate program
 water reservoirs
+water restrictions
 water service
 water service connections
 water service repair programs
 water shut off
+water shut-off
+water smell
 water storage systems
 water supply
 water supply systems
 water taxis
 water testing
+water that smells funny
 water transmission systems
 water transport
 water transportation
@@ -3552,6 +3629,7 @@ water treatment facilities
 water treatment plants
 water turn off
 water turn on
+water use policies
 watercourses
 waterfront trail
 waterfronts
@@ -3565,6 +3643,7 @@ weather conditions
 web 2.0
 web 20
 web media
+websites
 weeds
 weeds and tall grass
 welcome policy
@@ -3576,6 +3655,7 @@ wet weather flow
 wet weather flow management
 wetlands
 wheel trans
+wheel-trans
 wheelchair accessible
 wheelchair ramps
 wheeltrans
@@ -3588,7 +3668,7 @@ wild animals
 wildlife
 wind energy
 wind power
-windrow clearing snow
+windrow clearing (snow)
 winter
 winter maintenance
 winter storms
@@ -3597,10 +3677,10 @@ wireless hotspot
 wireless internet
 women
 wood
-work based learning
 work from home
 work plans
 work trips
+work-based learning
 workforce
 working conditions
 working groups
@@ -3626,8 +3706,8 @@ youth programs
 zero footprint cities
 zerofootprint cities
 zoning
-zoning by law amendment applications
-zoning by laws
+zoning by-law amendment applications
+zoning by-laws
 zoning bylaw amendments
 zoning bylaw project
 zoning bylaws

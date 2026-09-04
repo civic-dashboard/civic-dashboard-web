@@ -1,16 +1,19 @@
 # Machine Learning - Subject Term Categorization
 
+> [NOTE!]
+> We are currently in the process of updating this ML work. See issue [#484](https://github.com/civic-dashboard/civic-dashboard-web/issues/484) for updates. 
+
 This directory contains the tools and instructions for grouping and categorizing subject terms using machine learning models.
 
 ## Workflow
 
-1.  **Export Subject Terms:** Retrieve all normalized subject terms from the database by running:
+1.  **Export Subject Terms:** Retrieve all subject terms from the database by running:
     ```sh
-    npm run tsxe src/scripts/exportNormalizedSubjectTerms.ts
+    npm run tsxe src/scripts/tag-exportSubjectTerms.ts
     ```
     *Note: Ensure your `.env` is pointed to the production database if you want the most up-to-date terms.*
 
-2.  **Verify Output:** A new file will be generated at [input/normalized_subject_terms.txt](input/normalized_subject_terms.txt). This file is also committed to the repository if you wish to skip the export step.
+2.  **Verify Output:** A new file will be generated at [input/subject_terms.txt](input/subject_terms.txt). This file is also committed to the repository if you wish to skip the export step.
 
 3.  **Setup Kaggle:**
     - Create a [Kaggle](https://www.kaggle.com/) account.
@@ -18,7 +21,7 @@ This directory contains the tools and instructions for grouping and categorizing
 
 4.  **Import Notebook:** Create a new notebook in Kaggle and import the local file: [2026-05-11-subject-term-grouping-to-tags.ipynb](2026-05-11-subject-term-grouping-to-tags.ipynb).
 
-5.  **Data Source:** By default, the notebook queries the `normalized_subject_terms.txt` file directly from the GitHub `main` branch. You can manually upload your own version to the Kaggle session if needed.
+5.  **Data Source:** By default, the notebook queries the `subject_terms.txt` file directly from the GitHub `main` branch. You can manually upload your own version to the Kaggle session if needed.
 
 6.  **Configuration:** In the notebook, ensure the `categories` list contains the specific tags you want to test for similarity and associate with the subject terms.
 
@@ -26,3 +29,7 @@ This directory contains the tools and instructions for grouping and categorizing
     - Go to **Session Options**.
     - Enable **Internet Access**.
     - Set the **Accelerator** to **GPU T4 x2**.
+
+8. This will output multiple files, the most important being `all_terms.csv`. Download and then update this file in `ml/output/all_terms.csv`. This file contains the most likely category (aka tag) that matches with each subject term.
+
+9. Run `npm run tsxe src/scripts/tag-generateCategoryTags.ts` to create a new version of the file `seeds/categories_tags.json`

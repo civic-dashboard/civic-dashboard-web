@@ -49,7 +49,7 @@ export function FeedbackFormContent() {
           Thank you! We read every piece of feedback and truly appreciate it.
         </p>
         <Button
-          variant="secondary-outline"
+          variant="outline"
           size="sm"
           onClick={() => setSendState('ready')}
         >
@@ -64,10 +64,10 @@ export function FeedbackFormContent() {
       <div className="flex gap-2">
         <Button
           type="button"
-          variant={mode === 'text' ? 'default' : 'secondary-outline'}
+          variant={mode === 'text' ? 'default' : 'outline'}
           className={
             mode === 'text'
-              ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+              ? 'bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
               : ''
           }
           size="sm"
@@ -77,10 +77,10 @@ export function FeedbackFormContent() {
         </Button>
         <Button
           type="button"
-          variant={mode === 'interview' ? 'default' : 'secondary-outline'}
+          variant={mode === 'interview' ? 'default' : 'outline'}
           className={
             mode === 'interview'
-              ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+              ? 'bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
               : ''
           }
           size="sm"

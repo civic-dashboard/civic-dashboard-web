@@ -32,5 +32,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate next-env.d.ts
+        run: npx next typegen
+
       - name: Lint
         run: npm run lint

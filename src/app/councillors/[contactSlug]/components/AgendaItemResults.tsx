@@ -88,10 +88,7 @@ const AgendaItemCard = memo(function AgendaItemCard({
             <Link
               href={`/actions/item/${item.agendaItemNumber}`}
               target="_blank"
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'sm' }),
-                'shadow-md hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors bg-white dark:bg-neutral-800',
-              )}
+              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
             >
               Learn more
             </Link>
@@ -201,19 +198,20 @@ const Pagination: React.FC<PaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <nav className="flex items-center justify-center space-x-2 mt-8 mb-8">
+    <nav className="flex items-center justify-center gap-x-2 mt-8 mb-8">
       <Button
         onClick={onPreviousPage}
         disabled={!hasPreviousPage}
-        variant="secondary-outline"
+        variant="outline"
+        size="sm"
       >
         Previous
       </Button>
 
-      <div className="flex space-x-1">
+      <div className="flex gap-x-1">
         {visiblePages[0] > 1 && (
           <>
-            <Button onClick={() => onPageChange(1)} variant="secondary">
+            <Button onClick={() => onPageChange(1)} variant="ghost" size="sm">
               1
             </Button>
             {visiblePages[0] > 2 && (
@@ -226,7 +224,8 @@ const Pagination: React.FC<PaginationProps> = ({
           <Button
             key={page}
             onClick={() => onPageChange(page)}
-            variant={`${page === currentPage ? 'default' : 'secondary'}`}
+            variant={page === currentPage ? 'default' : 'ghost'}
+            size="sm"
           >
             {page}
           </Button>
@@ -239,7 +238,8 @@ const Pagination: React.FC<PaginationProps> = ({
             )}
             <Button
               onClick={() => onPageChange(totalPages)}
-              variant="secondary"
+              variant="ghost"
+              size="sm"
             >
               {totalPages}
             </Button>
@@ -250,7 +250,8 @@ const Pagination: React.FC<PaginationProps> = ({
       <Button
         onClick={onNextPage}
         disabled={!hasNextPage}
-        variant="secondary-outline"
+        variant="outline"
+        size="sm"
       >
         Next
       </Button>
@@ -267,7 +268,7 @@ export default function AgendaItemResults({
   currentPage: number;
   //searchTerm?: string;
 }) {
-  if (currentPage <= 0) currentPage = 1;
+  const safeCurrentPage = currentPage <= 0 ? 1 : currentPage;
 
   const pageSize = 10; // make this dynamic based on user selection
 
@@ -298,13 +299,13 @@ export default function AgendaItemResults({
     goToPage,
     goToNextPage,
     goToPreviousPage,
-  } = usePagination(currentPage, agendaItemCount, contactSlug, 10);
+  } = usePagination(safeCurrentPage, agendaItemCount, contactSlug, 10);
 
   useEffect(() => {
-    setPageAgendaItems([]);
     const res = async () => {
+      setPageAgendaItems([]);
       const response = await fetch(
-        `/api/councillor-items?contactSlug=${contactSlug}&page=${currentPage}&pageSize=${pageSize}`,
+        `/api/councillor-items?contactSlug=${contactSlug}&page=${safeCurrentPage}&pageSize=${pageSize}`,
         {
           method: 'GET',
         },
@@ -318,7 +319,7 @@ export default function AgendaItemResults({
       setPageAgendaItems(newAgendaItems);
     };
     res();
-  }, [currentPage, contactSlug]);
+  }, [safeCurrentPage, contactSlug]);
 
   return (
     <div>
@@ -356,7 +357,7 @@ export default function AgendaItemResults({
       )}
 
       <Pagination
-        currentPage={currentPage}
+        currentPage={safeCurrentPage}
         totalPages={totalPages}
         onPageChange={goToPage}
         hasNextPage={hasNextPage}

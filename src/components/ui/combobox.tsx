@@ -8,7 +8,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { cn } from '@/components/ui/utils';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   Popover,
   PopoverContent,
@@ -32,6 +32,8 @@ type Props<ID extends number | string> = {
   searchable?: boolean;
   /** Keeps original order if false. Otherwise, reorders the items in the combo box based on selection */
   reorderSelected?: boolean;
+  /** Scroll the dropdown list to the top when the search query changes - this is useful to keep the searched item in view */
+  resetScrollOnSearch?: boolean;
   defaultValue?: ID | ID[];
 };
 
@@ -45,9 +47,39 @@ export const Combobox = <ID extends number | string>({
   noResults,
   searchable = true,
   reorderSelected = true,
+  resetScrollOnSearch = false,
   defaultValue = undefined,
 }: Props<ID>) => {
   const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const commandListRef = useRef<HTMLDivElement>(null);
+
+  const scrollListToTop = useCallback(() => {
+    const list = commandListRef.current;
+    if (list) list.scrollTop = 0;
+  }, []);
+
+  useLayoutEffect(() => {
+    if (resetScrollOnSearch) scrollListToTop();
+  }, [searchQuery, resetScrollOnSearch, scrollListToTop]);
+
+  const onSearchValueChange = useCallback(
+    (value: string) => {
+      if (!resetScrollOnSearch) return;
+      scrollListToTop();
+      setSearchQuery(value);
+    },
+    [resetScrollOnSearch, scrollListToTop],
+  );
+
+  const handleOpenChange = useCallback(
+    (isOpen: boolean) => {
+      setOpen(isOpen);
+      if (!isOpen) setSearchQuery('');
+    },
+    [setOpen, setSearchQuery],
+  );
+
   if (multiple && !Array.isArray(value)) {
     throw new Error(
       'Must pass list of strings for value if using multiple option on combobox.',
@@ -107,7 +139,7 @@ export const Combobox = <ID extends number | string>({
   );
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -118,7 +150,7 @@ export const Combobox = <ID extends number | string>({
             isEmpty && 'text-gray-500',
           )}
         >
-          <span className="overflow-ellipsis overflow-hidden whitespace-nowrap">
+          <span className="text-ellipsis overflow-hidden whitespace-nowrap">
             {displayedValue}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -126,8 +158,15 @@ export const Combobox = <ID extends number | string>({
       </PopoverTrigger>
       <PopoverContent className="max-w-[500px] p-0">
         <Command>
-          {searchable && <CommandInput placeholder={placeholder} />}
-          <CommandList>
+          {searchable && (
+            <CommandInput
+              placeholder={placeholder}
+              onValueChange={
+                resetScrollOnSearch ? onSearchValueChange : undefined
+              }
+            />
+          )}
+          <CommandList ref={commandListRef}>
             {noResults && <CommandEmpty>{noResults}</CommandEmpty>}
             <CommandGroup>
               {orderedOptions.map((option) => (

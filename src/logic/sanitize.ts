@@ -1,9 +1,8 @@
-import DOMPurify, {
-  type Config as DOMPurifyConfig,
-} from 'isomorphic-dompurify';
+// eslint-disable-next-line no-restricted-imports
+import sanitizeHtml from 'sanitize-html';
 
-const config: DOMPurifyConfig = {
-  ALLOWED_TAGS: [
+const config: sanitizeHtml.IOptions = {
+  allowedTags: [
     'p',
     'br',
     'strong',
@@ -19,34 +18,38 @@ const config: DOMPurifyConfig = {
     'td',
     'th',
     'tfoot',
+    'mark',
     // 'a', // Todo: tricky since we ought to add rel, target, and class
   ],
-  ALLOWED_ATTR: ['title', 'style'],
+  allowedAttributes: {
+    '*': ['title', 'style'],
+  },
+  transformTags: {
+    '*': (tagName, attribs) => {
+      if (attribs.style) {
+        const filteredStyles = attribs.style
+          .split(';')
+          .map((style) => style.trim())
+          .filter(Boolean)
+          .filter((style) => {
+            const property = style.split(':')[0].trim().toLowerCase();
+            return property !== 'color';
+          });
+
+        if (filteredStyles.length > 0) {
+          attribs.style = filteredStyles.join('; ') + ';';
+        } else {
+          delete attribs.style;
+        }
+      }
+      return { tagName, attribs };
+    },
+  },
 };
-
-// Add a hook to sanitize the style attribute manually since we only want to remove color
-DOMPurify.addHook('uponSanitizeAttribute', (_node, event) => {
-  if (event.attrName === 'style') {
-    const filteredStyles = event.attrValue
-      .split(';')
-      .map((style) => style.trim())
-      .filter(Boolean)
-      .filter((style) => {
-        const property = style.split(':')[0].trim().toLowerCase();
-        return property !== 'color';
-      });
-
-    if (filteredStyles.length > 0) {
-      event.attrValue = filteredStyles.join('; ') + ';';
-    } else {
-      event.keepAttr = false;
-    }
-  }
-});
 
 export const sanitize = (text: string) => {
   if (!text) return '';
-  return DOMPurify.sanitize(text, config);
+  return sanitizeHtml(text, config);
 };
 
 export const stripHtmlAndGetFirstParagraph = (html: string) => {

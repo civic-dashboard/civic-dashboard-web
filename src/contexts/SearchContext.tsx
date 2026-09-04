@@ -14,6 +14,8 @@ import { PAGE_LIMIT, SEARCH_DEBOUNCE_DELAY_MS } from '@/constants/search';
 
 import { getStartOfToday } from '@/logic/date';
 
+type TimeRangeType = 'upcoming' | 'past';
+
 type SearchContext = {
   searchOptions: SearchOptions;
   setSearchOptions: Dispatch<SetStateAction<SearchOptions>>;
@@ -21,6 +23,8 @@ type SearchContext = {
   isLoadingMore: boolean;
   hasMoreSearchResults: boolean;
   getNextPage: () => void;
+  timeRange: TimeRangeType;
+  setTimeRange: (timeRange: TimeRangeType) => void;
 };
 
 const SearchContext = createContext<SearchContext | null>(null);
@@ -47,6 +51,21 @@ export function SearchProvider({ children }: Props) {
   const [hasMoreSearchResults, setHasMoreSearchResults] = useState(false);
   // use this ref to access latest searchResults val without adding searchResults to dependency arrays
   const searchResultsRef = useRef<AgendaItemSearchResponse | null>(null);
+
+  // Controlling time range of action items fetched
+  const [timeRange, setTimeRangeState] = useState<TimeRangeType>('upcoming');
+
+  // Setting search options based on time range
+  const setTimeRange = useCallback((newTimeRange: TimeRangeType) => {
+    setTimeRangeState(newTimeRange);
+    const isPast = newTimeRange === 'past';
+    const startOfToday = getStartOfToday();
+    setSearchOptions((opts) => ({
+      ...opts,
+      minimumDate: isPast ? undefined : startOfToday,
+      maximumDate: isPast ? new Date(startOfToday.getTime() - 1) : undefined,
+    }));
+  }, []);
 
   // keep the ref in sync with the actual state
   useEffect(() => {
@@ -111,10 +130,10 @@ export function SearchProvider({ children }: Props) {
   }, []);
 
   useEffect(() => {
-    // when searchOptions changes, that means we're executing a new search, so reset currentPage to 0
-    setCurrentPage(0);
-
     const debounceTimeout = setTimeout(() => {
+      // when searchOptions changes, that means we're executing a new search, so reset currentPage to 0
+      setCurrentPage(0);
+
       onSearch(searchOptions, 0);
     }, SEARCH_DEBOUNCE_DELAY_MS);
 
@@ -124,6 +143,8 @@ export function SearchProvider({ children }: Props) {
   // infinite scroll - trigger a new search when currentPage changes
   useEffect(() => {
     if (currentPage > 0) {
+      // onSearch is async; setIsLoading(true) is intentional and doesn't cause a cascade
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       onSearch(searchOptions, currentPage);
     }
   }, [currentPage, searchOptions, onSearch]);
@@ -137,6 +158,8 @@ export function SearchProvider({ children }: Props) {
         isLoadingMore: isLoading && searchResults !== null,
         hasMoreSearchResults,
         getNextPage,
+        timeRange,
+        setTimeRange,
       }}
     >
       {children}

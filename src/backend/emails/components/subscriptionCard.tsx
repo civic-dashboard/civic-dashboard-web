@@ -1,13 +1,16 @@
-import { decisionBodies } from '@/constants/decisionBodies';
+import { DecisionBody } from '@/api/decisionBody';
 import {
   areSearchFiltersEmpty,
   SubscribableSearchFilters,
 } from '@/logic/search';
-import { Text } from '@react-email/components';
+import { Text } from 'react-email';
 import { allTags } from '@/constants/tags';
 
-type Props = { filters: SubscribableSearchFilters };
-export const EmailSubscriptionCard = ({ filters }: Props) => {
+type Props = {
+  filters: SubscribableSearchFilters;
+  decisionBodies: Record<number, DecisionBody>;
+};
+export const EmailSubscriptionCard = ({ filters, decisionBodies }: Props) => {
   return (
     <>
       {areSearchFiltersEmpty(filters) && (
@@ -26,7 +29,8 @@ export const EmailSubscriptionCard = ({ filters }: Props) => {
         <EmailSearchFilter
           label="Decision Bodies"
           content={filters.decisionBodyIds
-            .map((id) => decisionBodies[id].decisionBodyName)
+            .map((id) => decisionBodies[id]?.decisionBodyName)
+            .filter(Boolean)
             .join(', ')}
         />
       )}

@@ -1,5 +1,6 @@
 'use client';
 
+import { DecisionBody } from '@/api/decisionBody';
 import { SearchResultAgendaItemCard } from '@/components/AgendaItemCard';
 import {
   UpcomingPastToggle,
@@ -11,15 +12,60 @@ import {
 } from '@/components/search';
 import { useEffect, useMemo } from 'react';
 import { Spinner } from '@/components/ui/spinner';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
 import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
 import { usePathname, useRouter } from 'next/navigation';
 import { isTag } from '@/constants/tags';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { areSearchFiltersEmpty } from '@/logic/search';
 
-function ResultList() {
+function AgendaListEmptyState() {
+  const { searchOptions, timeRange, setTimeRange } = useSearch();
+
+  const switchToPastItems = () => setTimeRange('past');
+
+  // Fancy empty state when no upcoming items and empty search options (text query, decision bodies, tags)
+  if (timeRange === 'upcoming') {
+    if (areSearchFiltersEmpty(searchOptions)) {
+      return (
+        <div>
+          <h2 className="mx-auto">No upcoming agenda items right now</h2>
+          <h5 className="mx-auto">
+            There are no upcoming meetings or agenda items scheduled at the
+            moment. In the meantime, you can explore recent decisions or review
+            how your councillor has voted.
+          </h5>
+          <div className="flex sm:flex-row flex-col justify-center sm:justify-start gap-3 my-5">
+            <Button
+              variant={'outline'}
+              className="w-full sm:w-auto"
+              onClick={switchToPastItems}
+            >
+              Browse Past Items
+            </Button>
+
+            <Link href={'/councillors'}>
+              <Button variant={'outline'} className="w-full sm:w-auto">
+                See How Your Councillor Voted
+              </Button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+  }
+  // Display basic message for any other case
+  return <h4 className="mx-auto my-32">No results...</h4>;
+}
+
+function ResultList({
+  decisionBodies,
+}: {
+  decisionBodies: Record<number, DecisionBody>;
+}) {
   const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
     useSearch();
 
@@ -34,9 +80,9 @@ function ResultList() {
       <Spinner show={searchResults === null} />
       {searchResults && (
         <>
-          {searchResults.results.length === 0 && (
-            <h4 className="mx-auto my-32">No results...</h4>
-          )}
+          {/* {If search results are empty} */}
+          {searchResults.results.length === 0 && <AgendaListEmptyState />}
+          {/* If search results are non-empty */}
           {searchResults.results.map((item) => (
             <SearchResultAgendaItemCard
               key={item.id}
@@ -48,7 +94,7 @@ function ResultList() {
             (isLoadingMore ? (
               <Spinner show={isLoadingMore} />
             ) : (
-              <div ref={sentinelRef} className="py-4 mt-4" />
+              <div ref={sentinelRef} className="mt-4 py-4" />
             ))}
         </>
       )}
@@ -58,9 +104,10 @@ function ResultList() {
 
 type Props = {
   initialSearchParams: { [key: string]: string | string[] | undefined };
+  decisionBodies: Record<number, DecisionBody>;
 };
 
-function AgendaItemListInner({ initialSearchParams }: Props) {
+function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   const { searchOptions, setSearchOptions } = useSearch();
   const router = useRouter();
   const pathname = usePathname();
@@ -105,13 +152,13 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
           ([_, body]) => body.termId === CURRENT_COUNCIL_TERM,
         ),
       ),
-    [],
+    [decisionBodies],
   );
 
   return (
-    <div className="flex flex-col space-y-4 p-4 items-stretch max-w-full sm:max-w-max-content-width">
+    <div className="flex flex-col items-stretch gap-y-4 p-4 max-w-full sm:max-w-max-content-width">
       <div className="mt-4 mb-2">
-        <h1 className="text-2xl font-bold">Actions</h1>
+        <h1 className="font-bold text-2xl">Council activity</h1>
         <p>
           Here are agenda items that the City of Toronto will discuss at
           upcoming meetings. You can provide feedback on these items by
@@ -121,7 +168,7 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
         </p>
       </div>
       <UpcomingPastToggle />
-      <div className="flex flex-row self-stretch items-center space-x-2">
+      <div className="flex flex-row items-center self-stretch gap-x-2">
         <div className="flex-grow">
           <SearchBar />
         </div>
@@ -134,21 +181,24 @@ function AgendaItemListInner({ initialSearchParams }: Props) {
       <DecisionBodyFilter
         decisionBodies={currentTermDecisionBodies}
       ></DecisionBodyFilter>
-      <div className="flex flex-row justify-around items-end flex-wrap self-stretch space-x-4 space-y-4">
-        <div className="flex grow justify-between items-end">
+      <div className="flex flex-row flex-wrap justify-around items-end self-stretch gap-x-4 gap-y-4">
+        <div className="flex justify-between items-end grow">
           <ResultCount />
           <SubscribeToSearchButton />
         </div>
       </div>
-      <ResultList />
+      <ResultList decisionBodies={decisionBodies} />
     </div>
   );
 }
 
-export function AgendaItemList({ initialSearchParams }: Props) {
+export function AgendaItemList({ initialSearchParams, decisionBodies }: Props) {
   return (
     <SearchProvider>
-      <AgendaItemListInner initialSearchParams={initialSearchParams} />
+      <AgendaItemListInner
+        initialSearchParams={initialSearchParams}
+        decisionBodies={decisionBodies}
+      />
     </SearchProvider>
   );
 }

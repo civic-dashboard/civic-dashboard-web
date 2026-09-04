@@ -1,11 +1,4 @@
-import {
-  Body,
-  Container,
-  Head,
-  Html,
-  Preview,
-  Text,
-} from '@react-email/components';
+import { Body, Container, Head, Html, Preview, Text } from 'react-email';
 import type { FeedbackPayload } from '@/types/feedback';
 
 export function FeedbackEmailTemplate({

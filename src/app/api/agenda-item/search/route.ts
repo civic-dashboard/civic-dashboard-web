@@ -1,7 +1,10 @@
 import { parseDateParam, parseNumberParam } from '@/api/utils';
 import { isTag } from '@/constants/tags';
 import { createDB } from '@/database/kyselyDb';
-import { AgendaItem, searchAgendaItems } from '@/database/queries/agendaItems';
+import {
+  AgendaItemSearchResult,
+  searchAgendaItems,
+} from '@/database/queries/agendaItems';
 import {
   SortByOption,
   sortByOptions,
@@ -14,7 +17,7 @@ export type AgendaItemSearchResponse = {
   page: number;
   pageSize: number;
   totalCount: number;
-  results: AgendaItem[];
+  results: AgendaItemSearchResult[];
 };
 
 export async function GET(request: NextRequest) {

@@ -41,6 +41,10 @@ export interface AgendaItem {
   neighbourhoodId: number[] | null;
 }
 
+export type AgendaItemSearchResult = AgendaItem & {
+  searchHeadline: string | null;
+};
+
 type AgendaItemForSubjectTerm = Pick<
   AgendaItem,
   'agendaItemId' | 'subjectTerms'
@@ -352,7 +356,16 @@ export const searchAgendaItems = async (
     pagination: { page, pageSize },
   }: SearchAgendaItemArgs,
 ) => {
-  const postgresQuery = queryAndTagsToPostgresTextSearchQuery({
+  // Generate separate queries for tags and text to filter independently
+  const tagsQuery = queryAndTagsToPostgresTextSearchQuery({
+    textQuery: '',
+    tags,
+  });
+  const textOnlyQuery = queryAndTagsToPostgresTextSearchQuery({
+    textQuery,
+    tags: [],
+  });
+  const combinedQuery = queryAndTagsToPostgresTextSearchQuery({
     textQuery,
     tags,
   });
@@ -367,13 +380,13 @@ export const searchAgendaItems = async (
         .orderBy('meetingDate', 'desc'),
     )
     .with('query', (db) =>
-      db.selectNoFrom(sql`to_tsquery('english', ${postgresQuery})`.as('query')),
+      db.selectNoFrom(sql`to_tsquery('english', ${combinedQuery})`.as('query')),
     )
     .with('filteredAgendaItems', (db) => {
       let query = db
         .selectFrom(['mostRecentConsiderations', 'query'])
         .select(agendaItemConflictColumns)
-        .$if(Boolean(postgresQuery), (query) =>
+        .$if(Boolean(combinedQuery), (query) =>
           query.select(sql`ts_rank("textSearchVector", query)`.as('rank')),
         );
 
@@ -387,8 +400,22 @@ export const searchAgendaItems = async (
         query = query.where('termId', '=', termId);
       }
 
-      if (postgresQuery) {
-        query = query.whereRef('textSearchVector', '@@', 'query');
+      // Apply tag filtering as a mandatory condition
+      if (tagsQuery) {
+        query = query.where(
+          sql<boolean>`"textSearchVector" @@ to_tsquery('english', ${tagsQuery})`,
+        );
+      }
+
+      // Apply text filtering (can match in search vector or reference field)
+      if (textOnlyQuery) {
+        query = query.where((eb) =>
+          eb.or([
+            sql<boolean>`"textSearchVector" @@ to_tsquery('english', ${textOnlyQuery})`,
+            // Partial matching of text query to 'reference' column of action item
+            eb('reference', 'ilike', `%${textQuery}%`),
+          ]),
+        );
       }
 
       if (minimumDate !== undefined) {
@@ -417,13 +444,20 @@ export const searchAgendaItems = async (
       .executeTakeFirstOrThrow()
   ).count;
 
+  const headlineExpr = textOnlyQuery
+    ? sql<
+        string | null
+      >`ts_headline('english', regexp_replace("agendaItemSummary", '<[^>]+>', ' ', 'g'), to_tsquery('english', ${textOnlyQuery}), 'StartSel=<mark>, StopSel=</mark>, HighlightAll=true')`
+    : sql<string | null>`NULL`;
+
   let query = commonTables
     .selectFrom('filteredAgendaItems')
-    .select(agendaItemConflictColumns);
+    .select(agendaItemConflictColumns)
+    .select(headlineExpr.as('searchHeadline'));
 
   query = query
     .orderBy(
-      sortBy === 'relevance' && Boolean(postgresQuery) ? 'rank' : 'meetingDate',
+      sortBy === 'relevance' && Boolean(combinedQuery) ? 'rank' : 'meetingDate',
       sortDirection === 'ascending' ? 'asc' : 'desc',
     )
     .limit(pageSize)
@@ -431,7 +465,9 @@ export const searchAgendaItems = async (
 
   const rawResults = await query.execute();
 
-  const results: AgendaItem[] = rawResults.map(cleanAgendaItem);
+  const results = rawResults.map(
+    cleanAgendaItem,
+  ) as unknown as AgendaItemSearchResult[];
 
   return {
     totalCount,

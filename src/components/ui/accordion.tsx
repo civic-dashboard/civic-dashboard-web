@@ -4,8 +4,28 @@ import * as React from 'react';
 // eslint-disable-next-line no-restricted-imports
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { ChevronDown } from 'lucide-react';
+import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/components/ui/utils';
+
+const accordionTriggerVariants = cva(
+  'flex flex-1 items-center gap-x-2 py-4 font-semibold transition-all [&[data-state=open]>svg]:rotate-180',
+  {
+    variants: {
+      variant: {
+        default: 'justify-end gap-x-2 pt-0 text-xs hover:underline',
+        heading: 'place-content-between px-4',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  },
+);
+
+export interface AccordionTriggerProps
+  extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>,
+    VariantProps<typeof accordionTriggerVariants> {}
 
 const Accordion = AccordionPrimitive.Root;
 
@@ -23,15 +43,12 @@ AccordionItem.displayName = 'AccordionItem';
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  AccordionTriggerProps
+>(({ variant, className, children, ...props }, ref) => (
   <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger
       ref={ref}
-      className={cn(
-        'flex flex-1 items-center justify-end gap-x-2 py-4 pt-0 text-xs font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
-        className,
-      )}
+      className={cn(accordionTriggerVariants({ variant, className }))}
       {...props}
     >
       {children}

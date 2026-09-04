@@ -9,7 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import type { AgendaItem } from '@/database/queries/agendaItems';
+import type {
+  AgendaItem,
+  AgendaItemSearchResult,
+} from '@/database/queries/agendaItems';
+import { sanitize } from '@/logic/sanitize';
 import { useSearch } from '@/contexts/SearchContext';
 import { Chip, ChipLink } from '@/components/ui/chip';
 import {
@@ -228,7 +232,7 @@ export function FullPageAgendaItemCard({
 }
 
 type SearchResultAgendaItemCardProps = {
-  item: AgendaItem;
+  item: AgendaItemSearchResult;
   decisionBody: DecisionBody;
 };
 export function SearchResultAgendaItemCard({
@@ -283,11 +287,22 @@ export function SearchResultAgendaItemCard({
           <div className="overflow-y-auto max-h-full">
             <HighlightChildren terms={textQuery}>
               <CardTitle>{item.agendaItemTitle}</CardTitle>
+            </HighlightChildren>
+            {item.searchHeadline ? (
+              <div
+                className="mt-2 [&_mark]:bg-yellow-200 dark:[&_mark]:bg-yellow-800 [&_mark]:rounded-sm"
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(item.searchHeadline),
+                }}
+              />
+            ) : (
               <div
                 className="mt-2"
-                dangerouslySetInnerHTML={{ __html: item.agendaItemSummary }}
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(item.agendaItemSummary),
+                }}
               />
-            </HighlightChildren>
+            )}
           </div>
         </div>
       </AgendaItemCard>
@@ -370,8 +385,11 @@ export function SearchPageAgendaItemCard({
 
           {/* Motions section using the councillor page style */}
           <div className="mt-2">
-            {motions.map((motion) => (
-              <div key={motion.motionId} className="border-t p-4">
+            {motions.map((motion, motionIdx) => (
+              <div
+                key={`${motion.motionId}-${motionIdx}`}
+                className="border-t p-4"
+              >
                 <dl className="flex -center mb-2 text-xs gap-1">
                   <dt>Date</dt>
                   <dd className="text-gray-500">{motion.dateTime}</dd>

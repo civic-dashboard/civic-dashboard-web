@@ -1,5 +1,5 @@
-//can be executed by calling: npm run tsxe src/scripts/exportNormalizedSubjectTerms.ts
-//This gets all the subject terms from TMMIS saved in our database, normalizes them, and then
+//can be executed by calling: npm run tsxe src/scripts/tag-exportSubjectTerms.ts
+//This gets all the subject terms from TMMIS saved in our database and
 //creates a .txt file that we can then use to put into the notebook to assign to categories
 import { createDB } from '@/database/kyselyDb';
 import { normalizeSubjectTerms } from '@/database/queries/agendaItems';
@@ -29,7 +29,7 @@ async function main() {
     const normalizedResults = normalizeSubjectTerms(agendaItemRecords);
 
     for (const term of normalizedResults) {
-      uniqueTerms.add(term.subjectTermNormalized);
+      uniqueTerms.add(term.subjectTermRaw);
     }
 
     offset += batchSize;
@@ -37,13 +37,10 @@ async function main() {
   }
 
   const sortedTerms = Array.from(uniqueTerms).sort();
-  fs.writeFileSync(
-    'ml/input/normalized_subject_terms.txt',
-    sortedTerms.join('\n'),
-  );
+  fs.writeFileSync('ml/input/subject_terms.txt', sortedTerms.join('\n'));
 
   console.log(
-    `Successfully exported ${sortedTerms.length} unique normalized terms to ml/input/normalized_subject_terms.txt`,
+    `Successfully exported ${sortedTerms.length} unique raw terms to ml/input/subject_terms.txt`,
   );
   await db
     .destroy()

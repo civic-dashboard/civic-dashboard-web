@@ -6,8 +6,8 @@ import CouncillorVoteContent from '@/app/councillors/[contactSlug]/components/Co
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { Page } from '@/components/ui/page';
-import { decisionBodies } from '@/constants/decisionBodies';
 import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
+import { getCachedDecisionBodies } from '@/logic/decisionBodies';
 
 type ParamsType = {
   contactSlug: string;
@@ -75,11 +75,10 @@ async function getCouncillorOrMayor(db: Kysely<DB>, contactSlug: string) {
   throw new Error(`Unable to find councillor or mayor ${contactSlug}`);
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: ParamsType;
+export async function generateMetadata(props: {
+  params: Promise<ParamsType>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const db = createDB();
   const contact = await getCouncillorOrMayor(db, params.contactSlug);
   if (!contact) {
@@ -90,14 +89,17 @@ export async function generateMetadata({
   };
 }
 export default async function CouncillorVotePage(props: {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
   params: Promise<ParamsType>;
 }) {
-  const currentPage = parseInt(props.searchParams.page || '1', 10);
+  const currentPage = parseInt((await props.searchParams).page || '1', 10);
   const { contactSlug } = await props.params;
 
   const db = createDB();
-  const contact = await getCouncillorOrMayor(db, contactSlug);
+  const [contact, decisionBodies] = await Promise.all([
+    getCouncillorOrMayor(db, contactSlug),
+    getCachedDecisionBodies(),
+  ]);
   if (!contact) {
     notFound();
   }

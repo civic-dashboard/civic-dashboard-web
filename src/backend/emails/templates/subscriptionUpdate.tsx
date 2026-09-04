@@ -1,21 +1,24 @@
 import { AgendaItem } from '@/database/queries/agendaItems';
-import { Heading, Hr, Link, Section } from '@react-email/components';
+import { Heading, Hr, Link, Section } from 'react-email';
 import { Fragment } from 'react';
 import { EmailWrapper } from '@/backend/emails/components/emailWrapper';
 import { EmailSubscriptionCard } from '@/backend/emails/components/subscriptionCard';
 import { EmailAgendaItemCard } from '@/backend/emails/components/agendaItemCard';
 import { SubscribableSearchFilters } from '@/logic/search';
 import { UnsubscribeLink } from '@/backend/emails/components/unsubscribeLink';
+import { DecisionBody } from '@/api/decisionBody';
 
 export type SubscriptionUpdateEmailProps = {
   unsubscribeToken: string;
   items: AgendaItem[];
   filters: SubscribableSearchFilters[];
+  decisionBodies: Record<number, DecisionBody>;
 };
 export const SubscriptionUpdateEmail = ({
   unsubscribeToken,
   items,
   filters,
+  decisionBodies,
 }: SubscriptionUpdateEmailProps) => {
   return (
     <EmailWrapper
@@ -37,7 +40,10 @@ export const SubscriptionUpdateEmail = ({
         {filters.map((searchOption, index) => (
           <Fragment key={index}>
             {index !== 0 && <Hr style={{ borderTopColor: 'black' }} />}
-            <EmailSubscriptionCard filters={searchOption} />
+            <EmailSubscriptionCard
+              filters={searchOption}
+              decisionBodies={decisionBodies}
+            />
           </Fragment>
         ))}
       </Section>

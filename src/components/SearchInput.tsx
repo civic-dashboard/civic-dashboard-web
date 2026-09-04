@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { debounce } from '@/logic/debounce';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, type JSX } from 'react';
 
 type InputProps = JSX.IntrinsicElements['input'];
 export type SearchInputProps = Omit<
