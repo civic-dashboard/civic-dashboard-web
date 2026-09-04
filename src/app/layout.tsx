@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Epilogue, IBM_Plex_Sans } from 'next/font/google';
 import Header from '@/components/navigation/Header';
 import Footer from '@/components/navigation/Footer';
+import { FeedbackWidget } from '@/components/FeedbackWidget';
 import '@/app/globals.css';
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -53,6 +54,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <FeedbackWidget />
       </body>
     </html>
   );
