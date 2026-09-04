@@ -1,6 +1,6 @@
-import React, { type JSX } from 'react';
+import React from 'react';
 
-type AnchorProps = JSX.IntrinsicElements['a'];
+type AnchorProps = React.JSX.IntrinsicElements['a'];
 export type ExternalLinkProps = Omit<
   AnchorProps,
   'target' | 'rel' | 'children'

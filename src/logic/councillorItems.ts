@@ -95,7 +95,7 @@ async function getVotesByAgendaItemsForContact(
         .as('votesFiltered'),
     )
     .selectAll()
-    .orderBy('dateTime desc')
+    .orderBy('dateTime', 'desc')
     .offset((page - 1) * pageSize)
     .limit(pageSize)
     .as('agendaItemsLimited');

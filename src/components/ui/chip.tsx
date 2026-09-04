@@ -26,7 +26,8 @@ const chipVariants = cva(
 );
 
 export interface ChipProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof chipVariants> {}
 
 function Chip({ className, variant, ...props }: ChipProps) {
@@ -36,7 +37,8 @@ function Chip({ className, variant, ...props }: ChipProps) {
 }
 
 export interface ChipLinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  extends
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
     VariantProps<typeof chipVariants> {}
 
 function ChipLink({ className, variant, ...props }: ChipLinkProps) {
@@ -49,7 +51,8 @@ function ChipLink({ className, variant, ...props }: ChipLinkProps) {
 }
 
 export interface ChipButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof chipVariants> {}
 
 function ChipButton({ className, variant, ...props }: ChipButtonProps) {
