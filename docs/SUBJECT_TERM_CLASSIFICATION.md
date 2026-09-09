@@ -1,6 +1,6 @@
 # Subject Term Classification
 
-A **subject term** is a type of keyword that is assigned to agenda items. The set of subject terms is growing, and their usefulness for querying agenda items is limited. To mitigate this, we have utilized zeroshot classification to associate a category with each subject term.
+A **subject term** is a type of keyword that is included in the metadata of agenda items. The total set of subject terms is growing, and their usefulness for querying agenda items is limited. To mitigate this, we have utilized zeroshot classification to associate a category with each subject term.
 
 
 ## Data Flow
@@ -12,8 +12,9 @@ This section aims to describe the flow of data through the various components. A
     - Table `AgendaItemSubjectTerms` is populated with exploded and normalized forms 
         - First the raw field is exploded to separate the individual terms
         - Normalized and slugified forms are constructed and stored for each term
+    - Table `AgendaItemCategories` is populated with (`agendaItemId`, `category`) pairs for new agenda items based on existing subject terms 
 
-2. We run `exportAllSubjectTerms` to fetch all subject terms from the database
+2. We run `exportAllSubjectTerms.ts` to fetch all subject terms from the database
     - Script fetches all subject terms from `RawAgendaItemConsiderations`, defaults to fetching only subject terms that have not yet been categorized
     - Deduplicates based on the *raw* and *slug* form
     - Outputs to .txt file
@@ -28,9 +29,6 @@ This section aims to describe the flow of data through the various components. A
     - Outputs array of JSON objects, representing each term:
       - `{"category": string, "tagRaw": string, "tagNormalized": string, "tagSlug": string}`
 
-5. Run `ingestClassification.ts` to insert results into the database
-    - Purges and re-inserts each inputted subject term + category into `TagCategories` table
-    - Updates `AgendaItemSubjectTerms` accordingly
-
-
-
+5. Run `ingestClassificationResults.ts` to insert results into the database
+    - Upserts newly classified terms in `TagCategories` 
+    - Truncates `AgendaItemCategories` and completely rebuilds the table for all agenda items
