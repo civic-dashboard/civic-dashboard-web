@@ -10,18 +10,13 @@ import { readFile } from 'fs/promises';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import { createDB } from '@/database/kyselyDb';
-import { updateAgendaItemCategories } from '@/database/queries/agendaItems';
+import { processAgendaItemSubjectTerms } from '@/database/queries/agendaItems';
 
 type CategoryMappingEntry = {
   tagRaw: string;
   category: string;
   tagNormalized: string;
   tagSlug: string;
-};
-
-type IngestionResult = {
-  insertedCount: number;
-  agendaItemIds: number[];
 };
 
 async function parseCategoryMappingJson(
@@ -52,44 +47,19 @@ async function upsertTagCategories(
 }
 
 /**
- * Queries AgendaItemSubjectTerms for agenda items that have any of the
- * given subject term slugs, then refreshes their AgendaItemCategories.
- */
-async function refreshAgendaItemCategories(
-  db: Kysely<DB>,
-  slugs: string[],
-): Promise<number[]> {
-  const agendaItemRows = await db
-    .selectFrom('AgendaItemSubjectTerms')
-    .select('agendaItemId')
-    .where('subjectTermSlug', 'in', slugs)
-    .distinct()
-    .execute();
-
-  const agendaItemIds = agendaItemRows.map((r) => r.agendaItemId);
-  console.log(`Found ${agendaItemIds.length} agenda items to update`);
-
-  if (agendaItemIds.length > 0) {
-    const updatedCount = await updateAgendaItemCategories(db, agendaItemIds);
-    console.log(
-      `Updated AgendaItemCategories for ${updatedCount} agenda item→category mappings`,
-    );
-  }
-
-  return agendaItemIds;
-}
-
-/**
  * Core ingestion logic. Upserts category mapping entries into TagCategories,
- * and refreshes AgendaItemCategories for affected agenda items.
+ * then fully re-derives the subject-term and category tables.
+ *
+ * While this is not a very efficient implementation, it is the simplest way to
+ * ensure that changes to the set of categories won't result in stale entries.
  */
 export async function ingestClassificationResults(
   db: Kysely<DB>,
   mappingEntries: CategoryMappingEntry[],
-): Promise<IngestionResult> {
+): Promise<void> {
   if (mappingEntries.length === 0) {
     console.log('No entries to insert.');
-    return { insertedCount: 0, agendaItemIds: [] };
+    return;
   }
 
   console.log(
@@ -98,15 +68,13 @@ export async function ingestClassificationResults(
 
   await upsertTagCategories(db, mappingEntries);
 
-  const slugs = mappingEntries.map((e) => e.tagSlug);
-  const agendaItemIds = await refreshAgendaItemCategories(db, slugs);
+  console.log('');
+  console.log('── Rebuilding derived tables ──');
+  await processAgendaItemSubjectTerms(db);
 
   console.log('');
   console.log('── Ingestion Summary ──');
   console.log(`  Subject terms updated:   ${mappingEntries.length}`);
-  console.log(`  Agenda items updated:    ${agendaItemIds.length}`);
-
-  return { insertedCount: mappingEntries.length, agendaItemIds };
 }
 
 async function main() {

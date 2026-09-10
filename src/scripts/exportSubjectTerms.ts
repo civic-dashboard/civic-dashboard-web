@@ -4,8 +4,8 @@
 // subject terms that do not have a category and are not marked "Uncategorizable" will be returned.
 //
 // Usage:
-//  npm run tsxe src/scripts/exportAllSubjectTerms.ts <output.txt>
-//  npm run tsxe src/scripts/exportAllSubjectTerms.ts <output.txt> -- --all
+//  npm run tsxe src/scripts/exportSubjectTerms.ts <output.txt>
+//  npm run tsxe src/scripts/exportSubjectTerms.ts <output.txt> -- --all
 import { createDB } from '@/database/kyselyDb';
 import { normalizeSubjectTerms } from '@/database/queries/agendaItems';
 import fs from 'fs';
@@ -80,7 +80,7 @@ async function main() {
 
   if (!outputPath) {
     console.error(
-      'Usage: npm run tsxe src/scripts/exportAllSubjectTerms.ts [--all] <output.txt>',
+      'Usage: npm run tsxe src/scripts/exportSubjectTerms.ts [--all] <output.txt>',
     );
     process.exit(1);
   }

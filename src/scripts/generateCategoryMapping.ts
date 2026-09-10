@@ -17,6 +17,8 @@ import { argv } from 'process';
 import { toSlug } from '@/logic/toSlug';
 import { processSubjectTerms } from '@/database/pipelines/textParseUtils';
 
+const UNCATEGORIZED = 'Uncategorized';
+
 type Category = {
   name: string;
   description: string;
@@ -53,11 +55,14 @@ type BuildCategoryMappingResult = {
  * explodes/normalizes subject terms, deduplicates, and returns sorted entries
  * along with any skipped records.
  *
+ * Terms the classifier could not categorize are mapped to the explicit
+ * "Uncategorized" category rather than skipped.
+ *
  * Deduplication is on (category, tagSlug) to match the DB unique index
  * idx_category_tag. Two terms can normalize differently but slugify
  * to the same value (e.g. "metis" and "métis" → "metis"), so
- * deduping on normalized text alone is insufficient. In future, we should
- * attempt to deduplicate prior to classification.
+ * deduping on normalized text alone is insufficient.
+ * TODO: we should attempt to deduplicate prior to classification.
  */
 export function buildCategoryMapping(
   records: CsvRow[],
@@ -73,24 +78,22 @@ export function buildCategoryMapping(
 
     if (!validCategories.has(category)) {
       skippedInvalid.push({ term: rawTerm, category, slug: '' });
-      continue;
     }
-
+    const effectiveCategory = validCategories.has(category)
+      ? category
+      : UNCATEGORIZED;
     const processedTerms = processSubjectTerms(rawTerm);
-
     for (const term of processedTerms) {
       const slug = toSlug(term.normalized);
-      const dedupKey = `${category}\0${slug}`;
-
+      const dedupKey = `${effectiveCategory}\0${slug}`;
       if (seenCategorySlug.has(dedupKey)) {
-        duplicates.push({ term: term.raw, category, slug });
+        duplicates.push({ term: term.raw, category: effectiveCategory, slug });
         continue;
       }
       seenCategorySlug.add(dedupKey);
-
       entries.push({
         tagRaw: term.raw,
-        category: category,
+        category: effectiveCategory,
         tagNormalized: term.normalized,
         tagSlug: slug,
       });
