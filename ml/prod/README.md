@@ -7,8 +7,7 @@ This directory contains a Modal app to run the zeroshot classification used to c
 1. Create a modal account: https://modal.com/signup
 2. (Optional) Add a credit card to your account to get $30/month free credits.
 3. Install `uv` - https://docs.astral.sh/uv/getting-started/installation/
-4. Create a virtual environment: `uv venv`
-5. Install deps: `uv pip install -r requirements.txt`
+4. Setup venv, install deps: `cd ml/prod && uv sync`
 
 ## Running App
 
