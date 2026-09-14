@@ -15,8 +15,9 @@ const ELECTION_PAST_DATE = new Date('2026-10-27T00:00:00Z');
 const VOTER_INFO_URL = 'https://myvote.toronto.ca';
 
 export default function ElectionBanner() {
-  const isVoterInfoPhase = new Date() >= VOTER_INFO_PHASE_START;
-  const isPastElection = new Date() >= ELECTION_PAST_DATE;
+  const now = new Date();
+  const isVoterInfoPhase = now >= VOTER_INFO_PHASE_START;
+  const isPastElection = now >= ELECTION_PAST_DATE;
 
   if (isPastElection) return null;
   return (
