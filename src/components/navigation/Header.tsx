@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
+import ElectionBanner from '@/components/ElectionBanner';
 
 // We need to declare the border classes for each color variant.
 // We apply these class names dynamically, so we need to declare them here to ensure they are included in the final CSS bundle.
@@ -53,6 +54,7 @@ export default function Header() {
 
   return (
     <>
+      <ElectionBanner />
       <header className="sticky top-0 z-30 bg-white dark:bg-black">
         <nav
           ref={desktopMenuRef}
