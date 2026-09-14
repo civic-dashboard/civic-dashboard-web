@@ -9,6 +9,7 @@
 import { createDB } from '@/database/kyselyDb';
 import { normalizeSubjectTerms } from '@/database/queries/agendaItems';
 import fs from 'fs';
+import { dirname } from 'node:path';
 import { argv } from 'process';
 
 async function fetchAllSubjectTerms(exportAll: boolean): Promise<Set<string>> {
@@ -89,6 +90,7 @@ async function main() {
 
   const sortedTerms = Array.from(allTerms).sort();
 
+  fs.mkdirSync(dirname(outputPath), { recursive: true });
   fs.writeFileSync(outputPath, sortedTerms.join('\n'));
 
   console.log(
