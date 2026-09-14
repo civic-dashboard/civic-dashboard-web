@@ -72,7 +72,7 @@ export default function Header() {
                   alt="Civic Dashboard Logo"
                   width={33}
                   height={46}
-                  className="object-contain h-[30px] md:h-[44px] w-auto"
+                  className="object-contain h-7.5 md:h-11 w-auto"
                 />
                 <Text
                   preset="Heading2"
