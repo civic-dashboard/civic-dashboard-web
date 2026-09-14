@@ -22,7 +22,7 @@
     "db:run-seed": "kysely seed:run",
     "db:start": "docker compose up --detach database",
     "db:stop": "docker compose stop database",
-    "docker:start": "docker compose up --detach --wait database",
+    "docker:start": "docker compose up --detach --wait",
     "docker:stop": "docker compose stop",
     "tsx": "tsx --tsconfig=tsconfig.tsx.json",
     "tsxe": "tsx --tsconfig=tsconfig.tsx.json --env-file=.env",
