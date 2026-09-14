@@ -3,6 +3,8 @@ import { ExternalLink } from '@/components/ExternalLink';
 import { BulletedList, Text } from '@/components/ui/text-items';
 import { Section } from '@/components/ui/section';
 import { ArticlePage } from '@/components/ui/page';
+import { FeedbackFormContent } from '@/components/FeedbackFormContent';
+import { Card } from '@/components/ui/card';
 
 export const metadata: Metadata = { title: 'Feedback – Civic Dashboard' };
 
@@ -12,33 +14,30 @@ export default function ShareThoughtsPage() {
       <Text preset="Heading1">Share Your Thoughts</Text>
       <Section>
         <Text preset="Body">
-          We’d love to hear any thoughts you're willing to share! Know that we
-          read every piece of feedback, and that it is this project's guiding
-          light.
+          We’d love to hear any thoughts you're willing to share! We read every
+          piece of feedback, and they are this project's guiding light.
+        </Text>
+        <Text preset="Body">
+          In addition to general feedback, we also invite you to sign up for a
+          user interview. These are done remotely with a member of of our team,
+          and are typically 30-60 minutes.
         </Text>
         <Text preset="Body">
           All we ask is that you be respectful in your communication. It's 100%
           ok if you have strong negative feelings about any aspect of the
           project - we want to hear them! That said, everyone working on this
-          project is a passion-driven volunteer who is truly doing their best -
-          please keep this in mind as you share your thoughts 😊
+          project is a passion-driven volunteer who is truly doing their best.
+          Please keep this in mind as you share your thoughts 😊
         </Text>
+        <Card className="p-6 space-y-4">
+          <Text preset="Heading3">Feedback Form</Text>
+          <FeedbackFormContent />
+        </Card>
       </Section>
 
       <Section>
-        <Text preset="Heading2">Ways to Share</Text>
+        <Text preset="Heading2">Other Ways to Share</Text>
         <BulletedList>
-          <li>
-            <strong>Google Form</strong> - After checking out our products
-            above, fill out this{' '}
-            <ExternalLink
-              href="https://docs.google.com/forms/d/e/1FAIpQLSdTXLo01njU2E7ZJiLQHJJln3oEity1GMJnkuOIFS-63R0XiQ/viewform"
-              className="classic-link"
-            >
-              form
-            </ExternalLink>
-            .
-          </li>
           <li>
             <strong>Email</strong> - Send an email to{' '}
             <a
@@ -51,7 +50,7 @@ export default function ShareThoughtsPage() {
           </li>
           <li>
             <strong>User Interview</strong> - sign up for a 30-60 minute remote
-            conversation with a member of our team{' '}
+            conversation with a member of our team using the form above, or{' '}
             <a
               href="mailto:teamcivicdashboard@gmail.com
   ?subject=User%20Interview%20Signup
@@ -64,7 +63,7 @@ export default function ShareThoughtsPage() {
   Talk%20soon%21"
               className="classic-link"
             >
-              using this email template
+              this email template
             </a>
           </li>
           <li>
