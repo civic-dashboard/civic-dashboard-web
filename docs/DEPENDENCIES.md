@@ -53,3 +53,10 @@ This file comprehensively lists the dependencies of the project, and why they ar
 ## Dev experience
 
 - All `eslint` related dependencies and `prettier` are for ensuring our codebase has consistent best practices and code style
+
+
+## ML
+
+- `uv` is the preferred Python package manager as it provides a simpler interface for managing dependencies, while still exposing familiar `pip` and `python` interfaces
+- `Jupyter Notebook` is used as a development environment for ML applications, which can be run locally or on hosted platforms (eg. Kaggle, Modal)
+- `Modal` is a hosted environment for running GPU-bound applications. We use it to run inference for our production app, and occasionally for development. 
