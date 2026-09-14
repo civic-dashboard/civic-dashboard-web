@@ -7,7 +7,7 @@ A **subject term** is a type of keyword that is included in the metadata of agen
 
 This section aims to describe the flow of data through the various components. All of this occurs automatically inside scheduled Github Actions workflows.
 
-1. Raw data is fetched from TIMMS
+1. Raw data is fetched from TMMIS
     - The raw agenda items are inserted into the DB table `RawAgendaItemConsiderations`
     - Table `AgendaItemSubjectTerms` is populated with exploded and normalized forms 
         - First the raw field is exploded to separate the individual terms
