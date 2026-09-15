@@ -13,6 +13,15 @@ This file comprehensively lists the dependencies of the project, and why they ar
 - `@opennextjs/cloudflare` and `wrangler` are needed to deploy the app to Cloudflare
 - we also use GitHub actions for CI, these files can be found in `.github/workflows`. We use `tsx` as our script runner.
 
+## HTML sanitization
+
+- `sanitize-html` is used for all HTML sanitization, both on the server
+  (SSR, email templates) and in the browser. It is a pure-JS HTML parser
+  that works without a DOM, which means it doesn't pull in `jsdom` (the
+  previous approach via `isomorphic-dompurify` added ~14 MB).
+  *Import via `@/logic/sanitize` — never import `sanitize-html` directly.*
+- `@types/sanitize-html` provides TypeScript types for `sanitize-html`.
+
 ## Emails
 
 - `react-email` is used for constructing email content.

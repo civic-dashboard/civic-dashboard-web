@@ -4,7 +4,6 @@ import { menuItems } from '@/constants/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronDown, Menu, X } from 'lucide-react';
-import NotificationBanner from '@/components/navigation/NotificationBanner';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text-items';
 import {
@@ -54,10 +53,6 @@ export default function Header() {
 
   return (
     <>
-      <NotificationBanner
-        message="We love and need your feedback! Tap to share your thoughts."
-        link="/feedback"
-      />
       <header className="sticky top-0 z-30 bg-white dark:bg-black">
         <nav
           ref={desktopMenuRef}
@@ -75,7 +70,7 @@ export default function Header() {
                   alt="Civic Dashboard Logo"
                   width={33}
                   height={46}
-                  className="object-contain h-[30px] md:h-[44px] w-auto"
+                  className="object-contain h-7.5 md:h-11 w-auto"
                 />
                 <Text
                   preset="Heading2"
@@ -176,7 +171,7 @@ export default function Header() {
       {/* Mobile/Tablet Menu - moved outside header */}
       {isMenuOpen && (
         <div className="fixed inset-x-0 bottom-0 top-16 z-20 flex flex-col bg-white dark:bg-black lg:hidden">
-          <div className="w-full min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-4 mt-16">
+          <div className="w-full min-h-0 flex-1 gap-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-4 mt-16">
             <Accordion
               type="single"
               collapsible

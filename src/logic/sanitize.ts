@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-imports
 import sanitizeHtml from 'sanitize-html';
 
 const config: sanitizeHtml.IOptions = {

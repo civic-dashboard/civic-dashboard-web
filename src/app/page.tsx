@@ -77,6 +77,8 @@ function HomeCard({ card }: { card: HomeCard }) {
           alt={card.imageAlt}
           width={600}
           height={200}
+          priority
+          unoptimized
           className="w-full object-cover aspect-[5/1] sm:aspect-[3/1] lg:aspect-[4/1]"
         />
         <div className="top-0 bottom-0 absolute flex justify-start items-center w-full">
@@ -219,6 +221,7 @@ export default function Home() {
               width={360}
               height={300}
               className="w-full h-auto object-contain"
+              unoptimized
             />
           </div>
 

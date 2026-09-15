@@ -4,7 +4,7 @@ import { cn } from '@/components/ui/utils';
 import { MouseEventHandler, useCallback } from 'react';
 
 const chipVariants = cva(
-  'inline-flex items-center rounded-lg border border-neutral-200 px-3 py-[6px] gap-x-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 dark:border-neutral-700 dark:focus:ring-neutral-300',
+  'inline-flex items-center rounded-lg border border-neutral-200 px-3 py-[6px] gap-x-1 text-xs font-semibold focus:outline-hidden focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 dark:border-neutral-700 dark:focus:ring-neutral-300',
   {
     variants: {
       variant: {

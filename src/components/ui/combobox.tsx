@@ -150,7 +150,7 @@ export const Combobox = <ID extends number | string>({
             isEmpty && 'text-gray-500',
           )}
         >
-          <span className="overflow-ellipsis overflow-hidden whitespace-nowrap">
+          <span className="text-ellipsis overflow-hidden whitespace-nowrap">
             {displayedValue}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
