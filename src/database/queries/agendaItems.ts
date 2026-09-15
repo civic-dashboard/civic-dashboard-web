@@ -130,33 +130,42 @@ export const insertAgendaItemSubjectTerms = async (
       items.map((row) => [`${row.agendaItemId}::${row.subjectTermSlug}`, row]),
     ).values(),
   ];
+  // Inserts are batched due to postgres limit of 65,535 bind parameters per
+  // statement. A complete backfill of the data would exceed this (100k+).
+  const maxRowsPerInsert = 8_000;
   return db.transaction().execute(async (trx) => {
-    const insertedRows = await trx
-      .insertInto('AgendaItemSubjectTerms')
-      .values(
-        uniqueRows.map(
-          ({
-            agendaItemId,
-            subjectTermRaw,
-            subjectTermNormalized,
-            subjectTermSlug,
-          }) => ({
-            agendaItemId,
-            subjectTermRaw,
-            subjectTermNormalized,
-            subjectTermSlug,
-          }),
-        ),
-      )
-      .onConflict((oc) =>
-        oc.columns(['agendaItemId', 'subjectTermSlug']).doUpdateSet((eb) => ({
-          subjectTermRaw: eb.ref('excluded.subjectTermRaw'),
-          subjectTermNormalized: eb.ref('excluded.subjectTermNormalized'),
-        })),
-      )
-      .returningAll()
-      .execute();
-    return insertedRows.length;
+    let insertedRowCount = 0;
+    for (let i = 0; i < uniqueRows.length; i += maxRowsPerInsert) {
+      const rows = await trx
+        .insertInto('AgendaItemSubjectTerms')
+        .values(
+          uniqueRows
+            .slice(i, i + maxRowsPerInsert)
+            .map(
+              ({
+                agendaItemId,
+                subjectTermRaw,
+                subjectTermNormalized,
+                subjectTermSlug,
+              }) => ({
+                agendaItemId,
+                subjectTermRaw,
+                subjectTermNormalized,
+                subjectTermSlug,
+              }),
+            ),
+        )
+        .onConflict((oc) =>
+          oc.columns(['agendaItemId', 'subjectTermSlug']).doUpdateSet((eb) => ({
+            subjectTermRaw: eb.ref('excluded.subjectTermRaw'),
+            subjectTermNormalized: eb.ref('excluded.subjectTermNormalized'),
+          })),
+        )
+        .returningAll()
+        .execute();
+      insertedRowCount += rows.length;
+    }
+    return insertedRowCount;
   });
 };
 
