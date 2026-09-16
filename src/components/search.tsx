@@ -1,4 +1,5 @@
-import { Check, Search } from 'lucide-react';
+import { ArrowBigRightDash, Check, RotateCcwIcon, Search } from 'lucide-react';
+import { cn } from '@/components/ui/utils';
 import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
@@ -105,7 +106,7 @@ export function DecisionBodyFilter({
       multiple
       value={decisionBodyIds}
       onSelect={onSelect}
-      placeholder="Select decision body..."
+      placeholder="Committees"
       resetScrollOnSearch
     />
   );
@@ -121,35 +122,28 @@ export function UpcomingPastToggle() {
   };
 
   return (
-    <div className="border-gray-200 dark:border-gray-800 border-b w-full">
-      <div className="flex gap-1">
+    <div className="w-[400px]" role="tablist">
+      <div className="grid grid-cols-2">
         <Button
-          variant="ghost"
-          size="lg"
           role="tab"
           aria-selected={timeRange === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
-          className={`border-b-2 cursor-pointer ${
-            timeRange === 'upcoming'
-              ? 'bg-primary-lightest dark:bg-gray-900 border-primary'
-              : 'border-transparent'
-          }`}
+          variant={timeRange === 'upcoming' ? 'default' : 'outline'}
+          className="gap-2"
         >
+          <ArrowBigRightDash size={24} strokeWidth={1.5} />
           Upcoming items
+        </Button>
         </Button>
 
         <Button
-          variant="ghost"
-          size="lg"
           role="tab"
           aria-selected={timeRange === 'past'}
           onClick={() => handleDateRange('past')}
-          className={`border-b-2 cursor-pointer ${
-            timeRange === 'past'
-              ? 'bg-primary-lightest dark:bg-gray-900 border-primary'
-              : 'border-transparent'
-          }`}
+          variant={timeRange === 'past' ? 'default' : 'outline'}
+          className="gap-2"
         >
+          <RotateCcwIcon size={24} strokeWidth={1.5} />
           Past items
         </Button>
       </div>
@@ -179,7 +173,7 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
 
   return (
     <ChipButton
-      className="text-nowrap sm:text-wrap"
+      className="sm:text-wrap text-nowrap"
       variant={isSelected ? 'sky' : 'secondary'}
       onClick={onClick}
       title={tag.searchQuery}
@@ -191,9 +185,9 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
 }
 export function Tags() {
   return (
-    <div className="ml-[-1rem] mr-[-1rem] max-w-[100vh] sm:max-w-full sm:m-0">
+    <div className="sm:m-0 mr-[-1rem] ml-[-1rem] max-w-[100vh] sm:max-w-full">
       <div
-        className="flex gap-x-2 overflow-x-scroll scrollbar-none px-4 sm:flex-wrap sm:gap-y-2 sm:justify-center"
+        className="flex sm:flex-wrap sm:justify-center gap-x-2 sm:gap-y-2 px-4 overflow-x-scroll scrollbar-none"
         style={{ scrollbarWidth: 'none' }}
       >
         {Object.entries(allTags).map(([key, tag]) => (
@@ -204,24 +198,33 @@ export function Tags() {
   );
 }
 
-export function SearchBar() {
+export function SearchBar({ compact = false }: { compact?: boolean }) {
   const { setSearchOptions } = useSearch();
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col w-full max-w-[500px] items-stretch">
-        <div className="flex gap-x-2 items-center flex-1 p-1 px-3 rounded-[28px] bg-neutral-100 dark:bg-neutral-800">
+    <div className={cn('flex justify-center', compact && 'justify-start')}>
+      <div className="flex flex-col items-stretch w-full max-w-[500px]">
+        <div
+          className={cn(
+            'flex flex-1 items-center gap-x-2 p-1 px-3 text-black',
+            compact
+              ? 'bg-white'
+              : 'bg-neutral-100 dark:bg-neutral-800',
+          )}
+        >
+          <Search className="text-gray-500 dark:text-neutral-400" />
           <Input
-            className="border-none py-1 px-2 bg-transparent dark:bg-transparent"
+            className="bg-transparent dark:bg-transparent px-2 py-1 border-none"
             onChange={(ev) =>
               setSearchOptions((opts) => ({
                 ...opts,
                 textQuery: ev.target.value,
               }))
             }
-            placeholder="Search by topic, councillor, or item"
+            placeholder={
+              compact ? 'Search' : 'Search by topic, councillor, or item'
+            }
           />
-          <Search className="text-neutral-600 dark:text-neutral-400" />
         </div>
         {/* <span className="p-1 pl-4 text-[10px] text-neutral-600 dark:text-neutral-400">
           Feel free to use AND, OR, NOT - learn more about search operators

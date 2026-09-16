@@ -7,10 +7,9 @@ import { cn } from '@/components/ui/utils';
 
 const buttonVariants = cva(
   cn(
-    'inline-flex items-center justify-center gap-4',
+    'inline-flex justify-center items-center gap-4',
     'whitespace-nowrap text-base font-semibold',
-    'transition-colors',
-    'ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+    'cursor-pointer ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
     'dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300',
     'disabled:pointer-events-none disabled:opacity-50 [&_svg]:grow-0 [&_svg]:shrink-0',
   ),
@@ -28,6 +27,7 @@ const buttonVariants = cva(
         md: 'h-12 px-4 py-3',
         lg: 'h-14 px-6 py-4',
         icon: 'h-12 w-12',
+        iconSm: 'h-10 w-10',
       },
     },
     defaultVariants: {
