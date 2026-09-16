@@ -15,17 +15,15 @@ import type {
 } from '@/database/queries/agendaItems';
 import { useSearch } from '@/contexts/SearchContext';
 import { Chip, ChipLink } from '@/components/ui/chip';
-import { Link2, MessageSquarePlus, Paperclip, Speech } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  dropdownMenuItemCssClassName,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown';
+  ExternalLink,
+  Link2,
+  MessageSquarePlus,
+  Paperclip,
+  Speech,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { logAnalytics } from '@/api/analytics';
 import { SubmitCommentModal } from '@/components/deputation-modals/SubmitCommentModal';
 import { RequestToSpeakModal } from '@/components/deputation-modals/RequestToSpeakModal';
 import { allTags } from '@/constants/tags';
@@ -54,7 +52,7 @@ function DisplayTag({ tagKey, tagName }: { tagKey: string; tagName: string }) {
   return (
     <Link className="mr-1" href={`/actions?tag=${tagKey}`}>
       <Chip
-        className="hover:border-gray-400 hover:underline text-sm"
+        className="hover:border-gray-400 text-sm hover:underline"
         variant="outline"
       >
         {tagName.toLowerCase()}
@@ -85,7 +83,7 @@ function AgendaItemCard({
   return (
     <Card className={className}>
       <CardHeader>
-        <div className="flex gap-x-2 items-center">
+        <div className="flex items-center gap-x-2">
           <Chip variant="green">{formattedDate}</Chip>
           <span className="hidden sm:inline font-bold">
             {item.decisionBodyName}
@@ -103,10 +101,10 @@ function AgendaItemCard({
           </Chip>
         )}
       </CardHeader>
-      <CardContent className="sm:hidden border-b border-neutral-100 dark:border-neutral-600 flex justify-center p-2">
+      <CardContent className="sm:hidden flex justify-center p-2 border-neutral-100 dark:border-neutral-600 border-b">
         <span className="font-bold">{item.decisionBodyName}</span>
       </CardContent>
-      <CardContent className="[&_ul]:ml-8 [&_ul]:list-disc [&_td]:dark:!border-white">
+      <CardContent className="[&_ul]:ml-8 [&_td]:dark:!border-white [&_ul]:list-disc">
         {children}
       </CardContent>
       <CardFooter>
@@ -162,7 +160,7 @@ export function FullPageAgendaItemCard({
                 <Button
                   size="lg"
                   variant="outline"
-                  className="grow sm:flex-initial"
+                  className="sm:flex-initial grow"
                   data-umami-event="Submit comment"
                 >
                   Submit a comment
@@ -178,7 +176,7 @@ export function FullPageAgendaItemCard({
                 <Button
                   size="lg"
                   variant="outline"
-                  className="grow sm:flex-initial"
+                  className="sm:flex-initial grow"
                   data-umami-event="Request to speak"
                 >
                   Request to speak
@@ -226,7 +224,7 @@ export function FullPageAgendaItemCard({
         item.decisionAdvice) && (
         <>
           {(item.decisionRecommendations || item.decisionAdvice) && (
-            <hr className="my-8 border-t border-neutral-100 dark:border-neutral-600" />
+            <hr className="my-8 border-neutral-100 dark:border-neutral-600 border-t" />
           )}
           <h4 className="mt-4 font-bold">Summary</h4>
         </>
@@ -253,7 +251,7 @@ export function FullPageAgendaItemCard({
           {item.backgroundAttachmentId.map((id, i) => {
             return (
               <ChipLink
-                className="pl-2 mr-1"
+                className="mr-1 pl-2"
                 href={`https://www.toronto.ca/legdocs/mmis/${item.termYear}/${item.agendaCd.toLowerCase()}/bgrd/backgroundfile-${id}.pdf`}
                 key={i}
                 target="_blank"
@@ -283,54 +281,6 @@ export function FullPageAgendaItemCard({
   );
 }
 
-type TakeActionDropdownProps = {
-  agendaItem: AgendaItem;
-  decisionBody: DecisionBody;
-};
-const TakeActionDropdown = ({
-  agendaItem,
-  decisionBody,
-}: TakeActionDropdownProps) => {
-  return (
-    <DropdownMenu
-      onOpenChange={(isOpen) => isOpen && logAnalytics('Take action opened')}
-    >
-      <DropdownMenuTrigger asChild>
-        <Button size="md" className="grow sm:flex-initial">
-          Take action
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent side="top" align="end">
-        <SubmitCommentModal
-          agendaItem={agendaItem}
-          decisionBody={decisionBody}
-          trigger={
-            <button
-              className={dropdownMenuItemCssClassName}
-              data-umami-event="Submit comment"
-            >
-              <MessageSquarePlus /> Submit a comment
-            </button>
-          }
-        />
-        <DropdownMenuSeparator />
-        <RequestToSpeakModal
-          agendaItem={agendaItem}
-          decisionBody={decisionBody}
-          trigger={
-            <button
-              className={dropdownMenuItemCssClassName}
-              data-umami-event="Request to speak"
-            >
-              <Speech /> Request to speak
-            </button>
-          }
-        />
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
-
 type SearchResultAgendaItemCardProps = {
   item: AgendaItemSearchResult;
   decisionBody: DecisionBody;
@@ -345,62 +295,102 @@ export function SearchResultAgendaItemCard({
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
   return (
-    <Link href={`/actions/item/${item.reference}`} target="_blank">
-      <AgendaItemCard
-        item={item}
-        decisionBody={decisionBody}
-        className="transition-shadow sm:hover:shadow-xl dark:hover:bg-neutral-700 group"
-        Footer={() => (
-          <>
-            <Button
-              size="md"
-              variant="outline"
-              className="grow sm:flex-initial"
+    <article className="group flex-row gap-4 grid grid-cols-4">
+      <div className="self-start mt-4 py-1 pl-9 border-black dark:border-white border-l-2">
+        <p className="font-semibold text-black dark:text-white text-lg">
+          {cardDateFormatter
+            .format(new Date(item.meetingDate))
+            .replace(',', '')}
+        </p>
+        <p className="text-gray-dark dark:text-gray-300 text-base">
+          {item.decisionBodyName}
+        </p>
+      </div>
+      <div className="flex gap-4 col-span-3 sm:group-focus-within:bg-primary-lightest sm:group-hover:bg-gray-lightest dark:sm:group-focus-within:bg-neutral-700 dark:sm:group-hover:bg-neutral-700 p-4 min-w-0">
+        <div className="flex-1 min-w-0">
+          <HighlightChildren terms={textQuery}>
+            <Link
+              className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary font-semibold text-primary text-lg hover:underline"
+              href={`/actions/item/${item.reference}`}
+              target="_blank"
             >
-              Learn more
-            </Button>
-            {isMeetingUpcomingOrToday && (
-              <TakeActionDropdown
-                agendaItem={item}
-                decisionBody={decisionBody}
-              />
+              {item.agendaItemTitle}
+            </Link>
+            {item.itemStatus && !isMeetingUpcomingOrToday && (
+              <div className="mt-2">
+                <span className="font-bold">Status:</span>{' '}
+                {formatAgendaItemStatus(item.itemStatus)}
+              </div>
             )}
-          </>
-        )}
-      >
-        <div className="relative max-h-[200px] overflow-hidden">
-          <div
-            className="absolute inset-0 h-[100px] top-[100px] bg-gradient-to-t from-white dark:from-neutral-800 dark:group-hover:from-neutral-700 from-1% via-transparent to-transparent pointer-events-none"
-            data-overflow-gradient
-          />
-          <div className="overflow-y-auto max-h-full">
-            <HighlightChildren terms={textQuery}>
-              <CardTitle>{item.agendaItemTitle}</CardTitle>
-              {item.itemStatus && !isMeetingUpcomingOrToday && (
-                <div className="mt-2">
-                  <span className="font-bold">Status:</span>{' '}
-                  {formatAgendaItemStatus(item.itemStatus)}
-                </div>
-              )}
-            </HighlightChildren>
-            {item.searchHeadline ? (
-              <div
-                className="mt-2 [&_mark]:bg-yellow-200 dark:[&_mark]:bg-yellow-800 [&_mark]:rounded-sm"
-                dangerouslySetInnerHTML={{
-                  __html: sanitize(item.searchHeadline),
-                }}
-              />
-            ) : (
-              <div
-                className="mt-2"
-                dangerouslySetInnerHTML={{
-                  __html: sanitize(item.agendaItemSummary),
-                }}
-              />
-            )}
-          </div>
+          </HighlightChildren>
+          {item.searchHeadline ? (
+            <div
+              className="[&_mark]:bg-yellow-200 dark:[&_mark]:bg-yellow-800 mt-1 [&_mark]:rounded-sm"
+              dangerouslySetInnerHTML={{
+                __html: sanitize(item.searchHeadline),
+              }}
+            />
+          ) : (
+            <div
+              className="mt-1"
+              dangerouslySetInnerHTML={{
+                __html: sanitize(item.agendaItemSummary),
+              }}
+            />
+          )}
         </div>
-      </AgendaItemCard>
-    </Link>
+        <div className="sm:invisible sm:group-focus-within:visible sm:group-hover:visible flex flex-col gap-1 opacity-100 sm:group-focus-within:opacity-100 sm:group-hover:opacity-100 sm:opacity-0 shrink-0">
+          <Button
+            asChild
+            aria-label="Open agenda item on Toronto.ca"
+            size="iconSm"
+            title="Open agenda item on Toronto.ca"
+            variant="ghost"
+          >
+            <a
+              href={`https://secure.toronto.ca/council/agenda-item.do?item=${item.reference}`}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <ExternalLink size={18} />
+            </a>
+          </Button>
+          {isMeetingUpcomingOrToday && (
+            <SubmitCommentModal
+              agendaItem={item}
+              decisionBody={decisionBody}
+              trigger={
+                <Button
+                  aria-label="Submit a comment"
+                  size="icon"
+                  title="Submit a comment"
+                  variant="ghost"
+                  data-umami-event="Submit comment"
+                >
+                  <MessageSquarePlus size={18} />
+                </Button>
+              }
+            />
+          )}
+          {isMeetingUpcomingOrToday && (
+            <RequestToSpeakModal
+              agendaItem={item}
+              decisionBody={decisionBody}
+              trigger={
+                <Button
+                  aria-label="Request to speak"
+                  size="icon"
+                  title="Request to speak"
+                  variant="ghost"
+                  data-umami-event="Request to speak"
+                >
+                  <Speech size={18} />
+                </Button>
+              }
+            />
+          )}
+        </div>
+      </div>
+    </article>
   );
 }

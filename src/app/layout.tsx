@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Epilogue, IBM_Plex_Sans } from 'next/font/google';
+import Script from 'next/script';
 import Header from '@/components/navigation/Header';
 import Footer from '@/components/navigation/Footer';
 import { FeedbackWidget } from '@/components/FeedbackWidget';
@@ -41,14 +42,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${ibmPlexSans.variable} ${epilogue.variable}`}>
       <head>
-        <script
+        <Script
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id="cc44ac27-34a8-4561-8a0f-c0b448b090cd"
           // conservatively exclude search params and url hash so we don't accidentally log personal info if it ever gets stored there in the future (e.g. search text)
           data-exclude-search="true"
           data-exclude-hash="true"
-        ></script>
+        />
       </head>
       <body className="antialiased">
         <Header />

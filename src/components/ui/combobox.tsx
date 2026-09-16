@@ -1,4 +1,4 @@
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronDown } from 'lucide-react';
 import {
   Command,
   CommandEmpty,
@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 
 type Option<ID extends number | string> = {
   id: ID;
@@ -35,6 +35,7 @@ type Props<ID extends number | string> = {
   /** Scroll the dropdown list to the top when the search query changes - this is useful to keep the searched item in view */
   resetScrollOnSearch?: boolean;
   defaultValue?: ID | ID[];
+  size?: ButtonProps['size'];
 };
 
 // TODO: how to dynamically/responsively size this?
@@ -49,6 +50,7 @@ export const Combobox = <ID extends number | string>({
   reorderSelected = true,
   resetScrollOnSearch = false,
   defaultValue = undefined,
+  size,
 }: Props<ID>) => {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -95,11 +97,6 @@ export const Combobox = <ID extends number | string>({
     [options],
   );
 
-  const isEmpty = useMemo(
-    () => (Array.isArray(value) && value.length === 0) || value === undefined,
-    [value],
-  );
-
   const displayedValue = useMemo(() => {
     if (Array.isArray(value)) {
       if (value.length === 0) return placeholder;
@@ -142,21 +139,23 @@ export const Combobox = <ID extends number | string>({
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
+          size={size}
           role="combobox"
           aria-expanded={open}
-          className={cn(
-            'max-w-[300px] justify-between border-neutral-200 rounded-md',
-            isEmpty && 'text-gray-500',
-          )}
+          className="gap-1 max-w-[300px]"
         >
-          <span className="text-ellipsis overflow-hidden whitespace-nowrap">
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
             {displayedValue}
           </span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          {open ? (
+            <ChevronDown className="w-4 h-4 shrink-0" />
+          ) : (
+            <ChevronDown className="w-4 h-4 shrink-0" />
+          )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="max-w-[500px] p-0">
+      <PopoverContent className="p-0 max-w-[500px]">
         <Command>
           {searchable && (
             <CommandInput

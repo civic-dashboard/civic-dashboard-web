@@ -21,6 +21,8 @@ import { isTag } from '@/constants/tags';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { areSearchFiltersEmpty } from '@/logic/search';
+import { Text } from '@/components/ui/text-items';
+import { ChevronDown } from 'lucide-react';
 
 function AgendaListEmptyState() {
   const { searchOptions, timeRange, setTimeRange } = useSearch();
@@ -156,32 +158,31 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   );
 
   return (
-    <div className="flex flex-col items-stretch gap-y-4 p-4 max-w-full sm:max-w-max-content-width">
-      <div className="mt-4 mb-2">
-        <h1 className="font-bold text-2xl">Council activity</h1>
-        <p>
-          Here are agenda items that the City of Toronto will discuss at
-          upcoming meetings. You can provide feedback on these items by
-          submitting comments by email, which will be read at the meeting, or
-          requesting to speak at the meeting live, in person or over video
-          conferencing.
-        </p>
-      </div>
-      <UpcomingPastToggle />
-      <div className="flex flex-row items-center self-stretch gap-x-2">
-        <div className="flex-grow">
-          <SearchBar />
-        </div>
-        <div className="sm:max-w-max-content-width">
+    <div className="flex flex-col gap-y-10 px-6 lg:px-12 py-12 w-full max-w-6xl">
+      <Text preset="Heading2" tag="h1">
+        Council Activity
+      </Text>
+      <section>
+        <div className="flex sm:flex-row flex-col justify-end sm:items-center gap-4 dark:bg-neutral-800 pb-2 border-gray-300 border-b text-gray-dark dark:text-gray-300">
+          <div className="mr-auto">
+            <UpcomingPastToggle />
+          </div>
           <SortDropdown />
+          <details className="relative">
+            <Button asChild variant="ghost" size="sm" className="gap-2">
+              <summary className="cursor-pointer list-none">Topics <ChevronDown className="w-4 h-4 shrink-0" /></summary>
+            </Button>
+            <div className="left-0 z-10 absolute space-y-4 bg-white dark:bg-neutral-800 shadow-lg mt-3 p-4 border border-gray-light w-[min(30rem,calc(100vw-3rem))]">
+              <Tags />
+            </div>
+          </details>
+          <DecisionBodyFilter decisionBodies={currentTermDecisionBodies} />
+          <div className="w-full sm:max-w-[18rem]">
+            <SearchBar compact />
+          </div>
         </div>
-      </div>
-      <Tags />
-      <hr />
-      <DecisionBodyFilter
-        decisionBodies={currentTermDecisionBodies}
-      ></DecisionBodyFilter>
-      <div className="flex flex-row flex-wrap justify-around items-end self-stretch gap-x-4 gap-y-4">
+      </section>
+      <div className="flex flex-row flex-wrap justify-end items-end gap-x-4 gap-y-4">
         <div className="flex justify-between items-end grow">
           <ResultCount />
           <SubscribeToSearchButton />
