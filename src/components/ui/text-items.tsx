@@ -33,7 +33,7 @@ export const textPresetTags: Record<TextPreset, TextTag> = {
   Heading2: 'h2',
   Heading3: 'h3',
   Body: 'p',
-  Small: 'small',
+  Small: 'p',
 };
 
 export const textPresetClasses: Record<TextPreset, string> = {
@@ -75,7 +75,7 @@ export function BulletedList({
   className?: string;
 }) {
   return (
-    <ul className={cn('text-base list-disc pl-6 space-y-4', className)}>
+    <ul className={cn('space-y-4 pl-6 text-base list-disc', className)}>
       {children}
     </ul>
   );

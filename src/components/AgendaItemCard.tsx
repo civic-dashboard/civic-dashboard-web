@@ -187,7 +187,7 @@ export function FullPageAgendaItemCard({
         </>
       )}
     >
-      <CardTitle className="text-lg">{item.agendaItemTitle}</CardTitle>
+      <CardTitle>{item.agendaItemTitle}</CardTitle>
       {item.itemStatus && (
         <div className="mt-2">
           <span className="font-bold">Status:</span>{' '}
@@ -284,10 +284,14 @@ export function FullPageAgendaItemCard({
 type SearchResultAgendaItemCardProps = {
   item: AgendaItemSearchResult;
   decisionBody: DecisionBody;
+  showMeetingDetails?: boolean;
+  isFollowedBySameMeeting?: boolean;
 };
 export function SearchResultAgendaItemCard({
   item,
   decisionBody,
+  showMeetingDetails = true,
+  isFollowedBySameMeeting = false,
 }: SearchResultAgendaItemCardProps) {
   const {
     searchOptions: { textQuery },
@@ -295,44 +299,44 @@ export function SearchResultAgendaItemCard({
   const isMeetingUpcomingOrToday = itemDateIsAfterToday(item.meetingDate);
 
   return (
-    <article className="group flex-row gap-4 grid grid-cols-4">
-      <div className="self-start mt-4 py-1 pl-9 border-black dark:border-white border-l-2">
-        <p className="font-semibold text-black dark:text-white text-lg">
-          {cardDateFormatter
-            .format(new Date(item.meetingDate))
-            .replace(',', '')}
-        </p>
-        <p className="text-gray-dark dark:text-gray-300 text-base">
-          {item.decisionBodyName}
-        </p>
-      </div>
-      <div className="flex gap-4 col-span-3 sm:group-focus-within:bg-primary-lightest sm:group-hover:bg-gray-lightest dark:sm:group-focus-within:bg-neutral-700 dark:sm:group-hover:bg-neutral-700 p-4 min-w-0">
+    <article
+      className={`group gap-4 sm:gap-6 grid sm:grid-cols-[12rem_minmax(0,1fr)] ${showMeetingDetails ? 'pt-4 first:pt-0' : 'pt-1'} ${isFollowedBySameMeeting ? 'pb-1' : 'pb-4'}`}
+    >
+      {showMeetingDetails && (
+        <div className="self-start py-1 pl-4 border-black dark:border-white border-l-2">
+          <p className="font-semibold text-black dark:text-white">
+            {cardDateFormatter
+              .format(new Date(item.meetingDate))
+              .replace(',', '')}
+          </p>
+          <p className="text-gray-darkest dark:text-gray-300 text-base">
+            {item.decisionBodyName}
+          </p>
+        </div>
+      )}
+      <div
+        className={`flex gap-4 sm:group-focus-within:bg-primary-lightest dark:sm:group-focus-within:bg-neutral-700 dark:sm:group-hover:bg-neutral-700 min-w-0 ${showMeetingDetails ? '' : 'sm:col-start-2'}`}
+      >
         <div className="flex-1 min-w-0">
           <HighlightChildren terms={textQuery}>
             <Link
-              className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary font-semibold text-primary text-lg hover:underline"
+              className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary font-semibold text-primary hover:underline"
               href={`/actions/item/${item.reference}`}
               target="_blank"
             >
               {item.agendaItemTitle}
             </Link>
-            {item.itemStatus && !isMeetingUpcomingOrToday && (
-              <div className="mt-2">
-                <span className="font-bold">Status:</span>{' '}
-                {formatAgendaItemStatus(item.itemStatus)}
-              </div>
-            )}
           </HighlightChildren>
           {item.searchHeadline ? (
             <div
-              className="[&_mark]:bg-yellow-200 dark:[&_mark]:bg-yellow-800 mt-1 [&_mark]:rounded-sm"
+              className="[&_mark]:bg-yellow-200 dark:[&_mark]:bg-yellow-800 mt-1 [&_mark]:rounded-sm line-clamp-3"
               dangerouslySetInnerHTML={{
                 __html: sanitize(item.searchHeadline),
               }}
             />
           ) : (
             <div
-              className="mt-1"
+              className="mt-1 text-sm line-clamp-3"
               dangerouslySetInnerHTML={{
                 __html: sanitize(item.agendaItemSummary),
               }}

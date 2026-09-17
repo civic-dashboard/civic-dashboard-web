@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Button, type ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 
 type Option<ID extends number | string> = {
   id: ID;
@@ -35,7 +35,8 @@ type Props<ID extends number | string> = {
   /** Scroll the dropdown list to the top when the search query changes - this is useful to keep the searched item in view */
   resetScrollOnSearch?: boolean;
   defaultValue?: ID | ID[];
-  size?: ButtonProps['size'];
+  staticLabel?: string;
+  onClear?: () => void;
 };
 
 // TODO: how to dynamically/responsively size this?
@@ -50,7 +51,8 @@ export const Combobox = <ID extends number | string>({
   reorderSelected = true,
   resetScrollOnSearch = false,
   defaultValue = undefined,
-  size,
+  staticLabel,
+  onClear,
 }: Props<ID>) => {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -97,7 +99,13 @@ export const Combobox = <ID extends number | string>({
     [options],
   );
 
+  const isEmpty = useMemo(
+    () => (Array.isArray(value) && value.length === 0) || value === undefined,
+    [value],
+  );
+
   const displayedValue = useMemo(() => {
+    if (staticLabel) return staticLabel;
     if (Array.isArray(value)) {
       if (value.length === 0) return placeholder;
       return value.map((id) => optionMap[id].label).join(', ');
@@ -114,7 +122,7 @@ export const Combobox = <ID extends number | string>({
       return placeholder;
     }
     return optionMap[value].label;
-  }, [defaultValue, optionMap, placeholder, value]);
+  }, [defaultValue, optionMap, placeholder, staticLabel, value]);
 
   const isValueSelected = useCallback(
     (id: ID) => {
@@ -140,13 +148,27 @@ export const Combobox = <ID extends number | string>({
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          size={size}
           role="combobox"
           aria-expanded={open}
+          aria-label={
+            staticLabel && !isEmpty && Array.isArray(value)
+              ? `${staticLabel}: ${value.length} selected`
+              : undefined
+          }
           className="gap-1 max-w-[300px]"
         >
-          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-            {displayedValue}
+          <span className="relative">
+            <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+              {displayedValue}
+            </span>
+            {staticLabel && Array.isArray(value) && !isEmpty && (
+              <span
+                aria-hidden
+                className="-top-3 -right-4 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-4 h-4 text-white text-xs leading-none"
+              >
+                {value.length}
+              </span>
+            )}
           </span>
           {open ? (
             <ChevronDown className="w-4 h-4 shrink-0" />
@@ -157,6 +179,18 @@ export const Combobox = <ID extends number | string>({
       </PopoverTrigger>
       <PopoverContent className="p-0 max-w-[500px]">
         <Command>
+          {onClear && !isEmpty && (
+            <div className="flex justify-end px-3 pt-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="p-1 min-w-0 h-auto"
+                onClick={onClear}
+              >
+                Clear
+              </Button>
+            </div>
+          )}
           {searchable && (
             <CommandInput
               placeholder={placeholder}

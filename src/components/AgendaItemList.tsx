@@ -10,7 +10,7 @@ import {
   Tags,
   DecisionBodyFilter,
 } from '@/components/search';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
@@ -68,8 +68,13 @@ function ResultList({
 }: {
   decisionBodies: Record<number, DecisionBody>;
 }) {
-  const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
-    useSearch();
+  const {
+    searchResults,
+    isLoadingMore,
+    hasMoreSearchResults,
+    getNextPage,
+    timeRange,
+  } = useSearch();
 
   const { sentinelRef } = useInfiniteScroll({
     isLoadingMore,
@@ -85,11 +90,20 @@ function ResultList({
           {/* {If search results are empty} */}
           {searchResults.results.length === 0 && <AgendaListEmptyState />}
           {/* If search results are non-empty */}
-          {searchResults.results.map((item) => (
+          {searchResults.results.map((item, index) => (
             <SearchResultAgendaItemCard
               key={item.id}
               item={item}
               decisionBody={decisionBodies[item.decisionBodyId]}
+              showMeetingDetails={
+                timeRange !== 'past' ||
+                index === 0 ||
+                searchResults.results[index - 1].meetingId !== item.meetingId
+              }
+              isFollowedBySameMeeting={
+                timeRange === 'past' &&
+                searchResults.results[index + 1]?.meetingId === item.meetingId
+              }
             />
           ))}
           {hasMoreSearchResults &&
@@ -113,6 +127,22 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   const { searchOptions, setSearchOptions } = useSearch();
   const router = useRouter();
   const pathname = usePathname();
+  const topicsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    const closeTopicsOnOutsideClick = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !topicsRef.current?.contains(event.target)
+      ) {
+        topicsRef.current.open = false;
+      }
+    };
+
+    document.addEventListener('pointerdown', closeTopicsOnOutsideClick);
+    return () =>
+      document.removeEventListener('pointerdown', closeTopicsOnOutsideClick);
+  }, []);
 
   useEffect(() => {
     // Read initial query params from server-side rendered URL.
@@ -158,27 +188,37 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-y-10 px-6 lg:px-12 py-12 w-full max-w-6xl">
+    <div className="flex flex-col gap-y-4 mx-auto px-4 sm:px-6 lg:px-12 lg:px-16 py-12 md:py-14 w-full max-w-6xl">
       <Text preset="Heading2" tag="h1">
         Council Activity
       </Text>
       <section>
-        <div className="flex sm:flex-row flex-col justify-end sm:items-center gap-4 dark:bg-neutral-800 pb-2 border-gray-300 border-b text-gray-dark dark:text-gray-300">
-          <div className="mr-auto">
-            <UpcomingPastToggle />
-          </div>
-          <SortDropdown />
-          <details className="relative">
-            <Button asChild variant="ghost" size="sm" className="gap-2">
-              <summary className="cursor-pointer list-none">Topics <ChevronDown className="w-4 h-4 shrink-0" /></summary>
-            </Button>
-            <div className="left-0 z-10 absolute space-y-4 bg-white dark:bg-neutral-800 shadow-lg mt-3 p-4 border border-gray-light w-[min(30rem,calc(100vw-3rem))]">
-              <Tags />
+        <div className="flex sm:flex-row flex-col sm:items-stretch dark:bg-neutral-800 pb-2 text-gray-dark dark:text-gray-300">
+          <UpcomingPastToggle />
+          <div className="flex justify-end items-center pl-4 border-primary border-b grow-1">
+            <SortDropdown />
+            <details ref={topicsRef} className="relative">
+              <Button asChild variant="ghost" className="gap-2">
+                <summary className="cursor-pointer list-none">
+                  <span className="relative">
+                    Topics
+                    {searchOptions.tags.length > 0 && (
+                      <span className="-top-3 -right-4 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-4 h-4 text-white text-xs leading-none">
+                        {searchOptions.tags.length}
+                      </span>
+                    )}
+                  </span>
+                  <ChevronDown className="w-4 h-4 shrink-0" />
+                </summary>
+              </Button>
+              <div className="left-0 z-10 absolute space-y-4 bg-white dark:bg-neutral-800 shadow-lg mt-3 p-4 border border-gray-light w-[min(30rem,calc(100vw-3rem))]">
+                <Tags />
+              </div>
+            </details>
+            <DecisionBodyFilter decisionBodies={currentTermDecisionBodies} />
+            <div className="w-full sm:max-w-[18rem]">
+              <SearchBar compact />
             </div>
-          </details>
-          <DecisionBodyFilter decisionBodies={currentTermDecisionBodies} />
-          <div className="w-full sm:max-w-[18rem]">
-            <SearchBar compact />
           </div>
         </div>
       </section>
