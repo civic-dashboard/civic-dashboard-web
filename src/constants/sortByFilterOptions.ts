@@ -3,13 +3,13 @@ import { SearchSort } from '@/logic/search';
 export const sortByFilterOptions: SearchSort[] = [
   {
     sortId: 1,
-    sortLabel: 'Newest first',
+    sortLabel: 'Latest first',
     sortBy: 'date',
     sortDirection: 'descending',
   },
   {
     sortId: 2,
-    sortLabel: 'Oldest first',
+    sortLabel: 'Earliest first',
     sortBy: 'date',
     sortDirection: 'ascending',
   },

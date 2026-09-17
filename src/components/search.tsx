@@ -1,4 +1,4 @@
-import { ArrowBigRightDash, Check, RotateCcwIcon, Search } from 'lucide-react';
+import { CalendarChevronsRight, Check, RotateCcwIcon, Search } from 'lucide-react';
 import { cn } from '@/components/ui/utils';
 import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
@@ -26,7 +26,10 @@ export function SortDropdown() {
     () =>
       sortByFilterOptions.map((opt) => ({
         id: opt.sortId as number,
-        label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant',
+        label: opt.sortLabel as
+          | 'Earliest first'
+          | 'Latest first'
+          | 'Most relevant',
       })),
     [],
   );
@@ -107,6 +110,10 @@ export function DecisionBodyFilter({
       value={decisionBodyIds}
       onSelect={onSelect}
       placeholder="Committees"
+      staticLabel="Committees"
+      onClear={() =>
+        setSearchOptions((opts) => ({ ...opts, decisionBodyIds: [] }))
+      }
       resetScrollOnSearch
     />
   );
@@ -122,16 +129,16 @@ export function UpcomingPastToggle() {
   };
 
   return (
-    <div className="w-[400px]" role="tablist">
+    <div className="w-[370px]" role="tablist">
       <div className="grid grid-cols-2">
         <Button
           role="tab"
           aria-selected={timeRange === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
           variant={timeRange === 'upcoming' ? 'default' : 'outline'}
-          className="gap-2"
+          className="gap-2 h-16"
         >
-          <ArrowBigRightDash size={24} strokeWidth={1.5} />
+          <CalendarChevronsRight size={20} strokeWidth={1.5} />
           Upcoming items
         </Button>
         </Button>
@@ -141,9 +148,9 @@ export function UpcomingPastToggle() {
           aria-selected={timeRange === 'past'}
           onClick={() => handleDateRange('past')}
           variant={timeRange === 'past' ? 'default' : 'outline'}
-          className="gap-2"
+          className="gap-2 h-16"
         >
-          <RotateCcwIcon size={24} strokeWidth={1.5} />
+          <RotateCcwIcon size={20} strokeWidth={1.5} />
           Past items
         </Button>
       </div>
@@ -173,7 +180,7 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
 
   return (
     <ChipButton
-      className="sm:text-wrap text-nowrap"
+      className="sm:text-wrap text-nowrap cursor-pointer"
       variant={isSelected ? 'sky' : 'secondary'}
       onClick={onClick}
       title={tag.searchQuery}
@@ -184,8 +191,22 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
   );
 }
 export function Tags() {
+  const { searchOptions, setSearchOptions } = useSearch();
+
   return (
     <div className="sm:m-0 mr-[-1rem] ml-[-1rem] max-w-[100vh] sm:max-w-full">
+      {searchOptions.tags.length > 0 && (
+        <div className="flex justify-end px-4 pb-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="p-1 min-w-0 h-auto"
+            onClick={() => setSearchOptions((opts) => ({ ...opts, tags: [] }))}
+          >
+            Clear
+          </Button>
+        </div>
+      )}
       <div
         className="flex sm:flex-wrap sm:justify-center gap-x-2 sm:gap-y-2 px-4 overflow-x-scroll scrollbar-none"
         style={{ scrollbarWidth: 'none' }}
@@ -206,9 +227,9 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
       <div className="flex flex-col items-stretch w-full max-w-[500px]">
         <div
           className={cn(
-            'flex flex-1 items-center gap-x-2 p-1 px-3 text-black',
+            'flex flex-1 items-center gap-x-2 bg-gray-light p-1 px-3 text-black',
             compact
-              ? 'bg-white'
+              ? 'bg-gray-lightest border border-gray-lightest focus-within:border-primary focus-within:bg-white'
               : 'bg-neutral-100 dark:bg-neutral-800',
           )}
         >
