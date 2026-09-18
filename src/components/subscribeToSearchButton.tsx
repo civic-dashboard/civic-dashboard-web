@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { logAnalytics } from '@/api/analytics';
+import { Mail } from 'lucide-react';
 
 /** Keep preview links visible but non-interactive without blocking iframe scroll. */
 function withUnclickableLinks(html: string) {
@@ -109,16 +110,17 @@ export const SubscribeToSearchButton = () => {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="ghost" size="md">
+          <Mail strokeWidth={2} size={20} />
           Get Email Alerts
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] w-full flex-col gap-0 overflow-hidden p-0 md:max-w-4xl">
-        <DialogHeader className="shrink-0 gap-y-3 border-b border-gray-light bg-gray-lightest px-6 py-5 pr-12 text-left dark:border-neutral-600 dark:bg-neutral-900">
-          <DialogTitle className="font-heading text-2xl font-bold tracking-tight">
+      <DialogContent className="flex flex-col gap-0 p-0 w-full md:max-w-4xl h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] overflow-hidden">
+        <DialogHeader className="gap-y-3 bg-gray-lightest dark:bg-neutral-900 px-6 py-5 pr-12 border-gray-light dark:border-neutral-600 border-b text-left shrink-0">
+          <DialogTitle className="font-heading font-bold text-2xl tracking-tight">
             {sendState === 'sent' ? "You're subscribed!" : 'Get Email Alerts'}
           </DialogTitle>
-          <DialogDescription className="text-base text-gray-dark dark:text-neutral-300">
+          <DialogDescription className="text-gray-dark dark:text-neutral-300 text-base">
             {sendState === 'sent' ? (
               "Here's a preview of the email alerts you'll get when new matching agenda items appear."
             ) : (
@@ -134,7 +136,7 @@ export const SubscribeToSearchButton = () => {
             )}
           </DialogDescription>
           {!previewLoading && !hasMatchingResults && sendState !== 'sent' && (
-            <p className="text-sm text-warning">
+            <p className="text-warning text-sm">
               Your current filters match no upcoming or past agenda items.
               Alerts may be rare — consider broadening your tags, decision
               bodies, or search text.
@@ -162,17 +164,17 @@ export const SubscribeToSearchButton = () => {
             )}
           </form>
         </DialogHeader>
-        <div className="flex min-h-0 flex-1 flex-col bg-slate-200 p-4 md:p-6 dark:bg-neutral-950">
-          <div className="min-h-0 flex-1 overflow-hidden rounded-[13px] border border-gray-light bg-white shadow-lg dark:border-none dark:bg-neutral-800 dark:shadow-none">
+        <div className="flex flex-col flex-1 bg-slate-200 dark:bg-neutral-950 p-4 md:p-6 min-h-0">
+          <div className="flex-1 bg-white dark:bg-neutral-800 shadow-lg dark:shadow-none border border-gray-light dark:border-none rounded-[13px] min-h-0 overflow-hidden">
             {previewLoading || !previewHtml ? (
-              <div className="flex h-full w-full items-center justify-center">
+              <div className="flex justify-center items-center w-full h-full">
                 <Spinner />
               </div>
             ) : (
               <iframe
                 title="Email preview"
                 srcDoc={withUnclickableLinks(previewHtml)}
-                className="h-full w-full bg-white p-2"
+                className="bg-white p-2 w-full h-full"
               />
             )}
           </div>

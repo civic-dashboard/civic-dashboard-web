@@ -1,7 +1,10 @@
 'use client';
 
 import { DecisionBody } from '@/api/decisionBody';
-import { SearchResultAgendaItemCard } from '@/components/AgendaItemCard';
+import {
+  SearchResultAgendaItemCard,
+  SearchResultMeetingDetails,
+} from '@/components/AgendaItemCard';
 import {
   UpcomingPastToggle,
   ResultCount,
@@ -63,11 +66,7 @@ function AgendaListEmptyState() {
   return <h4 className="mx-auto my-32">No results...</h4>;
 }
 
-function ResultList({
-  decisionBodies,
-}: {
-  decisionBodies: Record<number, DecisionBody>;
-}) {
+function ResultList() {
   const {
     searchResults,
     isLoadingMore,
@@ -82,6 +81,24 @@ function ResultList({
     onLoadMore: getNextPage,
   });
 
+  const meetingGroups = searchResults?.results.reduce(
+    (groups, item) => {
+      const previousGroup = groups[groups.length - 1];
+
+      if (
+        timeRange === 'past' &&
+        previousGroup?.[0].meetingId === item.meetingId
+      ) {
+        previousGroup.push(item);
+      } else {
+        groups.push([item]);
+      }
+
+      return groups;
+    },
+    [] as (typeof searchResults.results)[],
+  );
+
   return (
     <>
       <Spinner show={searchResults === null} />
@@ -90,21 +107,22 @@ function ResultList({
           {/* {If search results are empty} */}
           {searchResults.results.length === 0 && <AgendaListEmptyState />}
           {/* If search results are non-empty */}
-          {searchResults.results.map((item, index) => (
-            <SearchResultAgendaItemCard
-              key={item.id}
-              item={item}
-              decisionBody={decisionBodies[item.decisionBodyId]}
-              showMeetingDetails={
-                timeRange !== 'past' ||
-                index === 0 ||
-                searchResults.results[index - 1].meetingId !== item.meetingId
-              }
-              isFollowedBySameMeeting={
-                timeRange === 'past' &&
-                searchResults.results[index + 1]?.meetingId === item.meetingId
-              }
-            />
+          {meetingGroups?.map((items, index) => (
+            <section
+              className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] ${index === 0 ? '' : 'pt-4'} pb-4`}
+              key={items[0].meetingId}
+            >
+              <SearchResultMeetingDetails item={items[0]} />
+              <div>
+                {items.map((item, itemIndex) => (
+                  <SearchResultAgendaItemCard
+                    className={itemIndex === 0 ? '' : 'pt-6'}
+                    key={item.id}
+                    item={item}
+                  />
+                ))}
+              </div>
+            </section>
           ))}
           {hasMoreSearchResults &&
             (isLoadingMore ? (
@@ -188,14 +206,17 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-y-4 mx-auto px-4 sm:px-6 lg:px-12 lg:px-16 py-12 md:py-14 w-full max-w-6xl">
-      <Text preset="Heading2" tag="h1">
-        Council Activity
-      </Text>
+    <div className="flex flex-col gap-y-4 mx-auto px-4 sm:px-6 lg:px-12 lg:px-16 py-12 md:py-7 w-full max-w-6xl">
+      <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+        <Text className="mb-0" preset="Heading2" tag="h1">
+          Council Activity
+        </Text>
+        <SubscribeToSearchButton />
+      </div>
       <section>
-        <div className="flex sm:flex-row flex-col sm:items-stretch dark:bg-neutral-800 pb-2 text-gray-dark dark:text-gray-300">
+        <div className="flex sm:flex-row flex-col sm:items-stretch dark:bg-neutral-800 pb-3 border-gray-light border-b text-gray-dark dark:text-gray-300">
           <UpcomingPastToggle />
-          <div className="flex justify-end items-center pl-4 border-primary border-b grow-1">
+          <div className="flex justify-end items-center gap-1 ml-auto pl-4">
             <SortDropdown />
             <details ref={topicsRef} className="relative">
               <Button asChild variant="ghost" className="gap-2">
@@ -223,12 +244,11 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
         </div>
       </section>
       <div className="flex flex-row flex-wrap justify-end items-end gap-x-4 gap-y-4">
-        <div className="flex justify-between items-end grow">
+        <div className="flex justify-between items-end mb-2 text-gray-dark text-sm grow">
           <ResultCount />
-          <SubscribeToSearchButton />
         </div>
       </div>
-      <ResultList decisionBodies={decisionBodies} />
+      <ResultList />
     </div>
   );
 }
