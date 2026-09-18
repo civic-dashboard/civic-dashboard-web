@@ -1,4 +1,4 @@
-import { CalendarChevronsRight, Check, RotateCcwIcon, Search } from 'lucide-react';
+import { CalendarChevronsRight, Check, RotateCcwClock, Search } from 'lucide-react';
 import { cn } from '@/components/ui/utils';
 import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
@@ -129,17 +129,17 @@ export function UpcomingPastToggle() {
   };
 
   return (
-    <div className="w-[370px]" role="tablist">
+    <div className="w-[350px]" role="tablist">
       <div className="grid grid-cols-2">
         <Button
           role="tab"
           aria-selected={timeRange === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
           variant={timeRange === 'upcoming' ? 'default' : 'outline'}
-          className="gap-2 h-16"
+          className="h-full"
         >
-          <CalendarChevronsRight size={20} strokeWidth={1.5} />
-          Upcoming items
+          <CalendarChevronsRight size={20} strokeWidth={2} />
+          Upcoming
         </Button>
         </Button>
 
@@ -148,10 +148,10 @@ export function UpcomingPastToggle() {
           aria-selected={timeRange === 'past'}
           onClick={() => handleDateRange('past')}
           variant={timeRange === 'past' ? 'default' : 'outline'}
-          className="gap-2 h-16"
+          className="h-full"
         >
-          <RotateCcwIcon size={20} strokeWidth={1.5} />
-          Past items
+          <RotateCcwClock size={20} strokeWidth={2} />
+            Past
         </Button>
       </div>
     </div>
@@ -224,12 +224,12 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className={cn('flex justify-center', compact && 'justify-start')}>
-      <div className="flex flex-col items-stretch w-full max-w-[500px]">
+      <div className="flex flex-col items-stretch w-full max-w-[200px]">
         <div
           className={cn(
             'flex flex-1 items-center gap-x-2 bg-gray-light p-1 px-3 text-black',
             compact
-              ? 'bg-gray-lightest border border-gray-lightest focus-within:border-primary focus-within:bg-white'
+              ? 'bg-gray-lightest border border-2 border-gray-lightest focus-within:border-primary focus-within:bg-white'
               : 'bg-neutral-100 dark:bg-neutral-800',
           )}
         >

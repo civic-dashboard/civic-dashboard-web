@@ -7,7 +7,7 @@ import { cn } from '@/components/ui/utils';
 
 const buttonVariants = cva(
   cn(
-    'inline-flex justify-center items-center gap-4',
+    'inline-flex justify-center items-center gap-3',
     'whitespace-nowrap text-base font-semibold',
     'cursor-pointer ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
     'dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300',
