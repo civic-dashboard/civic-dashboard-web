@@ -20,7 +20,7 @@ const buttonVariants = cva(
         outline:
           'border border-primary text-primary hover:bg-primary-lightest dark:border-white dark:text-white dark:hover:bg-gray-900',
         ghost:
-          'hover:bg-primary-lightest hover:text-black dark:hover:bg-gray-900 dark:hover:text-white',
+          'text-black font-medium hover:bg-primary-lightest dark:text-white dark:hover:bg-gray-900',
       },
       size: {
         sm: 'h-10 px-3 py-2 text-sm min-w-10',

@@ -109,14 +109,14 @@ function ResultList() {
           {/* If search results are non-empty */}
           {meetingGroups?.map((items, index) => (
             <section
-              className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] ${index === 0 ? '' : 'pt-4'} pb-4`}
+              className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] mb-4`}
               key={items[0].meetingId}
             >
               <SearchResultMeetingDetails item={items[0]} />
               <div>
                 {items.map((item, itemIndex) => (
                   <SearchResultAgendaItemCard
-                    className={itemIndex === 0 ? '' : 'pt-6'}
+                    className={itemIndex === 0 ? '' : 'mt-3'}
                     key={item.id}
                     item={item}
                   />
@@ -207,24 +207,34 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
 
   return (
     <div className="flex flex-col gap-y-4 mx-auto px-4 sm:px-6 lg:px-12 lg:px-16 py-12 md:py-7 w-full max-w-6xl">
-      <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-        <Text className="mb-0" preset="Heading2" tag="h1">
-          Council Activity
+      <div className="mb-8">
+        <div className="flex flex-wrap justify-between items-center gap-4 mb-2">
+          <Text preset="Heading2" tag="h1" className="mb-0">
+            Council Activity
+          </Text>
+          <SubscribeToSearchButton />
+        </div>
+        <Text className="mb-0" preset="Body">
+          Browse agenda items from upcoming and past City Council and committee
+          meetings.
         </Text>
-        <SubscribeToSearchButton />
       </div>
       <section>
-        <div className="flex sm:flex-row flex-col sm:items-stretch dark:bg-neutral-800 pb-3 border-gray-light border-b text-gray-dark dark:text-gray-300">
+        <div className="flex lg:flex-row flex-col justify-between sm:items-stretch gap-4 dark:bg-neutral-800 pb-3 border-gray-light border-b text-gray-dark dark:text-gray-30">
           <UpcomingPastToggle />
-          <div className="flex justify-end items-center gap-1 ml-auto pl-4">
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-y-2 sm:gap-1">
             <SortDropdown />
             <details ref={topicsRef} className="relative">
-              <Button asChild variant="ghost" className="gap-2">
+              <Button
+                asChild
+                variant="searchFilter"
+                className="gap-1"
+              >
                 <summary className="cursor-pointer list-none">
                   <span className="relative">
                     Topics
                     {searchOptions.tags.length > 0 && (
-                      <span className="-top-3 -right-4 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-4 h-4 text-white text-xs leading-none">
+                      <span className="-top-2 -right-3 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-[14px] h-[14px] font-bold text-[10px] text-white leading-none">
                         {searchOptions.tags.length}
                       </span>
                     )}
@@ -237,7 +247,7 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
               </div>
             </details>
             <DecisionBodyFilter decisionBodies={currentTermDecisionBodies} />
-            <div className="w-full sm:max-w-[18rem]">
+            <div className="order-1 sm:ml-auto lg:ml-4 w-full md:max-w-[18rem]">
               <SearchBar compact />
             </div>
           </div>
