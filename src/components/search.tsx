@@ -63,6 +63,7 @@ export function SortDropdown() {
       options={options}
       value={selectedId}
       onSelect={onSelect}
+      buttonVariant="searchFilter"
       defaultValue={options.find((opt) => opt.label === 'Most Relevant')?.id}
       placeholder="Sort by..."
       multiple={false}
@@ -109,6 +110,7 @@ export function DecisionBodyFilter({
       multiple
       value={decisionBodyIds}
       onSelect={onSelect}
+      buttonVariant="searchFilter"
       placeholder="Committees"
       staticLabel="Committees"
       onClear={() =>
@@ -129,14 +131,14 @@ export function UpcomingPastToggle() {
   };
 
   return (
-    <div className="w-[350px]" role="tablist">
+    <div role="tablist">
       <div className="grid grid-cols-2">
         <Button
           role="tab"
           aria-selected={timeRange === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
           variant={timeRange === 'upcoming' ? 'default' : 'outline'}
-          className="h-full"
+          className="px-6 h-full"
         >
           <CalendarChevronsRight size={20} strokeWidth={2} />
           Upcoming
@@ -147,7 +149,7 @@ export function UpcomingPastToggle() {
           aria-selected={timeRange === 'past'}
           onClick={() => handleDateRange('past')}
           variant={timeRange === 'past' ? 'default' : 'outline'}
-          className="h-full"
+          className="px-6 h-full"
         >
           <RotateCcwClock size={20} strokeWidth={2} />
             Past
@@ -180,7 +182,7 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
   return (
     <ChipButton
       className="sm:text-wrap text-nowrap cursor-pointer"
-      variant={isSelected ? 'sky' : 'secondary'}
+      variant={isSelected ? 'primaryLightest' : 'secondary'}
       onClick={onClick}
       title={tag.searchQuery}
     >
@@ -223,7 +225,7 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className={cn('flex justify-center', compact && 'justify-start')}>
-      <div className="flex flex-col items-stretch w-full max-w-[200px]">
+      <div className="flex flex-col items-stretch w-full">
         <div
           className={cn(
             'flex flex-1 items-center gap-x-2 bg-gray-light p-1 px-3 text-black',

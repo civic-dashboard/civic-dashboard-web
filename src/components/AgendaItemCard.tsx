@@ -304,7 +304,7 @@ export function SearchResultMeetingDetails({
   const meetingDate = new Date(item.meetingDate);
 
   return (
-    <div className="sm:top-32 sm:sticky flex items-center items-stretch self-start gap-4">
+    <div className="sm:top-26 sm:sticky flex items-center items-stretch self-start gap-4 pt-2">
       <div className="flex flex-col justify-center items-center bg-neutral-100 dark:bg-neutral-700 px-2 py-2 w-20 h-20 text-center shrink-0">
         <p className="font-semibold text-xs uppercase leading-none">
           {cardDateMonthFormatter.format(meetingDate)}
@@ -333,19 +333,21 @@ export function SearchResultAgendaItemCard({
     searchOptions: { textQuery },
   } = useSearch();
   return (
-    <article className={`group ${className ?? ''}`}>
-      <div className="flex gap-4 dark:sm:group-hover:bg-neutral-700 min-w-0">
+    <Link
+      className={`group block pb-4 md:p-2 md:hover:bg-primary-lightest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${className ?? ''}`}
+      href={`/actions/item/${item.reference}`}
+      target="_blank"
+    >
+      <div className="flex gap-4 min-w-0">
         <div className="flex-1 min-w-0">
           <HighlightChildren terms={textQuery}>
-            <Link
-              className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary text-primary hover:underline"
-              href={`/actions/item/${item.reference}`}
-              target="_blank"
+            <Text
+              className="mb-1 text-primary decoration-4 decoration-primary-light group-:underline"
+              preset="Heading4"
+              tag="h2"
             >
-              <Text className="mb-1" preset="Heading4" tag="h2">
-                {item.agendaItemTitle}
-              </Text>
-            </Link>
+              {item.agendaItemTitle}
+            </Text>
           </HighlightChildren>
           {item.searchHeadline ? (
             <div
@@ -356,7 +358,7 @@ export function SearchResultAgendaItemCard({
             />
           ) : (
             <div
-              className="text-gray-dark text-sm line-clamp-2"
+              className="text-gray-dark group-hover:text-black text-sm line-clamp-2"
               dangerouslySetInnerHTML={{
                 __html: sanitize(item.agendaItemSummary),
               }}
@@ -364,6 +366,6 @@ export function SearchResultAgendaItemCard({
           )}
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

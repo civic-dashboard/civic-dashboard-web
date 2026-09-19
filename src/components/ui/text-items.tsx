@@ -45,7 +45,7 @@ export const textPresetClasses: Record<TextPreset, string> = {
   Heading3:
     'font-heading text-lg md:text-xl font-bold leading-[1.2] md:leading-[1.4]',
   Heading4:
-    'font-heading text-base md:text-lg font-bold leading-[1.2] md:leading-[1.4]',
+    'font-heading text-base md:text-lg font-bold leading-[1.4]',
   Body: 'font-body text-base font-normal leading-[1.5]',
   Small: 'font-body text-sm font-normal leading-[1.5]',
 };

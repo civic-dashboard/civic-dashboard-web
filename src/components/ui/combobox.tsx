@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 
 type Option<ID extends number | string> = {
   id: ID;
@@ -24,6 +24,7 @@ type Option<ID extends number | string> = {
 type Props<ID extends number | string> = {
   options: Option<ID>[];
   onSelect: NoInfer<(id: ID) => void>;
+  buttonVariant: NonNullable<ButtonProps['variant']>;
   multiple: boolean;
   value?: ID | ID[];
   placeholder?: string;
@@ -43,6 +44,7 @@ type Props<ID extends number | string> = {
 export const Combobox = <ID extends number | string>({
   options,
   onSelect,
+  buttonVariant,
   multiple,
   value,
   placeholder,
@@ -147,7 +149,7 @@ export const Combobox = <ID extends number | string>({
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
-          variant="ghost"
+          variant={buttonVariant}
           role="combobox"
           aria-expanded={open}
           aria-label={
@@ -164,7 +166,7 @@ export const Combobox = <ID extends number | string>({
             {staticLabel && Array.isArray(value) && !isEmpty && (
               <span
                 aria-hidden
-                className="-top-3 -right-4 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-4 h-4 text-white text-xs leading-none"
+                className="-top-2 -right-3 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-[14px] h-[14px] font-bold text-[10px] text-white leading-none"
               >
                 {value.length}
               </span>
