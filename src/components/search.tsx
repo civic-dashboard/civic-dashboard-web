@@ -1,4 +1,9 @@
-import { CalendarChevronsRight, Check, RotateCcwClock, Search } from 'lucide-react';
+import {
+  CalendarChevronsRight,
+  Check,
+  RotateCcwClock,
+  Search,
+} from 'lucide-react';
 import { cn } from '@/components/ui/utils';
 import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
@@ -64,7 +69,7 @@ export function SortDropdown() {
       value={selectedId}
       onSelect={onSelect}
       buttonVariant="searchFilter"
-      defaultValue={options.find((opt) => opt.label === 'Most Relevant')?.id}
+      defaultValue={options.find((opt) => opt.label === 'Most relevant')?.id}
       placeholder="Sort by..."
       multiple={false}
       searchable={false}
@@ -153,7 +158,7 @@ export function UpcomingPastToggle() {
           className="px-6 h-full"
         >
           <RotateCcwClock size={20} strokeWidth={2} />
-            Past
+          Past
         </Button>
       </div>
     </div>
