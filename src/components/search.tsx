@@ -5,17 +5,9 @@ import {
   Search,
 } from 'lucide-react';
 import { cn } from '@/components/ui/utils';
-import {
-  CalendarChevronsRight,
-  Check,
-  RotateCcwClock,
-  Search,
-} from 'lucide-react';
-import { cn } from '@/components/ui/utils';
 import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
-import { Button } from '@/components/ui/button';
 import { Button } from '@/components/ui/button';
 import { ChipButton } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
@@ -209,7 +201,6 @@ export function Tags() {
 
   return (
     <div className="sm:m-0 mr-[-1rem] ml-[-1rem] max-w-[100vh] sm:max-w-full">
-
       <div
         className="flex sm:flex-wrap sm:justify-start gap-x-2 sm:gap-y-2 overflow-x-scroll scrollbar-none"
         style={{ scrollbarWidth: 'none' }}
