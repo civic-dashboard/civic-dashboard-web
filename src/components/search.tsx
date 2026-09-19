@@ -68,7 +68,7 @@ export function SortDropdown() {
       options={options}
       value={selectedId}
       onSelect={onSelect}
-      buttonVariant="searchFilter"
+      buttonVariant="ghost"
       defaultValue={options.find((opt) => opt.label === 'Most relevant')?.id}
       placeholder="Sort by..."
       multiple={false}
@@ -115,7 +115,7 @@ export function DecisionBodyFilter({
       multiple
       value={decisionBodyIds}
       onSelect={onSelect}
-      buttonVariant="searchFilter"
+      buttonVariant="ghost"
       placeholder="Committees"
       staticLabel="Committees"
       onClear={() =>
@@ -147,7 +147,6 @@ export function UpcomingPastToggle() {
         >
           <CalendarChevronsRight size={20} strokeWidth={2} />
           Upcoming
-        </Button>
         </Button>
 
         <Button
@@ -202,26 +201,27 @@ export function Tags() {
 
   return (
     <div className="sm:m-0 mr-[-1rem] ml-[-1rem] max-w-[100vh] sm:max-w-full">
-      {searchOptions.tags.length > 0 && (
-        <div className="flex justify-end px-4 pb-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="p-1 min-w-0 h-auto"
-            onClick={() => setSearchOptions((opts) => ({ ...opts, tags: [] }))}
-          >
-            Clear
-          </Button>
-        </div>
-      )}
+
       <div
-        className="flex sm:flex-wrap sm:justify-center gap-x-2 sm:gap-y-2 px-4 overflow-x-scroll scrollbar-none"
+        className="flex sm:flex-wrap sm:justify-start gap-x-2 sm:gap-y-2 overflow-x-scroll scrollbar-none"
         style={{ scrollbarWidth: 'none' }}
       >
         {Object.entries(allTags).map(([key, tag]) => (
           <TagToggle key={key} tagKey={key as TagEnum} tag={tag} />
         ))}
       </div>
+      {searchOptions.tags.length > 0 && (
+        <div className="flex justify-end pt-6">
+          <Button
+            variant="outline"
+            size="sm"
+            className="py-1 h-auto"
+            onClick={() => setSearchOptions((opts) => ({ ...opts, tags: [] }))}
+          >
+            Clear selection
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

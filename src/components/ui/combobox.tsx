@@ -181,18 +181,6 @@ export const Combobox = <ID extends number | string>({
       </PopoverTrigger>
       <PopoverContent className="p-0 max-w-[500px]">
         <Command>
-          {onClear && !isEmpty && (
-            <div className="flex justify-end px-3 pt-3">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="p-1 min-w-0 h-auto"
-                onClick={onClear}
-              >
-                Clear
-              </Button>
-            </div>
-          )}
           {searchable && (
             <CommandInput
               placeholder={placeholder}
@@ -221,6 +209,18 @@ export const Combobox = <ID extends number | string>({
               ))}
             </CommandGroup>
           </CommandList>
+          {onClear && !isEmpty && (
+            <div className="flex justify-end p-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="p-1 w-full h-auto"
+                onClick={onClear}
+              >
+                Clear selection
+              </Button>
+            </div>
+          )}
         </Command>
       </PopoverContent>
     </Popover>

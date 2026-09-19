@@ -4,19 +4,19 @@ import { cn } from '@/components/ui/utils';
 import { MouseEventHandler, useCallback } from 'react';
 
 const chipVariants = cva(
-  'inline-flex items-center gap-x-1 px-3 py-[6px] border border-neutral-200 dark:border-neutral-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-neutral-500 dark:focus:ring-neutral-300 focus:ring-offset-2 font-semibold text-xs',
+  'inline-flex items-center gap-x-1 px-3 py-[6px] border border-transparent font-medium text-sm',
   {
     variants: {
       variant: {
         default:
-          'border-transparent bg-neutral-900 text-neutral-50 hover:bg-neutral-900/80 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/80',
+          'bg-neutral-900 text-neutral-50 hover:bg-neutral-900/80 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/80',
         secondary:
-          'border-transparent bg-neutral-100 text-neutral-900 hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80',
+          'bg-neutral-100 text-neutral-900 hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80',
         destructive:
-          'border-transparent bg-red-500 text-neutral-50 hover:bg-red-500/80 dark:bg-red-900 dark:text-neutral-50 dark:hover:bg-red-900/80',
-        outline: 'text-neutral-950 dark:text-neutral-50',
-        green: 'border-transparent text-black bg-[#a5f2d4]',
-        primaryLightest: 'border-transparent text-black bg-primary-lightest',
+          'bg-red-500 text-neutral-50 hover:bg-red-500/80 dark:bg-red-900 dark:text-neutral-50 dark:hover:bg-red-900/80',
+        outline: 'border-gray-300 text-neutral-950 dark:text-neutral-50',
+        green: 'text-black bg-[#a5f2d4]',
+        primaryLightest: 'text-black bg-primary-lightest',
       },
     },
     defaultVariants: {

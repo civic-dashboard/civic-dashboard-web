@@ -227,7 +227,7 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
           <div className="flex flex-wrap sm:flex-nowrap items-center gap-y-2 sm:gap-1">
             <SortDropdown />
             <details ref={topicsRef} className="relative">
-              <Button asChild variant="searchFilter" className="gap-1">
+              <Button asChild variant="ghost" className="gap-1">
                 <summary className="cursor-pointer list-none">
                   <span className="relative">
                     Topics
