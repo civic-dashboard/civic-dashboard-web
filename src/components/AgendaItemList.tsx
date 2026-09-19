@@ -67,13 +67,8 @@ function AgendaListEmptyState() {
 }
 
 function ResultList() {
-  const {
-    searchResults,
-    isLoadingMore,
-    hasMoreSearchResults,
-    getNextPage,
-    timeRange,
-  } = useSearch();
+  const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
+    useSearch();
 
   const { sentinelRef } = useInfiniteScroll({
     isLoadingMore,
@@ -85,10 +80,7 @@ function ResultList() {
     (groups, item) => {
       const previousGroup = groups[groups.length - 1];
 
-      if (
-        timeRange === 'past' &&
-        previousGroup?.[0].meetingId === item.meetingId
-      ) {
+      if (previousGroup?.[0].meetingId === item.meetingId) {
         previousGroup.push(item);
       } else {
         groups.push([item]);
