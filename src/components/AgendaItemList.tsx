@@ -109,7 +109,7 @@ function ResultList() {
           {/* If search results are non-empty */}
           {meetingGroups?.map((items) => (
             <section
-              className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] mb-4`}
+              className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] md:grid-cols-[20rem_minmax(0,1fr)] mb-4`}
               key={items[0].meetingId}
             >
               <SearchResultMeetingDetails item={items[0]} />
@@ -208,7 +208,7 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-y-4 mx-auto px-4 sm:px-6 lg:px-12 lg:px-16 py-12 md:py-7 w-full max-w-6xl">
+    <div className="flex flex-col gap-y-4 mx-auto px-4 sm:px-6 lg:px-12 lg:px-16 py-12 md:py-7 w-full max-w-7xl">
       <div className="mb-8">
         <div className="flex flex-wrap justify-between items-center gap-4 mb-2">
           <Text preset="Heading2" tag="h1" className="mb-0">
