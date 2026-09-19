@@ -107,7 +107,7 @@ function ResultList() {
           {/* {If search results are empty} */}
           {searchResults.results.length === 0 && <AgendaListEmptyState />}
           {/* If search results are non-empty */}
-          {meetingGroups?.map((items, index) => (
+          {meetingGroups?.map((items) => (
             <section
               className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] mb-4`}
               key={items[0].meetingId}
@@ -149,11 +149,13 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
 
   useEffect(() => {
     const closeTopicsOnOutsideClick = (event: PointerEvent) => {
+      const topics = topicsRef.current;
       if (
+        topics &&
         event.target instanceof Node &&
-        !topicsRef.current?.contains(event.target)
+        !topics.contains(event.target)
       ) {
-        topicsRef.current.open = false;
+        topics.open = false;
       }
     };
 
@@ -225,11 +227,7 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
           <div className="flex flex-wrap sm:flex-nowrap items-center gap-y-2 sm:gap-1">
             <SortDropdown />
             <details ref={topicsRef} className="relative">
-              <Button
-                asChild
-                variant="searchFilter"
-                className="gap-1"
-              >
+              <Button asChild variant="searchFilter" className="gap-1">
                 <summary className="cursor-pointer list-none">
                   <span className="relative">
                     Topics
