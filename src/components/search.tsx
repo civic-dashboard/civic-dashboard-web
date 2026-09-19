@@ -2,6 +2,7 @@ import { Check, Search } from 'lucide-react';
 import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
+import { Button } from '@/components/ui/button';
 import { ChipButton } from '@/components/ui/chip';
 import { Input } from '@/components/ui/input';
 import { allTags, Tag, TagEnum } from '@/constants/tags';
@@ -120,33 +121,37 @@ export function UpcomingPastToggle() {
   };
 
   return (
-    <div className="w-full border-b border-gray-200">
-      <div className="flex gap-6">
-        <button
+    <div className="border-gray-200 dark:border-gray-800 border-b w-full">
+      <div className="flex gap-1">
+        <Button
+          variant="ghost"
+          size="lg"
           role="tab"
           aria-selected={timeRange === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
-          className={`pb-2 text-lg font-semibold ${
+          className={`border-b-2 cursor-pointer ${
             timeRange === 'upcoming'
-              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
-              : 'text-gray-400 dark:text-neutral-800'
+              ? 'bg-primary-lightest dark:bg-gray-900 border-primary'
+              : 'border-transparent'
           }`}
         >
           Upcoming items
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="ghost"
+          size="lg"
           role="tab"
           aria-selected={timeRange === 'past'}
           onClick={() => handleDateRange('past')}
-          className={`pb-2 text-lg font-semibold ${
+          className={`border-b-2 cursor-pointer ${
             timeRange === 'past'
-              ? 'text-neutral-800 dark:text-gray-300 border-b-2 border-gray-700'
-              : 'text-gray-400 dark:text-neutral-800'
+              ? 'bg-primary-lightest dark:bg-gray-900 border-primary'
+              : 'border-transparent'
           }`}
         >
           Past items
-        </button>
+        </Button>
       </div>
     </div>
   );
