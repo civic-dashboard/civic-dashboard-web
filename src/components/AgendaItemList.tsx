@@ -114,10 +114,7 @@ function ResultList() {
               <SearchResultMeetingDetails item={items[0]} />
               <div>
                 {items.map((item) => (
-                  <SearchResultAgendaItemCard
-                    key={item.id}
-                    item={item}
-                  />
+                  <SearchResultAgendaItemCard key={item.id} item={item} />
                 ))}
               </div>
             </section>
