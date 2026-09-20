@@ -13,7 +13,7 @@ import {
   Tags,
   DecisionBodyFilter,
 } from '@/components/search';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
@@ -26,6 +26,13 @@ import Link from 'next/link';
 import { areSearchFiltersEmpty } from '@/logic/search';
 import { Text } from '@/components/ui/text-items';
 import { ChevronDown } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 function AgendaListEmptyState() {
   const { searchOptions, timeRange, setTimeRange } = useSearch();
@@ -101,14 +108,13 @@ function ResultList() {
           {/* If search results are non-empty */}
           {meetingGroups?.map((items) => (
             <section
-              className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] md:grid-cols-[20rem_minmax(0,1fr)] mb-4`}
+              className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] md:grid-cols-[20rem_minmax(0,1fr)] mb-2`}
               key={items[0].meetingId}
             >
               <SearchResultMeetingDetails item={items[0]} />
               <div>
-                {items.map((item, itemIndex) => (
+                {items.map((item) => (
                   <SearchResultAgendaItemCard
-                    className={itemIndex === 0 ? '' : 'mt-3'}
                     key={item.id}
                     item={item}
                   />
@@ -138,6 +144,7 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const topicsRef = useRef<HTMLDetailsElement>(null);
+  const [topicsSheetOpen, setTopicsSheetOpen] = useState(false);
 
   useEffect(() => {
     const closeTopicsOnOutsideClick = (event: PointerEvent) => {
@@ -202,12 +209,9 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   return (
     <div className="flex flex-col gap-y-4 mx-auto px-4 sm:px-6 lg:px-12 lg:px-16 py-12 md:py-7 w-full max-w-7xl">
       <div className="mb-8">
-        <div className="flex flex-wrap justify-between items-center gap-4 mb-2">
-          <Text preset="Heading2" tag="h1" className="mb-0">
-            Council Activity
-          </Text>
-          <SubscribeToSearchButton />
-        </div>
+        <Text preset="Heading2" tag="h1" className="mb-2">
+          Council Activity
+        </Text>
         <Text className="mb-0" preset="Body">
           Browse agenda items from upcoming and past City Council and committee
           meetings.
@@ -218,7 +222,30 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
           <UpcomingPastToggle />
           <div className="flex flex-wrap sm:flex-nowrap items-center gap-y-2 sm:gap-1">
             <SortDropdown />
-            <details ref={topicsRef} className="relative">
+            <Dialog open={topicsSheetOpen} onOpenChange={setTopicsSheetOpen}>
+              <DialogTrigger asChild>
+                <Button variant="ghost" className="sm:hidden gap-1">
+                  <span className="relative">
+                    Topics
+                    {searchOptions.tags.length > 0 && (
+                      <span className="-top-2 -right-3 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-[14px] h-[14px] font-bold text-[10px] text-white leading-none">
+                        {searchOptions.tags.length}
+                      </span>
+                    )}
+                  </span>
+                  <ChevronDown className="w-4 h-4 shrink-0" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent bottomSheet>
+                <DialogHeader className="px-6 py-5 pr-12 border-gray-light border-b text-left">
+                  <DialogTitle>Topics</DialogTitle>
+                </DialogHeader>
+                <div className="flex-1 px-4 py-5 min-h-0 overflow-y-auto">
+                  <Tags />
+                </div>
+              </DialogContent>
+            </Dialog>
+            <details ref={topicsRef} className="hidden sm:block relative">
               <Button asChild variant="ghost" className="gap-1">
                 <summary className="cursor-pointer list-none">
                   <span className="relative">
@@ -244,8 +271,9 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
         </div>
       </section>
       <div className="flex flex-row flex-wrap justify-end items-end gap-x-4 gap-y-4">
-        <div className="flex justify-between items-end mb-2 text-gray-dark text-sm grow">
+        <div className="flex items-center gap-3 mb-2 text-gray-dark text-sm grow">
           <ResultCount />
+          <SubscribeToSearchButton />
         </div>
       </div>
       <ResultList />

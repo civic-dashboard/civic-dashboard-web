@@ -110,9 +110,9 @@ export const SubscribeToSearchButton = () => {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="ghost" size="md">
-          <Mail strokeWidth={2} size={20} />
-          Get Email Alerts
+        <Button variant="ghost" size="sm" className="gap-2">
+          <Mail strokeWidth={2} size={14} />
+          Get email alerts for this search
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-0 p-0 w-full md:max-w-4xl h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] overflow-hidden">

@@ -74,6 +74,7 @@ export function SortDropdown() {
       multiple={false}
       searchable={false}
       reorderSelected={false}
+      mobileSheetTitle="Sort order"
     />
   );
 }
@@ -122,6 +123,7 @@ export function DecisionBodyFilter({
         setSearchOptions((opts) => ({ ...opts, decisionBodyIds: [] }))
       }
       resetScrollOnSearch
+      mobileSheetTitle="Committees"
     />
   );
 }
@@ -200,11 +202,8 @@ export function Tags() {
   const { searchOptions, setSearchOptions } = useSearch();
 
   return (
-    <div className="sm:m-0 mr-[-1rem] ml-[-1rem] max-w-[100vh] sm:max-w-full">
-      <div
-        className="flex sm:flex-wrap sm:justify-start gap-x-2 sm:gap-y-2 overflow-x-scroll scrollbar-none"
-        style={{ scrollbarWidth: 'none' }}
-      >
+    <div>
+      <div className="flex flex-wrap gap-2">
         {Object.entries(allTags).map(([key, tag]) => (
           <TagToggle key={key} tagKey={key as TagEnum} tag={tag} />
         ))}
