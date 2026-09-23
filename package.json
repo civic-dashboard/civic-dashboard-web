@@ -94,7 +94,7 @@
     "react-email": "^6.6.8",
     "tailwindcss": "^4.2.4",
     "tsx": "^4.19.3",
-    "typescript": "^5",
+    "typescript": "^7",
     "typescript-eslint": "^8.59.2",
     "wrangler": "^4.107.1"
   },
