@@ -1,7 +1,10 @@
 'use client';
 
 import { DecisionBody } from '@/api/decisionBody';
-import { SearchResultAgendaItemCard } from '@/components/AgendaItemCard';
+import {
+  SearchResultAgendaItemCard,
+  SearchResultMeetingDetails,
+} from '@/components/AgendaItemCard';
 import {
   UpcomingPastToggle,
   ResultCount,
@@ -10,7 +13,7 @@ import {
   Tags,
   DecisionBodyFilter,
 } from '@/components/search';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
@@ -21,6 +24,15 @@ import { isTag } from '@/constants/tags';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { areSearchFiltersEmpty } from '@/logic/search';
+import { Text } from '@/components/ui/text-items';
+import { ChevronDown } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 function AgendaListEmptyState() {
   const { searchOptions, timeRange, setTimeRange } = useSearch();
@@ -61,11 +73,7 @@ function AgendaListEmptyState() {
   return <h4 className="mx-auto my-32">No results...</h4>;
 }
 
-function ResultList({
-  decisionBodies,
-}: {
-  decisionBodies: Record<number, DecisionBody>;
-}) {
+function ResultList() {
   const { searchResults, isLoadingMore, hasMoreSearchResults, getNextPage } =
     useSearch();
 
@@ -75,6 +83,21 @@ function ResultList({
     onLoadMore: getNextPage,
   });
 
+  const meetingGroups = searchResults?.results.reduce(
+    (groups, item) => {
+      const previousGroup = groups[groups.length - 1];
+
+      if (previousGroup?.[0].meetingId === item.meetingId) {
+        previousGroup.push(item);
+      } else {
+        groups.push([item]);
+      }
+
+      return groups;
+    },
+    [] as (typeof searchResults.results)[],
+  );
+
   return (
     <>
       <Spinner show={searchResults === null} />
@@ -83,12 +106,18 @@ function ResultList({
           {/* {If search results are empty} */}
           {searchResults.results.length === 0 && <AgendaListEmptyState />}
           {/* If search results are non-empty */}
-          {searchResults.results.map((item) => (
-            <SearchResultAgendaItemCard
-              key={item.id}
-              item={item}
-              decisionBody={decisionBodies[item.decisionBodyId]}
-            />
+          {meetingGroups?.map((items) => (
+            <section
+              className={`gap-4 sm:gap-6 grid sm:grid-cols-[16rem_minmax(0,1fr)] md:grid-cols-[20rem_minmax(0,1fr)] mb-2`}
+              key={items[0].meetingId}
+            >
+              <SearchResultMeetingDetails item={items[0]} />
+              <div>
+                {items.map((item) => (
+                  <SearchResultAgendaItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            </section>
           ))}
           {hasMoreSearchResults &&
             (isLoadingMore ? (
@@ -111,6 +140,25 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   const { searchOptions, setSearchOptions } = useSearch();
   const router = useRouter();
   const pathname = usePathname();
+  const topicsRef = useRef<HTMLDetailsElement>(null);
+  const [topicsSheetOpen, setTopicsSheetOpen] = useState(false);
+
+  useEffect(() => {
+    const closeTopicsOnOutsideClick = (event: PointerEvent) => {
+      const topics = topicsRef.current;
+      if (
+        topics &&
+        event.target instanceof Node &&
+        !topics.contains(event.target)
+      ) {
+        topics.open = false;
+      }
+    };
+
+    document.addEventListener('pointerdown', closeTopicsOnOutsideClick);
+    return () =>
+      document.removeEventListener('pointerdown', closeTopicsOnOutsideClick);
+  }, []);
 
   useEffect(() => {
     // Read initial query params from server-side rendered URL.
@@ -156,38 +204,76 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
   );
 
   return (
-    <div className="flex flex-col items-stretch gap-y-4 p-4 max-w-full sm:max-w-max-content-width">
-      <div className="mt-4 mb-2">
-        <h1 className="font-bold text-2xl">Council activity</h1>
-        <p>
-          Here are agenda items that the City of Toronto will discuss at
-          upcoming meetings. You can provide feedback on these items by
-          submitting comments by email, which will be read at the meeting, or
-          requesting to speak at the meeting live, in person or over video
-          conferencing.
-        </p>
+    <div className="flex flex-col gap-y-4 mx-auto px-4 sm:px-6 lg:px-12 lg:px-16 py-12 md:py-7 w-full max-w-7xl">
+      <div className="mb-8">
+        <Text preset="Heading2" tag="h1" className="mb-2">
+          Council Activity
+        </Text>
+        <Text className="mb-0" preset="Body">
+          Browse agenda items from upcoming and past City Council and committee
+          meetings.
+        </Text>
       </div>
-      <UpcomingPastToggle />
-      <div className="flex flex-row items-center self-stretch gap-x-2">
-        <div className="flex-grow">
-          <SearchBar />
+      <section>
+        <div className="flex lg:flex-row flex-col justify-between sm:items-stretch gap-4 dark:bg-neutral-800 pb-3 border-gray-light border-b text-gray-dark dark:text-gray-30">
+          <UpcomingPastToggle />
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-y-2 sm:gap-1">
+            <SortDropdown />
+            <Dialog open={topicsSheetOpen} onOpenChange={setTopicsSheetOpen}>
+              <DialogTrigger asChild>
+                <Button variant="ghost" className="sm:hidden gap-1">
+                  <span className="relative">
+                    Topics
+                    {searchOptions.tags.length > 0 && (
+                      <span className="-top-2 -right-3 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-[14px] h-[14px] font-bold text-[10px] text-white leading-none">
+                        {searchOptions.tags.length}
+                      </span>
+                    )}
+                  </span>
+                  <ChevronDown className="w-4 h-4 shrink-0" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent bottomSheet>
+                <DialogHeader className="px-6 py-5 pr-12 border-gray-light border-b text-left">
+                  <DialogTitle>Topics</DialogTitle>
+                </DialogHeader>
+                <div className="flex-1 px-4 py-5 min-h-0 overflow-y-auto">
+                  <Tags />
+                </div>
+              </DialogContent>
+            </Dialog>
+            <details ref={topicsRef} className="hidden sm:block relative">
+              <Button asChild variant="ghost" className="gap-1">
+                <summary className="cursor-pointer list-none">
+                  <span className="relative">
+                    Topics
+                    {searchOptions.tags.length > 0 && (
+                      <span className="-top-2 -right-3 absolute flex justify-center items-center bg-green-700 px-1 rounded-full min-w-[14px] h-[14px] font-bold text-[10px] text-white leading-none">
+                        {searchOptions.tags.length}
+                      </span>
+                    )}
+                  </span>
+                  <ChevronDown className="w-4 h-4 shrink-0" />
+                </summary>
+              </Button>
+              <div className="left-0 z-10 absolute space-y-4 bg-white dark:bg-neutral-800 shadow-lg mt-3 p-4 border border-gray-light w-[min(30rem,calc(100vw-3rem))]">
+                <Tags />
+              </div>
+            </details>
+            <DecisionBodyFilter decisionBodies={currentTermDecisionBodies} />
+            <div className="order-1 sm:ml-auto lg:ml-4 w-full md:max-w-[18rem]">
+              <SearchBar compact />
+            </div>
+          </div>
         </div>
-        <div className="sm:max-w-max-content-width">
-          <SortDropdown />
-        </div>
-      </div>
-      <Tags />
-      <hr className="border-gray-200 dark:border-gray-800" />
-      <DecisionBodyFilter
-        decisionBodies={currentTermDecisionBodies}
-      ></DecisionBodyFilter>
-      <div className="flex flex-row flex-wrap justify-around items-end self-stretch gap-x-4 gap-y-4">
-        <div className="flex justify-between items-end grow">
+      </section>
+      <div className="flex flex-row flex-wrap justify-end items-end gap-x-4 gap-y-4">
+        <div className="flex items-center gap-3 mb-2 text-gray-dark text-sm grow">
           <ResultCount />
           <SubscribeToSearchButton />
         </div>
       </div>
-      <ResultList decisionBodies={decisionBodies} />
+      <ResultList />
     </div>
   );
 }

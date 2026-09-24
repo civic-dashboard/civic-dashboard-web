@@ -1,4 +1,10 @@
-import { Check, Search } from 'lucide-react';
+import {
+  CalendarChevronsRight,
+  Check,
+  RotateCcwClock,
+  Search,
+} from 'lucide-react';
+import { cn } from '@/components/ui/utils';
 import React, { useCallback, useMemo } from 'react';
 import { DecisionBody } from '@/api/decisionBody';
 import { Combobox } from '@/components/ui/combobox';
@@ -25,7 +31,10 @@ export function SortDropdown() {
     () =>
       sortByFilterOptions.map((opt) => ({
         id: opt.sortId as number,
-        label: opt.sortLabel as 'Oldest' | 'Newest' | 'Most Relevant',
+        label: opt.sortLabel as
+          | 'Earliest first'
+          | 'Latest first'
+          | 'Most relevant',
       })),
     [],
   );
@@ -59,11 +68,13 @@ export function SortDropdown() {
       options={options}
       value={selectedId}
       onSelect={onSelect}
-      defaultValue={options.find((opt) => opt.label === 'Most Relevant')?.id}
+      buttonVariant="ghost"
+      defaultValue={options.find((opt) => opt.label === 'Most relevant')?.id}
       placeholder="Sort by..."
       multiple={false}
       searchable={false}
       reorderSelected={false}
+      mobileSheetTitle="Sort order"
     />
   );
 }
@@ -105,8 +116,14 @@ export function DecisionBodyFilter({
       multiple
       value={decisionBodyIds}
       onSelect={onSelect}
-      placeholder="Select decision body..."
+      buttonVariant="ghost"
+      placeholder="Committees"
+      staticLabel="Committees"
+      onClear={() =>
+        setSearchOptions((opts) => ({ ...opts, decisionBodyIds: [] }))
+      }
       resetScrollOnSearch
+      mobileSheetTitle="Committees"
     />
   );
 }
@@ -121,36 +138,28 @@ export function UpcomingPastToggle() {
   };
 
   return (
-    <div className="border-gray-200 dark:border-gray-800 border-b w-full">
-      <div className="flex gap-1">
+    <div role="tablist">
+      <div className="grid grid-cols-2">
         <Button
-          variant="ghost"
-          size="lg"
           role="tab"
           aria-selected={timeRange === 'upcoming'}
           onClick={() => handleDateRange('upcoming')}
-          className={`border-b-2 cursor-pointer ${
-            timeRange === 'upcoming'
-              ? 'bg-primary-lightest dark:bg-gray-900 border-primary'
-              : 'border-transparent'
-          }`}
+          variant={timeRange === 'upcoming' ? 'default' : 'outline'}
+          className="px-6 h-full"
         >
-          Upcoming items
+          <CalendarChevronsRight size={20} strokeWidth={2} />
+          Upcoming
         </Button>
 
         <Button
-          variant="ghost"
-          size="lg"
           role="tab"
           aria-selected={timeRange === 'past'}
           onClick={() => handleDateRange('past')}
-          className={`border-b-2 cursor-pointer ${
-            timeRange === 'past'
-              ? 'bg-primary-lightest dark:bg-gray-900 border-primary'
-              : 'border-transparent'
-          }`}
+          variant={timeRange === 'past' ? 'default' : 'outline'}
+          className="px-6 h-full"
         >
-          Past items
+          <RotateCcwClock size={20} strokeWidth={2} />
+          Past
         </Button>
       </div>
     </div>
@@ -179,8 +188,8 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
 
   return (
     <ChipButton
-      className="text-nowrap sm:text-wrap"
-      variant={isSelected ? 'sky' : 'secondary'}
+      className="sm:text-wrap text-nowrap cursor-pointer"
+      variant={isSelected ? 'primaryLightest' : 'secondary'}
       onClick={onClick}
       title={tag.searchQuery}
     >
@@ -190,38 +199,58 @@ function TagToggle({ tagKey, tag }: { tagKey: TagEnum; tag: Tag }) {
   );
 }
 export function Tags() {
+  const { searchOptions, setSearchOptions } = useSearch();
+
   return (
-    <div className="ml-[-1rem] mr-[-1rem] max-w-[100vh] sm:max-w-full sm:m-0">
-      <div
-        className="flex gap-x-2 overflow-x-scroll scrollbar-none px-4 sm:flex-wrap sm:gap-y-2 sm:justify-center"
-        style={{ scrollbarWidth: 'none' }}
-      >
+    <div>
+      <div className="flex flex-wrap gap-2">
         {Object.entries(allTags).map(([key, tag]) => (
           <TagToggle key={key} tagKey={key as TagEnum} tag={tag} />
         ))}
       </div>
+      {searchOptions.tags.length > 0 && (
+        <div className="flex justify-end pt-6">
+          <Button
+            variant="outline"
+            size="sm"
+            className="py-1 h-auto"
+            onClick={() => setSearchOptions((opts) => ({ ...opts, tags: [] }))}
+          >
+            Clear selection
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
 
-export function SearchBar() {
+export function SearchBar({ compact = false }: { compact?: boolean }) {
   const { setSearchOptions } = useSearch();
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col w-full max-w-[500px] items-stretch">
-        <div className="flex gap-x-2 items-center flex-1 p-1 px-3 rounded-[28px] bg-neutral-100 dark:bg-neutral-800">
+    <div className={cn('flex justify-center', compact && 'justify-start')}>
+      <div className="flex flex-col items-stretch w-full">
+        <div
+          className={cn(
+            'flex flex-1 items-center gap-x-2 bg-gray-light p-1 px-3 text-black',
+            compact
+              ? 'bg-gray-lightest border border-2 border-gray-lightest focus-within:border-primary focus-within:bg-white'
+              : 'bg-neutral-100 dark:bg-neutral-800',
+          )}
+        >
+          <Search className="text-gray-500 dark:text-neutral-400" />
           <Input
-            className="border-none py-1 px-2 bg-transparent dark:bg-transparent"
+            className="bg-transparent dark:bg-transparent px-2 py-1 border-none"
             onChange={(ev) =>
               setSearchOptions((opts) => ({
                 ...opts,
                 textQuery: ev.target.value,
               }))
             }
-            placeholder="Search by topic, councillor, or item"
+            placeholder={
+              compact ? 'Search' : 'Search by topic, councillor, or item'
+            }
           />
-          <Search className="text-neutral-600 dark:text-neutral-400" />
         </div>
         {/* <span className="p-1 pl-4 text-[10px] text-neutral-600 dark:text-neutral-400">
           Feel free to use AND, OR, NOT - learn more about search operators
