@@ -52,10 +52,29 @@ export default function Header() {
     };
   }, [openDesktopMenu]);
 
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMenuOpen]);
+
   return (
-    <>
-      <ElectionBanner />
-      <header className="sticky top-0 z-30 bg-white dark:bg-black">
+    <div
+      className={
+        isMenuOpen
+          ? 'fixed inset-0 z-30 flex flex-col bg-white lg:contents dark:bg-black'
+          : 'contents'
+      }
+    >
+      <div className="shrink-0">
+        <ElectionBanner />
+      </div>
+      <header className="sticky top-0 z-30 shrink-0 bg-white dark:bg-black">
         <nav
           ref={desktopMenuRef}
           className="relative max-w-7xl py-2 mx-auto px-4 sm:px-6 lg:px-8 lg:py-4"
@@ -172,66 +191,60 @@ export default function Header() {
 
       {/* Mobile/Tablet Menu - moved outside header */}
       {isMenuOpen && (
-        <div className="fixed inset-x-0 bottom-0 top-16 z-20 flex flex-col bg-white dark:bg-black lg:hidden">
-          <div className="w-full min-h-0 flex-1 gap-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-4 mt-16">
-            <Accordion
-              type="single"
-              collapsible
-              defaultValue={menuItems[0].label}
-              className="w-full flex flex-col gap-4"
-            >
-              {menuItems.map((item) => (
-                <AccordionItem
-                  key={item.label}
-                  value={item.label}
-                  className="border-gray-light dark:border-white/10"
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-4 pb-4 lg:hidden">
+          <Accordion
+            type="single"
+            collapsible
+            defaultValue={menuItems[0].label}
+            className="w-full flex flex-col gap-4"
+          >
+            {menuItems.map((item) => (
+              <AccordionItem
+                key={item.label}
+                value={item.label}
+                className="border-gray-light dark:border-white/10"
+              >
+                <AccordionTrigger
+                  variant="heading"
+                  className="data-[state=open]:bg-primary-lightest data-[state=open]:dark:bg-primary py-4"
+                  data-umami-event={`Header navigation: ${item.label}`}
                 >
-                  <AccordionTrigger
-                    variant="heading"
-                    className="data-[state=open]:bg-primary-lightest data-[state=open]:dark:bg-primary py-4"
-                    data-umami-event={`Header navigation: ${item.label}`}
-                  >
-                    {item.label}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="flex flex-col gap-2 px-2 pt-3">
-                      {item.subItems.map((subItem) => (
-                        <Link
-                          onClick={() => setIsMenuOpen(false)}
-                          key={subItem.label}
-                          href={subItem.href}
-                          target={subItem.newTab ? '_blank' : '_self'}
-                          className={`flex flex-col border-l-4 px-4 py-2 gap-1 ${
-                            subItem.borderColor
-                              ? (borderClassByColor[subItem.borderColor] ??
-                                'border-transparent')
-                              : 'border-transparent'
-                          }`}
-                          data-umami-event={`Header navigation: ${subItem.label}`}
+                  {item.label}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="flex flex-col gap-2 px-2 pt-3">
+                    {item.subItems.map((subItem) => (
+                      <Link
+                        onClick={() => setIsMenuOpen(false)}
+                        key={subItem.label}
+                        href={subItem.href}
+                        target={subItem.newTab ? '_blank' : '_self'}
+                        className={`flex flex-col border-l-4 px-4 py-2 gap-1 ${
+                          subItem.borderColor
+                            ? (borderClassByColor[subItem.borderColor] ??
+                              'border-transparent')
+                            : 'border-transparent'
+                        }`}
+                        data-umami-event={`Header navigation: ${subItem.label}`}
+                      >
+                        <Text preset="Body" tag="h3" className="font-semibold">
+                          {subItem.label}
+                        </Text>
+                        <Text
+                          preset="Small"
+                          className="text-gray-dark dark:text-gray-light"
                         >
-                          <Text
-                            preset="Body"
-                            tag="h3"
-                            className="font-semibold"
-                          >
-                            {subItem.label}
-                          </Text>
-                          <Text
-                            preset="Small"
-                            className="text-gray-dark dark:text-gray-light"
-                          >
-                            {subItem.description}
-                          </Text>
-                        </Link>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+                          {subItem.description}
+                        </Text>
+                      </Link>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       )}
-    </>
+    </div>
   );
 }
