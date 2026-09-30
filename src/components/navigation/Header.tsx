@@ -63,11 +63,23 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 64rem)');
+    const closeMenuOnDesktop = () => {
+      if (desktopQuery.matches) setIsMenuOpen(false);
+    };
+
+    closeMenuOnDesktop();
+    desktopQuery.addEventListener('change', closeMenuOnDesktop);
+    return () =>
+      desktopQuery.removeEventListener('change', closeMenuOnDesktop);
+  }, []);
+
   return (
     <div
       className={
         isMenuOpen
-          ? 'fixed inset-0 z-30 flex flex-col bg-white lg:contents dark:bg-black'
+          ? 'max-lg:fixed max-lg:inset-0 max-lg:z-30 max-lg:flex max-lg:flex-col max-lg:bg-white lg:contents dark:max-lg:bg-black'
           : 'contents'
       }
     >
