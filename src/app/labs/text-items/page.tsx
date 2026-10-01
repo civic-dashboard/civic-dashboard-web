@@ -30,6 +30,10 @@ const presetCopy: Record<TextPreset, { sample: string; usage: string }> = {
     sample: 'Smaller callouts work well for supporting subsections.',
     usage: 'Subsection heading inside a larger narrative.',
   },
+  Heading4: {
+    sample: 'Use this for minor headings within a subsection.',
+    usage: 'Minor heading within a subsection.',
+  },
   Body: {
     sample:
       'Body text is the default reading style for explanatory copy, descriptions, and most page content where clarity matters more than emphasis.',

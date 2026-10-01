@@ -55,10 +55,10 @@ export default function Header() {
   return (
     <>
       <ElectionBanner />
-      <header className="sticky top-0 z-30 bg-white dark:bg-black">
+      <header className="top-0 z-30 sticky bg-white dark:bg-black border-gray-300 border-b">
         <nav
           ref={desktopMenuRef}
-          className="relative max-w-7xl py-2 mx-auto px-4 sm:px-6 lg:px-8 lg:py-4"
+          className="relative mx-auto px-4 sm:px-6 lg:px-8 py-2 lg:py-4 max-w-7xl"
         >
           <div className="flex justify-between">
             <div className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export default function Header() {
                   alt="Civic Dashboard Logo"
                   width={33}
                   height={46}
-                  className="object-contain h-7.5 md:h-11 w-auto"
+                  className="w-auto h-7.5 md:h-11 object-contain"
                 />
                 <Text
                   preset="Heading2"
@@ -114,7 +114,7 @@ export default function Header() {
                 onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
                 variant="outline"
                 size="icon"
-                className="text-black border-black"
+                className="border-black text-black"
                 aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMenuOpen}
                 data-umami-event={`Header navigation: ${
@@ -133,8 +133,8 @@ export default function Header() {
                 openDesktopMenu === 'our-tools' ? '-translate-x-8' : '' // For slight visual diff of the menus
               }`}
             >
-              <div className="mx-auto max-w-4xl border border-gray-light bg-white py-8 px-6 shadow-md dark:border-gray-dark dark:bg-black">
-                <div className="grid grid-cols-2 gap-x-6 gap-y-6">
+              <div className="bg-white dark:bg-black shadow-md mx-auto px-6 py-8 border border-gray-light dark:border-gray-dark max-w-4xl">
+                <div className="gap-x-6 gap-y-6 grid grid-cols-2">
                   {menuItems
                     .find((item) => item.slug === openDesktopMenu)
                     ?.subItems.map((subItem, index) => (
@@ -172,13 +172,13 @@ export default function Header() {
 
       {/* Mobile/Tablet Menu - moved outside header */}
       {isMenuOpen && (
-        <div className="fixed inset-x-0 bottom-0 top-16 z-20 flex flex-col bg-white dark:bg-black lg:hidden">
-          <div className="w-full min-h-0 flex-1 gap-y-2 overflow-y-auto overscroll-contain pb-4 px-4 pt-4 mt-16">
+        <div className="lg:hidden top-16 bottom-0 z-20 fixed inset-x-0 flex flex-col bg-white dark:bg-black">
+          <div className="flex-1 gap-y-2 mt-16 px-4 pt-4 pb-4 w-full min-h-0 overflow-y-auto overscroll-contain">
             <Accordion
               type="single"
               collapsible
               defaultValue={menuItems[0].label}
-              className="w-full flex flex-col gap-4"
+              className="flex flex-col gap-4 w-full"
             >
               {menuItems.map((item) => (
                 <AccordionItem

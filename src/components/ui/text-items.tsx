@@ -5,6 +5,7 @@ export const TEXT_PRESETS = [
   'Heading1',
   'Heading2',
   'Heading3',
+  'Heading4',
   'Body',
   'Small',
 ] as const;
@@ -32,8 +33,9 @@ export const textPresetTags: Record<TextPreset, TextTag> = {
   Heading1: 'h1',
   Heading2: 'h2',
   Heading3: 'h3',
+  Heading4: 'h4',
   Body: 'p',
-  Small: 'small',
+  Small: 'p',
 };
 
 export const textPresetClasses: Record<TextPreset, string> = {
@@ -42,6 +44,7 @@ export const textPresetClasses: Record<TextPreset, string> = {
   Heading2: 'font-heading text-2xl md:text-3xl font-bold leading-[1.2]',
   Heading3:
     'font-heading text-lg md:text-xl font-bold leading-[1.2] md:leading-[1.4]',
+  Heading4: 'font-heading text-base md:text-lg font-bold leading-[1.4]',
   Body: 'font-body text-base font-normal leading-[1.5]',
   Small: 'font-body text-sm font-normal leading-[1.5]',
 };
@@ -75,7 +78,7 @@ export function BulletedList({
   className?: string;
 }) {
   return (
-    <ul className={cn('text-base list-disc pl-6 space-y-4', className)}>
+    <ul className={cn('space-y-4 pl-6 text-base list-disc', className)}>
       {children}
     </ul>
   );
