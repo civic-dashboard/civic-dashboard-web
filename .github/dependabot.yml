@@ -6,7 +6,11 @@ updates:
     directory: "/"
     # Check the npm registry for updates every day (weekdays)
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    ignore:
+      # Skip patch versions (security updates are excepted)
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
     groups:
       radix-ui:
         patterns:
