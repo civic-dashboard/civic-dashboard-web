@@ -39,6 +39,8 @@ export function SearchProvider({ children }: Props) {
       tags: [],
       decisionBodyIds: [],
       minimumDate: startOfToday,
+      sortBy: 'date',
+      sortDirection: 'ascending',
     };
   });
 
