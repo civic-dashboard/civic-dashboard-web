@@ -58,7 +58,7 @@
     "react-dom": "19.2.7",
     "react-intersection-observer": "^9.16.0",
     "react-markdown": "^10.1.0",
-    "resend": "^4.0.1",
+    "resend": "^6.32.0",
     "sanitize-html": "^2.17.5",
     "slugify": "^1.6.6",
     "tailwind-merge": "^3.7.0",
