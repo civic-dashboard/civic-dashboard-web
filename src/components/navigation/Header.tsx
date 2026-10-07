@@ -71,8 +71,7 @@ export default function Header() {
 
     closeMenuOnDesktop();
     desktopQuery.addEventListener('change', closeMenuOnDesktop);
-    return () =>
-      desktopQuery.removeEventListener('change', closeMenuOnDesktop);
+    return () => desktopQuery.removeEventListener('change', closeMenuOnDesktop);
   }, []);
 
   return (
