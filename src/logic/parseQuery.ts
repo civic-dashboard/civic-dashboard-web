@@ -133,11 +133,13 @@ const parseTokens = (tokens: Token[]): Query | null => {
      * Set the value of remaining to a new array that contains all tokens except the first one.
      */
     //If the current element is ‘(‘, call endParen to find ‘)’
-    const endParen = findEndParen(tokens.slice(1));
-    if (endParen === -1) {
+    const relativeEndParen = findEndParen(tokens.slice(1));
+    if (relativeEndParen === -1) {
       //‘)’ not found, discard ‘(‘ and parse the remaining string
       return parseTokens(tokens.slice(1));
     }
+    // findEndParen searched from tokens[1], so convert to an index into tokens
+    const endParen = relativeEndParen + 1;
 
     const subQuery = parseTokens(tokens.slice(1, endParen));
     if (subQuery === null) {
@@ -161,12 +163,14 @@ const parseTokens = (tokens: Token[]): Query | null => {
 
       remaining = tokens.slice(2);
     } else if (tokens[1].type === '(') {
-      const endParen = findEndParen(tokens.slice(2));
-      if (endParen === -1) {
+      const relativeEndParen = findEndParen(tokens.slice(2));
+      if (relativeEndParen === -1) {
         return parseTokens(tokens.slice(2));
       }
       // if token[1] is an opening parenthesis call endParen to find the closing parenthesis
       // if closing parenthesis is not found, skip both ‘-‘ and ‘(‘
+      // findEndParen searched from tokens[2], so convert to an index into tokens
+      const endParen = relativeEndParen + 2;
 
       const subQuery = parseTokens(tokens.slice(2, endParen));
       if (subQuery === null) return parseTokens(tokens.slice(endParen + 1));
