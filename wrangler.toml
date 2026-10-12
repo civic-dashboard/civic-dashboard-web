@@ -6,6 +6,9 @@ assets = { directory = ".open-next/assets", binding = "ASSETS" }
 routes = [{ pattern = "civicdashboard.ca", custom_domain = true }]
 preview_urls = true
 
+[cache]
+enabled = true
+
 [observability.logs]
 enabled = true
 

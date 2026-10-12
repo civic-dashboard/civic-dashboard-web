@@ -32,6 +32,12 @@ export async function GET(request: NextRequest) {
   );
   const res = Response.json(agendaItems);
   res.headers.set('agenda-item-count', itemCount.toString());
+  // Public data — safe to cache at the CDN for the same duration as the councillor page
+  res.headers.set('Cache-Control', 'public, max-age=0');
+  res.headers.set(
+    'cdn-cache-control',
+    'public, max-age=3600, stale-while-revalidate=59',
+  );
 
   return res;
 }
