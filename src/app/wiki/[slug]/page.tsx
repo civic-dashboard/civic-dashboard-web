@@ -7,7 +7,6 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 function getTitleFromHtmlFile(slug: string): string {
-
   try {
     const filePath = path.join(process.cwd(), 'public', 'html', slug);
 
