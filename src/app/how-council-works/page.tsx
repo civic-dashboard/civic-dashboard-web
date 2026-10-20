@@ -96,7 +96,7 @@ export default function HowCouncilWorks() {
             >
               Mayor
             </Tooltip>
-            , who is elected city-wide. Together, they shape policies and make 
+            , who is elected city-wide. Together, they shape policies and make
             decisions that impact the entire city.
           </Text>
           <Text preset="Body">
