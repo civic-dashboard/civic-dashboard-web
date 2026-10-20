@@ -54,4 +54,8 @@ export const tooltips = {
     trigger: "Voters' List",
     content: `The Voter's List is a list of the name, address and date of birth of all eligible voters across Ontario. It is used by election staff to verify whether voters are eligible to vote in a given election or by-election.`,
   },
+  mayor: {
+    trigger: 'Mayor',
+    content: `The Mayor is elected city-wide and leads Toronto City Council. The Mayor represents Toronto, proposes the city's annual budget, and exercises additional powers under provincial legislation.`,
+  },
 };

@@ -89,7 +89,14 @@ export default function HowCouncilWorks() {
             >
               Councillors
             </Tooltip>
-            , one per ward, and the Mayor, who is elected city-wide. Together,
+            , one per ward, and the{' '}
+            <Tooltip
+              tooltipTitle={tooltips.mayor.trigger}
+              tooltipContent={tooltips.mayor.content}
+            >
+              Mayor
+            </Tooltip>
+            , who is elected city-wide. Together,
             they shape policies and make decisions that impact the entire city.
           </Text>
           <Text preset="Body">
