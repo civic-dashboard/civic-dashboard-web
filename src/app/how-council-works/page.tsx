@@ -96,8 +96,8 @@ export default function HowCouncilWorks() {
             >
               Mayor
             </Tooltip>
-            , who is elected city-wide. Together,
-            they shape policies and make decisions that impact the entire city.
+            , who is elected city-wide. Together, they shape policies and make 
+            decisions that impact the entire city.
           </Text>
           <Text preset="Body">
             The Toronto Public Service (TPS) has 42K+ employees working across
