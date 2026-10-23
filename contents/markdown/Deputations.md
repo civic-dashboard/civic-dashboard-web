@@ -1,3 +1,7 @@
+---
+title: "Deputations"
+---
+
 # Deputations
 
 ## What are Deputations?
