@@ -13,10 +13,15 @@ async function readPublishedHtmlHead(slug: string): Promise<string | null> {
   // Production: Cloudflare Assets Binding
   try {
     const cf = await getCloudflareContext({ async: true });
-    const res = await cf.env.ASSETS!.fetch(new URL(`https://assets/html/${slug}`));
-    if (res.ok) return (await res.text()).slice(0, slicesize);
-  } catch {}
-  console.log(`Not running on Workers`);
+    const res = await cf.env.ASSETS!.fetch(
+      new URL(`https://assets/html/${slug}`),
+    );
+    if (res.ok) {
+      return (await res.text()).slice(0, slicesize);
+    }
+  } catch (err) {
+    console.log('Error running on Workers: ', err);
+  }
 
   // Development: Local File System
   try {
@@ -24,22 +29,23 @@ async function readPublishedHtmlHead(slug: string): Promise<string | null> {
     if (fs.existsSync(filePath)) {
       return fs.readFileSync(filePath, 'utf8').slice(0, slicesize);
     }
-  } catch {}
-  console.log(`No local file found`);
+  } catch (err) {
+    console.log('Error finding local file: ', err);
+  }
 
   return null;
 }
 
 async function getTitleFromHtmlFile(slug: string): Promise<string | null> {
-  const headSnippet = await readPublishedHtmlHead(slug)
+  const headSnippet = await readPublishedHtmlHead(slug);
 
-  if (headSnippet != null){
+  if (headSnippet != null) {
     const titleMatch = headSnippet.match(/<title>([\s\S]*?)<\/title>/i);
-      if (titleMatch && titleMatch[1].trim()) {
-        return titleMatch[1].trim();
-      } else {
-        console.log(`no title found in ${slug}:`);
-      }
+    if (titleMatch && titleMatch[1].trim()) {
+      return titleMatch[1].trim();
+    } else {
+      console.log(`no title found in ${slug}:`);
+    }
   } else {
     console.log(`no head snippet found for ${slug}:`);
   }
