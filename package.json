@@ -50,7 +50,7 @@
     "kysely-postgres-js": "^2.0.0",
     "lucide-react": "^0.460.0",
     "mark.js": "^8.11.1",
-    "next": "^16.3.8",
+    "next": "^16.4.1",
     "next-sitemap": "^4.2.3",
     "node-fetch": "^3.3.2",
     "postgres": "^3.4.7",
@@ -67,7 +67,7 @@
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
     "@eslint/js": "^9.39.4",
-    "@opennextjs/cloudflare": "^1.19.0",
+    "@opennextjs/cloudflare": "^1.20.12",
     "@tailwindcss/postcss": "^4.3.0",
     "@tailwindcss/typography": "^0.5.19",
     "@types/hash-sum": "1.0.2",
@@ -97,7 +97,7 @@
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript-eslint": "^8.59.2",
-    "wrangler": "^4.141.0"
+    "wrangler": "^4.148.0"
   },
   "overrides": {
     "@types/react": "19.2.17",
