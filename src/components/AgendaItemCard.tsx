@@ -154,7 +154,7 @@ export function FullPageAgendaItemCard({
       externalLink={`https://secure.toronto.ca/council/agenda-item.do?item=${item.reference}`}
       Footer={() => (
         <>
-          {isMeetingUpcomingOrToday && (
+          {isMeetingUpcomingOrToday && decisionBody && (
             <SubmitCommentModal
               agendaItem={item}
               decisionBody={decisionBody}
@@ -170,7 +170,7 @@ export function FullPageAgendaItemCard({
               }
             />
           )}
-          {isMeetingUpcomingOrToday && (
+          {isMeetingUpcomingOrToday && decisionBody && (
             <RequestToSpeakModal
               agendaItem={item}
               decisionBody={decisionBody}
@@ -359,7 +359,7 @@ export function SearchResultAgendaItemCard({
             >
               Learn more
             </Button>
-            {isMeetingUpcomingOrToday && (
+            {isMeetingUpcomingOrToday && decisionBody && (
               <TakeActionDropdown
                 agendaItem={item}
                 decisionBody={decisionBody}
