@@ -26,12 +26,17 @@ function isValidPayload(body: unknown): body is FeedbackPayload {
   return false;
 }
 
+const escapeSlack = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 function formatSlackMessage(payload: FeedbackPayload): string {
   if (payload.type === 'text') {
-    const namePrefix = payload.name.trim() ? `*From:* ${payload.name}\n` : '';
-    return `*New Feedback*\n${namePrefix}*Message:*\n${payload.message}`;
+    const namePrefix = payload.name.trim()
+      ? `*From:* ${escapeSlack(payload.name)}\n`
+      : '';
+    return `*New Feedback*\n${namePrefix}*Message:*\n${escapeSlack(payload.message)}`;
   }
-  return `*User Interview Signup*\n*Name:* ${payload.name}\n*Email:* ${payload.email}\n*Availability:* ${payload.availability}${payload.anythingElse.trim() ? `\n*Anything else:* ${payload.anythingElse}` : ''}`;
+  return `*User Interview Signup*\n*Name:* ${escapeSlack(payload.name)}\n*Email:* ${escapeSlack(payload.email)}\n*Availability:* ${escapeSlack(payload.availability)}${payload.anythingElse.trim() ? `\n*Anything else:* ${escapeSlack(payload.anythingElse)}` : ''}`;
 }
 
 export async function POST(request: NextRequest) {
