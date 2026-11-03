@@ -460,6 +460,7 @@ export const searchAgendaItems = async (
       sortBy === 'relevance' && Boolean(combinedQuery) ? 'rank' : 'meetingDate',
       sortDirection === 'ascending' ? 'asc' : 'desc',
     )
+    .orderBy('reference', sortDirection === 'ascending' ? 'asc' : 'desc')
     .limit(pageSize)
     .offset(page * pageSize);
 

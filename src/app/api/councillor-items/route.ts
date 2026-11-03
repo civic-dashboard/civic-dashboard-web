@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: `Invalid page: ${page} ` }, { status: 422 });
   }
   const pageSize = parseNumberParam(searchParams, 'pageSize') ?? 10;
-  if (Number.isNaN(pageSize) || pageSize < 1) {
+  if (Number.isNaN(pageSize) || pageSize < 1 || pageSize > 100) {
     return Response.json(
       { error: `Invalid page size: ${pageSize}` },
       { status: 422 },
