@@ -14,7 +14,7 @@ import { useEffect, useMemo } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { SearchProvider, useSearch } from '@/contexts/SearchContext';
-import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
+import { getCurrentTermId } from '@/logic/councilTerm';
 import { SubscribeToSearchButton } from '@/components/subscribeToSearchButton';
 import { usePathname, useRouter } from 'next/navigation';
 import { isTag } from '@/constants/tags';
@@ -145,15 +145,14 @@ function AgendaItemListInner({ initialSearchParams, decisionBodies }: Props) {
     router.push(updatedPath);
   }, [searchOptions, router, pathname]);
 
-  const currentTermDecisionBodies = useMemo(
-    () =>
-      Object.fromEntries(
-        Object.entries(decisionBodies).filter(
-          ([_, body]) => body.termId === CURRENT_COUNCIL_TERM,
-        ),
+  const currentTermDecisionBodies = useMemo(() => {
+    const currentTermId = getCurrentTermId(decisionBodies);
+    return Object.fromEntries(
+      Object.entries(decisionBodies).filter(
+        ([_, body]) => body.termId === currentTermId,
       ),
-    [decisionBodies],
-  );
+    );
+  }, [decisionBodies]);
 
   return (
     <div className="flex flex-col items-stretch gap-y-4 p-4 max-w-full sm:max-w-max-content-width">
