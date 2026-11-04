@@ -1,3 +1,7 @@
+---
+title: "City of Toronto Policies"
+---
+
 # City of Toronto Policies 
 
 ## What is Municipal Policy? 
