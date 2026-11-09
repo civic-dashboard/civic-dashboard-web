@@ -89,7 +89,7 @@
     "kysely-ctl": "^0.22.0",
     "marked": "^9.1.6",
     "nodemailer": "^6.10.0",
-    "pg": "^8.13.2",
+    "pg": "^8.23.1",
     "postcss": "^8",
     "prettier": "3.4.2",
     "react-email": "^6.6.8",
