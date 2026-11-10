@@ -11,15 +11,7 @@ export const TEXT_PRESETS = [
 
 export type TextPreset = (typeof TEXT_PRESETS)[number];
 export type TextTag =
-  | 'h1'
-  | 'h2'
-  | 'h3'
-  | 'h4'
-  | 'h5'
-  | 'h6'
-  | 'p'
-  | 'small'
-  | 'span';
+  'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'small' | 'span';
 
 type TextProps = {
   preset: TextPreset;
