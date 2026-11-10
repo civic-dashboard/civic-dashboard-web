@@ -13,12 +13,16 @@ const body = (
   decisionBodyId: number,
   termId: number,
   trmStartDate: number,
+  overrides: Partial<DecisionBody> = {},
 ): DecisionBody =>
   ({
     decisionBodyId,
     termId,
     decisionBodyName: `Body ${decisionBodyId}`,
+    decisionBodyPublishLabelCd: 'CMMTTEE',
+    members: [{ memberId: 1 }],
     term: { termId, trmStartDate },
+    ...overrides,
   }) as DecisionBody;
 
 const byId = (...bodies: DecisionBody[]) =>
@@ -41,6 +45,42 @@ describe('getCurrentTermId', () => {
 
   it('returns undefined when there are no decision bodies', () => {
     assert.equal(getCurrentTermId({}), undefined);
+  });
+
+  describe('when the new term is only partly loaded', () => {
+    const term8 = body(2462, 8, TERM_8_START);
+    const term9Council = body(3000, 9, TERM_9_START, {
+      decisionBodyPublishLabelCd: 'COUNCIL',
+    });
+    const term9EmptyCommittee = body(3001, 9, TERM_9_START, { members: [] });
+
+    it('stays on the old term when only City Council is published', () => {
+      assert.equal(
+        getCurrentTermId(byId(term8, term9Council), TERM_9_START),
+        8,
+      );
+    });
+
+    it('stays on the old term when new committees have no members', () => {
+      assert.equal(
+        getCurrentTermId(
+          byId(term8, term9Council, term9EmptyCommittee),
+          TERM_9_START,
+        ),
+        8,
+      );
+    });
+
+    it('switches once a new committee has members', () => {
+      const term9Committee = body(3002, 9, TERM_9_START);
+      assert.equal(
+        getCurrentTermId(
+          byId(term8, term9Council, term9EmptyCommittee, term9Committee),
+          TERM_9_START,
+        ),
+        9,
+      );
+    });
   });
 });
 

@@ -3,9 +3,12 @@ import { DecisionBody } from '@/api/decisionBody';
 const MAX_TERM_ID = 50;
 
 /**
- * Returns the council term in effect at `now`: the newest term among the
- * decision bodies whose start date has passed. A new term takes over on its
- * start date once its decision bodies are fetched, with no code change.
+ * Returns the council term in effect at `now`: the newest term that has
+ * started and has at least one committee with members. City Council is
+ * skipped because it is published before committee members are appointed.
+ * Until then the previous term stays current, so councillor committee lists
+ * and the /actions filter don't go empty. A new term takes over with no
+ * code change.
  */
 export function getCurrentTermId(
   decisionBodies: Record<number, DecisionBody>,
@@ -13,6 +16,8 @@ export function getCurrentTermId(
 ): number | undefined {
   let currentTermId: number | undefined;
   for (const body of Object.values(decisionBodies)) {
+    if (body.decisionBodyPublishLabelCd === 'COUNCIL' || !body.members?.length)
+      continue;
     if (body.term.trmStartDate > now) continue;
     if (currentTermId === undefined || body.termId > currentTermId) {
       currentTermId = body.termId;
