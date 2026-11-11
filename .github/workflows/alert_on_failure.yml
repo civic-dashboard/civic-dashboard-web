@@ -1,0 +1,93 @@
+name: Alert on workflow failure
+
+# Posts to Slack when a critical workflow fails, so failures don't go unnoticed.
+# Note: workflow_run only fires for this file as it exists on the default branch.
+on:
+  workflow_run:
+    workflows:
+      - Deploy web app
+      - Update database
+      - Notify subscribers
+      - Refresh subscription queries
+      - Repopulate raw contacts and votes
+      - Update decision bodies
+      - Migrate database
+    types: [completed]
+
+permissions:
+  actions: read
+
+jobs:
+  alert:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    name: Alert on failure
+    steps:
+      - name: Post failure to Slack
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ALERTS }}
+        with:
+          script: |
+            // Hourly workflows fail occasionally (TMMIS is flaky), so only alert
+            // once they've failed THRESHOLD times in a row, then re-alert every
+            // REALERT_EVERY consecutive failures (~daily) while still failing.
+            const HOURLY_WORKFLOWS = ['Deploy web app', 'Update database'];
+            const THRESHOLD = 3;
+            const REALERT_EVERY = 24;
+
+            const run = context.payload.workflow_run;
+            const { owner, repo } = context.repo;
+
+            let streak = 1;
+            if (HOURLY_WORKFLOWS.includes(run.name)) {
+              // Count consecutive failures ending at this run (newest first).
+              // Cancelled/skipped runs neither extend nor break the streak.
+              streak = 0;
+              let reachedCurrentRun = false;
+              outer: for await (const { data: runs } of github.paginate.iterator(
+                github.rest.actions.listWorkflowRuns,
+                { owner, repo, workflow_id: run.workflow_id, status: 'completed', per_page: 100 },
+              )) {
+                for (const r of runs) {
+                  if (!reachedCurrentRun) {
+                    if (r.id !== run.id) continue;
+                    reachedCurrentRun = true;
+                  }
+                  if (r.conclusion === 'failure') streak++;
+                  else if (r.conclusion === 'success') break outer;
+                }
+              }
+              streak = Math.max(streak, 1);
+
+              const shouldAlert =
+                streak >= THRESHOLD && (streak - THRESHOLD) % REALERT_EVERY === 0;
+              core.info(`${run.name}: ${streak} consecutive failure(s)`);
+              if (!shouldAlert) {
+                core.info('Below alert threshold or already alerted for this streak; skipping.');
+                return;
+              }
+            }
+
+            const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+            if (!webhookUrl) {
+              core.setFailed('SLACK_WEBHOOK_ALERTS secret is not set.');
+              return;
+            }
+
+            const streakNote = streak > 1 ? ` (${streak} failures in a row)` : '';
+            const message =
+              `:rotating_light: *${run.name}* failed${streakNote}\n` +
+              `Branch: \`${run.head_branch}\` · Trigger: ${run.event}\n` +
+              `${run.html_url}`;
+
+            // Send both keys so this works with either a Slack incoming webhook
+            // (`text`) or a Slack workflow webhook trigger with a `message` variable.
+            const res = await fetch(webhookUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text: message, message }),
+            });
+            if (!res.ok) {
+              core.setFailed(`Slack webhook returned ${res.status}: ${await res.text()}`);
+            }
