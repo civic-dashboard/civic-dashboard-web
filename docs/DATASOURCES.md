@@ -28,7 +28,7 @@ TMMIS also provides the list of decision bodies, which we use to filter agenda i
 * **Data Schema & Fetch Logic:** [`src/api/decisionBody.ts`](../src/api/decisionBody.ts)
 * **Database Table:** `DecisionBodies`
 * **Automation:** Fetched weekly via GitHub Actions ([`.github/workflows/update_decision_bodies.yml`](../.github/workflows/update_decision_bodies.yml)). Locally: `npm run tsx src/scripts/updateDecisionBodies.ts`
-* **New council terms:** Picked up automatically. The script fetches every term until it finds two empty terms in a row, and the site treats the newest term that has started and has at least one committee with members (not counting City Council) as the current one ([`src/logic/councilTerm.ts`](../src/logic/councilTerm.ts)).
+* **New council terms:** Picked up automatically. The script fetches every term until it finds two empty terms in a row, and the site treats the newest term that has started and has at least one committee with members (not counting City Council) as the current one. The City's API removes members once appointments end, so if no term has members the site uses the newest term that has started ([`src/logic/councilTerm.ts`](../src/logic/councilTerm.ts)).
 * **Reads:** Cached via [`src/logic/decisionBodies.ts`](../src/logic/decisionBodies.ts) (`getCachedDecisionBodies`)
 
 ---

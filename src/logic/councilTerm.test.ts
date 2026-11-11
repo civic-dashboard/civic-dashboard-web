@@ -82,6 +82,22 @@ describe('getCurrentTermId', () => {
       );
     });
   });
+
+  describe('when no term has members', () => {
+    const term8NoMembers = body(2462, 8, TERM_8_START, { members: [] });
+    const term9Council = body(3000, 9, TERM_9_START, {
+      decisionBodyPublishLabelCd: 'COUNCIL',
+    });
+    const bodies = byId(term8NoMembers, term9Council);
+
+    it('falls back to the old term before the new term starts', () => {
+      assert.equal(getCurrentTermId(bodies, TERM_9_START - 1), 8);
+    });
+
+    it('falls back to the newest started term after the new term starts', () => {
+      assert.equal(getCurrentTermId(bodies, TERM_9_START), 9);
+    });
+  });
 });
 
 describe('fetchDecisionBodiesForAllTerms', () => {
