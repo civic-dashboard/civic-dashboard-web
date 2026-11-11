@@ -1,6 +1,6 @@
 ---
 title: "Staff Reports"
-description: "Staff reports are documents prepared by City of Toronto staff that are submitted to City Council alongside agenda items. Staff reports are used to inform, advise, and support decision-making by City Council and its Committees."
+description: "Staff reports are documents prepared by City of Toronto staff that are submitted to City Council alongside agenda items."
 ---
 
 # Staff Reports

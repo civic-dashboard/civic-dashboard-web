@@ -1,6 +1,6 @@
 ---
 title: "Committees"
-description: "A Committee is a group of five to eight council members that focus on specific areas like the environment, transportation, or housing. Committees review recommendations from city staff, ask questions, and suggest changes."
+description: "A Committee is a group of five to eight council members that focus on specific areas like the environment, transportation, or housing."
 ---
 
 # Committees
