@@ -39,6 +39,34 @@ function formatSlackMessage(payload: FeedbackPayload): string {
   return `*User Interview Signup*\n*Name:* ${escapeSlack(payload.name)}\n*Email:* ${escapeSlack(payload.email)}\n*Availability:* ${escapeSlack(payload.availability)}${payload.anythingElse.trim() ? `\n*Anything else:* ${escapeSlack(payload.anythingElse)}` : ''}`;
 }
 
+// Logs why Slack failed (never the feedback itself) so a broken webhook shows
+// up in Worker logs instead of silently falling back to email (#580).
+async function postToSlack(payload: FeedbackPayload): Promise<boolean> {
+  const url = process.env.SLACK_FEEDBACK_WEBHOOK_URL;
+  if (!url) {
+    console.warn(
+      'Feedback: SLACK_FEEDBACK_WEBHOOK_URL is not set, falling back to email',
+    );
+    return false;
+  }
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: formatSlackMessage(payload) }),
+    });
+    if (!res.ok) {
+      console.error(
+        `Feedback: Slack webhook returned ${res.status}, falling back to email`,
+      );
+    }
+    return res.ok;
+  } catch (e) {
+    console.error('Feedback: Slack webhook request failed', e);
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   let body: unknown;
   try {
@@ -56,24 +84,15 @@ export async function POST(request: NextRequest) {
 
   const payload = body;
 
-  const slackOk = process.env.SLACK_FEEDBACK_WEBHOOK_URL
-    ? await fetch(process.env.SLACK_FEEDBACK_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: formatSlackMessage(payload) }),
-      })
-        .then((res) => res.ok)
-        .catch(() => false)
-    : false;
-
-  if (slackOk) {
+  if (await postToSlack(payload)) {
     return Response.json({ success: true });
   }
 
   try {
     await sendFeedbackEmail(payload);
     return Response.json({ success: true });
-  } catch (_e) {
+  } catch (e) {
+    console.error('Feedback: email fallback failed', e);
     return Response.json({ error: 'Failed to send feedback' }, { status: 500 });
   }
 }
