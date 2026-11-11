@@ -1,5 +1,6 @@
 ---
 title: "The Mayor"
+description: "The mayor is the head of the City Council and the city's chief executive officer. The mayor is elected by voters across the entire city, while councillors are elected to represent individual wards."
 ---
 
 # The Mayor

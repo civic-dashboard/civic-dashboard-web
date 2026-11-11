@@ -36,9 +36,10 @@ async function readPublishedHtmlHead(slug: string): Promise<string | null> {
   return null;
 }
 
-async function getTitleFromHtmlFile(slug: string): Promise<string | null> {
-  const headSnippet = await readPublishedHtmlHead(slug);
-
+function getTitleFromHtmlHead(
+  slug: string,
+  headSnippet: string | null,
+): string {
   if (headSnippet != null) {
     const titleMatch = headSnippet.match(/<title>([\s\S]*?)<\/title>/i);
     if (titleMatch && titleMatch[1].trim()) {
@@ -54,14 +55,28 @@ async function getTitleFromHtmlFile(slug: string): Promise<string | null> {
   return slug.replace(/\.html$/i, '');
 }
 
+function getDescriptionFromHtmlHead(headSnippet: string | null) {
+  const match = headSnippet?.match(
+    /<meta name="description" content="([^"]*)">/i,
+  );
+  if (!match || !match[1].trim()) return undefined;
+
+  // Reverse the escaping done in markdowntohtml.js; Next.js escapes it again.
+  return match[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+}
+
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const pageTitle = await getTitleFromHtmlFile(params.slug);
+  const headSnippet = await readPublishedHtmlHead(params.slug);
+  const pageTitle = getTitleFromHtmlHead(params.slug, headSnippet);
+  const description = getDescriptionFromHtmlHead(headSnippet);
 
   return {
     title: `${pageTitle} – Civic Dashboard`,
+    // Without a page description, keep the site-wide one from the root layout.
+    ...(description && { description }),
   };
 }
 

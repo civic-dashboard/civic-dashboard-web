@@ -1,5 +1,6 @@
 ---
 title: "Staff Reports"
+description: "Staff reports are documents prepared by City of Toronto staff that are submitted to City Council alongside agenda items."
 ---
 
 # Staff Reports

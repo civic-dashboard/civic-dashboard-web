@@ -20,6 +20,7 @@ const DEFAULT_TEMPLATE = `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
+    <meta name="description" content="{{description}}">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -64,6 +65,10 @@ function extractTitle(content) {
 
   // Fallback to filename-based title
   return 'Generated HTML';
+}
+
+function escapeAttribute(value) {
+  return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
 function loadTemplate() {
@@ -137,6 +142,7 @@ function processMarkdownFile(filePath, template) {
 
   // Extract metadata if present (simple front matter)
   let title = fileName;
+  let description = '';
   let markdownContent = content;
 
   const frontMatterMatch = content.match(
@@ -151,6 +157,11 @@ function processMarkdownFile(filePath, template) {
     if (titleMatch) {
       title = titleMatch[1];
     }
+
+    const descriptionMatch = frontMatter.match(/^description:\s*"(.*)"\s*$/m);
+    if (descriptionMatch) {
+      description = descriptionMatch[1];
+    }
   } else {
     // Try to extract title from content
     title = extractTitle(content) || fileName;
@@ -162,6 +173,7 @@ function processMarkdownFile(filePath, template) {
   // Apply template
   const finalHtml = template
     .replace(/\{\{title\}\}/g, title)
+    .replace(/\{\{description\}\}/g, () => escapeAttribute(description))
     .replace(/\{\{content\}\}/g, htmlContent)
     .replace(/\{\{filename\}\}/g, fileName);
 
