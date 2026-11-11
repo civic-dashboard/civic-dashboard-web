@@ -1,5 +1,6 @@
 ---
 title: "City of Toronto Policies"
+description: "In the context of Toronto City Council, a policy is a Council-approved framework, principle, or set of guidelines that defines the City’s intent, priorities, and approach to an issue."
 ---
 
 # City of Toronto Policies 
