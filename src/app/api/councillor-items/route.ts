@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
 
   const page = parseNumberParam(searchParams, 'page') ?? 1;
 
-  if (Number.isNaN(page) || page < 0) {
+  if (Number.isNaN(page) || page < 1) {
     return Response.json({ error: `Invalid page: ${page} ` }, { status: 422 });
   }
   const pageSize = parseNumberParam(searchParams, 'pageSize') ?? 10;

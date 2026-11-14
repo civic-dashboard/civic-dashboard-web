@@ -72,6 +72,12 @@ export function SearchProvider({ children }: Props) {
     searchResultsRef.current = searchResults;
   }, [searchResults]);
 
+  // latest searchOptions for infinite scroll, so changing options doesn't re-fetch page N
+  const searchOptionsRef = useRef(searchOptions);
+  useEffect(() => {
+    searchOptionsRef.current = searchOptions;
+  }, [searchOptions]);
+
   const getNextPage = useCallback(() => {
     if (!isLoading && hasMoreSearchResults) {
       setCurrentPage((prev) => prev + 1);
@@ -143,11 +149,9 @@ export function SearchProvider({ children }: Props) {
   // infinite scroll - trigger a new search when currentPage changes
   useEffect(() => {
     if (currentPage > 0) {
-      // onSearch is async; setIsLoading(true) is intentional and doesn't cause a cascade
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      onSearch(searchOptions, currentPage);
+      onSearch(searchOptionsRef.current, currentPage);
     }
-  }, [currentPage, searchOptions, onSearch]);
+  }, [currentPage, onSearch]);
 
   return (
     <SearchContext.Provider
