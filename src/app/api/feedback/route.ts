@@ -54,10 +54,11 @@ async function postToSlack(payload: FeedbackPayload): Promise<boolean> {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: formatSlackMessage(payload) }),
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) {
       console.error(
-        `Feedback: Slack webhook returned ${res.status}, falling back to email`,
+        `Feedback: Slack webhook returned ${res.status}: ${(await res.text()).slice(0, 200)}, falling back to email`,
       );
     }
     return res.ok;
