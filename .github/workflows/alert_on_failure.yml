@@ -19,7 +19,8 @@ permissions:
 
 jobs:
   alert:
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    # Keep in sync with FAILED_CONCLUSIONS in the script below.
+    if: ${{ contains(fromJSON('["failure", "timed_out", "startup_failure"]'), github.event.workflow_run.conclusion) }}
     runs-on: ubuntu-latest
     name: Alert on failure
     steps:
@@ -35,26 +36,32 @@ jobs:
             const HOURLY_WORKFLOWS = ['Deploy web app', 'Update database'];
             const THRESHOLD = 3;
             const REALERT_EVERY = 24;
+            const FAILED_CONCLUSIONS = ['failure', 'timed_out', 'startup_failure'];
 
             const run = context.payload.workflow_run;
             const { owner, repo } = context.repo;
 
             let streak = 1;
             if (HOURLY_WORKFLOWS.includes(run.name)) {
-              // Count consecutive failures ending at this run (newest first).
+              // The streak only tracks main; manual runs from other branches don't alert.
+              if (run.head_branch !== 'main') {
+                core.info(`${run.name} failed on ${run.head_branch}, not main; skipping.`);
+                return;
+              }
+              // Count consecutive failures on main ending at this run (newest first).
               // Cancelled/skipped runs neither extend nor break the streak.
               streak = 0;
               let reachedCurrentRun = false;
               outer: for await (const { data: runs } of github.paginate.iterator(
                 github.rest.actions.listWorkflowRuns,
-                { owner, repo, workflow_id: run.workflow_id, status: 'completed', per_page: 100 },
+                { owner, repo, workflow_id: run.workflow_id, branch: 'main', status: 'completed', per_page: 100 },
               )) {
                 for (const r of runs) {
                   if (!reachedCurrentRun) {
                     if (r.id !== run.id) continue;
                     reachedCurrentRun = true;
                   }
-                  if (r.conclusion === 'failure') streak++;
+                  if (FAILED_CONCLUSIONS.includes(r.conclusion)) streak++;
                   else if (r.conclusion === 'success') break outer;
                 }
               }
