@@ -17,6 +17,7 @@ import { DecisionBody } from '@/api/decisionBody';
 type Args = {
   to: string | string[];
   props: Omit<SubscriptionUpdateEmailProps, 'decisionBodies'>;
+  idempotencyKey?: string;
 };
 
 function getSubject(
@@ -48,12 +49,17 @@ function getSubject(
   return subject;
 }
 
-export async function sendSubscriptionUpdateEmail({ to, props }: Args) {
+export async function sendSubscriptionUpdateEmail({
+  to,
+  props,
+  idempotencyKey,
+}: Args) {
   const decisionBodies = await getDecisionBodies(createDB());
   return await sendEmail({
     from: 'Civic Dashboard <alerts@civicdashboard.ca>',
     subject: getSubject(props.filters, decisionBodies),
     to,
+    idempotencyKey,
     react: (
       <SubscriptionUpdateEmail {...props} decisionBodies={decisionBodies} />
     ),
