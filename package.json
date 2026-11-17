@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings 0 . && tsc --noEmit",
+    "validate": "next typegen && npm run lint",
     "format": "eslint --fix .",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "preview:remote": "opennextjs-cloudflare build && opennextjs-cloudflare preview --remote",
