@@ -92,10 +92,13 @@ async function getVotesByAgendaItemsForContact(
         .select(['Votes.agendaItemNumber', 'Motions.dateTime'])
         .where('Votes.contactSlug', '=', contactSlug)
         .distinctOn('AgendaItems.agendaItemNumber')
+        .orderBy('AgendaItems.agendaItemNumber')
+        .orderBy('Motions.dateTime', 'desc')
         .as('votesFiltered'),
     )
     .selectAll()
     .orderBy('dateTime desc')
+    .orderBy('agendaItemNumber')
     .offset((page - 1) * pageSize)
     .limit(pageSize)
     .as('agendaItemsLimited');

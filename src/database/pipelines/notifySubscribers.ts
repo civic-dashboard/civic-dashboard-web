@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { Kysely } from 'kysely';
 import { DB } from '@/database/allDbTypes';
 import {
@@ -11,7 +12,15 @@ import {
 } from '@/logic/search';
 import { TagEnum } from '@/constants/tags';
 
+// Sends happen inside one transaction, so a failed send rolls back the whole
+// run. The key lets a same-day rerun skip subscribers Resend already emailed.
+// Resend keeps keys for 24 hours, so it won't stop a repeat on the next night.
+// The email is hashed to stay under Resend's 256-character key limit.
+const subscriptionUpdateKey = (runDate: string, email: string) =>
+  `subscription-update/${runDate}/${createHash('sha256').update(email).digest('hex')}`;
+
 export const notifySubscribers = async (db: Kysely<DB>) => {
+  const runDate = new Date().toISOString().slice(0, 10);
   await db.transaction().execute(async (db) => {
     const emailsToSend = await getSubscribersToNotify(db);
 
@@ -56,6 +65,10 @@ export const notifySubscribers = async (db: Kysely<DB>) => {
           items: subscriberUpdates,
           filters: dedupedFilters,
         },
+        idempotencyKey: subscriptionUpdateKey(
+          runDate,
+          subscriberUpdates[0].email,
+        ),
       });
 
       await new Promise((resolve) => setTimeout(resolve, 1000));

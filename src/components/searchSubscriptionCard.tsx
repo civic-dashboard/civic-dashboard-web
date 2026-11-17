@@ -46,14 +46,14 @@ export const SubscriptionCard = ({
       token: unsubscribeToken,
       id: subscriptionId,
     })
+      .then(() => {
+        setState('unsubscribed');
+      })
       .catch(() => {
         alert(
           `Sorry, we weren't able to unsubscribe you. We will try to fix this as soon as possible!`,
         );
         setState('subscribed');
-      })
-      .then(() => {
-        setState('unsubscribed');
       });
   }, [subscriptionId, unsubscribeToken]);
 

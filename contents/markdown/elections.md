@@ -1,3 +1,7 @@
+---
+title: "Elections"
+---
+
 # Elections
 
 This page aims to provide an overview of important information related to the 2026 municipal election. For official information regarding the election, please visit [myvote.toronto.ca](https://myvote.toronto.ca).

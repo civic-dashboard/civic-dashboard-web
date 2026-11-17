@@ -1,16 +1,67 @@
 import type { Metadata } from 'next';
 import WikiDocClient from '@/app/wiki/wikiDocClient';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+import fs from 'fs';
+import path from 'path';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+
+async function readPublishedHtmlHead(slug: string): Promise<string | null> {
+  const slicesize = 1024;
+
+  // Production: Cloudflare Assets Binding
+  try {
+    const cf = await getCloudflareContext({ async: true });
+    const res = await cf.env.ASSETS!.fetch(
+      new URL(`https://assets/html/${slug}`),
+    );
+    if (res.ok) {
+      return (await res.text()).slice(0, slicesize);
+    }
+  } catch (err) {
+    console.log('Error running on Workers: ', err);
+  }
+
+  // Development: Local File System
+  try {
+    const filePath = path.join(process.cwd(), 'public', 'html', slug);
+    if (fs.existsSync(filePath)) {
+      return fs.readFileSync(filePath, 'utf8').slice(0, slicesize);
+    }
+  } catch (err) {
+    console.log('Error finding local file: ', err);
+  }
+
+  return null;
+}
+
+async function getTitleFromHtmlFile(slug: string): Promise<string | null> {
+  const headSnippet = await readPublishedHtmlHead(slug);
+
+  if (headSnippet != null) {
+    const titleMatch = headSnippet.match(/<title>([\s\S]*?)<\/title>/i);
+    if (titleMatch && titleMatch[1].trim()) {
+      return titleMatch[1].trim();
+    } else {
+      console.log(`no title found in ${slug}:`);
+    }
+  } else {
+    console.log(`no head snippet found for ${slug}:`);
+  }
+
+  // Fallback to filename if file or tag is missing
+  return slug.replace(/\.html$/i, '');
+}
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  // params.slug is the full filename, e.g., "Deputations.html"
+  const pageTitle = await getTitleFromHtmlFile(params.slug);
+
   return {
-    title: `${params.slug.replace(/\.html$/i, '')} – Civic Dashboard`,
+    title: `${pageTitle} – Civic Dashboard`,
   };
 }
 

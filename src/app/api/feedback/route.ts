@@ -26,12 +26,46 @@ function isValidPayload(body: unknown): body is FeedbackPayload {
   return false;
 }
 
+const escapeSlack = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 function formatSlackMessage(payload: FeedbackPayload): string {
   if (payload.type === 'text') {
-    const namePrefix = payload.name.trim() ? `*From:* ${payload.name}\n` : '';
-    return `*New Feedback*\n${namePrefix}*Message:*\n${payload.message}`;
+    const namePrefix = payload.name.trim()
+      ? `*From:* ${escapeSlack(payload.name)}\n`
+      : '';
+    return `*New Feedback*\n${namePrefix}*Message:*\n${escapeSlack(payload.message)}`;
   }
-  return `*User Interview Signup*\n*Name:* ${payload.name}\n*Email:* ${payload.email}\n*Availability:* ${payload.availability}${payload.anythingElse.trim() ? `\n*Anything else:* ${payload.anythingElse}` : ''}`;
+  return `*User Interview Signup*\n*Name:* ${escapeSlack(payload.name)}\n*Email:* ${escapeSlack(payload.email)}\n*Availability:* ${escapeSlack(payload.availability)}${payload.anythingElse.trim() ? `\n*Anything else:* ${escapeSlack(payload.anythingElse)}` : ''}`;
+}
+
+// Logs why Slack failed (never the feedback itself) so a broken webhook shows
+// up in Worker logs instead of silently falling back to email (#580).
+async function postToSlack(payload: FeedbackPayload): Promise<boolean> {
+  const url = process.env.SLACK_FEEDBACK_WEBHOOK_URL;
+  if (!url) {
+    console.warn(
+      'Feedback: SLACK_FEEDBACK_WEBHOOK_URL is not set, falling back to email',
+    );
+    return false;
+  }
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: formatSlackMessage(payload) }),
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) {
+      console.error(
+        `Feedback: Slack webhook returned ${res.status}: ${(await res.text()).slice(0, 200)}, falling back to email`,
+      );
+    }
+    return res.ok;
+  } catch (e) {
+    console.error('Feedback: Slack webhook request failed', e);
+    return false;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -51,24 +85,15 @@ export async function POST(request: NextRequest) {
 
   const payload = body;
 
-  const slackOk = process.env.SLACK_FEEDBACK_WEBHOOK_URL
-    ? await fetch(process.env.SLACK_FEEDBACK_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: formatSlackMessage(payload) }),
-      })
-        .then((res) => res.ok)
-        .catch(() => false)
-    : false;
-
-  if (slackOk) {
+  if (await postToSlack(payload)) {
     return Response.json({ success: true });
   }
 
   try {
     await sendFeedbackEmail(payload);
     return Response.json({ success: true });
-  } catch (_e) {
+  } catch (e) {
+    console.error('Feedback: email fallback failed', e);
     return Response.json({ error: 'Failed to send feedback' }, { status: 500 });
   }
 }

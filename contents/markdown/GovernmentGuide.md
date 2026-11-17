@@ -1,3 +1,7 @@
+---
+title: "City of Toronto Government Guide"
+---
+
 # City of Toronto Government Guide
 ## City Council
 
