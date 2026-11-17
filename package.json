@@ -54,7 +54,7 @@
     "next-sitemap": "^4.2.3",
     "node-fetch": "^3.3.2",
     "postgres": "^3.4.7",
-    "react": "19.2.7",
+    "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-intersection-observer": "^9.16.0",
     "react-markdown": "^10.1.0",
@@ -74,7 +74,7 @@
     "@types/mark.js": "^8.11.12",
     "@types/node": "^26",
     "@types/nodemailer": "^6.4.17",
-    "@types/react": "19.2.17",
+    "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@types/sanitize-html": "^2.16.1",
     "@types/umami": "^2.10.1",
@@ -100,7 +100,7 @@
     "wrangler": "^4.148.0"
   },
   "overrides": {
-    "@types/react": "19.2.17",
+    "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0"
   },
   "allowScripts": {
