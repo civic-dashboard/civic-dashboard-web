@@ -24,7 +24,8 @@ const accordionTriggerVariants = cva(
 );
 
 export interface AccordionTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>,
+  extends
+    React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>,
     VariantProps<typeof accordionTriggerVariants> {}
 
 const Accordion = AccordionPrimitive.Root;

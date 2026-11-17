@@ -39,9 +39,7 @@ export function SortDropdown() {
         ...opts,
         sortBy: selectedOption?.sortBy as 'date' | 'relevance',
         sortDirection: selectedOption?.sortDirection as
-          | 'ascending'
-          | 'descending'
-          | undefined,
+          'ascending' | 'descending' | undefined,
       }));
     },
     [setSearchOptions],
