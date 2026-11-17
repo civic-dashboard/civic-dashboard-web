@@ -22,7 +22,7 @@ Run `npm run validate` before you consider a change done, and fix everything it 
 
 `npm run format` fixes many ESLint and Prettier errors automatically. If a lint rule can't reasonably be satisfied, follow the `eslint-disable` guidance in docs/CONTRIBUTING.md: disable it for that one line and leave a comment saying why.
 
-The repo has no automated tests. `npm run validate` does not build the app or run migrations. CI does both on every PR: the preview workflow builds and deploys the app, and the check-migrations workflow runs migrations against an empty database and checks the generated types are up to date.
+The repo has no automated tests. `npm run validate` does not build the app or run migrations. On every PR, the check-migrations workflow runs migrations against an empty database and checks the generated types are up to date. The preview workflow builds and deploys the app only for PRs opened from a branch in this repository; PRs from forks get no preview build.
 
 ## Guardrails
 
