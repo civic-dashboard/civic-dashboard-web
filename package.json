@@ -87,7 +87,7 @@
     "eslint-plugin-sql": "^3.4.1",
     "kysely-codegen": "^0.20.0",
     "kysely-ctl": "^0.22.0",
-    "marked": "^9.1.6",
+    "marked": "^18.2.0",
     "nodemailer": "^6.10.0",
     "pg": "^8.23.1",
     "postcss": "^8",
