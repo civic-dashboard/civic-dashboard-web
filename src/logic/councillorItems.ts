@@ -11,7 +11,7 @@ export async function getCouncillorItemsPaginated(
 ): Promise<[AgendaItem[], number]> {
   let agendaItemsResult: AgendaItem[] = [];
 
-  if (Number.isNaN(page) || page < 0) {
+  if (Number.isNaN(page) || page < 1) {
     return [agendaItemsResult, 0];
   }
   if (Number.isNaN(pageSize) || pageSize < 1) {
