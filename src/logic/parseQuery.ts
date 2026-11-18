@@ -213,7 +213,7 @@ const queryToPostgresTextSearchQuery = (query: Query): string => {
   if (query.type === 'token') {
     const splitTokens = query.token
       .split(/\s+/) // split tokens by white spaces (/\s+/) into individual words.
-      .map((s) => s.replaceAll(/['"]/g, '')) // having apostrophes or quotes in individual search tokens will break postgres's text search
+      .map((s) => s.replaceAll(/['"]/g, '').replaceAll('\\', '\\\\')) // having apostrophes or quotes in individual search tokens will break postgres's text search, and backslashes must be escaped
       .map((s) => `'${s}'`); // wrap each word in single quotes ('${s}'), to represent a lexeme
 
     return `(${splitTokens.join('<->')})`; // join each lexeme by <−> operator
