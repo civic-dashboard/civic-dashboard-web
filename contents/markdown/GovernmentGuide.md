@@ -1,5 +1,6 @@
 ---
 title: "City of Toronto Government Guide"
+description: "An overview of Toronto's municipal government: how City Council works, the division of powers between governments, wards, councillors, and municipal elections."
 ---
 
 # City of Toronto Government Guide
