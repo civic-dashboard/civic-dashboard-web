@@ -51,7 +51,7 @@ Several features are currently living in the `labs` space. To add a labs feature
 
 - We run a linter on all of our PRs. This is a tool which automatically detects issues in our code that could cause inconsistency, incorrectness, or confusion.
 - The linter is very strict, and fails even on warnings. This is to avoid a situation where we accrue a lot of code which causes warnings, and the warnings become difficult or impossible to understand because there are so many.
-- You can run `npm run lint` on your local machine to check whether there are any issues, or make sure you've fixed them before pushing another commit to your PR.
+- You can run `npm run validate` on your local machine to check whether there are any issues, or make sure you've fixed them before pushing another commit to your PR.
 - You can try running `npm run format` if the lint check complains at you and if you're lucky it'll get fixed automatically!
 - If you're having trouble with a lint error that is difficult to fix, the following remedies are available:
   - ask for help! There should always be a friendly face to help sort it out.
