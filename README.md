@@ -79,6 +79,17 @@ npm run dev
 
 Try editing `src/app/page.tsx` to see your changes live! They should be visible on http://localhost:3000
 
+### Running tests
+
+We use [Vitest](https://vitest.dev) for unit tests. Tests live next to the code they test, e.g. `src/logic/toSlug.test.ts` sits beside `src/logic/toSlug.ts`.
+
+```sh
+npm test            # run all tests once
+npm run test:watch  # re-run tests as you edit
+```
+
+Tests also run automatically on every pull request. They don't need the database or any environment files.
+
 ### Emails
 
 We use maildev to preview emails in development. After starting your docker containers, navigate to http://localhost:1080 in your browser. All emails that are sent from the app in development mode will show up in this inbox!
