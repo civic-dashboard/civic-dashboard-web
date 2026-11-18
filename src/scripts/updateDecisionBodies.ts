@@ -1,18 +1,16 @@
-import { DecisionBody, fetchDecisionBodies } from '@/api/decisionBody';
-import { CURRENT_COUNCIL_TERM } from '@/constants/currentCouncilTerm';
+import { fetchDecisionBodies } from '@/api/decisionBody';
 import { createDB } from '@/database/kyselyDb';
 import { upsertDecisionBodies } from '@/database/queries/decisionBodies';
+import { fetchDecisionBodiesForAllTerms } from '@/logic/councilTerm';
 
 const db = createDB();
 
-const bodies: Record<number, DecisionBody> = {};
-for (let termId = 0; termId <= CURRENT_COUNCIL_TERM; termId++) {
+const bodies = await fetchDecisionBodiesForAllTerms(async (termId) => {
   console.log('fetching for', termId);
   const thisTermBodies = await fetchDecisionBodies({ termId });
   console.log(`got ${Object.values(thisTermBodies).length} values`);
-  // Later terms overwrite earlier ones for the same decisionBodyId.
-  Object.assign(bodies, thisTermBodies);
-}
+  return thisTermBodies;
+});
 
 const values = Object.values(bodies);
 console.log(`upserting ${values.length} decision bodies`);
