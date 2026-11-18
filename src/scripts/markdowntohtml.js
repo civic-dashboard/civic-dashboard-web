@@ -158,9 +158,16 @@ function processMarkdownFile(filePath, template) {
       title = titleMatch[1];
     }
 
-    const descriptionMatch = frontMatter.match(/^description:\s*"(.*)"\s*$/m);
-    if (descriptionMatch) {
-      description = descriptionMatch[1];
+    const descriptionMatch = frontMatter.match(
+      /^description:\s*(?:"(.*)"|'(.*)'|(.*?))\s*$/m,
+    );
+    const descriptionValue = (
+      descriptionMatch?.[1] ??
+      descriptionMatch?.[2] ??
+      descriptionMatch?.[3]
+    )?.trim();
+    if (descriptionValue) {
+      description = descriptionValue;
     }
   } else {
     // Try to extract title from content
