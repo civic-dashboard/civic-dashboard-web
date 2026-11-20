@@ -140,10 +140,10 @@ export default function ContactBio({
         <p>
           Here are all the past agenda items that the{' '}
           {contact.role === 'Mayor' ? 'mayor' : 'councillor'} has voted on
-          during the current city council session. For each item, you may find
-          the item date, a link to the item, an item description, the{' '}
-          {contact.role === 'Mayor' ? "mayor's" : "councillor's"} vote on the
-          item, the decision body voting on the item, the result of the vote
+          during the current and previous city council sessions. For each item,
+          you may find the item date, a link to the item, an item description,
+          the {contact.role === 'Mayor' ? "mayor's" : "councillor's"} vote on
+          the item, the decision body voting on the item, the result of the vote
           (yes - no), and status of the item. Please note that there may be
           multiple votes on one item, such as in the case of proposed
           amendments.
