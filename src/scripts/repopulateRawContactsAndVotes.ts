@@ -13,6 +13,9 @@ import { Kysely, Transaction, sql } from 'kysely';
 
 class RepopulateRawContactsAndVotes {
   private static BATCH_SIZE = 2_500;
+  // Earlier terms' CSVs are missing most Date/Time values, and we have no
+  // agenda item data for them, so votes start from this term.
+  private static EARLIEST_VOTE_TERM = '2022-2026';
   private constructor(
     private readonly trx: Transaction<DB>,
     private readonly openDataClient: OpenDataClient,
@@ -88,25 +91,33 @@ class RepopulateRawContactsAndVotes {
 
   private async repopulateRawVotes() {
     const votesPackage = await this.openDataClient.showPackage('votes');
-    const [mostRecentVoteResource] = votesPackage.result.resources
+    // Keep past terms too, so returning councillors keep their voting history
+    // and last term's agenda items keep their votes after an election.
+    const voteResources = votesPackage.result.resources
       .filter(isCompleteCsvResource)
       .map((resource) => ({
         url: resource.url,
         term: extractTermFromText(resource.name),
       }))
+      .filter(
+        ({ term }) => term >= RepopulateRawContactsAndVotes.EARLIEST_VOTE_TERM,
+      )
       .sort((a, b) => b.term.localeCompare(a.term));
-    if (!mostRecentVoteResource) {
+    if (voteResources.length === 0) {
       throw new Error(`No suitable voting resources found`, {
         cause: votesPackage.result.resources,
       });
     }
-    const requestStream = await this.openDataClient.fetchDataset(
-      mostRecentVoteResource.url,
-    );
     await this.deleteAllRawVotes();
-    await this.bulkInsertRawVotes(
-      formatVoteCsvStream(mostRecentVoteResource.term, requestStream),
-    );
+    for (const resource of voteResources) {
+      console.log(`Processing votes for term ${resource.term}`);
+      const requestStream = await this.openDataClient.fetchDataset(
+        resource.url,
+      );
+      await this.bulkInsertRawVotes(
+        formatVoteCsvStream(resource.term, requestStream),
+      );
+    }
   }
 
   private async bulkInsertRawContacts(
