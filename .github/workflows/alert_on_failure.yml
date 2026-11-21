@@ -29,6 +29,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ALERTS }}
         with:
+          retries: 3
           script: |
             // Hourly workflows fail occasionally (TMMIS is flaky), so only alert
             // once they've failed THRESHOLD times in a row, then re-alert every
@@ -56,30 +57,45 @@ jobs:
 
             // Count consecutive failures on this run's branch ending at this run
             // (newest first). Cancelled/skipped runs neither extend nor break the streak.
-            let failCount = 0;
-            let firstFailure = run;
-            let reachedCurrentRun = false;
-            outer: for await (const { data: runs } of github.paginate.iterator(
-              github.rest.actions.listWorkflowRuns,
-              { owner, repo, workflow_id: run.workflow_id, branch: run.head_branch, status: 'completed', per_page: 100 },
-            )) {
-              for (const r of runs) {
-                if (!reachedCurrentRun) {
-                  if (r.id !== run.id) continue;
-                  reachedCurrentRun = true;
-                }
-                if (FAILED_CONCLUSIONS.includes(r.conclusion)) {
-                  failCount++;
-                  firstFailure = r;
-                } else if (r.conclusion === 'success') {
-                  break outer;
+            // A re-run keeps its original id and created_at, so its streak ends at
+            // its original position. The created bound keeps the listing from
+            // paging through the whole history before reaching this run.
+            // failCount stays null if the lookup fails: an alert with unknown
+            // streak details is better than no alert.
+            let failCount = null;
+            let firstFailure = null;
+            try {
+              let count = 0;
+              let first = run;
+              let reachedCurrentRun = false;
+              outer: for await (const { data: runs } of github.paginate.iterator(
+                github.rest.actions.listWorkflowRuns,
+                {
+                  owner, repo, workflow_id: run.workflow_id, branch: run.head_branch,
+                  status: 'completed', created: `<=${run.created_at}`, per_page: 100,
+                },
+              )) {
+                for (const r of runs) {
+                  if (!reachedCurrentRun) {
+                    if (r.id !== run.id) continue;
+                    reachedCurrentRun = true;
+                  }
+                  if (FAILED_CONCLUSIONS.includes(r.conclusion)) {
+                    count++;
+                    first = r;
+                  } else if (r.conclusion === 'success') {
+                    break outer;
+                  }
                 }
               }
+              failCount = Math.max(count, 1);
+              firstFailure = first;
+              core.info(`${run.name}: ${failCount} consecutive failure(s)`);
+            } catch (error) {
+              core.warning(`Could not count consecutive failures: ${error.message}`);
             }
-            failCount = Math.max(failCount, 1);
-            core.info(`${run.name}: ${failCount} consecutive failure(s)`);
 
-            if (isHourly) {
+            if (isHourly && failCount !== null) {
               const shouldAlert =
                 failCount >= THRESHOLD && (failCount - THRESHOLD) % REALERT_EVERY === 0;
               if (!shouldAlert) {
@@ -96,29 +112,36 @@ jobs:
 
             // A startup_failure run has no jobs, and a timed-out job may have no
             // step marked as failed, hence the fallbacks.
-            const { data: { jobs } } = await github.rest.actions.listJobsForWorkflowRun({
-              owner, repo, run_id: run.id, per_page: 100,
-            });
-            const failedJobs = jobs.filter((job) => FAILED_CONCLUSIONS.includes(job.conclusion));
-            let failedStep = 'none';
-            if (failedJobs.length > 0) {
-              const job = failedJobs[0];
-              const step = (job.steps ?? []).find((s) => FAILED_CONCLUSIONS.includes(s.conclusion));
-              failedStep = step ? `${job.name} › ${step.name}` : job.name;
-              if (failedJobs.length > 1) failedStep += ` (+${failedJobs.length - 1} more failed jobs)`;
+            let failedStep = 'unknown';
+            try {
+              const { data: { jobs } } = await github.rest.actions.listJobsForWorkflowRun({
+                owner, repo, run_id: run.id, per_page: 100,
+              });
+              const failedJobs = jobs.filter((job) => FAILED_CONCLUSIONS.includes(job.conclusion));
+              failedStep = 'none';
+              if (failedJobs.length > 0) {
+                const job = failedJobs[0];
+                const step = (job.steps ?? []).find((s) => FAILED_CONCLUSIONS.includes(s.conclusion));
+                failedStep = step ? `${job.name} › ${step.name}` : job.name;
+                if (failedJobs.length > 1) failedStep += ` (+${failedJobs.length - 1} more failed jobs)`;
+              }
+            } catch (error) {
+              core.warning(`Could not look up the failed step: ${error.message}`);
             }
 
             // Newer ICU versions put a narrow no-break space before AM/PM.
-            const failingSince = new Intl.DateTimeFormat('en-US', {
-              timeZone: 'America/Toronto',
-              month: 'short',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: '2-digit',
-              timeZoneName: 'short',
-            })
-              .format(new Date(firstFailure.run_started_at ?? firstFailure.created_at))
-              .replace(/ /g, ' ');
+            const failingSince = firstFailure === null
+              ? 'unknown'
+              : new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/Toronto',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                timeZoneName: 'short',
+              })
+                .format(new Date(firstFailure.run_started_at ?? firstFailure.created_at))
+                .replace(/\u202f/g, ' ');
 
             const variables = {
               status: STATUS_BY_CONCLUSION[run.conclusion] ?? `🚨 ${run.conclusion}`,
@@ -126,7 +149,7 @@ jobs:
               run_url: run.html_url,
               failed_step: failedStep,
               failing_since: failingSince,
-              fail_count: String(failCount),
+              fail_count: failCount === null ? 'unknown' : String(failCount),
               commit_sha: run.head_sha.slice(0, 7),
               commit_message: run.head_commit?.message.split('\n')[0] ?? 'none',
               commit_author: run.head_commit?.author?.name ?? 'none',
