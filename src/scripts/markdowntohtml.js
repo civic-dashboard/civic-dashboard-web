@@ -273,22 +273,4 @@ function main() {
   );
 }
 
-// Check if this file is being run directly
-const isRunningDirectly =
-  process.argv[1] &&
-  (import.meta.url === `file://${process.argv[1]}` ||
-    import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`);
-
-console.log('Debug - import.meta.url:', import.meta.url);
-console.log('Debug - process.argv[1]:', process.argv[1]);
-console.log('Debug - isRunningDirectly:', isRunningDirectly);
-
-if (isRunningDirectly) {
-  main();
-} else {
-  console.log(
-    '⚠️  Script is being imported, not run directly. Call main() to execute.',
-  );
-}
-
-export { processMarkdownFile, copyMediaAssets, rewriteAssetPaths, CONFIG };
+main();
