@@ -1,0 +1,26 @@
+{
+  "name": "Civic Dashboard",
+  "dockerComposeFile": ["docker-compose.yml", "../docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspaces/civic-dashboard-web",
+  "remoteUser": "node",
+  "forwardPorts": [3000, 54320, 1080],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js"
+    },
+    "54320": {
+      "label": "PostgreSQL"
+    },
+    "1080": {
+      "label": "MailDev"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint"]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspaces/civic-dashboard-web:cached
+      - npm-cache:/home/node/.npm
+    ports:
+      - "127.0.0.1:3000:3000"
+    command: >-
+      sh -c 'cd /workspaces/civic-dashboard-web &&
+      until test -f /tmp/civic-dashboard-devcontainer-ready; do sleep 1; done &&
+      exec npm run dev -- --hostname 0.0.0.0'
+    user: node
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  npm-cache:
