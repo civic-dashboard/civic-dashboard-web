@@ -53,6 +53,7 @@ export const unsubscribeFromSearch = async (
         .where('Subscriptions.subscriberId', '=', subscriber.id)
         .executeTakeFirstOrThrow();
 
+      // A subscriber record is shared across their search subscriptions, so retain it while any remain.
       await trx
         .deleteFrom('Subscribers')
         .where('Subscribers.id', '=', subscriber.id)
