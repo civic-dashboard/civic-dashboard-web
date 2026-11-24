@@ -88,8 +88,8 @@ const tokenize = (query: string): Token[] => {
   return [{ type: 'string', string: tokenMatch[0] }, ...tokenize(remaining)];
 }; //if tokenMatch returns a string
 
-// Postgres rejects apostrophes and quotes inside a lexeme, needs backslashes
-// escaped, and raises a syntax error on an empty lexeme, so words that are
+// Postgres rejects apostrophes and quotes inside a lexeme. It needs
+// backslashes escaped. An empty lexeme is a syntax error, so words that are
 // empty after stripping are dropped.
 const toLexemes = (phrase: string) =>
   phrase
