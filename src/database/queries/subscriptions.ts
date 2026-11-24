@@ -46,11 +46,28 @@ export const unsubscribeFromSearch = async (
   const subscriber = await validateToken(db, token);
 
   if (subscriber) {
-    await db
-      .deleteFrom('Subscriptions')
-      .where('Subscriptions.id', '=', subscriptionId)
-      .where('Subscriptions.subscriberId', '=', subscriber.id)
-      .executeTakeFirstOrThrow();
+    await db.transaction().execute(async (trx) => {
+      await trx
+        .deleteFrom('Subscriptions')
+        .where('Subscriptions.id', '=', subscriptionId)
+        .where('Subscriptions.subscriberId', '=', subscriber.id)
+        .executeTakeFirstOrThrow();
+
+      await trx
+        .deleteFrom('Subscribers')
+        .where('Subscribers.id', '=', subscriber.id)
+        .where((eb) =>
+          eb.not(
+            eb.exists(
+              eb
+                .selectFrom('Subscriptions')
+                .select('Subscriptions.id')
+                .whereRef('Subscriptions.subscriberId', '=', 'Subscribers.id'),
+            ),
+          ),
+        )
+        .execute();
+    });
   }
 };
 
