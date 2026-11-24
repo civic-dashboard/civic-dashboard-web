@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-npm ci
-
 cat > .env <<'EOF'
 DATABASE_URL=postgresql://postgres:postgres@database:5432/civic_dashboard
 HOSTNAME_FOR_EMAIL_LINKS=http://localhost:3000

@@ -6,6 +6,7 @@ services:
     volumes:
       - ..:/workspaces/civic-dashboard-web:cached
       - npm-cache:/home/node/.npm
+      - node-modules:/workspaces/civic-dashboard-web/node_modules
     ports:
       - "127.0.0.1:3000:3000"
     command: >-
@@ -19,3 +20,4 @@ services:
 
 volumes:
   npm-cache:
+  node-modules:
