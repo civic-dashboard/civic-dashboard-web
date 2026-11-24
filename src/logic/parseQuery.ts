@@ -88,6 +88,15 @@ const tokenize = (query: string): Token[] => {
   return [{ type: 'string', string: tokenMatch[0] }, ...tokenize(remaining)];
 }; //if tokenMatch returns a string
 
+// Postgres rejects apostrophes and quotes inside a lexeme, needs backslashes
+// escaped, and raises a syntax error on an empty lexeme, so words that are
+// empty after stripping are dropped.
+const toLexemes = (phrase: string) =>
+  phrase
+    .split(/\s+/)
+    .map((s) => s.replaceAll(/['"]/g, '').replaceAll('\\', '\\\\'))
+    .filter((s) => s.length > 0);
+
 const startsGroup = (token: Token) =>
   token.type === 'string' || token.type === '(' || token.type === '-';
 /* Takes as input ‘Token’ and returns true if the token's type is one of three:
@@ -125,6 +134,9 @@ const parseTokens = (tokens: Token[]): Query | null => {
   // it can hold an array of Token objects
 
   if (tokens[0].type === 'string') {
+    if (toLexemes(tokens[0].string).length === 0) {
+      return parseTokens(tokens.slice(1));
+    }
     initialGroup = { type: 'token', token: tokens[0].string };
     remaining = tokens.slice(1);
   } else if (tokens[0].type === '(') {
@@ -154,6 +166,9 @@ const parseTokens = (tokens: Token[]): Query | null => {
     if (tokens.length === 1) {
       return null; //return null if ‘-‘ is the only token in the array
     } else if (tokens[1].type === 'string') {
+      if (toLexemes(tokens[1].string).length === 0) {
+        return parseTokens(tokens.slice(2));
+      }
       initialGroup = {
         type: 'not',
         query: { type: 'token', token: tokens[1].string },
@@ -211,10 +226,7 @@ const parseTokens = (tokens: Token[]): Query | null => {
 
 const queryToPostgresTextSearchQuery = (query: Query): string => {
   if (query.type === 'token') {
-    const splitTokens = query.token
-      .split(/\s+/) // split tokens by white spaces (/\s+/) into individual words.
-      .map((s) => s.replaceAll(/['"]/g, '').replaceAll('\\', '\\\\')) // having apostrophes or quotes in individual search tokens will break postgres's text search, and backslashes must be escaped
-      .map((s) => `'${s}'`); // wrap each word in single quotes ('${s}'), to represent a lexeme
+    const splitTokens = toLexemes(query.token).map((s) => `'${s}'`); // wrap each word in single quotes ('${s}'), to represent a lexeme
 
     return `(${splitTokens.join('<->')})`; // join each lexeme by <−> operator
   }
