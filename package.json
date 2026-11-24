@@ -49,7 +49,7 @@
     "hash-sum": "2.0.0",
     "kysely": "^0.29.4",
     "kysely-postgres-js": "^5.1.0",
-    "lucide-react": "^0.460.0",
+    "lucide-react": "^1.77.0",
     "mark.js": "^8.11.1",
     "next": "^16.4.1",
     "next-sitemap": "^4.2.3",
