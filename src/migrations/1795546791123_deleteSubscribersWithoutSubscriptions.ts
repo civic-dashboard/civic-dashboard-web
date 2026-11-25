@@ -16,7 +16,5 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 }
 
 export async function down(_db: Kysely<unknown>): Promise<void> {
-  throw new Error(
-    'Cannot roll back subscriber cleanup because deleted subscriber records are not retained.',
-  );
+  // The cleanup is irreversible because deleted subscriber records are not retained.
 }
