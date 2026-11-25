@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import modal
 import csv
 import json
@@ -144,6 +146,10 @@ def main(terms_file: str, categories_file: str = "inputs/categories.json", post_
     with open(post_rules_file, "r", encoding="utf-8") as f:
         post_processing_rules = json.load(f)
     print(f"Loaded {len(post_processing_rules)} post-processing rules")
+
+    # Ensure output path exists
+    Path(output).parent.mkdir(parents=True, exist_ok=True)
+
 
     # For small set of terms (<= chunk_size) run them sequentially in one container.
     # For larger sets of terms (> chunk_size) run them in subsets of `chunk_size` in parallel containers
