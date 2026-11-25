@@ -35,11 +35,7 @@ npm install
 ### Initialize your environment files
 
 ```sh
-cat >> .env  << EOF
-DATABASE_URL=postgresql://postgres:postgres@localhost:54320/civic_dashboard
-HOSTNAME_FOR_EMAIL_LINKS=http://localhost:3000
-RESEND_API_KEY=not-needed-for-local-dev
-EOF
+cp .env.sample .env
 ```
 
 ### Initialize the database
@@ -55,7 +51,7 @@ Use the Dev Container to get a ready-to-use development environment. You will ne
 
 ### Open the project in the Dev Container
 
-Clone the repository and open its folder in VS Code. When prompted, select **Reopen in Container** (or run **Dev Containers: Reopen in Container** from the Command Palette). The first launch builds the development container and automatically installs dependencies, creates the local environment file, runs database migrations and seeds, and generates the wiki pages. npm's download cache is persisted in a Docker volume across container rebuilds; `node_modules` is still installed cleanly from the lockfile.
+Clone the repository and open its folder in VS Code. When prompted, select **Reopen in Container** (or run **Dev Containers: Reopen in Container** from the Command Palette). The first launch builds the development container and automatically installs dependencies, loads environment variables from the root `.env.sample` through Compose (using the container's database URL), mounts that file as `.env` inside the container, runs database migrations and seeds, and generates the wiki pages. The host file remains named `.env.sample`. npm's download cache is persisted in a Docker volume across container rebuilds; `node_modules` is still installed cleanly from the lockfile.
 
 ## Add sample data to the database
 
@@ -86,6 +82,8 @@ Try editing `src/app/page.tsx` to see your changes live! They should be visible 
 ### Emails
 
 We use maildev to preview emails in development. After starting your docker containers, navigate to http://localhost:1080 in your browser. All emails that are sent from the app in development mode will show up in this inbox!
+
+In the Dev Container, MailDev shares the app container's network namespace so the app's `localhost:1025` SMTP connection reaches it. The MailDev UI and SMTP ports are published through the app container.
 
 Note that links in emails will by default link to https://civicdashboard.ca, rather than your local dev server. `HOSTNAME_FOR_EMAIL_LINKS` in your environment file is where you can change this.
 
