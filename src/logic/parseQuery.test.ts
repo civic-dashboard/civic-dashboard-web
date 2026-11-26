@@ -76,6 +76,14 @@ describe('queryAndTagsToPostgresTextSearchQuery', () => {
       expect(toTsQuery('((bikes))')).toBe("('bikes')");
     });
 
+    it('handles a group nested inside another group', () => {
+      expect(toTsQuery('(a or (b c)) d')).toBe("((('a')|(('b')&('c')))&('d'))");
+    });
+
+    it('matches each closing parenthesis to the right group', () => {
+      expect(toTsQuery('((a b) or c) d')).toBe("(((('a')&('b'))|('c'))&('d'))");
+    });
+
     it('ignores a leading operator', () => {
       expect(toTsQuery('and bikes')).toBe("('bikes')");
     });

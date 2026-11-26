@@ -28,7 +28,7 @@ describe('sanitize', () => {
     expect(sanitize('<p onclick="alert(1)">Hi</p>')).toBe('<p>Hi</p>');
   });
 
-  it('removes images that could run code', () => {
+  it('removes img tags entirely, since img is not an allowed tag', () => {
     expect(sanitize('<img src="x" onerror="alert(1)">')).toBe('');
   });
 
@@ -36,7 +36,7 @@ describe('sanitize', () => {
     expect(sanitize('<iframe src="https://example.com"></iframe>')).toBe('');
   });
 
-  it('drops links but keeps their text', () => {
+  it('removes a tags but keeps their text, since a is not an allowed tag', () => {
     expect(sanitize('<a href="javascript:alert(1)">Click</a>')).toBe('Click');
   });
 

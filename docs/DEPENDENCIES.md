@@ -53,6 +53,7 @@ This file comprehensively lists the dependencies of the project, and why they ar
 ## Dev experience
 
 - All `eslint` related dependencies and `prettier` are for ensuring our codebase has consistent best practices and code style
+- `vitest` runs our unit tests (`npm test`). Test files sit next to the code they test, e.g. `toSlug.test.ts` beside `toSlug.ts`
 
 
 ## ML
