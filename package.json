@@ -10,6 +10,8 @@
     "lint": "eslint --max-warnings 0 . && tsc --noEmit",
     "validate": "next typegen && npm run lint",
     "format": "eslint --fix .",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "preview:remote": "opennextjs-cloudflare build && opennextjs-cloudflare preview --remote",
     "preview-remote:worker": "opennextjs-cloudflare build && wrangler versions upload",
@@ -98,6 +100,7 @@
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript-eslint": "^8.72.0",
+    "vitest": "^5.1.0",
     "wrangler": "^4.148.0"
   },
   "overrides": {
