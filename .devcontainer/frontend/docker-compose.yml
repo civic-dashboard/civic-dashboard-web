@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: ../..
+      dockerfile: .devcontainer/frontend/Dockerfile
+    working_dir: /workspaces/civic-dashboard-web
+    volumes:
+      - ../..:/workspaces/civic-dashboard-web:cached
+      - frontend-npm-cache:/home/node/.npm
+      - frontend-node-modules:/workspaces/civic-dashboard-web/node_modules
+    command: npm run dev -- --hostname 0.0.0.0
+    environment:
+      CIVIC_DASHBOARD_PROXY_PRODUCTION: '1'
+    user: node
+
+volumes:
+  frontend-npm-cache:
+  frontend-node-modules:

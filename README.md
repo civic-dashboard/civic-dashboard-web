@@ -49,7 +49,17 @@ npm run docker:start
 npm run db:run-migrations
 ```
 
-### Load a small amount of data to populate the database
+## Dev container
+
+Use the Dev Container to get a ready-to-use development environment. You will need [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Docker Engine with Compose), [Visual Studio Code](https://code.visualstudio.com/), and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+
+For the full-stack environment, use the default Dev Container configuration. For a frontend-only environment, select `.devcontainer/frontend/devcontainer.json` when reopening the project in a container. It runs `npm ci` and then `npm run dev` without starting a local database or running migrations. GET requests are proxied to the live site at [civicdashboard.ca](https://civicdashboard.ca); non-GET requests remain local and may not work without a database.
+
+### Open the project in the Dev Container
+
+Clone the repository and open its folder in VS Code. When prompted, select **Reopen in Container** (or run **Dev Containers: Reopen in Container** from the Command Palette). The first launch builds the development container and automatically installs dependencies, creates the local environment file, runs database migrations and seeds, and generates the wiki pages. npm's download cache is persisted in a Docker volume across container rebuilds; `node_modules` is still installed cleanly from the lockfile.
+
+## Add sample data to the database
 
 This will download Agenda Item Considerations from the last month up until a month from now and save it into your local PostgreSQL
 
