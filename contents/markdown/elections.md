@@ -1,5 +1,6 @@
 ---
 title: "Elections"
+description: "This page aims to provide an overview of important information related to the 2026 municipal election."
 ---
 
 # Elections

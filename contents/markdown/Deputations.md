@@ -1,5 +1,6 @@
 ---
 title: "Deputations"
+description: "Deputations are short speeches, lasting between 3-5 minutes, made by citizens to influence the decision making of the City Council Committees on a given issue or recommendation."
 ---
 
 # Deputations
