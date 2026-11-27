@@ -26,7 +26,9 @@ export default function Privacy() {
         </Text>
         <Text preset="Body">
           If you subscribe to a search on the actions page, we will store your
-          email address along with the associated search filters.
+          email address along with the associated search filters. This
+          information is stored in our database on Sevalla until you
+          unsubscribe.
         </Text>
       </Section>
       <Section>

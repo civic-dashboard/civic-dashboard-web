@@ -34,7 +34,6 @@ export const subscribeToSearch = async (
 
   return subscriber;
 };
-
 type UnsubscribeArgs = {
   token: string;
   subscriptionId: number;
@@ -43,17 +42,40 @@ export const unsubscribeFromSearch = async (
   db: Kysely<DB>,
   { token, subscriptionId }: UnsubscribeArgs,
 ) => {
-  const subscriber = await validateToken(db, token);
+  await db.transaction().execute(async (trx) => {
+    // Keep concurrent unsubscribes in sequence so each sees the previous one's changes.
+    const subscriber = await trx
+      .selectFrom('Subscribers')
+      .select('id')
+      .where('unsubscribeToken', '=', token)
+      .forUpdate()
+      .executeTakeFirst();
 
-  if (subscriber) {
-    await db
+    if (!subscriber) return;
+
+    await trx
       .deleteFrom('Subscriptions')
       .where('Subscriptions.id', '=', subscriptionId)
       .where('Subscriptions.subscriberId', '=', subscriber.id)
       .executeTakeFirstOrThrow();
-  }
-};
 
+    // A subscriber record is shared across their search subscriptions, so retain it while any remain.
+    await trx
+      .deleteFrom('Subscribers')
+      .where('Subscribers.id', '=', subscriber.id)
+      .where((eb) =>
+        eb.not(
+          eb.exists(
+            eb
+              .selectFrom('Subscriptions')
+              .select('Subscriptions.id')
+              .whereRef('Subscriptions.subscriberId', '=', 'Subscribers.id'),
+          ),
+        ),
+      )
+      .execute();
+  });
+};
 export const getSubscriptionsByToken = async (
   db: Kysely<DB>,
   token: string,
