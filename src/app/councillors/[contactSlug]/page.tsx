@@ -71,8 +71,7 @@ async function getCouncillorOrMayor(db: Kysely<DB>, contactSlug: string) {
   if (councillor) return { role: 'Councillor' as const, ...councillor };
   const mayor = await getMayor(db, contactSlug);
   if (mayor) return { role: 'Mayor' as const, ...mayor };
-
-  throw new Error(`Unable to find councillor or mayor ${contactSlug}`);
+  return undefined;
 }
 
 export async function generateMetadata(props: {
