@@ -13,8 +13,8 @@ import { Kysely, Transaction, sql } from 'kysely';
 
 class RepopulateRawContactsAndVotes {
   private static BATCH_SIZE = 2_500;
-  // Earlier terms' CSVs are missing most Date/Time values, and we have no
-  // agenda item data for them, so votes start from this term.
+  // The 2018-2022 CSV is missing most Date/Time values, and prod has no TMMIS
+  // agenda item data before this term, so votes start from this term.
   private static EARLIEST_VOTE_TERM = '2022-2026';
   private constructor(
     private readonly trx: Transaction<DB>,
@@ -102,7 +102,18 @@ class RepopulateRawContactsAndVotes {
       .filter(
         ({ term }) => term >= RepopulateRawContactsAndVotes.EARLIEST_VOTE_TERM,
       )
-      .sort((a, b) => b.term.localeCompare(a.term));
+      .sort((a, b) => b.term.localeCompare(a.term))
+      // Load one file per term, so a duplicate upload can't double the votes.
+      .filter((resource, index, resources) => {
+        const isFirstForTerm =
+          resources.findIndex(({ term }) => term === resource.term) === index;
+        if (!isFirstForTerm) {
+          console.warn(
+            `Skipping duplicate votes resource for term ${resource.term}: ${resource.url}`,
+          );
+        }
+        return isFirstForTerm;
+      });
     if (voteResources.length === 0) {
       throw new Error(`No suitable voting resources found`, {
         cause: votesPackage.result.resources,
