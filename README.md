@@ -13,7 +13,7 @@ Take a look at the following documentation files to get a better lay of the land
 - [DATASOURCES.md](./docs/DATASOURCES.md) details which data sources we query from.
 - [WIKI_MEDIA.md](./docs/WIKI_MEDIA.md) explains how to add images and video to wiki pages.
 
-## Getting started
+## Getting started (Manual)
 
 To get started with local development, you'll need to take the following steps:
 
@@ -35,11 +35,7 @@ npm install
 ### Initialize your environment files
 
 ```sh
-cat >> .env  << EOF
-DATABASE_URL=postgresql://postgres:postgres@localhost:54320/civic_dashboard
-HOSTNAME_FOR_EMAIL_LINKS=http://localhost:3000
-RESEND_API_KEY=not-needed-for-local-dev
-EOF
+cp .env.sample .env
 ```
 
 ### Initialize the database
@@ -49,7 +45,15 @@ npm run docker:start
 npm run db:run-migrations
 ```
 
-### Load a small amount of data to populate the database
+## Dev container
+
+Use the Dev Container to get a ready-to-use development environment. You will need [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Docker Engine with Compose), [Visual Studio Code](https://code.visualstudio.com/), and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+
+### Open the project in the Dev Container
+
+Clone the repository and open its folder in VS Code. When prompted, select **Reopen in Container** (or run **Dev Containers: Reopen in Container** from the Command Palette). The first launch builds the development container and automatically installs dependencies, loads environment variables from the root `.env.sample` through Compose (using the container's database URL), mounts that file as `.env` inside the container, runs database migrations and seeds, and generates the wiki pages. The host file remains named `.env.sample`. npm's download cache is persisted in a Docker volume across container rebuilds; `node_modules` is still installed cleanly from the lockfile.
+
+## Add sample data to the database
 
 This will download Agenda Item Considerations from the last month up until a month from now and save it into your local PostgreSQL
 
@@ -63,19 +67,15 @@ This will download all available Votes and Councillors and save into your local 
 npm run tsxe src/scripts/repopulateRawContactsAndVotes.ts
 ```
 
-### Generate the static pages for the wiki
+## Wiki pages
 
-```sh
-npm run dev:html
-```
+Wiki pages are generated when the Dev Container is first created. After changing wiki content, run `npm run dev:html` to regenerate them.
 
 See [docs/WIKI_MEDIA.md](./docs/WIKI_MEDIA.md) for adding images, video, and new wiki pages.
 
 ### Run the app
 
-```sh
-npm run dev
-```
+The development server starts automatically when the Dev Container is ready.
 
 Try editing `src/app/page.tsx` to see your changes live! They should be visible on http://localhost:3000
 
@@ -83,4 +83,8 @@ Try editing `src/app/page.tsx` to see your changes live! They should be visible 
 
 We use maildev to preview emails in development. After starting your docker containers, navigate to http://localhost:1080 in your browser. All emails that are sent from the app in development mode will show up in this inbox!
 
+In the Dev Container, MailDev shares the app container's network namespace so the app's `localhost:1025` SMTP connection reaches it. The MailDev UI and SMTP ports are published through the app container.
+
 Note that links in emails will by default link to https://civicdashboard.ca, rather than your local dev server. `HOSTNAME_FOR_EMAIL_LINKS` in your environment file is where you can change this.
+
+Links in emails use `http://localhost:3000` in the Dev Container environment.
