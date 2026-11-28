@@ -40,11 +40,11 @@ export const tooltips = {
   },
   cityCouncilTerm: {
     trigger: 'City Council term',
-    content: `Toronto's City Council terms are four years long, after which elections are held to elect new Councillors across the city. The current term began on November 15, 2022, and will end on November 14, 2026.`,
+    content: `Toronto's City Council terms are four years long, after which elections are held to elect new Councillors across the city. Each term begins on November 15 of an election year and ends on November 14 four years later.`,
   },
   municipalElections: {
     trigger: 'municipal elections',
-    content: `Municipal elections occur across Ontario every four years on the fourth Monday in October. The next Municipal election will take place on October 26, 2026.`,
+    content: `Municipal elections occur across Ontario every four years on the fourth Monday in October.`,
   },
   municipality: {
     trigger: 'municipality',
